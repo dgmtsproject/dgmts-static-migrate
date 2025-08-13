@@ -22,13 +22,13 @@ const Navigation = () => {
     {
       name: 'Engineering Services',
       path: '#',
-      dropdown: [
-        { name: 'Geotechnical Engineering', path: '/services/geotechnical' },
-        { name: 'Construction Materials Testing', path: '/services/materials-testing' },
-        { name: 'Special Inspections', path: '/services/inspections' },
-        { name: 'Environmental Services', path: '/services/environmental' },
-        { name: 'Drilling Services', path: '/services/drilling' }
-      ]
+        dropdown: [
+          { name: 'Geotechnical Engineering', path: '/services/geotechnical' },
+          { name: 'Construction Inspection and Testing', path: '/services/construction-inspection-testing' },
+          { name: 'Drilling and In-situ Testing', path: '/services/drilling-in-situ-testing' },
+          { name: 'Laboratory Testing', path: '/services/laboratory-testing' },
+          { name: 'Instrumentation and Condition Surveys', path: '/services/instrumentation-condition-surveys' }
+        ]
     },
     {
       name: 'Knowledge Center',
