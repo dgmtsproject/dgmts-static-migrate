@@ -157,6 +157,34 @@ const GeotechnicalEngineeringPage = () => {
         </div>
       </section>
 
+      {/* Leadership Section */}
+      <section className="geotech-section">
+        <div className="geotech-container">
+          <div className="geotech-leadership">
+            <div className="geotech-leadership-content">
+              <h2 className="geotech-section-title">Expert Leadership</h2>
+              <div className="geotech-leadership-card">
+                <div className="geotech-leadership-text">
+                  <h3 className="geotech-leadership-name">Dr. Tariq Hamid, PhD, PE, CCM</h3>
+                  <p className="geotech-leadership-title">President</p>
+                  <p className="geotech-leadership-description">
+                    Our president, Dr. Tariq Hamid, PhD, PE, CCM has over 26 years of experience in geotechnical engineering, 
+                    with special expertise in foundation engineering, retaining walls, support of excavation system design, 
+                    material analysis, and finite element modeling.
+                  </p>
+                </div>
+                <div className="geotech-leadership-image">
+                  <img 
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" 
+                    alt="Dr. Tariq Hamid"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Remaining sections... */}
     </div>
   );

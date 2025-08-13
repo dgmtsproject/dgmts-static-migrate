@@ -309,6 +309,60 @@
   color: #4b5563;
 }
 
+/* ===== Leadership Section ===== */
+.geotech-leadership {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.geotech-leadership-card {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  background: white;
+  border-radius: 1.5rem;
+  padding: 3rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.geotech-leadership-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 0.5rem;
+}
+
+.geotech-leadership-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3b82f6;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.geotech-leadership-description {
+  font-size: 1.1rem;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.geotech-leadership-image {
+  display: flex;
+  justify-content: center;
+}
+
+.geotech-leadership-image img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #dbeafe;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
 /* ===== Icons ===== */
 .geotech-icon-lg {
   width: 2rem;
@@ -353,5 +407,21 @@
 
   .geotech-hero {
     padding: 4rem 1.5rem;
+  }
+
+  .geotech-leadership-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .geotech-leadership-image {
+    order: -1;
+  }
+
+  .geotech-leadership-image img {
+    width: 150px;
+    height: 150px;
   }
 }
