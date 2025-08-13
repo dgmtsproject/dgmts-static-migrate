@@ -1,413 +1,466 @@
-/* IT & Digital Services Page Styles - Modern & Simple, Scoped with .itds- prefix */
-.itds-page {
-  background: #fff;
-  min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #1f2937;
-  line-height: 1.6;
+/* IT Digital Services Page General Styles */
+.itds-container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: #1a202c;
 }
 
-.itds-slider-section {
-  padding: 3rem 0 2rem 0;
-  text-align: center;
+/* Hero Section */
+.itds-hero {
+    background-color: #f0f7ff;
+    padding: 6rem 4rem;
 }
 
-.itds-slider-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #1b1b1b;
-  margin-bottom: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.itds-hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.itds-slider-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  height: 500px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #2795d0, #1565a0);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+.itds-hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #1e3a8a;
 }
 
-.itds-slides-track {
-  display: flex;
-  height: 100%;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+.itds-hero-subtitle {
+    font-size: 1.2rem;
+    color: #475569;
+    margin-bottom: 2.5rem;
 }
 
-.itds-slide {
-  min-width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  color: #fff;
-  box-sizing: border-box;
+.itds-hero-cta {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.itds-slide img {
-  max-width: 90%;
-  max-height: 320px;
-  object-fit: contain;
-  margin-bottom: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+.itds-hero-cta:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
 }
 
-.itds-slide-content h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+.itds-hero-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.itds-slide-content p {
-  font-size: 1rem;
-  line-height: 1.7;
-  max-width: 85%;
-  margin: 0 auto;
-  color: #f0f0f0;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  text-shadow: 1px 1px 4px rgba(0,0,0,0.18);
+.itds-hero-image {
+    max-width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.itds-controls {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50%);
-  z-index: 10;
-  padding: 0 2rem;
-  pointer-events: none;
-}
-
-.itds-controls button {
-  background: #fff;
-  color: #2563eb;
-  border: none;
-  font-size: 2rem;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-  pointer-events: auto;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.itds-controls button:hover {
-  background: #2563eb;
-  color: #fff;
-}
-
-.itds-dots {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.75rem;
-  z-index: 20;
-  background: rgba(255,255,255,0.95);
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
-}
-
-.itds-dots span {
-  width: 14px;
-  height: 14px;
-  background: #cbd5e1;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.itds-dots span:hover {
-  background: #94a3b8;
-  transform: scale(1.2);
-}
-
-.itds-active-dot {
-  background: #2563eb !important;
-  transform: scale(1.3);
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
-}
-
-/* Content Section */
-
-/* Section Header & Divider */
-.itds-section-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.itds-section-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1565a0;
-  margin: 0 0 0.5rem 0;
-  letter-spacing: -0.02em;
-}
-.itds-section-divider {
-  width: 60px;
-  height: 4px;
-  background: #2563eb;
-  margin: 0 auto;
-  border-radius: 2px;
-}
-
-/* Services Icon Boxes */
+/* Services Section */
 .itds-services-section {
-  padding: 4rem 0 2rem 0;
-  background: #f8fafc;
+    padding: 6rem 2rem;
+    background-color: #ffffff;
 }
+
+.itds-services-header, .itds-portfolio-header, .itds-features-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.itds-services-title, .itds-portfolio-title, .itds-features-title, .itds-cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1e3a8a;
+}
+
+.itds-services-subtitle, .itds-portfolio-subtitle, .itds-features-subtitle, .itds-cta-description {
+    font-size: 1.2rem;
+    color: #475569;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 .itds-services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-.itds-service-box {
-  background: #fff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(37,99,235,0.07);
-  padding: 2rem 1.5rem;
-  text-align: center;
-  transition: box-shadow 0.3s, transform 0.3s;
+
+.itds-service-card {
+    background-color: #f0f7ff;
+    padding: 2.5rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #dbeafe;
 }
-.itds-service-box:hover {
-  box-shadow: 0 8px 24px rgba(37,99,235,0.13);
-  transform: translateY(-4px) scale(1.03);
-  border-color: #2563eb;
+
+.itds-service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    border-color: #3b82f6;
 }
+
+.itds-service-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .itds-service-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.itds-service-box h4 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #2563eb;
-  margin-bottom: 0.5rem;
-}
-.itds-service-box p {
-  font-size: 1rem;
-  color: #64748b;
-  margin: 0;
+    color: white;
+    width: 28px;
+    height: 28px;
 }
 
-/* Why Choose Us Section */
-.itds-why-section {
-  padding: 3rem 0 2rem 0;
-  background: #fff;
-}
-.itds-why-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 auto;
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.itds-why-list li {
-  font-size: 1.1rem;
-  color: #1f2937;
-  background: #f3f4f6;
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.05);
-}
-.itds-why-list li span {
-  font-size: 1.5rem;
+.itds-service-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1e3a8a;
 }
 
-/* Tech Stack Section */
-.itds-tech-section {
-  padding: 3rem 0 2rem 0;
-  background: #f8fafc;
-}
-.itds-tech-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.itds-tech-item {
-  background: #fff;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
-  padding: 1.25rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1565a0;
-  transition: box-shadow 0.3s, transform 0.3s;
-}
-.itds-tech-item:hover {
-  box-shadow: 0 6px 18px rgba(37,99,235,0.13);
-  transform: scale(1.05);
-  border-color: #2563eb;
-}
-.itds-tech-icon {
-  font-size: 2rem;
-}
-.itds-tech-name {
-  font-size: 1rem;
+.itds-service-description {
+    color: #475569;
+    line-height: 1.6;
 }
 
-.itds-content-section {
-  padding: 3rem 0;
-  max-width: 900px;
-  margin: 0 auto;
+/* Portfolio Section */
+.itds-portfolio-section {
+    padding: 6rem 2rem;
+    background-color: #f0f7ff;
 }
 
-.itds-content p {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #333;
-  margin-bottom: 1rem;
+.itds-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.itds-content strong {
-  font-weight: 700;
-  color: #2563eb;
+.itds-portfolio-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.itds-buttons {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+.itds-portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
 }
 
-.itds-btn-primary {
-  text-decoration: none;
-  background: #2563eb;
-  color: #fff;
-  padding: 0.75rem 2rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-  border: 2px solid #2563eb;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.itds-portfolio-card:hover .itds-portfolio-image {
+    transform: scale(1.1);
 }
 
-.itds-btn-primary:hover {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+.itds-portfolio-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
 }
 
-.itds-email-text {
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 1rem;
+.itds-portfolio-card:hover .itds-portfolio-overlay {
+    transform: translateY(0);
 }
 
-.itds-email-text a {
-  color: #2563eb;
-  text-decoration: underline;
+.itds-portfolio-item-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Features Section */
+.itds-features-section {
+    padding: 6rem 2rem;
+}
+
+.itds-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.itds-feature-card {
+    text-align: center;
+}
+
+.itds-feature-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #dbeafe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem;
+}
+
+.itds-feature-icon {
+    color: #2563eb;
+    width: 28px;
+    height: 28px;
+}
+
+.itds-feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1e3a8a;
+}
+
+.itds-feature-description {
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.itds-cta-section {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.itds-cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.itds-cta-title {
+    color: white;
+}
+
+.itds-cta-description {
+    color: #dbeafe;
+}
+
+.itds-cta-btn {
+    background: white;
+    color: #1e3a8a;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.itds-cta-btn:hover {
+    background-color: #f0f7ff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.itds-arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.itds-hero-cta:hover .itds-arrow-icon,
+.itds-cta-btn:hover .itds-arrow-icon {
+    transform: translateX(4px);
 }
 
 /* Responsive Design */
-
 @media (max-width: 1024px) {
-  .itds-slider-container {
-    height: 400px;
-  }
-  .itds-content-section,
-  .itds-services-section,
-  .itds-why-section,
-  .itds-tech-section {
-    max-width: 100%;
-    padding: 2rem 1rem;
-  }
-  .itds-services-grid {
-    gap: 1rem;
-  }
-  .itds-tech-grid {
-    gap: 1rem;
-  }
-}
+    .itds-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
 
+    .itds-hero-image-container {
+        order: -1;
+        margin-bottom: 3rem;
+    }
+
+    .itds-hero-title {
+        font-size: 3rem;
+    }
+}
 
 @media (max-width: 768px) {
-  .itds-slider-title {
-    font-size: 2rem;
-  }
-  .itds-slider-container {
-    height: 300px;
-  }
-  .itds-slide img {
-    max-height: 180px;
-  }
-  .itds-slide {
-    padding: 1rem;
-  }
-  .itds-controls {
-    display: none;
-  }
-  .itds-dots {
-    bottom: 1rem;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-  }
-  .itds-dots span {
-    width: 12px;
-    height: 12px;
-  }
-  .itds-services-grid {
-    grid-template-columns: 1fr;
-  }
-  .itds-tech-grid {
-    flex-direction: column;
-    align-items: center;
-  }
+    .itds-hero-title, .itds-services-title, .itds-portfolio-title, .itds-features-title, .itds-cta-title {
+        font-size: 2.2rem;
+    }
+
+    .itds-services-grid, .itds-portfolio-grid, .itds-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .itds-hero, .itds-services-section, .itds-portfolio-section, .itds-features-section, .itds-cta-section {
+        padding: 4rem 1.5rem;
+    }
+}
+/* Simplified Portfolio Section - Add these styles to your existing ITDigitalServicesPage.css */
+
+/* Portfolio grid layout */
+.itds-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+/* Portfolio card structure */
+.itds-portfolio-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.itds-portfolio-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Image container */
+.itds-portfolio-image-container {
+    height: 250px;
+    overflow: hidden;
+}
+
+.itds-portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.itds-portfolio-card:hover .itds-portfolio-image {
+    transform: scale(1.05);
+}
+
+/* Portfolio content section */
+.itds-portfolio-content {
+    padding: 2rem;
+}
+
+.itds-portfolio-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 0.5rem;
+}
+
+.itds-portfolio-category {
+    font-size: 0.9rem;
+    color: #3b82f6;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+}
+
+.itds-portfolio-description {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+/* Technologies Section */
+.itds-portfolio-technologies {
+    margin-bottom: 0;
+}
+
+.itds-portfolio-tech-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.itds-portfolio-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.itds-portfolio-tech-tag {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.itds-portfolio-tech-tag:hover {
+    transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .itds-portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .itds-portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .itds-portfolio-content {
+        padding: 1.5rem;
+    }
+    
+    .itds-portfolio-tech-tags {
+        justify-content: center;
+    }
+}
 
 @media (max-width: 480px) {
-  .itds-slider-title {
-    font-size: 1.25rem;
-  }
-  .itds-slider-container {
-    height: 180px;
-  }
-  .itds-slide img {
-    max-height: 90px;
-  }
-  .itds-slide {
-    padding: 0.5rem;
-  }
-  .itds-section-header h2 {
-    font-size: 1.1rem;
-  }
+    .itds-portfolio-image-container {
+        height: 200px;
+    }
+    
+    .itds-portfolio-content {
+        padding: 1rem;
+    }
 }

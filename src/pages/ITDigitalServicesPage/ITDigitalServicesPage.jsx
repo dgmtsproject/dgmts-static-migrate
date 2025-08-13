@@ -1,211 +1,241 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import {
+  Code,
+  Smartphone,
+  Cloud,
+  Shield,
+  TrendingUp,
+  BarChart3,
+  Users,
+  Palette,
+  ArrowRight,
+  CheckCircle,
+  Zap,
+  Globe,
+  Headphones,
+  Database,
+  Briefcase,
+  PenTool,
+  Megaphone
+} from 'lucide-react';
 import './ITDigitalServicesPage.css';
 
-const slides = [
-  {
-    image: 'https://placehold.co/600x320?text=Custom+Software',
-    title: 'Custom Software Development',
-    description: 'Tailor-made software solutions designed to optimize your business processes and enhance productivity.'
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Web+%26+Mobile+Apps',
-    title: 'Web & Mobile Applications',
-    description: "Responsive websites and mobile apps that boost your brand's online presence and user engagement."
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Digital+Marketing+%26+SEO',
-    title: 'Digital Marketing & SEO',
-    description: 'Data-driven marketing strategies and SEO optimization to increase visibility and attract more customers.'
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Client+Portal',
-    title: 'Secure Client Portal Access',
-    description: 'Access your project data, reports, and monitoring information through our secure DGMTS-imSite client portal with personalized login credentials.'
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Dashboard',
-    title: 'Centralized Dashboard',
-    description: 'Manage all your monitoring projects from a unified dashboard with easy access to files, alarms, and summaries.'
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Instrument+Monitoring',
-    title: 'Real-time Instrument Monitoring',
-    description: 'Monitor a wide range of instruments in real time with detailed graphs, alerts, and performance tracking.'
-  },
-  {
-    image: 'https://placehold.co/600x320?text=Data+Visualization',
-    title: 'Data Visualization & Analytics',
-    description: 'Visualize and analyze collected data through interactive charts and automated reports for informed decisions.'
-  }
-];
+const ITDigitalServicesPage = () => {
+  const services = [
+    {
+      icon: <Code className="itds-service-icon" />,
+      title: "Web & Mobile App Development",
+      description: "Custom web and mobile applications tailored to your business needs."
+    },
+    {
+      icon: <TrendingUp className="itds-service-icon" />,
+      title: "Digital Marketing & SEO",
+      description: "Strategies to boost your online presence and search engine ranking."
+    },
+    {
+      icon: <Shield className="itds-service-icon" />,
+      title: "Secure Client Portal Access",
+      description: "Secure portals for clients to access their data and services."
+    },
+    {
+      icon: <BarChart3 className="itds-service-icon" />,
+      title: "Centralized Dashboards",
+      description: "Unified dashboards for a complete overview of your business."
+    },
+    {
+      icon: <Smartphone className="itds-service-icon" />,
+      title: "Real-time Instrument Monitoring",
+      description: "Live monitoring of your instruments and devices."
+    },
+    {
+      icon: <Database className="itds-service-icon" />,
+      title: "Data Visualization & Analytics",
+      description: "In-depth data analysis and visualization for informed decisions."
+    },
+    {
+      icon: <Briefcase className="itds-service-icon" />,
+      title: "Custom Software & ERP",
+      description: "Bespoke software and ERP solutions for your specific requirements."
+    },
+    {
+      icon: <Cloud className="itds-service-icon" />,
+      title: "Cloud & IT Consulting",
+      description: "Expert advice on cloud adoption and IT infrastructure."
+    },
+    {
+      icon: <Palette className="itds-service-icon" />,
+      title: "Brand Identity & UI/UX Design",
+      description: "Compelling brand identities and user-friendly interfaces."
+    },
+    {
+      icon: <Megaphone className="itds-service-icon" />,
+      title: "Content Creation & Ad Management",
+      description: "Engaging content and effective ad campaigns to reach your audience."
+    }
+  ];
 
-const serviceBoxes = [
-  {
-    icon: '💻',
-    title: 'Custom Software & ERP',
-    desc: 'Tailored solutions to streamline business processes.'
-  },
-  {
-    icon: '📱',
-    title: 'Web & Mobile Apps',
-    desc: 'Modern, responsive web and mobile platforms.'
-  },
-  {
-    icon: '☁️',
-    title: 'Cloud & IT Consulting',
-    desc: 'Cloud migration, cybersecurity, and infrastructure planning.'
-  },
-  {
-    icon: '📈',
-    title: 'Digital Marketing & SEO',
-    desc: 'Drive traffic with effective campaigns.'
-  },
-  {
-    icon: '🎨',
-    title: 'Brand Identity & UI/UX',
-    desc: 'Crafting visual identities and intuitive interfaces.'
-  },
-  {
-    icon: '📝',
-    title: 'Content & Ad Management',
-    desc: 'Engaging content and optimized ad strategies.'
-  }
-];
+  const portfolio = [
+    {
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop&crop=center",
+      title: "HealthTracker Pro",
+      category: "Healthcare Management Platform",
+      description: "A comprehensive patient management system that streamlines appointment scheduling, medical records, and billing processes for healthcare providers.",
+      technologies: ["React", "Node.js", "MongoDB", "AWS"]
+    },
+    {
+      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=300&fit=crop&crop=center",
+      title: "EcoDelivery",
+      category: "Sustainable Logistics Mobile App",
+      description: "A green delivery platform that optimizes routes for minimal carbon footprint while connecting local businesses with eco-conscious consumers.",
+      technologies: ["React Native", "Express.js", "PostgreSQL", "Google Maps API"]
+    },
+    {
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop&crop=center",
+      title: "ManufactureFlow",
+      category: "Industrial ERP System",
+      description: "An integrated enterprise resource planning system designed for manufacturing companies to manage inventory, production, quality control, and supply chain operations.",
+      technologies: ["Angular", "Spring Boot", "Oracle DB", "Apache Kafka"]
+    },
+    {
+        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&h=300&fit=crop&crop=center",
+        title: "InsightIQ Dashboard",
+        category: "Business Intelligence Platform",
+        description: "A powerful data analytics dashboard that transforms raw business data into actionable insights through interactive visualizations and predictive analytics.",
+        technologies: ["Vue.js", "Python", "TensorFlow", "Elasticsearch"]
+    }
+  ];
 
-const techStack = [
-  { name: 'React', icon: '⚛️' },
-  { name: 'Node.js', icon: '🟩' },
-  { name: 'Python', icon: '🐍' },
-  { name: 'AWS', icon: '☁️' },
-  { name: 'Docker', icon: '🐳' },
-  { name: 'Figma', icon: '🎨' },
-  { name: 'MySQL', icon: '🗄️' },
-  { name: 'WordPress', icon: '📰' }
-];
-
-export default function ITDigitalServicesPage() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const slideInterval = useRef(null);
-
-  useEffect(() => {
-    slideInterval.current = setInterval(() => {
-      setActiveIndex(idx => (idx + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(slideInterval.current);
-  }, []);
-
-  const goToSlide = idx => {
-    setActiveIndex(idx);
-    clearInterval(slideInterval.current);
-    slideInterval.current = setInterval(() => {
-      setActiveIndex(i => (i + 1) % slides.length);
-    }, 5000);
-  };
-
-  const changeSlide = dir => {
-    goToSlide((activeIndex + dir + slides.length) % slides.length);
-  };
+  const features = [
+    {
+      icon: <Zap className="itds-feature-icon" />,
+      title: "Innovative Solutions",
+      description: "We leverage the latest technologies to deliver cutting-edge solutions that drive business growth."
+    },
+    {
+      icon: <Users className="itds-feature-icon" />,
+      title: "Client-Centric Approach",
+      description: "Your success is our priority. We work closely with you to understand your needs and deliver tailored solutions."
+    },
+    {
+      icon: <Shield className="itds-feature-icon" />,
+      title: "Reliability & Security",
+      description: "We build robust and secure applications, ensuring your data and systems are always protected."
+    }
+  ];
 
   return (
-    <div className="itds-page">
-      {/* Hero Slider Section */}
-      <section className="itds-slider-section">
-        <h2 className="itds-slider-title"><strong>Our Digital Solutions</strong></h2>
-        <div className="itds-slider-container">
-          <div className="itds-slides-track" style={{ transform: `translateX(-${activeIndex * 100}%)` }}>
-            {slides.map((slide, i) => (
-              <div className="itds-slide" key={i}>
-                <img src={slide.image} alt={slide.title} />
-                <div className="itds-slide-content">
-                  <h3>{slide.title}</h3>
-                  <p>{slide.description}</p>
+    <div className="itds-container">
+      {/* Hero Section */}
+      <section className="itds-hero">
+        <div className="itds-hero-content">
+          <div className="itds-hero-text">
+            <h1 className="itds-hero-title">Transforming Businesses with Technology</h1>
+            <p className="itds-hero-subtitle">
+              We deliver innovative IT and digital solutions that empower your business to thrive in the digital age.
+            </p>
+            <button className="itds-hero-cta">
+              Discover Our Solutions <ArrowRight className="itds-arrow-icon" />
+            </button>
+          </div>
+          <div className="itds-hero-image-container">
+            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&crop=center" alt="Modern UI" className="itds-hero-image" />
+          </div>
+        </div>
+      </section>
+
+      {/* Services Grid Section */}
+      <section className="itds-services-section">
+        <div className="itds-services-content">
+          <div className="itds-services-header">
+            <h2 className="itds-services-title">Our Full Range of Services</h2>
+            <p className="itds-services-subtitle">
+              A comprehensive suite of services to meet all your IT and digital needs.
+            </p>
+          </div>
+          <div className="itds-services-grid">
+            {services.map((service, index) => (
+              <div key={index} className="itds-service-card">
+                <div className="itds-service-icon-wrapper">
+                  {service.icon}
                 </div>
+                <h3 className="itds-service-title">{service.title}</h3>
+                <p className="itds-service-description">{service.description}</p>
               </div>
             ))}
           </div>
-          <div className="itds-controls">
-            <button onClick={() => changeSlide(-1)} aria-label="Previous slide">&#10094;</button>
-            <button onClick={() => changeSlide(1)} aria-label="Next slide">&#10095;</button>
+        </div>
+      </section>
+
+      {/* Portfolio Section */}
+      <section className="itds-portfolio-section">
+        <div className="itds-portfolio-content">
+            <div className="itds-portfolio-header">
+                <h2 className="itds-portfolio-title">Our Developed Applications</h2>
+                <p className="itds-portfolio-subtitle">
+                    A glimpse into some of the innovative solutions we have delivered.
+                </p>
+            </div>
+            <div className="itds-portfolio-grid">
+                {portfolio.map((item, index) => (
+                    <div key={index} className="itds-portfolio-card">
+                        <div className="itds-portfolio-image-container">
+                            <img src={item.image} alt={item.title} className="itds-portfolio-image" />
+                        </div>
+                        <div className="itds-portfolio-content">
+                            <h3 className="itds-portfolio-title">{item.title}</h3>
+                            <p className="itds-portfolio-category">{item.category}</p>
+                            <p className="itds-portfolio-description">{item.description}</p>
+                            
+                            <div className="itds-portfolio-technologies">
+                                <h4 className="itds-portfolio-tech-title">Technologies Used</h4>
+                                <div className="itds-portfolio-tech-tags">
+                                    {item.technologies.map((tech, techIndex) => (
+                                        <span key={techIndex} className="itds-portfolio-tech-tag">{tech}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="itds-features-section">
+        <div className="itds-features-content">
+          <div className="itds-features-header">
+            <h2 className="itds-features-title">Why Choose Us?</h2>
+            <p className="itds-features-subtitle">
+              The key benefits of partnering with us for your digital transformation.
+            </p>
           </div>
-          <div className="itds-dots">
-            {slides.map((_, i) => (
-              <span
-                key={i}
-                className={i === activeIndex ? 'itds-active-dot' : ''}
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to slide ${i + 1}`}
-              />
+          <div className="itds-features-grid">
+            {features.map((feature, index) => (
+              <div key={index} className="itds-feature-card">
+                <div className="itds-feature-icon-wrapper">{feature.icon}</div>
+                <h3 className="itds-feature-title">{feature.title}</h3>
+                <p className="itds-feature-description">{feature.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Icon Boxes for Services */}
-      <section className="itds-services-section">
-        <div className="itds-section-header">
-          <h2>Our Services</h2>
-          <div className="itds-section-divider"></div>
+      {/* CTA Section */}
+      <section className="itds-cta-section">
+        <div className="itds-cta-content">
+          <h2 className="itds-cta-title">Ready to Start Your Project?</h2>
+          <p className="itds-cta-description">
+            Let's connect and discuss how we can bring your vision to life.
+          </p>
+          <button className="itds-cta-btn">
+            Contact Us <ArrowRight className="itds-arrow-icon" />
+          </button>
         </div>
-        <div className="itds-services-grid">
-          {serviceBoxes.map((box, idx) => (
-            <div className="itds-service-box" key={idx}>
-              <div className="itds-service-icon">{box.icon}</div>
-              <h4>{box.title}</h4>
-              <p>{box.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className="itds-why-section">
-        <div className="itds-section-header">
-          <h2>Why Choose Us?</h2>
-          <div className="itds-section-divider"></div>
-        </div>
-        <ul className="itds-why-list">
-          <li><span>🚀</span> Modern, scalable solutions for every business size</li>
-          <li><span>🔒</span> Security-first approach to all digital services</li>
-          <li><span>🤝</span> Dedicated support and transparent communication</li>
-          <li><span>🎯</span> Results-driven strategies and measurable outcomes</li>
-        </ul>
-      </section>
-
-      {/* Tech Stack Section */}
-      <section className="itds-tech-section">
-        <div className="itds-section-header">
-          <h2>Our Tech Stack</h2>
-          <div className="itds-section-divider"></div>
-        </div>
-        <div className="itds-tech-grid">
-          {techStack.map((tech, idx) => (
-            <div className="itds-tech-item" key={idx}>
-              <span className="itds-tech-icon">{tech.icon}</span>
-              <span className="itds-tech-name">{tech.name}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="itds-content-section">
-        <div className="itds-content">
-          <p>Our IT & Digital Services division is dedicated to providing innovative technology solutions that drive business growth, enhance digital presence, and streamline operations. With a focus on efficiency, security, and scalability, we offer a comprehensive suite of services tailored to meet the demands of modern businesses.</p>
-          <p><strong>Custom Software & ERP Development</strong> – Tailored solutions to streamline business processes.</p>
-          <p><strong>Web & Mobile App Development</strong> – Modern, responsive web and mobile platforms.</p>
-          <p><strong>Cloud & IT Consulting</strong> – Cloud migration, cybersecurity, and infrastructure planning.</p>
-          <p><strong>Digital Marketing & SEO</strong> – Drive traffic with effective campaigns.</p>
-          <p><strong>Brand Identity & UI/UX Design</strong> – Crafting visual identities and intuitive interfaces.</p>
-          <p><strong>Content Creation & Ad Management</strong> – Engaging content and optimized ad strategies.</p>
-          <p>We&apos;re here to elevate your digital journey with end-to-end IT services.</p>
-        </div>
-        <div className="itds-buttons">
-          <a href="/contact" className="itds-btn-primary">Contact Us</a>
-        </div>
-        <p className="itds-email-text">
-          or email us at <a href="mailto:instrumentation@dullesgeotechnical.com">instrumentation@dullesgeotechnical.com</a>
-        </p>
       </section>
     </div>
   );
-}
+};
+
+export default ITDigitalServicesPage;
