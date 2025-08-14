@@ -7,6 +7,10 @@ import './App.css';
 import AboutPage from './pages/AboutPage/AboutPage'; // Importing the AboutPage component
 import Geo5Page from './pages/Geo5Page/Geo5Page'; // Importing the Geo5Page component
 import ITDigitalServicesPage from './pages/ITDigitalServicesPage/ITDigitalServicesPage'; // Importing the IT & Digital Services page component
+import ConstructionInspectionPage from './pages/ConstructionInspectionPage/ConstructionInspectionPage';
+import DrillingInSituTestingPage from './pages/DrillingInSituTestingPage/DrillingInSituTestingPage';
+import LaboratoryTestingPage from './pages/LaboratoryTestingPage/LaboratoryTestingPage';
+import InstrumentationConditionSurveysPage from './pages/InstrumentationConditionSurveysPage/InstrumentationConditionSurveysPage';
 
 function App() {
   return (
@@ -17,6 +21,10 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/services/geotechnical" element={<GeotechnicalEngineeringPage />} />
+            <Route path="/services/construction-inspection-testing" element={<ConstructionInspectionPage />} />
+            <Route path="/services/drilling-in-situ-testing" element={<DrillingInSituTestingPage />} />
+            <Route path="/services/laboratory-testing" element={<LaboratoryTestingPage />} />
+            <Route path="/services/instrumentation-condition-surveys" element={<InstrumentationConditionSurveysPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/geo5-software" element={<Geo5Page />} />
             <Route path="/it-services" element={<ITDigitalServicesPage />} />

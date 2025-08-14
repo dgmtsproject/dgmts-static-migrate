@@ -1,11 +1,11 @@
 /* ===== General Page Styling ===== */
-.geotech-page {
+.construction-page {
   min-height: 100vh;
   background: linear-gradient(to bottom right, #f8fafc, #eff6ff);
   font-family: 'Montserrat', sans-serif; 
 }
 
-.geotech-container {
+.construction-container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -16,12 +16,12 @@
 }
 
 /* ===== Hero Section ===== */
-.geotech-hero {
+.construction-hero {
   background-color: #f0f7ff;
   padding: 6rem 4rem;
 }
 
-.geotech-hero-content {
+.construction-hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -30,7 +30,7 @@
   margin: 0 auto;
 }
 
-.geotech-hero-title {
+.construction-hero-title {
   font-size: 3.5rem;
   font-weight: 700;
   line-height: 1.2;
@@ -38,13 +38,13 @@
   color: #1e3a8a;
 }
 
-.geotech-hero-subtitle {
+.construction-hero-subtitle {
   font-size: 1.2rem;
   color: #475569;
   margin-bottom: 2.5rem;
 }
 
-.geotech-hero-cta {
+.construction-hero-cta {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   padding: 1rem 2.5rem;
@@ -59,37 +59,37 @@
   gap: 0.5rem;
 }
 
-.geotech-hero-cta:hover {
+.construction-hero-cta:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
 }
 
-.geotech-hero-image-container {
+.construction-hero-image-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.geotech-hero-image {
+.construction-hero-image {
   max-width: 100%;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.geotech-arrow-icon {
+.construction-arrow-icon {
   transition: transform 0.3s ease;
 }
 
-.geotech-hero-cta:hover .geotech-arrow-icon {
+.construction-hero-cta:hover .construction-arrow-icon {
   transform: translateX(4px);
 }
 
-.geotech-highlight {
+.construction-highlight {
   color: #60a5fa;
 }
 
 /* ===== Buttons ===== */
-.geotech-btn-primary {
+.construction-btn-primary {
   background-color: #2563eb;
   color: white;
   padding: 1rem 2rem;
@@ -102,13 +102,13 @@
   transition: all 0.3s ease;
 }
 
-.geotech-btn-primary:hover {
+.construction-btn-primary:hover {
   background-color: #1d4ed8;
   transform: scale(1.05);
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
 }
 
-.geotech-btn-secondary {
+.construction-btn-secondary {
   border: 2px solid white;
   background: transparent;
   color: white;
@@ -119,22 +119,22 @@
   transition: all 0.3s ease;
 }
 
-.geotech-btn-secondary:hover {
+.construction-btn-secondary:hover {
   background-color: white;
   color: #1e3a8a;
 }
 
 /* ===== Services Section ===== */
-.geotech-section {
+.construction-section {
   padding: 5rem 1.5rem;
 }
 
-.geotech-section-header {
+.construction-section-header {
   text-align: center;
   margin-bottom: 4rem;
 }
 
-.geotech-section-title {
+.construction-section-title {
   font-size: 2.25rem;
   font-weight: bold;
   color: #111827;
@@ -142,36 +142,36 @@
 }
 
 @media (min-width: 1024px) {
-  .geotech-section-title {
+  .construction-section-title {
     font-size: 3rem;
   }
 }
 
-.geotech-section-subtitle {
+.construction-section-subtitle {
   font-size: 1.25rem;
   color: #4b5563;
   max-width: 48rem;
   margin: 0 auto;
 }
 
-.geotech-service-grid {
+.construction-service-grid {
   display: grid;
   gap: 2rem;
 }
 
 @media (min-width: 768px) {
-  .geotech-service-grid {
+  .construction-service-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .geotech-service-grid {
+  .construction-service-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-.geotech-service-card {
+.construction-service-card {
   background: white;
   border-radius: 1rem;
   padding: 2rem;
@@ -180,12 +180,12 @@
   transition: all 0.3s ease;
 }
 
-.geotech-service-card:hover {
+.construction-service-card:hover {
   transform: translateY(-0.5rem);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.geotech-service-icon {
+.construction-service-icon {
   width: 4rem;
   height: 4rem;
   background: linear-gradient(to bottom right, #3b82f6, #4f46e5);
@@ -198,47 +198,48 @@
   transition: transform 0.3s ease;
 }
 
-.geotech-service-card:hover .geotech-service-icon {
+.construction-service-card:hover .construction-service-icon {
   transform: scale(1.1);
 }
 
-.geotech-service-title {
+.construction-service-title {
   font-size: 1.25rem;
   font-weight: bold;
   color: #111827;
   margin-bottom: 1rem;
 }
 
-.geotech-service-desc {
+.construction-service-desc {
   color: #4b5563;
   line-height: 1.6;
 }
 
 /* ===== Feature List ===== */
-.geotech-two-col {
+.construction-two-col {
   display: grid;
   gap: 4rem;
 }
 
 @media (min-width: 1024px) {
-  .geotech-two-col {
+  .construction-two-col {
     grid-template-columns: repeat(2, 1fr);
+    align-items: center;
   }
 }
 
-.geotech-feature-list {
+.construction-feature-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.geotech-feature-item {
+.construction-feature-item {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
 }
 
-.geotech-feature-icon {
+.construction-feature-icon {
   width: 3rem;
   height: 3rem;
   border-radius: 9999px;
@@ -249,179 +250,82 @@
   margin-top: 0.25rem;
 }
 
-.geotech-feature-icon.green {
+.construction-feature-icon.green {
   background-color: #dcfce7;
   color: #16a34a;
 }
 
-.geotech-feature-icon.blue {
+.construction-feature-icon.blue {
   background-color: #dbeafe;
   color: #2563eb;
 }
 
-.geotech-feature-icon.purple {
+.construction-feature-icon.purple {
   background-color: #f3e8ff;
   color: #9333ea;
 }
 
-.geotech-feature-title {
+.construction-feature-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #111827;
   margin-bottom: 0.5rem;
 }
 
-.geotech-feature-desc {
+.construction-feature-desc {
   color: #4b5563;
 }
 
 /* ===== Image Card ===== */
-.geotech-image-card {
+.construction-image-card {
   position: relative;
 }
 
-.geotech-image-card img {
+.construction-image-card img {
   border-radius: 1rem;
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
   width: 100%;
 }
 
-.geotech-badge {
-  position: absolute;
-  bottom: -1.5rem;
-  left: -1.5rem;
-  background: white;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.geotech-badge-title {
-  font-weight: bold;
-  color: #111827;
-}
-
-.geotech-badge-sub {
-  font-size: 0.875rem;
-  color: #4b5563;
-}
-
-/* ===== Leadership Section ===== */
-.geotech-leadership {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.geotech-leadership-card {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
-  align-items: center;
-  background: white;
-  border-radius: 1.5rem;
-  padding: 3rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-}
-
-.geotech-leadership-name {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #1e3a8a;
-  margin-bottom: 0.5rem;
-}
-
-.geotech-leadership-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #3b82f6;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.geotech-leadership-description {
-  font-size: 1.1rem;
-  color: #475569;
-  line-height: 1.7;
-}
-
-.geotech-leadership-image {
-  display: flex;
-  justify-content: center;
-}
-
-.geotech-leadership-image img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #dbeafe;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
 /* ===== Icons ===== */
-.geotech-icon-lg {
+.construction-icon-lg {
   width: 2rem;
   height: 2rem;
 }
 
-.geotech-icon-md {
+.construction-icon-md {
   width: 1.5rem;
   height: 1.5rem;
 }
 
-.geotech-icon-sm {
+.construction-icon-sm {
   width: 1.25rem;
   height: 1.25rem;
 }
 
-.geotech-icon-lg.yellow {
-  color: #eab308;
-}
-
 /* ===== Responsive Design ===== */
 @media (max-width: 1024px) {
-  .geotech-hero-content {
+  .construction-hero-content {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .geotech-hero-image-container {
+  .construction-hero-image-container {
     order: -1;
     margin-bottom: 3rem;
   }
 
-  .geotech-hero-title {
+  .construction-hero-title {
     font-size: 3rem;
   }
 }
 
 @media (max-width: 768px) {
-  .geotech-hero-title {
+  .construction-hero-title {
     font-size: 2.2rem;
   }
 
-  .geotech-hero {
+  .construction-hero {
     padding: 4rem 1.5rem;
-  }
-
-  .geotech-leadership-card {
-    grid-template-columns: 1fr;
-    text-align: center;
-    padding: 2rem;
-    gap: 2rem;
-  }
-
-  .geotech-leadership-image {
-    order: -1;
-  }
-
-  .geotech-leadership-image img {
-    width: 150px;
-    height: 150px;
   }
 }
