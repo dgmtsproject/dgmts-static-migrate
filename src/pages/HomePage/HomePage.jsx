@@ -18,7 +18,6 @@ const HomePage = () => {
   <FirmOverview />
       <CompanyIntro />
       <CertificationsSection />
-      <CertificationsSection />
 
       {/* New Section: Two Columns with Images and Text */}
       <section className="home-section new-two-column-section">
