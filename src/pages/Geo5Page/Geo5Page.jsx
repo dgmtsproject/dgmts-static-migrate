@@ -1,6 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './Geo5Page.css';
 import geo5Logo from '../../assets/logos/geo5-logo.png';
+import geo1 from '../../assets/geo5-images/1-stability-min.png';
+import geo2 from '../../assets/geo5-images/2-excavation-min.png';
+import geo3 from '../../assets/geo5-images/3-shallow-foundation-min.png';
+import geo4 from '../../assets/geo5-images/4-pile-foundation-min.png';
+import geo5 from '../../assets/geo5-images/5-settlement-min.png';
+import geo6 from '../../assets/geo5-images/6-retaining-wall-min.png';
+import geo7 from '../../assets/geo5-images/7-tunnel-shaft-min.png';
+import geo8 from '../../assets/geo5-images/8-geological-modelling-min.png';
+import geo9 from '../../assets/geo5-images/9-survey-laboratory-min.png';
 
 const slides = [
   {
@@ -81,15 +90,60 @@ const slides = [
 ];
 
 const solutionCards = [
-  { label: 'Stability Analysis', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/stability-analysis/' },
-  { label: 'Excavation Design', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/excavation-design/' },
-  { label: 'Retaining Wall Design', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/walls-and-gabions/' },
-  { label: 'Shallow Foundations', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/shallow-foundations/' },
-  { label: 'Pile Foundations', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/deep-foundations/' },
-  { label: 'Settlement Calculations', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/settlement-analysis/' },
-  { label: 'Tunnels and Shafts', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/tunnels-and-shafts/' },
-  { label: 'Geological Modelling', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/stratigraphy/' },
-  { label: 'Geological Survey', url: 'https://www.finesoftware.eu/geotechnical-software/solutions/geological-survey/' },
+  {
+    label: 'Stability Analysis',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/stability-analysis/',
+    image: geo1,
+    description: 'Slope and stability calculations to evaluate safety factors and potential failure mechanisms.'
+  },
+  {
+    label: 'Excavation Design',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/excavation-design/',
+    image: geo2,
+    description: 'Design checks for excavations, bracing and staged construction to ensure safe temporary works.'
+  },
+  {
+    label: 'Retaining Wall Design',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/walls-and-gabions/',
+    image: geo6,
+    description: 'Tools for designing retaining structures, walls and gabions with earth pressure analysis.'
+  },
+  {
+    label: 'Shallow Foundations',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/shallow-foundations/',
+    image: geo3,
+    description: 'Bearing capacity and settlement checks for footings and shallow foundation systems.'
+  },
+  {
+    label: 'Pile Foundations',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/deep-foundations/',
+    image: geo4,
+    description: 'Analysis and design of pile groups, individual piles and deep foundation systems.'
+  },
+  {
+    label: 'Settlement Calculations',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/settlement-analysis/',
+    image: geo5,
+    description: 'Estimation of settlements and long-term consolidation effects on structures.'
+  },
+  {
+    label: 'Tunnels and Shafts',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/tunnels-and-shafts/',
+    image: geo7,
+    description: 'Design support for tunnels, shafts and underground excavations, including lining checks.'
+  },
+  {
+    label: 'Geological Modelling',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/stratigraphy/',
+    image: geo8,
+    description: 'Create and visualize geological layers and borehole data for informed subsurface models.'
+  },
+  {
+    label: 'Geological Survey',
+    url: 'https://www.finesoftware.eu/geotechnical-software/solutions/geological-survey/',
+    image: geo9,
+    description: 'Field data collection and survey tools for boreholes, lab results and site investigations.'
+  },
 ];
 
 export default function Geo5Page() {
@@ -201,12 +255,18 @@ export default function Geo5Page() {
           </div>
           
           <div className="solutions-section">
-            <h3>Geotechnical Solutions</h3>
+            <div className="section-header">
+              <h2>Geotechnical Solutions</h2>
+              <div className="section-divider"></div>
+            </div>
             <div className="geo5-cards">
               {solutionCards.map(card => (
-                <a className="geo5-card" href={card.url} target="_blank" rel="noopener noreferrer" key={card.label}>
-                  <span className="card-text">{card.label}</span>
-                  <span className="card-arrow">→</span>
+                <a className="geo5-card" href={card.url} target="_blank" rel="noopener noreferrer" key={card.label} aria-label={card.label}>
+                  <img src={card.image} alt={card.label} className="card-image" />
+                  <div className="card-content">
+                    <h4 className="card-title">{card.label}</h4>
+                    <p className="card-description">{card.description}</p>
+                  </div>
                 </a>
               ))}
             </div>
