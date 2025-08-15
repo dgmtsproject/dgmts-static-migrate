@@ -85,6 +85,11 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: var(--spacing-md);
 }
 
+/* Stronger heading selector to override component-specific rules */
+body h1, body h2, body h3, body h4, body h5, body h6 {
+  font-family: var(--font-family-heading) !important;
+}
+
 h1 {
   font-size: 2.5rem;
   font-weight: var(--font-weight-bold);
@@ -118,6 +123,12 @@ h6 {
 p {
   margin-bottom: var(--spacing-md);
   color: var(--grey-700);
+}
+
+/* Use Red Hat Display for paragraph body text, with sensible fallbacks */
+p, p * {
+  font-family: 'Red Hat Display', var(--font-family-primary);
+  font-weight: 500;
 }
 
 /* Links */

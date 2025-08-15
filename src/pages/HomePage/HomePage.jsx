@@ -8,6 +8,7 @@ import StatsSection from './components/StatsSection';
 import NewsSection from './components/NewsSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import PartnersSection from './components/PartnersSection';
+import BlogsSection from './components/BlogsSection';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -41,6 +42,7 @@ const HomePage = () => {
 
       <ServicesSection />
       <StatsSection />
+      <BlogsSection />
       <NewsSection />
       <TestimonialsSection />
       <PartnersSection />

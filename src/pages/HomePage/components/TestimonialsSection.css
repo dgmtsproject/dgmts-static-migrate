@@ -15,6 +15,15 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+/* Ensure section headings are visible above the dark overlay */
+.testimonials-section .section-title,
+.testimonials-section .section-subtitle {
+  position: relative; /* create stacking context */
+  z-index: 4; /* above overlay and carousel */
+  color: var(--white);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
 .testimonials-carousel {
   position: relative;
   z-index: 2;

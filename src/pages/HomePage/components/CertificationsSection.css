@@ -2,6 +2,13 @@
   background: var(--grey-50);
 }
 
+/* Use Red Hat Display for this component's body text (falls back to the primary system font) */
+.certifications-section {
+  font-family: 'Red Hat Display', var(--font-family-primary);
+}
+
+
+
 .certifications-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -27,11 +34,11 @@
   padding: var(--spacing-lg);
   text-align: center;
   position: relative;
+
 }
 
 .mbe-card .cert-header {
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: var(--white);
 }
 
 .resources-card .cert-header {
@@ -44,6 +51,20 @@
   font-weight: var(--font-weight-bold);
   margin: 0;
   line-height: 1.3;
+}
+
+/* Make sure the h3 inside colored headers stays white (override global heading color) */
+.mbe-card .cert-header h3,
+.resources-card .cert-header h3 {
+  color: var(--white);
+}
+
+/* Add shadow to improve legibility on bright gradients */
+.mbe-card .cert-header h3,
+.resources-card .cert-header h3 {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .cert-body {
@@ -63,7 +84,7 @@
   gap: var(--spacing-md);
   padding: var(--spacing-sm) 0;
   border-bottom: 1px solid var(--grey-200);
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--grey-700);
 }
 
@@ -104,7 +125,7 @@
 
 .resource-item {
   padding: var(--spacing-xs) 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--grey-700);
   position: relative;
   padding-left: var(--spacing-md);
@@ -134,12 +155,12 @@
   }
   
   .cert-item {
-    font-size: 0.85rem;
+  font-size: 0.95rem;
     gap: var(--spacing-sm);
   }
   
   .resource-item {
-    font-size: 0.85rem;
+  font-size: 0.95rem;
   }
 }
 

@@ -11,6 +11,9 @@ import ConstructionInspectionPage from './pages/ConstructionInspectionPage/Const
 import DrillingInSituTestingPage from './pages/DrillingInSituTestingPage/DrillingInSituTestingPage';
 import LaboratoryTestingPage from './pages/LaboratoryTestingPage/LaboratoryTestingPage';
 import InstrumentationConditionSurveysPage from './pages/InstrumentationConditionSurveysPage/InstrumentationConditionSurveysPage';
+import AdminPage from './pages/AdminPage/AdminPage';
+import BlogPage from './pages/BlogPage/BlogPage';
+import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/geo5-software" element={<Geo5Page />} />
             <Route path="/it-services" element={<ITDigitalServicesPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogPostPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
         <Footer />

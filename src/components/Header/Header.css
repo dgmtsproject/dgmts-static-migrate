@@ -51,7 +51,7 @@
 .company-name {
   font-size: 1.25rem;
   font-weight: var(--font-weight-bold);
-  color: var(--grey-900);
+  color: #224c80;
   line-height: 1.2;
   margin: 0;
 }

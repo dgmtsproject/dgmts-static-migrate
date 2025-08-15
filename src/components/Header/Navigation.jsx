@@ -34,7 +34,7 @@ const Navigation = () => {
       name: 'Knowledge Center',
       path: '#',
       dropdown: [
-        { name: 'Blog & Published Papers', path: '/knowledge/blog' },
+        { name: 'Blog & Published Papers', path: '/blog' },
         { name: 'Technical Resources', path: '/knowledge/resources' }
       ]
     },
