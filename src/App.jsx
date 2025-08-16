@@ -14,7 +14,7 @@ import InstrumentationConditionSurveysPage from './pages/InstrumentationConditio
 import AdminPage from './pages/AdminPage/AdminPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
-
+import ChatBot from './components/Chatbot/Chatbot'; // Importing the ChatBot component
 function App() {
   return (
     <Router>
@@ -36,6 +36,7 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
+        <ChatBot />
         <Footer />
       </div>
     </Router>
