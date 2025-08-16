@@ -1,0 +1,90 @@
+.contact-page {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 40%, var(--primary-color-10, #e8f2ff) 100%);
+  color: var(--grey-900);
+  padding: 2rem 0;
+  min-height: 100vh;
+}
+
+.contact-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: var(--white);
+  border-radius: 32px;
+  box-shadow: var(--shadow-lg);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.contact-content p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--grey-600);
+  margin-bottom: 2.5rem;
+}
+
+.contact-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--grey-800);
+  margin-bottom: 0.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-color-10);
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
+}
+
+.status-message {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: 600;
+}

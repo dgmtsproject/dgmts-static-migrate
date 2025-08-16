@@ -15,9 +15,8 @@ import AdminPage from './pages/AdminPage/AdminPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 import CareerPage from './pages/CareerPage/CareerPage';
-import ChatBot from './components/ChatBot/ChatBot';
-
-
+import ContactPage from './pages/ContactPage/ContactPage';
+import ChatBot from './components/Chatbot/Chatbot'; // Importing the ChatBot component
 function App() {
   return (
     <Router>
@@ -33,6 +32,7 @@ function App() {
             <Route path="/services/instrumentation-condition-surveys" element={<InstrumentationConditionSurveysPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/careers" element={<CareerPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/geo5-software" element={<Geo5Page />} />
             <Route path="/it-services" element={<ITDigitalServicesPage />} />
             <Route path="/blog" element={<BlogPage />} />
