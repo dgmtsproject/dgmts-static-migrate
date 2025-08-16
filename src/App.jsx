@@ -16,7 +16,7 @@ import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 import CareerPage from './pages/CareerPage/CareerPage';
 import ContactPage from './pages/ContactPage/ContactPage';
-import ChatBot from './components/Chatbot/Chatbot'; // Importing the ChatBot component
+import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 function App() {
   return (
     <Router>
