@@ -15,7 +15,9 @@ import AdminPage from './pages/AdminPage/AdminPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 import CareerPage from './pages/CareerPage/CareerPage';
+import LocationPage from './pages/LocationPage/LocationPage'; // Importing the LocationPage component
 import ContactPage from './pages/ContactPage/ContactPage';
+import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:id" element={<BlogPostPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/published-papers" element={<PublishedPapersPage />} />
+            <Route path="/location" element={<LocationPage />} />
           </Routes>
         </main>
         <ChatBot />

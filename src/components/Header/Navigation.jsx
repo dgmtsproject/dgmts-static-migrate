@@ -67,8 +67,8 @@ const Navigation = () => {
             {
                 title: 'Resources',
                 items: [
-                    { name: 'Blog & Papers', path: '/blog', icon: Newspaper, description: 'Technical insights and publications' },
-                    { name: 'Technical Resources', path: '/knowledge/resources', icon: Library, description: 'Engineering resources and guides' },
+                    { name: 'Blog', path: '/blog', icon: Newspaper, description: 'Technical insights and guides' },
+                    { name: 'Published Paper', path: '/published-papers', icon: Library, description: 'Contributions to the research community' },
                 ]
             }
         ]

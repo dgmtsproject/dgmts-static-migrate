@@ -109,24 +109,34 @@
   align-items: center;
   gap: .5em;
   background: var(--chip-bg);
-  border: 1px solid var(--grey-200);
-  padding: .55em .9em .55em .65em;
-  border-radius: 999px;
-  font-size: .85rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--grey-800);
+  border: none;
+  padding: .4em .9em .4em .4em;
+  border-radius: 12px;
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--grey-900);
   line-height: 1.1;
-  box-shadow: var(--shadow-xs, 0 1px 2px rgba(0,0,0,.06));
-  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
 }
 
-.role-chip svg { width: 24px; height: 24px; flex: 0 0 24px; }
+.role-chip .chip-icon {
+  width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; display:flex; align-items:center; justify-content:center;
+  background: transparent;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.role-chip .chip-icon svg { display:block; }
 
 .role-chip:hover, .role-chip:focus-visible {
-  background: var(--primary-color-10, #eef6ff);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(180deg, #fff, #fbfcff);
 }
+
+/* Increase chip padding for better touch targets */
+.role-chip { padding: .65em 1.05em .65em .55em; }
 
 /* Pillars / values */
 .pillars-grid {

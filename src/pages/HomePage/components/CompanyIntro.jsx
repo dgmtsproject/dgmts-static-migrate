@@ -2,39 +2,20 @@
 import React, { useEffect, useRef, useState } from 'react'; // React referenced for environments not using automatic runtime
 import PropTypes from 'prop-types';
 import './CompanyIntro.css';
+import { Users, Building, Construction, Map, Briefcase, Radar, Server, Laptop } from 'lucide-react';
 
 // Roles (chips) definitions
 const teamRoles = [
-  { label: 'Professional Engineers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="#4f8cff"/><rect x="6" y="14" width="12" height="6" rx="3" fill="#b3d1ff"/></svg>
-  )},
-  { label: 'Geotechnical Engineers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="#ffb347"/><path d="M8 12h8" stroke="#fff" strokeWidth="2"/></svg>
-  )},
-  { label: 'Structural Engineers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="6" fill="#7ed957"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg>
-  )},
-  { label: 'Geologists', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><ellipse cx="12" cy="12" rx="8" ry="4" fill="#ff6f91"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg>
-  )},
-  { label: 'Project Managers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="6" fill="#ffd700"/><path d="M12 8v8" stroke="#fff" strokeWidth="2"/></svg>
-  )},
-  { label: 'Construction Engineers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="8" fill="#a0e7e5"/><path d="M8 16l8-8" stroke="#fff" strokeWidth="2"/></svg>
-  )},
-  { label: 'Inspectors', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="10" fill="#bdb2ff"/><path d="M12 6v12" stroke="#fff" strokeWidth="2"/></svg>
-  )},
-  { label: 'Technicians', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="6" fill="#ffb3c6"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg>
-  )},
-  { label: 'Designers', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="#f3ffbd"/><path d="M8 8h8v8H8z" stroke="#fff" strokeWidth="2"/></svg>
-  )},
-  { label: 'Admin Support', icon: (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="10" fill="#c1c8e4"/><path d="M6 12h12" stroke="#fff" strokeWidth="2"/></svg>
-  )},
+  { label: 'Professional Engineers', icon: Users, color: 'linear-gradient(135deg,#4f8cff,#6fb6ff)' },
+  { label: 'Geotechnical Engineers', icon: Building, color: 'linear-gradient(135deg,#ffb347,#ff9a8b)' },
+  { label: 'Structural Engineers', icon: Construction, color: 'linear-gradient(135deg,#7ed957,#5fd56a)' },
+  { label: 'Geologists', icon: Map, color: 'linear-gradient(135deg,#ff6f91,#ff9bb3)' },
+  { label: 'Project Managers', icon: Briefcase, color: 'linear-gradient(135deg,#ffd700,#ffde7a)' },
+  { label: 'Construction Engineers', icon: Construction, color: 'linear-gradient(135deg,#a0e7e5,#6fe3df)' },
+  { label: 'Inspectors', icon: Radar, color: 'linear-gradient(135deg,#bdb2ff,#c7baff)' },
+  { label: 'Technicians', icon: Server, color: 'linear-gradient(135deg,#ffb3c6,#ff7fa1)' },
+  { label: 'Designers', icon: Laptop, color: 'linear-gradient(135deg,#9be15d,#57a845)' },
+  { label: 'Admin Support', icon: Users, color: 'linear-gradient(135deg,#c1c8e4,#9fb0ff)' },
 ];
 
 const pillars = [
@@ -132,6 +113,15 @@ const CompanyIntro = () => {
   return (
     <React.Fragment>
     <section className="company-intro home-section" aria-labelledby="company-intro-heading">
+      {/* SVG defs for chip gradient */}
+      <svg width="0" height="0" aria-hidden="true" style={{position: 'absolute'}}>
+        <defs>
+          <linearGradient id="chipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="var(--primary-color)" />
+            <stop offset="100%" stopColor="var(--secondary-color)" />
+          </linearGradient>
+        </defs>
+      </svg>
       <div className="container">
         <div className="intro-content">
           <header className="intro-hero">
@@ -149,12 +139,17 @@ const CompanyIntro = () => {
           <div className="role-chips-wrapper" aria-label="Team roles">
             <p className="role-chips-heading">Disciplines & Roles</p>
             <div className="role-chips">
-              {teamRoles.map(role => (
-                <span className="role-chip" key={role.label} tabIndex={0} aria-label={role.label}>
-                  {role.icon}
-                  {role.label}
-                </span>
-              ))}
+              {teamRoles.map(role => {
+                const Icon = role.icon;
+                return (
+                  <span className="role-chip" key={role.label} tabIndex={0} aria-label={role.label}>
+                      <span className="chip-icon" aria-hidden="true" style={{ background: role.color }}>
+                        <Icon size={16} color="#ffffff" />
+                      </span>
+                    {role.label}
+                  </span>
+                );
+              })}
             </div>
           </div>
 

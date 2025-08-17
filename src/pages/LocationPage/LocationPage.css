@@ -1,0 +1,148 @@
+.location-page {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 40%, var(--secondary-color-10, #eefcf4) 100%);
+  color: var(--grey-900);
+  padding: 4rem 0;
+  min-height: 100vh;
+}
+
+.location-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.location-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.location-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -1.5px;
+}
+
+.location-intro {
+  font-size: 1.2rem;
+  color: var(--grey-700);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.location-card {
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--grey-100);
+  display: flex;
+  overflow: hidden;
+}
+
+.location-card:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.location-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-xl);
+}
+
+.location-card-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.location-card-header {
+  margin-bottom: 1.5rem;
+}
+
+.location-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--grey-900);
+  margin-bottom: 0.5rem;
+}
+
+.location-certification {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.location-office-type {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.location-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.location-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.location-icon {
+  color: var(--primary-color);
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.location-info a,
+.location-info span {
+  color: var(--grey-700);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.location-info a:hover {
+  color: var(--primary-color);
+}
+
+.location-map {
+  flex: 1;
+  min-height: 300px;
+}
+
+.location-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 992px) {
+  .location-card {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .location-title {
+    font-size: 2.5rem;
+  }
+
+  .location-intro {
+    font-size: 1.1rem;
+  }
+}
