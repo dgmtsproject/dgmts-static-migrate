@@ -76,6 +76,12 @@
   }
 }
 
+@media (max-width: 991px) {
+  .new-two-column-content {
+    flex-direction: column;
+  }
+}
+
 .image-gallery {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

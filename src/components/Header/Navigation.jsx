@@ -1,126 +1,218 @@
-import  { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeMegaMenu, setActiveMegaMenu] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navigationItems = [
-    { name: 'Home', path: '/' },
-    {
-      name: 'Company',
-      path: '#',
-      dropdown: [
-        { name: 'About', path: '/about' },
-        { name: 'Careers', path: '/careers' },
-        { name: 'Contact', path: '/contact' },
-        { name: 'Gallery', path: '/gallery' },
-        { name: 'Location', path: '/location' }
+  const megaMenuData = {
+    company: {
+      title: 'Company',
+      sections: [
+        {
+          title: 'About Us',
+          items: [
+            { name: 'About DGMTS', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
+            { name: 'Careers', path: '/careers', icon: Briefcase, description: 'Join our team of professionals' },
+            { name: 'Gallery', path: '/gallery', icon: GalleryVertical, description: 'View our project gallery' },
+          ]
+        },
+        {
+          title: 'Contact & Location',
+          items: [
+            { name: 'Contact Us', path: '/contact', icon: Mail, description: 'Get in touch with our team' },
+            { name: 'Our Location', path: '/location', icon: Map, description: 'Find our office location' },
+            { name: 'Payment Portal', path: '/payment', icon: CreditCard, description: 'Secure online payment system' },
+          ]
+        }
       ]
     },
-    {
-      name: 'Engineering Services',
-      path: '#',
-        dropdown: [
-          { name: 'Geotechnical Engineering', path: '/services/geotechnical' },
-          { name: 'Construction Inspection and Testing', path: '/services/construction-inspection-testing' },
-          { name: 'Drilling and In-situ Testing', path: '/services/drilling-in-situ-testing' },
-          { name: 'Laboratory Testing', path: '/services/laboratory-testing' },
-          { name: 'Instrumentation and Condition Surveys', path: '/services/instrumentation-condition-surveys' }
+    services: {
+      title: 'Engineering Services',
+      sections: [
+        {
+          title: 'Core Services',
+          items: [
+            { name: 'Geotechnical Engineering', path: '/services/geotechnical', icon: Building, description: 'Comprehensive geotechnical analysis' },
+            { name: 'Construction Inspection & Testing', path: '/services/construction-inspection-testing', icon: Construction, description: 'Quality assurance for construction projects' },
+            { name: 'Laboratory Testing', path: '/services/laboratory-testing', icon: FlaskConical, description: 'Advanced material testing capabilities' },
+          ]
+        },
+        {
+          title: 'Specialized Services',
+          items: [
+            { name: 'Drilling & In-situ Testing', path: '/services/drilling-in-situ-testing', icon: Drill, description: 'Field testing and drilling services' },
+            { name: 'Instrumentation & Surveys', path: '/services/instrumentation-condition-surveys', icon: Radar, description: 'Monitoring and condition assessment' },
+          ]
+        }
+      ]
+    },
+    solutions: {
+        title: 'Solutions & Software',
+        sections: [
+          {
+            title: 'Digital Solutions',
+            items: [
+              { name: 'Geo5 Software', path: '/geo5-software', icon: Laptop, description: 'Professional geotechnical software solutions' },
+              { name: 'IT & Digital Services', path: '/it-services', icon: Server, description: 'Technology consulting and services' },
+            ]
+          },
         ]
-    },
-    {
-      name: 'Knowledge Center',
-      path: '#',
-      dropdown: [
-        { name: 'Blog & Published Papers', path: '/blog' },
-        { name: 'Technical Resources', path: '/knowledge/resources' }
-      ]
-    },
-  // ...existing code...
-    { name: 'Payment', path: '/payment' },
-    { name: 'Geo5 Software', path: '/geo5-software' },
-    { name: 'IT & Digital Services', path: '/it-services' }
-  ];
-
-  const handleDropdownToggle = (index) => {
-    setActiveDropdown(activeDropdown === index ? null : index);
+      },
+      knowledgeCenter: {
+        title: 'Knowledge Center',
+        sections: [
+            {
+                title: 'Resources',
+                items: [
+                    { name: 'Blog & Papers', path: '/blog', icon: Newspaper, description: 'Technical insights and publications' },
+                    { name: 'Technical Resources', path: '/knowledge/resources', icon: Library, description: 'Engineering resources and guides' },
+                ]
+            }
+        ]
+      }
   };
+
+  const handleMegaMenuEnter = (menuKey) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setActiveMegaMenu(menuKey);
+  };
+
+  const handleMegaMenuLeave = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => {
+      setActiveMegaMenu(null);
+      closeTimer.current = null;
+    }, 160);
+  };
+
+  const closeTimer = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
-    <nav className="navigation">
-      <div className="container">
-        <div className="nav-wrapper">
-          {/* Mobile Menu Toggle */}
-          <button 
-            className={`mobile-menu-toggle ${isMobileMenuOpen ? 'active' : ''}`}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-
-          {/* Navigation Menu */}
-          <ul className={`nav-menu ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-            {navigationItems.map((item, index) => (
-              <li 
-                key={index} 
-                className={`nav-item ${item.dropdown ? 'has-dropdown' : ''}`}
-                onMouseEnter={() => item.dropdown && setActiveDropdown(index)}
-                onMouseLeave={() => item.dropdown && setActiveDropdown(null)}
+    <nav className="mega-menu-nav">
+      <div className="mega-menu-container">
+        <div className="mega-menu-inner">
+            {/* Desktop Navigation */}
+          <div className="desktop-nav">
+            <Link to="/" className="desktop-nav-link">Home</Link>
+            
+            {Object.entries(megaMenuData).map(([key, menu]) => (
+              <div
+                key={key}
+                className="mega-menu-item"
+                onMouseEnter={() => handleMegaMenuEnter(key)}
+                onMouseLeave={handleMegaMenuLeave}
               >
-                {item.dropdown ? (
-                  <>
-                    <button 
-                      className="nav-link dropdown-toggle"
-                      onClick={() => handleDropdownToggle(index)}
-                    >
-                      {item.name}
-                      <svg 
-                        className={`dropdown-arrow ${activeDropdown === index ? 'rotate' : ''}`}
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="2" fill="none"/>
-                      </svg>
-                    </button>
-                    <ul className={`dropdown-menu ${activeDropdown === index ? 'active' : ''}`}>
-                      {item.dropdown.map((dropdownItem, dropdownIndex) => (
-                        <li key={dropdownIndex} className="dropdown-item">
-                          <Link 
-                            to={dropdownItem.path} 
-                            className="dropdown-link"
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              setIsMobileMenuOpen(false);
-                            }}
-                          >
-                            {dropdownItem.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <Link 
-                    to={item.path} 
-                    className="nav-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                <button className={`mega-menu-button ${activeMegaMenu === key ? 'active' : ''}`}>
+                  <span>{menu.title}</span>
+                  <ChevronDown />
+                </button>
+                
+                {/* Mega Menu Dropdown */}
+                {activeMegaMenu === key && (
+                  <div
+                    className={`mega-menu-dropdown ${key === 'solutions' || key === 'knowledgeCenter' ? 'mega-menu-dropdown--narrow' : ''}`}
+                    onMouseEnter={() => {
+                      if (closeTimer.current) {
+                        clearTimeout(closeTimer.current);
+                        closeTimer.current = null;
+                      }
+                    }}
+                    onMouseLeave={handleMegaMenuLeave}
                   >
-                    {item.name}
-                  </Link>
+                    <div className="mega-menu-grid">
+                      {menu.sections.map((section, sectionIndex) => (
+                        <div key={sectionIndex} className="mega-menu-section">
+                          <h3>{section.title}</h3>
+                          <div className="space-y-3">
+                            {section.items.map((item, itemIndex) => {
+                              const Icon = item.icon;
+                              return (
+                                <Link
+                                  key={itemIndex}
+                                  to={item.path}
+                                  className="mega-menu-link"
+                                  onClick={() => setActiveMegaMenu(null)}
+                                >
+                                  <Icon />
+                                  <div className="mega-menu-link-content">
+                                    <div className="title">{item.name}</div>
+                                    <div className="description">{item.description}</div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
+
+          {/* CTA and Mobile Menu Button */}
+          <div className="nav-actions">
+            {/* Desktop-only CTA */}
+            <Link to="/contact" className="nav-cta" onClick={() => setIsMobileMenuOpen(false)}>Get a Quote</Link>
+
+            {/* Mobile Menu Button */}
+            <div className="mobile-menu-button">
+              <button onClick={toggleMobileMenu} aria-label="Toggle menu">
+                {isMobileMenuOpen ? <X /> : <Menu />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-menu-content">
+          <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          
+          {Object.entries(megaMenuData).map(([key, menu]) => (
+            <div key={key} className="mobile-menu-section">
+              <div className="mobile-menu-title">{menu.title}</div>
+              {menu.sections.map((section, sectionIndex) => (
+                <div key={sectionIndex} className="mobile-menu-subsection">
+                  <div className="mobile-menu-subtitle">{section.title}</div>
+                  <div className="mobile-menu-sublist">
+                    {section.items.map((item, itemIndex) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={itemIndex}
+                          to={item.path}
+                          className="mobile-menu-sublink"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <Icon />
+                          <span>{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
       </div>
     </nav>

@@ -7,7 +7,7 @@
 }
 
 .contact-section {
-  max-width: 800px;
+  max-width: 1200px; /* Increased max-width for two columns */
   margin: 2rem auto;
   background: var(--white);
   border-radius: 32px;
@@ -17,22 +17,49 @@
   overflow: hidden;
 }
 
+.contact-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
 .contact-heading {
   font-size: 2.8rem;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* Adjusted margin */
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-.contact-content p {
-  text-align: center;
+.contact-header p {
   font-size: 1.1rem;
   color: var(--grey-600);
-  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* New Grid Layout */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: stretch; /* make both columns match height */
+}
+
+.contact-form-container {
+  /* This container will hold the form and status message */
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column; /* Vertical layout for cards */
+  justify-content: center; /* center the cards vertically to match form height */
+  gap: 1.5rem;
+  margin-top: 0; /* handled by grid spacing */
 }
 
 .contact-form .form-group {
@@ -79,7 +106,7 @@
 }
 
 .submit-button:hover {
-  background-color: var(--primary-color-dark);
+  background-color: var(--primary-light);
   transform: translateY(-2px);
 }
 
@@ -87,4 +114,71 @@
   text-align: center;
   margin-top: 1.5rem;
   font-weight: 600;
+}
+
+/* Contact Details Styling */
+.contact-info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center-align content within cards */
+  gap: 1rem;
+  padding: 2rem;
+  background-color: var(--grey-50);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-align: center; /* Center-align text within cards */
+  transition: all var(--transition-normal);
+}
+
+.contact-info-item:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+
+.contact-info-title {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-color); /* Colored heading */
+  margin-bottom: 0.5rem;
+}
+
+.contact-info-item p {
+  font-size: 1rem;
+  color: var(--grey-600);
+  margin: 0;
+}
+
+.contact-info-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.contact-info-item a:hover {
+    text-decoration: underline;
+}
+
+.contact-icon {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    .contact-section {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .contact-heading {
+        font-size: 2.2rem;
+    }
+    .contact-section {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
 }
