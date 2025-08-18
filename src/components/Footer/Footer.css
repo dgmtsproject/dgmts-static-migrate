@@ -1,7 +1,14 @@
 .footer {
-  background: var(--grey-900);
+  /* Slightly darker gradient to match app but keep footer dark */
+  background: linear-gradient(180deg, rgba(17,24,39,1) 0%, rgba(8,12,18,1) 100%);
   color: var(--grey-300);
   margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.02);
+  font-family: var(--font-family-primary);
+}
+
+li {
+  font-family: 'Red Hat Display', sans-serif;
 }
 
 /* Main Footer Content */
@@ -11,7 +18,7 @@
 
 .footer-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.2fr;
   gap: var(--spacing-3xl);
 }
 
@@ -25,6 +32,25 @@
   color: var(--grey-300);
   line-height: 1.6;
   margin-bottom: var(--spacing-md);
+}
+
+/* Footer branding */
+.footer-branding {
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-brand {
+  font-family: 'Limelight', var(--font-family-heading) !important;
+  font-size: 2.25rem;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+@media (max-width: 767px) {
+  .footer-brand {
+    font-size: 1.75rem;
+  }
 }
 
 .footer-description:last-of-type {
@@ -97,17 +123,23 @@
 
 .services-contact-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xl);
+  align-items: start;
 }
 
 .footer-title {
-  color: var(--white);
-  font-size: 1.125rem;
-  font-weight: var(--font-weight-semibold);
+  /* Large heading with requested gradient text */
+  font-size: 1.5rem;
+  font-weight: 700;
   margin-bottom: var(--spacing-md);
   padding-bottom: var(--spacing-xs);
-  border-bottom: 2px solid var(--primary-color);
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .footer-links {
@@ -166,15 +198,21 @@
 .newsletter-signup {
   margin-top: var(--spacing-lg);
   padding: var(--spacing-md);
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
   border-radius: var(--radius-md);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
 .newsletter-title {
-  color: var(--white);
-  font-size: 0.9rem;
-  font-weight: var(--font-weight-medium);
+  font-size: 1rem;
+  font-weight: 700;
   margin-bottom: var(--spacing-sm);
+  display: inline-block;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .newsletter-form {
@@ -185,47 +223,52 @@
   display: flex;
   gap: var(--spacing-xs);
   margin-bottom: var(--spacing-xs);
+  align-items: center;
 }
 
 .newsletter-input {
   flex: 1;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--grey-600);
-  border-radius: var(--radius-sm);
-  background: var(--grey-800);
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
   color: var(--white);
-  font-size: 0.8rem;
-  transition: border-color var(--transition-fast);
+  font-size: 0.95rem;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .newsletter-input:focus {
   outline: none;
+  box-shadow: 0 6px 20px rgba(39,149,208,0.12);
+  transform: translateY(-2px);
   border-color: var(--primary-color);
 }
 
 .newsletter-input::placeholder {
-  color: var(--grey-400);
+  color: rgba(255,255,255,0.6);
 }
 
 .newsletter-button {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--primary-color);
+  padding: 10px 16px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   color: var(--white);
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.8rem;
-  font-weight: var(--font-weight-medium);
-  transition: background var(--transition-fast);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
   white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(39,149,208,0.12);
 }
 
 .newsletter-button:hover:not(:disabled) {
-  background: var(--primary-dark);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 30px rgba(39,149,208,0.18);
 }
 
 .newsletter-button:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
   cursor: not-allowed;
 }
 
@@ -267,12 +310,13 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-2xl);
   }
-  
+
+  /* make services/contact stack on smaller tablets */
   .services-contact-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--spacing-lg);
   }
-  
+
   .contact-column {
     grid-column: 1 / -1;
   }
@@ -287,21 +331,52 @@
     gap: var(--spacing-xl);
   }
   
+  /* Two-column approach on small screens: quick links + contact/newsletter */
   .services-contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: var(--spacing-lg);
   }
-  
-  .footer-certifications {
-    justify-content: center;
+
+  /* Branding stays visually centered but about content aligns left for column layout */
+  .footer-brand {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
+
+  .footer-about {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer-certifications {
+    justify-content: flex-start;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+  }
+
+  /* Quick links left-aligned in their column */
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* keep newsletter controls full-width within their column */
   .input-group {
     flex-direction: column;
   }
-  
+
+  .newsletter-input {
+    width: 100%;
+  }
+
   .newsletter-button {
     padding: var(--spacing-sm);
+    width: 100%;
+    margin-top: var(--spacing-sm);
   }
 }
 
@@ -331,5 +406,14 @@
   
   .geo5-logo {
     width: 100px;
+  }
+
+  /* tighten spacing and reduce brand size on very small screens */
+  .footer-brand {
+    font-size: 1.5rem;
+  }
+
+  .footer-links a {
+    font-size: 1rem;
   }
 }

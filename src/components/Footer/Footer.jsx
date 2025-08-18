@@ -21,15 +21,14 @@ const Footer = () => {
     }, 1000);
   };
 
-  const services = [
-    { name: 'Construction Inspection and Field Testing', path: '/services/construction-inspection' },
-    { name: 'Special Inspections', path: '/services/special-inspections' },
-    { name: 'Construction Material Laboratory Testing', path: '/services/materials-testing' },
-    { name: 'Geotechnical Drilling', path: '/services/drilling' },
-    { name: 'Geotechnical Engineering And Design', path: '/services/engineering-design' },
-    { name: 'Geotechnical Instrumentation', path: '/services/instrumentation' },
-    { name: 'Condition Survey', path: '/services/condition-survey' },
-    { name: 'PDA Testing', path: '/services/pda-testing' }
+  // Quick links for footer (simple site navigation)
+  const quickLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Services', path: '/services/geotechnical' },
+    { name: 'Blog', path: '/blog' },
+    { name: 'Careers', path: '/careers' },
+    { name: 'Contact', path: '/contact' }
   ];
 
   return (
@@ -41,6 +40,9 @@ const Footer = () => {
             {/* Company Info & Social */}
             <div className="footer-section footer-about">
               <div className="footer-company-info">
+                <div className="footer-branding">
+                  <div className="footer-brand" role="heading" aria-level="2">DGMTS</div>
+                </div>
                 <p className="footer-description">
                   DGMTS ensures nondiscrimination in all programs and activities in accordance with Title VI of the Civil Rights Act of 1964.
                 </p>
@@ -94,28 +96,14 @@ const Footer = () => {
             {/* Services & Contact */}
             <div className="footer-section footer-services-contact">
               <div className="services-contact-grid">
-                {/* Services Column 1 */}
+                {/* Quick Links Column (single column) */}
                 <div className="services-column">
-                  <h3 className="footer-title">Services</h3>
+                  <h3 className="footer-title">Quick Links</h3>
                   <ul className="footer-links">
-                    {services.slice(0, 4).map((service, index) => (
+                    {quickLinks.map((link, index) => (
                       <li key={index}>
-                        <a href={service.path} className="footer-link">
-                          {service.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Services Column 2 */}
-                <div className="services-column">
-                  <h3 className="footer-title">&nbsp;</h3>
-                  <ul className="footer-links">
-                    {services.slice(4).map((service, index) => (
-                      <li key={index}>
-                        <a href={service.path} className="footer-link">
-                          {service.name}
+                        <a href={link.path} className="footer-link">
+                          {link.name}
                         </a>
                       </li>
                     ))}
@@ -168,22 +156,23 @@ const Footer = () => {
                     {/* Newsletter Signup */}
                     <div className="newsletter-signup">
                       <h5 className="newsletter-title">Newsletter Signup</h5>
-                      <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
+                      <form onSubmit={handleNewsletterSubmit} className="newsletter-form" aria-label="Newsletter form">
                         <div className="input-group">
                           <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Your email"
+                            placeholder="Email address"
                             className="newsletter-input"
                             required
+                            aria-label="Email address"
                           />
-                          <button type="submit" disabled={isSubmitting} className="newsletter-button">
+                          <button type="submit" disabled={isSubmitting} className="newsletter-button" aria-label="Subscribe">
                             {isSubmitting ? 'Subscribing...' : 'Subscribe'}
                           </button>
                         </div>
                         <p className="newsletter-disclaimer">
-                          Get notified about new blog posts and updates.
+                          Get notified about news and updates.
                         </p>
                       </form>
                     </div>
