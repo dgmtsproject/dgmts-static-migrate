@@ -1,6 +1,5 @@
 import React from 'react';
 import './PublishedPapersPage.css';
-import Footer from '../../components/Footer/Footer';
 import { publications, presentations, bookChapters } from './publishedPapersData';
 
 const PublishedPapersPage = () => {
@@ -15,7 +14,7 @@ const PublishedPapersPage = () => {
         </div>
 
         <div className="papers-section">
-          <h2 className="section-title">Publications</h2>
+          <h2 className="papers-section-title">Publications</h2>
           <div className="papers-list">
             {publications.map((paper, index) => (
               <div key={index} className="paper-card">
@@ -28,7 +27,7 @@ const PublishedPapersPage = () => {
         </div>
 
         <div className="papers-section">
-          <h2 className="section-title">Technical Presentation</h2>
+          <h2 className="papers-section-title">Technical Presentation</h2>
           <div className="papers-list">
             {presentations.map((paper, index) => (
               <div key={index} className="paper-card">
@@ -40,7 +39,7 @@ const PublishedPapersPage = () => {
         </div>
 
         <div className="papers-section">
-          <h2 className="section-title">Books’ Chapters</h2>
+          <h2 className="papers-section-title">Books’ Chapters</h2>
           <div className="papers-list">
             {bookChapters.map((paper, index) => (
               <div key={index} className="paper-card">
@@ -52,7 +51,6 @@ const PublishedPapersPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

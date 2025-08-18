@@ -37,11 +37,11 @@
   box-shadow: 0 8px 24px rgba(76, 180, 244, 0.4);
 }
 
-.location-icon {
+.sp-location-icon {
   font-size: 1.2rem;
 }
 
-.location-name {
+.sp-location-name {
   letter-spacing: 0.5px;
 }
 
