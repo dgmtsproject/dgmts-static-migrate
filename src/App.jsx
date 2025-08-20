@@ -17,6 +17,8 @@ import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 import CareerPage from './pages/CareerPage/CareerPage';
 import LocationPage from './pages/LocationPage/LocationPage'; // Importing the LocationPage component
 import ContactPage from './pages/ContactPage/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage/TermsAndConditionsPage';
 import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 function App() {
@@ -42,6 +44,9 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
+            <Route path="/terms-and-conditions" element={<TermsAndConditionsPage/>}/>
+            
           </Routes>
         </main>
         <ChatBot />
