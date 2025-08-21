@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import './GalleryPage.css';
 
-const images = import.meta.glob('/src/assets/gallery/*.{png,jpg,jpeg,svg}');
+const images = import.meta.glob('/src/assets/gallery/*.{png,jpg,jpeg,svg}',{
+    eager: true,
+    as:'url'
+});
 
 const imagePaths = Object.keys(images).map(path => {
     const url = new URL(path, import.meta.url).href;
