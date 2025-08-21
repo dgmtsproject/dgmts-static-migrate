@@ -1,21 +1,17 @@
 import { useState } from 'react';
 import './GalleryPage.css';
 
-const images = import.meta.glob('/src/assets/gallery/*.{png,jpg,jpeg,svg}',{
-    eager: true,
-    as:'url'
-});
-
-const imagePaths = Object.keys(images).map(path => {
-    const url = new URL(path, import.meta.url).href;
-    return {
-        src: url,
-        alt: path.split('/').pop()
-    };
-});
-
 export default function GalleryPage() {
     const [selectedImage, setSelectedImage] = useState(null);
+
+    // Generate image paths using a loop
+    const imagePaths = [];
+    for (let i = 35; i <= 111; i++) {
+        imagePaths.push({
+            src: `/gallery/photo-${i}.jpg`,
+            alt: `Photo ${i}`
+        });
+    }
 
     const openModal = (image) => {
         setSelectedImage(image);
@@ -33,7 +29,6 @@ export default function GalleryPage() {
                     <p className="gallery-subtitle">A collection of moments and projects that define us.</p>
                 </div>
             </section>
-
             <section className="gallery-grid-section">
                 <div className="container">
                     <div className="gallery-grid">
@@ -45,7 +40,6 @@ export default function GalleryPage() {
                     </div>
                 </div>
             </section>
-
             {selectedImage && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
