@@ -1,4 +1,5 @@
 import React from "react";
+import "./TermsAndConditionsPage.css";
 
 const TermsAndConditionsPage = () => {
   return (
@@ -79,7 +80,7 @@ const TermsAndConditionsPage = () => {
       <ul>
         <li>Use the website to distribute malicious software or spam.</li>
         <li>Collect data from the website through automated tools (e.g., scraping, data mining).</li>
-        <li>Interfere with the website's security, functionality, or accessibility.</li>
+        <li>Interfere with the website&apos;s security, functionality, or accessibility.</li>
       </ul>
 
       <h2>9. Submission of Ideas</h2>
@@ -163,7 +164,7 @@ const TermsAndConditionsPage = () => {
 
       <h2>22. Updates to Terms</h2>
       <p>
-        We may revise these Terms from time to time. The "Last Updated" date at the top indicates the most recent revision. 
+        We may revise these Terms from time to time. The &quot;Last Updated&quot; date at the top indicates the most recent revision. 
         Continued use of the website following any changes implies your acceptance of the updated Terms.
       </p>
 

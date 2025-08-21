@@ -20,10 +20,13 @@ import ContactPage from './pages/ContactPage/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage/PrivacyPolicyPage';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage/TermsAndConditionsPage';
 import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage';
+import GalleryPage from './pages/GalleryPage/GalleryPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
+import ScrollToTop from './components/ScrollToTop';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <Header />
         <main>
@@ -46,6 +49,7 @@ function App() {
             <Route path="/location" element={<LocationPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
             <Route path="/terms-and-conditions" element={<TermsAndConditionsPage/>}/>
+            <Route path="/gallery" element={<GalleryPage />} />
             
           </Routes>
         </main>

@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import "./PrivacyPolicyPage.css";
 
 const PrivacyPolicyPage = () => {
   return (
@@ -103,7 +105,7 @@ const PrivacyPolicyPage = () => {
       </p>
       
       {/* Contact Button */}
-      <a href="/contact" className="btn btn-primary">Contact Us</a>
+      <Link to="/contact" className="btn btn-primary">Contact Us</Link>
     </div>
   );
 };
