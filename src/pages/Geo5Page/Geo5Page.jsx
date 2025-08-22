@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Briefcase, Users, Globe } from 'lucide-react';
 import './Geo5Page.css';
 import geo5Logo from '../../assets/logos/geo5-logo.png';
 import geo1 from '../../assets/geo5-images/1-stability-min.png';
@@ -168,7 +169,6 @@ export default function Geo5Page() {
   const changeSlide = dir => {
     goToSlide((activeIndex + dir + slides.length) % slides.length);
   };
-
   return (
     <div className="geo5-page">
       <section className="geo5-hero">
@@ -179,35 +179,58 @@ export default function Geo5Page() {
               <div className="geo5-hero-text">
                 <h1 className="geo5-title">Geotechnical Software</h1>
                 <p className="geo5-subtitle">From Geological Survey to Geotechnical Design</p>
-                <div className="geo5-hero-stats">
-                  <div className="stat-item">
+              </div>
+            </div>
+
+            {/* Modern stats cards aligned to right column */}
+            <div className="geo5-hero-right">
+              <div className="geo5-hero-stats">
+                <div className="stat-item">
+                  <div className="stat-icon">
+                    <Briefcase size={28} />
+                  </div>
+                  <div className="stat-content">
                     <span className="stat-number">25+</span>
-                    <span className="stat-label">Programs</span>
+                    <span className="stat-label">Professional Programs</span>
                   </div>
-                  <div className="stat-item">
-                    <span className="stat-number">100K+</span>
-                    <span className="stat-label">Users</span>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-icon">
+                    <Users size={28} />
                   </div>
-                  <div className="stat-item">
-                    <span className="stat-number">190+</span>
-                    <span className="stat-label">Countries</span>
+                  <div className="stat-content">
+                    <span className="stat-number">10K+</span>
+                    <span className="stat-label">Global Users</span>
+                  </div>
+                </div>
+                <div className="stat-item">
+                  <div className="stat-icon">
+                    <Globe size={28} />
+                  </div>
+                  <div className="stat-content">
+                    <span className="stat-number">155+</span>
+                    <span className="stat-label">Countries Worldwide</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="geo5-hero-video">
-              <div className="video-container">
-                <iframe 
-                  width="536" 
-                  height="315" 
-                  src="https://www.youtube.com/embed/gTkKkcYSLAk?autoplay=1&mute=1&loop=1&playlist=gTkKkcYSLAk&controls=0" 
-                  title="GEO5 Overview Video" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                  referrerPolicy="strict-origin-when-cross-origin" 
-                  allowFullScreen
-                />
-              </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Video moved to its own section with larger dimensions */}
+      <section className="geo5-video-section">
+        <div className="container">
+          <div className="geo5-hero-video">
+            <div className="video-container">
+              <iframe 
+                src="https://www.youtube.com/embed/gTkKkcYSLAk?autoplay=1&mute=1&loop=1&playlist=gTkKkcYSLAk&controls=0" 
+                title="GEO5 Overview Video" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerPolicy="strict-origin-when-cross-origin" 
+                allowFullScreen
+              />
             </div>
           </div>
         </div>

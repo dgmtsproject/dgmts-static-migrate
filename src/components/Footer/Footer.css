@@ -36,15 +36,29 @@ li {
 
 /* Footer branding */
 .footer-branding {
-  margin-bottom: var(--spacing-md);
+  /* stack logo above brand text and center both */
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: var(--spacing-xs);
 }
 
 .footer-brand {
   font-family: 'Limelight', var(--font-family-heading) !important;
-  font-size: 2.25rem;
+  font-size: 1.8rem;
   letter-spacing: 1px;
   color: var(--white);
-  margin: 0 0 var(--spacing-md) 0;
+  /* remove bottom margin so vertical centering next to logo works */
+  margin: 0;
+}
+
+/* Logo next to the brand name */
+.footer-logo {
+  margin:0 0 15px 10px;
+  width: 80px;
+  height: auto;
+  display: inline-block;
+  object-fit: contain;
 }
 
 @media (max-width: 767px) {
@@ -342,6 +356,21 @@ li {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* when stacked on small screens, restore spacing below the brand */
+  .footer-brand {
+    margin: 0 0 var(--spacing-md) 0;
+  }
+
+  /* Stack logo above the brand on small screens and keep it centered */
+  .footer-branding {
+    /* already stacked by default now, just adjust spacing */
+    gap: var(--spacing-xs);
+  }
+
+  .footer-logo {
+    width: 56px;
   }
 
   .footer-about {

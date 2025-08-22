@@ -4,6 +4,7 @@ import swamImg from '../../assets/logos/swam.png';
 import mbeImg from '../../assets/logos/mbe.png';
 import dbeImg from '../../assets/logos/dbe.png';
 import geo5Img from '../../assets/logos/geo5-logo.png';
+import logoIcon from '../../assets/logos/logo-icon.png';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -41,6 +42,7 @@ const Footer = () => {
             <div className="footer-section footer-about">
               <div className="footer-company-info">
                 <div className="footer-branding">
+                  <img src={logoIcon} className="footer-logo" alt="DGMTS Logo" />
                   <div className="footer-brand" role="heading" aria-level="2">DGMTS</div>
                 </div>
                 <p className="footer-description">
