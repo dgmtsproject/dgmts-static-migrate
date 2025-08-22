@@ -576,8 +576,12 @@
     text-align: center;
   }
   
+  /* Ensure left column appears first on tablet/mobile */
+  .geo5-hero-left {
+    order: -1; /* Left column first */
+  }
   .geo5-hero-right {
-    order: -1; /* Move stats above logo/text on tablet */
+    order: 0; /* Ensure stats come after left column */
   }
   
   .geo5-hero-stats {
