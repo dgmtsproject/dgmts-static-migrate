@@ -185,31 +185,31 @@ export default function Geo5Page() {
             {/* Modern stats cards aligned to right column */}
             <div className="geo5-hero-right">
               <div className="geo5-hero-stats">
-                <div className="stat-item">
-                  <div className="stat-icon">
+                <div className="geo5-stat-item">
+                  <div className="geo5-stat-icon">
                     <Briefcase size={28} />
                   </div>
-                  <div className="stat-content">
-                    <span className="stat-number">25+</span>
-                    <span className="stat-label">Professional Programs</span>
+                  <div className="geo5-stat-content">
+                    <span className="geo5-stat-number">25+</span>
+                    <span className="geo5-stat-label">Professional Programs</span>
                   </div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-icon">
+                <div className="geo5-stat-item">
+                  <div className="geo5-stat-icon">
                     <Users size={28} />
                   </div>
-                  <div className="stat-content">
-                    <span className="stat-number">10K+</span>
-                    <span className="stat-label">Global Users</span>
+                  <div className="geo5-stat-content">
+                    <span className="geo5-stat-number">10K+</span>
+                    <span className="geo5-stat-label">Global Users</span>
                   </div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-icon">
+                <div className="geo5-stat-item">
+                  <div className="geo5-stat-icon">
                     <Globe size={28} />
                   </div>
-                  <div className="stat-content">
-                    <span className="stat-number">155+</span>
-                    <span className="stat-label">Countries Worldwide</span>
+                  <div className="geo5-stat-content">
+                    <span className="geo5-stat-number">155+</span>
+                    <span className="geo5-stat-label">Countries Worldwide</span>
                   </div>
                 </div>
               </div>

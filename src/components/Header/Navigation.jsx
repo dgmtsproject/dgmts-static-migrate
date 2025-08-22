@@ -167,12 +167,8 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* CTA and Mobile Menu Button */}
+          {/* Mobile Menu Button */}
           <div className="nav-actions">
-            {/* Desktop-only CTA */}
-            <Link to="/contact" className="nav-cta" onClick={() => setIsMobileMenuOpen(false)}>Get a Quote</Link>
-
-            {/* Mobile Menu Button */}
             <div className="mobile-menu-button">
               <button onClick={toggleMobileMenu} aria-label="Toggle menu">
                 {isMobileMenuOpen ? <X /> : <Menu />}

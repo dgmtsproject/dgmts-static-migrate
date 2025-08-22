@@ -1,168 +1,304 @@
-
-.header {
-  background: var(--white);
-  transition: all var(--transition-normal);
+/* Modern Header Styles */
+.modern-header {
   position: relative;
-  z-index: 999;
+  z-index: 100;
+  background: white;
 }
 
-.header.scrolled {
-  box-shadow: var(--shadow-md);
+.modern-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  pointer-events: none;
 }
 
-/* Top Bar */
-.top-bar {
-  background: var(--white);
-  border-bottom: 1px solid var(--grey-200);
-  padding: var(--spacing-md) 0;
+/* scroll-related styles removed */
+
+/* Hero Section */
+.header-hero {
+  position: relative;
+  z-index: 2;
+  padding: 2rem 0;
 }
 
-.top-bar-content {
+/* scroll-related styles removed */
+
+.header-hero__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Certifications Row */
+.header-certifications {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-lg);
-}
-
-/* Company Info */
-.company-info {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.logo-link {
-  flex-shrink: 0;
-}
-
-.logo {
-  height: 80px;
-  width: 80px;
-  object-fit: contain;
-  border-radius: var(--radius-md);
-}
-
-.company-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.company-name {
-  font-size: 1.25rem;
-  font-weight: var(--font-weight-bold);
-  color: #224c80;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.company-tagline {
-  font-size: 0.875rem;
-  color: #F6B549;
-  font-weight: var(--font-weight-semibold);
-  font-style: italic;
-  margin: 0;
-}
-
-.certifications {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-xs);
-}
-
-.cert-logo {
-  height: 32px;
-  width: auto;
-  object-fit: contain;
-  opacity: 0.9;
-  transition: opacity var(--transition-fast);
-}
-
-.cert-logo:hover {
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
   opacity: 1;
 }
 
-/* Partner Logo */
-.partner-logo {
-  flex-shrink: 0;
+/* scroll-related styles removed */
+
+.cert-badge {
+  display: block;
+  cursor: pointer;
 }
 
-.geo5-logo {
-  height: 60px;
-  width: 240px;
-  min-width: 200px;
-  object-fit: contain;
+.cert-badge img {
+  height: 3rem;
+  width: auto;
 }
 
-/* Responsive Design */
-@media (max-width: 1023px) {
-  .top-bar-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.cert-badge span {
+  display: none;
+}
+
+/* Main Content Row */
+.header-main {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .header-main {
+    display: flex;
+  }
+}
+
+/* Brand Section */
+.header-brand {
+  /* equal-width columns for brand and partner */
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.brand-logo {
+  display: block;
+}
+
+.brand-logo img {
+  height: 7rem;
+  width: auto;
+}
+
+/* scroll-related styles removed */
+
+/* Company Info */
+.header-info {
+  flex: 8;
+  text-align: center;
+  max-width: 800px;
+}
+
+.company-title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.title-primary {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  /* gradient text */
+  background: linear-gradient(90deg, #1058b1, #497CBA);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* scroll-related styles removed */
+
+.title-secondary {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #255291;
+  margin-top: 0.25rem;
+}
+
+/* scroll-related styles removed */
+
+.company-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* scroll-related styles removed */
+
+.subtitle-line {
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(90deg, transparent, rgba(71, 85, 105, 0.5), transparent);
+}
+
+/* scroll-related styles removed */
+
+.company-subtitle span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* scroll-related styles removed */
+
+/* Partner Section */
+.header-partner {
+  /* equal-width columns for brand and partner */
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.partner-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.partner-label {
+  display: none;
+}
+
+.partner-badge img {
+  height: 3.5rem;
+  width: auto;
+}
+
+/* scroll-related styles removed */
+
+/* Mobile Layout */
+.header-mobile {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .header-mobile {
+    display: none;
+  }
+}
+
+.mobile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.mobile-logo img {
+  height: 3.5rem;
+  width: auto;
+}
+
+/* scroll-related styles removed */
+
+
+.mobile-partner img {
+  height: 2rem;
+  width: auto;
+}
+
+/* scroll-related styles removed */
+
+.mobile-info {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.mobile-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+}
+
+@media (min-width: 640px) {
+  .mobile-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* scroll-related styles removed */
+
+@media (min-width: 640px) {
+  /* scroll-related styles removed */
+}
+
+.mobile-subtitle {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* scroll-related styles removed */
+
+.mobile-certifications {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  opacity: 1;
+}
+
+/* scroll-related styles removed */
+
+.mobile-certifications img {
+  height: 1.75rem;
+  width: auto;
+}
+
+/* scroll-related styles removed */
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .header-hero__container {
+    padding: 0 1rem;
   }
   
-  .company-info {
-    flex-direction: column;
-    align-items: center;
+  .header-hero {
+    padding: 1.5rem 0;
   }
   
-  .company-name {
+  /* scroll-related styles removed */
+  
+  .mobile-top {
+    margin-bottom: 1rem;
+  }
+  
+  .mobile-info {
+    margin-bottom: 1rem;
+  }
+  
+  .mobile-title {
     font-size: 1.125rem;
   }
   
-  .geo5-logo {
-    height: 50px;
-    width: 180px;
-    min-width: 160px;
-  }
-}
-
-@media (max-width: 767px) {
-  .top-bar {
-    padding: var(--spacing-sm) 0;
+  .mobile-certifications {
+    gap: 0.75rem;
   }
   
-  .logo {
-    height: 60px;
-    width: 60px;
-  }
-  
-  .company-name {
-    font-size: 1rem;
-  }
-  
-  .company-tagline {
-    font-size: 0.75rem;
-  }
-  
-  .certifications {
-    gap: var(--spacing-xs);
-  }
-  
-  .cert-logo {
-    height: 24px;
-  }
-  
-  .geo5-logo {
-    height: 40px;
-    width: 120px;
-    min-width: 100px;
-  }
-}
-
-@media (max-width: 480px) {
-  .company-info {
-    gap: var(--spacing-sm);
-  }
-  
-  .company-name {
-    font-size: 0.875rem;
-  }
-  
-  .certifications {
-    flex-wrap: wrap;
-    justify-content: center;
+  .mobile-certifications img {
+    height: 1.5rem;
   }
 }

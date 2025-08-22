@@ -33,7 +33,7 @@ function ChatBot() {
   const [isMobile, setIsMobile] = useState(false)
 
   const { client, messages, isTyping, user, clientState, newConversation } = useWebchat({
-    clientId: '892072aa-0b89-47e0-800c-8da8f387d757',
+    clientId: '07dc3aad-934c-4afa-84c2-7c5b00dfb0aa',
   })
 
   const config = {
