@@ -11,13 +11,14 @@
   margin: 0 auto 3rem auto; 
   background: var(--white); 
   border-radius: 32px 32px 120px 32px;
-  box-shadow: var(--shadow-sm);
+  /* box-shadow: var(--shadow-sm); */
   padding: 3rem 2.5rem; 
   position: relative;
   overflow: hidden;
 }
 
 .about-section:first-child {
+  background: transparent;
   margin-top: 2rem;
 }
 

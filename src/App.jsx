@@ -23,6 +23,7 @@ import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage
 import GalleryPage from './pages/GalleryPage/GalleryPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 import ScrollToTop from './components/ScrollToTop';
+import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 function App() {
   return (
     <Router>
@@ -50,6 +51,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
             <Route path="/terms-and-conditions" element={<TermsAndConditionsPage/>}/>
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/team/:id" element={<TeamMemberPage />} />
             
           </Routes>
         </main>

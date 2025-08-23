@@ -1,48 +1,7 @@
 import { useState, useRef, useEffect } from 'react'; // referenced for environments not using automatic runtime
 import './MeetTheTeam.css';
-
-const teamMembers = [
-  {
-    id: 1,
-    name: 'Ava Patel',
-    role: 'Principal Geotechnical Engineer',
-    bio: '15+ years experience in geotechnical design and consulting for infrastructure projects.',
-    imageUrl: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300&h=300',
-    tags: ['Geotechnical', 'Design', 'Consulting', 'Infrastructure']
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    role: 'Senior Project Manager',
-    bio: 'Expert in project delivery and client relations with proven track record in complex engineering projects.',
-    imageUrl: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=300&h=300',
-    tags: ['Project Management', 'Client Relations', 'Leadership']
-  },
-  {
-    id: 3,
-    name: 'Fatima Alvi',
-    role: 'Lab Supervisor',
-    bio: 'Accredited lab specialist overseeing QA/QC testing procedures and ensuring compliance with industry standards.',
-    imageUrl: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=300&h=300',
-    tags: ['Lab Management', 'QA/QC', 'Testing', 'Compliance']
-  },
-  {
-    id: 4,
-    name: 'Carlos Rivera',
-    role: 'Senior Field Technician',
-    bio: 'Field testing and drilling operations expert with extensive experience in geotechnical investigation.',
-    imageUrl: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=300&h=300',
-    tags: ['Field Operations', 'Drilling', 'Testing', 'Investigation']
-  },
-  {
-    id: 5,
-    name: 'Emily Smith',
-    role: 'Structural Engineer',
-    bio: 'Structural analysis and design specialist focusing on innovative solutions for challenging engineering problems.',
-    imageUrl: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=300&h=300',
-    tags: ['Structural', 'Analysis', 'Design', 'Innovation']
-  }
-];
+import { Link } from 'react-router-dom';
+import { teamMembers } from '../../pages/TeamMemberPage/teamData.js';
 
 const MeetTheTeam = () => {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
@@ -135,11 +94,7 @@ const MeetTheTeam = () => {
         >
           <div className="team-carousel-inner">
             {teamMembers.map((member, index) => (
-              <div 
-                key={member.id} 
-                className={`team-card-wrapper ${getCardAnimationClass(index)}`} 
-                style={{ transitionDelay: `${index * 50}ms` }}
-              >
+              <Link to={`/team/${member.id}`} key={member.id} className={`team-card-wrapper ${getCardAnimationClass(index)}`} style={{ transitionDelay: `${index * 50}ms` }}>
                 <div className="team-card">
                   <div 
                     className="team-card-image"
@@ -176,7 +131,7 @@ const MeetTheTeam = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           
