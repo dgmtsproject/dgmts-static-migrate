@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './PaymentPage.css';
+import Modal from '../../components/Modal/Modal';
 
 const PaymentPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const PaymentPage = () => {
     paymentNote: ''
   });
   const [status, setStatus] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,6 +21,11 @@ const PaymentPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsModalOpen(true);
+  };
+
+  const handleConfirm = () => {
+    setIsModalOpen(false);
     setStatus('Processing...');
     // I'll implement the submission logic later
     console.log(formData);
@@ -106,6 +113,22 @@ const PaymentPage = () => {
           </div>
         </div>
       </section>
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={handleConfirm} 
+        title="Confirm Payment"
+      >
+        <p>Please confirm the details before submitting:</p>
+        <ul>
+          <li><strong>Customer Name:</strong> {formData.customerName}</li>
+          <li><strong>Customer Email:</strong> {formData.customerEmail}</li>
+          <li><strong>Customer Address:</strong> {formData.customerAddress}</li>
+          <li><strong>Invoice No.:</strong> {formData.invoiceNo}</li>
+          <li><strong>Invoice Amount:</strong> ${formData.invoiceAmount}</li>
+          <li><strong>Payment Note:</strong> {formData.paymentNote}</li>
+        </ul>
+      </Modal>
     </main>
   );
 };
