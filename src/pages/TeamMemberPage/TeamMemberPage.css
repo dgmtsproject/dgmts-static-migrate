@@ -1,4 +1,4 @@
-:root {
+.team-member-page {
   --secondary-color: #00a859;
   --grey-50: #f8f9fa;
   --grey-100: #f1f3f5;
@@ -10,9 +10,6 @@
   --white: #ffffff;
   --shadow-sm: 0 4px 8px rgba(0,0,0,0.05);
   --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
-}
-
-.team-member-page {
   background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 100%);
   color: var(--grey-900);
   font-family: 'Montserrat', sans-serif;
@@ -49,10 +46,12 @@
   font-size: 3rem;
   font-weight: 800;
   margin: 0;
+  color:whitesmoke;
   letter-spacing: -1px;
 }
 
 .banner-content h2 {
+  color:whitesmoke;
   font-size: 1.5rem;
   font-weight: 500;
   margin-top: 0.5rem;
@@ -206,44 +205,44 @@
   margin-bottom: 0;
 }
 
-.contact-section {
+.team-member-page .contact-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
 
-.contact-item {
+.team-member-page .contact-item {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
 }
 
-.contact-icon {
+.team-member-page .contact-icon {
   font-size: 1.75rem;
   color: var(--primary-color);
   margin-top: 5px;
 }
 
-.contact-item h4 {
+.team-member-page .contact-item h4 {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--grey-800);
 }
 
-.contact-item p {
+.team-member-page .contact-item p {
   margin: 0;
   color: var(--grey-700);
   font-size: 1rem;
 }
 
-.contact-item a {
+.team-member-page .contact-item a {
   color: var(--primary-color);
   text-decoration: none;
   transition: text-decoration 0.3s ease;
 }
 
-.contact-item a:hover {
+.team-member-page .contact-item a:hover {
   text-decoration: underline;
 }
 
@@ -267,7 +266,7 @@
     padding: 0 1rem;
     margin-top: -4rem;
   }
-  .contact-section {
+  .team-member-page .contact-section {
     grid-template-columns: 1fr;
   }
 }

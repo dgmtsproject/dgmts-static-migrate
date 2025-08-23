@@ -6,7 +6,7 @@
   min-height: 100vh;
 }
 
-.contact-section {
+.contact-page .contact-section {
   max-width: 1200px; /* Increased max-width for two columns */
   margin: 2rem auto;
   background: var(--white);
@@ -168,7 +168,7 @@
     .contact-grid {
         grid-template-columns: 1fr;
     }
-    .contact-section {
+    .contact-page .contact-section {
         padding: 2rem;
     }
 }
@@ -177,7 +177,7 @@
     .contact-heading {
         font-size: 2.2rem;
     }
-    .contact-section {
+    .contact-page .contact-section {
         padding: 1.5rem;
         margin: 1rem;
     }

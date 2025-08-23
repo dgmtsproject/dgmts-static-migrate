@@ -6,7 +6,7 @@ const HeroSlider = () => {
 
   const slides = [
     {
-      image: 'https://images.pexels.com/photos/1117452/pexels-photo-1117452.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600',
+      image: '/assets/photo-107-C_4ccLao.jpg',
       heading: 'Leading Geotechnical Engineering Solutions',
       content: 'Providing comprehensive geotechnical engineering, materials testing, and construction services across Virginia, Maryland, and Washington DC.',
       buttonText: 'Learn More',
@@ -14,7 +14,7 @@ const HeroSlider = () => {
       position: 'center'
     },
     {
-      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600',
+      image: '/assets/photo-44-tVa5E9qI.jpg',
       heading: 'Certified SWaM and MBE/DBE Firm',
       content: 'Established in 2012, DGMTS is your trusted partner for quality engineering services and materials testing with industry-leading certifications.',
       buttonText: 'Our Services',

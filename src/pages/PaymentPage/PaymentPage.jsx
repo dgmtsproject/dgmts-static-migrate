@@ -124,7 +124,7 @@ const PaymentPage = () => {
           <li><strong>Customer Name:</strong> {formData.customerName}</li>
           <li><strong>Customer Email:</strong> {formData.customerEmail}</li>
           <li><strong>Customer Address:</strong> {formData.customerAddress}</li>
-          <li><strong>Invoice No.:</strong> {formData.invoiceNo}</li>
+          <li><strong>Invoice Number:</strong> {formData.invoiceNo}</li>
           <li><strong>Invoice Amount:</strong> ${formData.invoiceAmount}</li>
           <li><strong>Payment Note:</strong> {formData.paymentNote}</li>
         </ul>

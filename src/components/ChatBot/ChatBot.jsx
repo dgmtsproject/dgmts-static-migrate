@@ -51,6 +51,17 @@ function ChatBot() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  // Remove any stale botpress webchat state on mount so the chat starts clean
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem('bp-webchat')
+      }
+    } catch {
+      // ignore storage errors (e.g., in private mode)
+    }
+  }, [])
+
   const enrichedMessages = useMemo(
     () =>
       messages.map((message) => {

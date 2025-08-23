@@ -15,11 +15,11 @@ const imagePaths = Object.entries(images).map(([path, url]) => ({
 export default function GalleryPage() {
     const [selectedImage, setSelectedImage] = useState(null);
 
-    const openModal = (image) => {
+    const pictureOpenModal = (image) => {
         setSelectedImage(image);
     };
 
-    const closeModal = () => {
+    const pictureCloseModal = () => {
         setSelectedImage(null);
     };
 
@@ -35,7 +35,7 @@ export default function GalleryPage() {
                 <div className="container">
                     <div className="gallery-grid">
                         {imagePaths.map((image, index) => (
-                            <div key={index} className="gallery-item" onClick={() => openModal(image)}>
+                            <div key={index} className="gallery-item" onClick={() => pictureOpenModal(image)}>
                                 <img src={image.src} alt={image.alt} loading="lazy" />
                             </div>
                         ))}
@@ -43,9 +43,9 @@ export default function GalleryPage() {
                 </div>
             </section>
             {selectedImage && (
-                <div className="modal-overlay" onClick={closeModal}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <span className="close-modal" onClick={closeModal}>&times;</span>
+                <div className="picture-modal-overlay" onClick={pictureCloseModal}>
+                    <div className="picture-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <span className="picture-close-modal" onClick={pictureCloseModal}>&times;</span>
                         <img src={selectedImage.src} alt={selectedImage.alt} />
                     </div>
                 </div>

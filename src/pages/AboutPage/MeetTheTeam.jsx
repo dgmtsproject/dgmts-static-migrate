@@ -66,8 +66,8 @@ const MeetTheTeam = () => {
 
   const getCardAnimationClass = (index) => {
     if (index === activeTeamMember) return "scale-100 opacity-100 z-20";
-    if (index === (activeTeamMember + 1) % teamMembers.length) return "translate-x-[40%] scale-95 opacity-60 z-10";
-    if (index === (activeTeamMember - 1 + teamMembers.length) % teamMembers.length) return "translate-x-[-40%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember + 1) % teamMembers.length) return "translate-x-[60%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember - 1 + teamMembers.length) % teamMembers.length) return "translate-x-[-60%] scale-95 opacity-60 z-10";
     return "scale-90 opacity-0";
   };
   

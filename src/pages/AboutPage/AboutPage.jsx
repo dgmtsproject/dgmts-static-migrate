@@ -1,9 +1,14 @@
 import MeetTheTeam from './MeetTheTeam';
 import ServiceMap from './components/ServiceMap';
 import './AboutPage.css';
+import teamPhoto from '../../assets/gallery/photo-94.jpg';
+
 
 const AboutPage = () => (
   <main className="about-page">
+    <div className="team-photo-container">
+      <img src={teamPhoto} alt="DGMTS Team" className="team-photo-header" />
+    </div>
     <section className="about-section who-we-are">
       <h1 className="about-heading">Who We Are?</h1>
       <div className="about-content">

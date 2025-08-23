@@ -7,7 +7,7 @@
   font-family: var(--font-family-primary);
 }
 
-li {
+.footer li {
   font-family: 'Red Hat Display', sans-serif;
 }
 
@@ -179,32 +179,32 @@ li {
 }
 
 /* Contact Info */
-.contact-info {
+.footer .contact-info {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.contact-item {
+.footer .contact-item {
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-md);
 }
 
-.contact-item p{
+.footer .contact-item p{
   color:white;
 }
-.contact-icon {
+.footer .contact-icon {
   flex-shrink: 0;
   color: var(--primary-color);
   margin-top: 2px;
 }
 
-.contact-text {
+.footer .contact-text {
   flex: 1;
 }
 
-.contact-text p {
+.footer .contact-text p {
   margin: 0;
   color: var(--grey-300);
   font-size: 0.9rem;
@@ -236,14 +236,14 @@ li {
   width: 100%;
 }
 
-.input-group {
+.footer .input-group {
   display: flex;
   gap: var(--spacing-xs);
   margin-bottom: var(--spacing-xs);
   align-items: center;
 }
 
-.newsletter-input {
+.footer .newsletter-input {
   flex: 1;
   padding: 12px 14px;
   border: 1px solid rgba(255,255,255,0.06);
@@ -265,7 +265,7 @@ li {
   color: rgba(255,255,255,0.6);
 }
 
-.newsletter-button {
+.footer .newsletter-button {
   padding: 10px 16px;
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   color: var(--white);
@@ -279,12 +279,12 @@ li {
   box-shadow: 0 6px 18px rgba(39,149,208,0.12);
 }
 
-.newsletter-button:hover:not(:disabled) {
+.footer .newsletter-button:hover:not(:disabled) {
   transform: translateY(-2px) scale(1.01);
   box-shadow: 0 12px 30px rgba(39,149,208,0.18);
 }
 
-.newsletter-button:disabled {
+.footer .newsletter-button:disabled {
   opacity: 0.65;
   cursor: not-allowed;
 }
@@ -397,15 +397,15 @@ li {
   }
 
   /* keep newsletter controls full-width within their column */
-  .input-group {
+  .footer .input-group {
     flex-direction: column;
   }
 
-  .newsletter-input {
+  .footer .newsletter-input {
     width: 100%;
   }
 
-  .newsletter-button {
+  .footer .newsletter-button {
     padding: var(--spacing-sm);
     width: 100%;
     margin-top: var(--spacing-sm);
@@ -421,7 +421,7 @@ li {
     justify-content: center;
   }
   
-  .contact-item {
+  .footer .contact-item {
     flex-direction: column;
     align-items: center;
     text-align: center;

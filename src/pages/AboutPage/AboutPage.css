@@ -146,3 +146,27 @@
     font-size: 1rem;
   }
 }
+
+.team-photo-container {
+  background-color: #fff;
+  border: 15px solid #C19A6B; /* A wooden color */
+  padding: 15px;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+  margin: 2rem auto;
+  max-width: 70%;
+  display: block;
+  border-radius:15px;
+}
+
+.team-photo-header {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 5px solid #f0e6d2; /* A lighter inner border */
+}
+
+@media (max-width: 768px) {
+  .team-photo-container {
+    max-width: 90%;
+  }
+}

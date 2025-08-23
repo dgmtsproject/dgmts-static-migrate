@@ -69,7 +69,7 @@
 }
 
 /* Modal Styles */
-.modal-overlay {
+.picture-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -83,22 +83,23 @@
     backdrop-filter: blur(8px);
 }
 
-.modal-content {
+.picture-modal-content {
     position: relative;
     animation: fadeIn 0.3s ease;
 }
 
-.modal-content img {
+.picture-modal-content img {
     max-width: 90vw;
     max-height: 90vh;
     object-fit: contain;
     border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.close-modal {
+.picture-close-modal {
     position: absolute;
-    top: -40px;
-    right: 0;
+    top: -02px;
+    right: 20px;
     color: #fff;
     font-size: 2.5rem;
     font-weight: bold;
@@ -106,7 +107,7 @@
     transition: color 0.3s ease;
 }
 
-.close-modal:hover {
+.picture-close-modal:hover {
     color: #ccc;
 }
 
