@@ -68,271 +68,391 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Services Section */
+/* Services Carousel Section - Full Section Scroll */
 .itds-services-section {
-    padding: 6rem 2rem;
+    padding: 4rem 0 6rem 0;
     background-color: #ffffff;
+    overflow: hidden;
+    position: relative;
 }
 
-.itds-services-header, .itds-portfolio-header, .itds-features-header {
-    text-align: center;
-    margin-bottom: 4rem;
+.itds-services-content {
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
 }
 
-.itds-services-title, .itds-portfolio-title, .itds-features-title, .itds-cta-title {
-    font-size: 2.5rem;
+.itds-services-content::before {
+    content: '← Drag to scroll →';
+    position: absolute;
+    top: -2rem;
+    right: 2rem;
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 500;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.itds-services-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Horizontal scrollable container */
+.itds-services-horizontal-container {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 2rem 2rem 4rem 2rem;
+    cursor: grab;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    user-select: none; /* Prevent text selection during drag */
+}
+
+.itds-services-horizontal-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.itds-services-horizontal-container:active {
+    cursor: grabbing;
+}
+
+/* Services Intro Card */
+.itds-services-intro-card {
+    flex: 0 0 400px;
+    height: 420px;
+    display: flex;
+    align-items: start;
+    padding: 1.5rem 1rem;
+}
+
+.itds-services-intro-content {
+    width: 100%;
+}
+
+.itds-services-main-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1e3a8a;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.itds-services-main-description {
+    font-size: 1.1rem;
+    color: #64748b;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* Prevent dragging of images and text during scroll */
+.itds-services-horizontal-container * {
+    pointer-events: none;
+    user-select: none;
+}
+
+.itds-service-carousel-card {
+    pointer-events: auto;
+}
+
+/* Service Carousel Cards */
+.itds-service-carousel-card {
+    flex: 0 0 500px;
+    height: 600px;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.itds-service-carousel-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.itds-service-card-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.itds-service-card-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.6s ease;
+}
+
+.itds-service-carousel-card:hover .itds-service-card-bg-image {
+    transform: none;
+}
+
+.itds-service-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.1) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+    z-index: 2;
+}
+
+.itds-service-card-icon {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    transition: all 0.3s ease;
+}
+
+.itds-service-carousel-card:hover .itds-service-card-icon {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.itds-service-card-icon .itds-service-icon {
+    color: white;
+    width: 24px;
+    height: 24px;
+}
+
+.itds-service-card-text {
+    position: relative;
+    z-index: 3;
+    color: white;
+}
+
+.itds-service-card-title {
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #1e3a8a;
-}
-
-.itds-services-subtitle, .itds-portfolio-subtitle, .itds-features-subtitle, .itds-cta-description {
-    font-size: 1.2rem;
-    color: #475569;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.itds-services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.itds-service-card {
-    background-color: #f0f7ff;
-    padding: 2.5rem;
-    border-radius: 16px;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 1px solid #dbeafe;
-}
-
-.itds-service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-    border-color: #3b82f6;
-}
-
-.itds-service-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 1.5rem;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.itds-service-icon {
+    line-height: 1.3;
     color: white;
-    width: 28px;
-    height: 28px;
 }
 
-.itds-service-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #1e3a8a;
-}
-
-.itds-service-description {
-    color: #475569;
+.itds-service-card-description {
+    font-size: 1.3rem;
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
 }
 
-/* Portfolio Section */
+/* Mobile Responsiveness for Services Section */
+@media (max-width: 1024px) {
+    .itds-services-section {
+        padding: 3rem 0 4rem 0;
+    }
+
+    /* Hide helper text on mobile */
+    .itds-services-content::before {
+        display: none;
+    }
+
+    .itds-services-content::after {
+        display: none;
+    }
+
+    /* Convert to grid layout on mobile */
+    .itds-services-content {
+        display: block;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    /* Intro card becomes a regular section header */
+    .itds-services-intro-card {
+        flex: none;
+        width: 100%;
+        height: auto;
+        margin: 0 0 3rem 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    /* Convert horizontal container to grid */
+    .itds-services-horizontal-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 0;
+        overflow: visible;
+        cursor: default;
+    }
+    
+    .itds-services-main-title {
+        font-size: 2.25rem;
+    }
+    
+    /* Service cards become regular grid items */
+    .itds-service-carousel-card {
+        flex: none;
+        width: 100%;
+        height: 300px;
+    }
+    
+    .itds-service-card-content {
+        padding: 2rem;
+    }
+    
+    .itds-service-card-title {
+        font-size: 1.5rem;
+    }
+    
+    .itds-service-card-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .itds-services-section {
+        padding: 3rem 0 4rem 0;
+    }
+    
+    .itds-services-content {
+        padding: 0 1rem;
+    }
+    
+    .itds-services-intro-card {
+        margin-bottom: 2rem;
+    }
+
+    .itds-services-horizontal-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .itds-services-main-title {
+        font-size: 2rem;
+    }
+    
+    .itds-services-main-description {
+        font-size: 1rem;
+    }
+    
+    .itds-service-carousel-card {
+        height: 280px;
+    }
+    
+    .itds-service-card-content {
+        padding: 1.5rem;
+    }
+    
+    .itds-service-card-title {
+        font-size: 1.25rem;
+    }
+    
+    .itds-service-card-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .itds-services-intro-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .itds-services-horizontal-container {
+        gap: 1rem;
+    }
+    
+    .itds-services-main-title {
+        font-size: 1.75rem;
+    }
+    
+    .itds-service-carousel-card {
+        height: 260px;
+    }
+    
+    .itds-service-card-content {
+        padding: 1.5rem;
+    }
+    
+    .itds-service-card-icon {
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .itds-service-card-icon .itds-service-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .itds-service-card-title {
+        font-size: 1.1rem;
+    }
+    
+    .itds-service-card-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* Portfolio Section - Fixed title overflow and improved styling */
 .itds-portfolio-section {
     padding: 6rem 2rem;
     background-color: #f0f7ff;
 }
 
+/* Portfolio & Features subtitle styling (consistent with other subtitles) */
+.itds-portfolio-subtitle, .itds-features-subtitle {
+    font-size: 1.1rem;
+    color: #475569;
+    max-width: 720px;
+    margin: 0.0 auto 2rem;
+    text-align: center;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+/* Section Title */
+.itds-portfolio-title, .itds-features-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    text-align: center;
+}
+
+/* Portfolio grid layout - Fixed for mobile */
 .itds-portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.itds-portfolio-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.itds-portfolio-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.itds-portfolio-card:hover .itds-portfolio-image {
-    transform: scale(1.1);
-}
-
-.itds-portfolio-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    padding: 2rem;
-    color: white;
-    transform: translateY(100%);
-    transition: transform 0.4s ease;
-}
-
-.itds-portfolio-card:hover .itds-portfolio-overlay {
-    transform: translateY(0);
-}
-
-.itds-portfolio-item-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-/* Features Section */
-.itds-features-section {
-    padding: 6rem 2rem;
-}
-
-.itds-features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.itds-feature-card {
-    text-align: center;
-}
-
-.itds-feature-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #dbeafe;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto 1.5rem;
-}
-
-.itds-feature-icon {
-    color: #2563eb;
-    width: 28px;
-    height: 28px;
-}
-
-.itds-feature-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #1e3a8a;
-}
-
-.itds-feature-description {
-    color: #475569;
-    line-height: 1.6;
-}
-
-/* CTA Section */
-.itds-cta-section {
-    background-color: #1e3a8a;
-    color: white;
-    padding: 6rem 2rem;
-    text-align: center;
-}
-
-.itds-cta-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.itds-cta-title {
-    color: white;
-}
-
-.itds-cta-description {
-    color: #dbeafe;
-}
-
-.itds-cta-btn {
-    background: white;
-    color: #1e3a8a;
-    padding: 1rem 2.5rem;
-    border: none;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
-}
-
-.itds-cta-btn:hover {
-    background-color: #f0f7ff;
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
-}
-
-.itds-arrow-icon {
-    transition: transform 0.3s ease;
-}
-
-.itds-hero-cta:hover .itds-arrow-icon,
-.itds-cta-btn:hover .itds-arrow-icon {
-    transform: translateX(4px);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .itds-hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .itds-hero-image-container {
-        order: -1;
-        margin-bottom: 3rem;
-    }
-
-    .itds-hero-title {
-        font-size: 3rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .itds-hero-title, .itds-services-title, .itds-portfolio-title, .itds-features-title, .itds-cta-title {
-        font-size: 2.2rem;
-    }
-
-    .itds-services-grid, .itds-portfolio-grid, .itds-features-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .itds-hero, .itds-services-section, .itds-portfolio-section, .itds-features-section, .itds-cta-section {
-        padding: 4rem 1.5rem;
-    }
-}
-/* Simplified Portfolio Section - Add these styles to your existing ITDigitalServicesPage.css */
-
-/* Portfolio grid layout */
-.itds-portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
     gap: 3rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -375,11 +495,14 @@
     padding: 2rem;
 }
 
-.itds-portfolio-title {
-    font-size: 2.5rem;
+.itds-portfolio-item-title {
+    font-size: 1.5rem;
     font-weight: 700;
     color: #1e3a8a;
     margin-bottom: 0.5rem;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .itds-portfolio-category {
@@ -432,35 +555,231 @@
     transform: translateY(-2px);
 }
 
-/* Responsive adjustments */
+/* Features Section - Properly styled "Why Choose Us" */
+.itds-features-section {
+    padding: 6rem 2rem;
+    background-color: #ffffff;
+}
+
+.itds-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.itds-feature-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.itds-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    border-color: #e2e8f0;
+}
+
+.itds-feature-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.itds-feature-card:hover .itds-feature-icon-wrapper {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    transform: scale(1.1);
+}
+
+.itds-feature-icon {
+    color: #2563eb;
+    width: 32px;
+    height: 32px;
+    transition: all 0.3s ease;
+}
+
+.itds-feature-card:hover .itds-feature-icon {
+    color: white;
+}
+
+.itds-feature-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1e3a8a;
+}
+
+.itds-feature-description {
+    color: #475569;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* CTA Section */
+.itds-cta-section {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.itds-cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.itds-cta-title {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.itds-cta-description {
+    color: #dbeafe;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.itds-cta-btn {
+    background: white;
+    color: #1e3a8a;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.itds-cta-btn:hover {
+    background-color: #f0f7ff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.itds-arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.itds-hero-cta:hover .itds-arrow-icon,
+.itds-cta-btn:hover .itds-arrow-icon {
+    transform: translateX(4px);
+}
+
+/* Responsive Design */
 @media (max-width: 1024px) {
+    .itds-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .itds-hero-image-container {
+        order: -1;
+        margin-bottom: 3rem;
+    }
+
+    .itds-hero-title {
+        font-size: 3rem;
+    }
+
+    /* Portfolio responsive fixes */
     .itds-portfolio-grid {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 2rem;
     }
 }
 
 @media (max-width: 768px) {
-    .itds-portfolio-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+    .itds-hero-title, .itds-portfolio-title, .itds-features-title, .itds-cta-title {
+        font-size: 2.2rem;
     }
-    
+
+    .itds-portfolio-grid, .itds-features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .itds-hero, .itds-portfolio-section, .itds-features-section, .itds-cta-section {
+        padding: 4rem 1.5rem;
+    }
+
+    /* Portfolio mobile fixes - prevent title cutoff */
+    .itds-portfolio-item-title {
+        font-size: 1.3rem;
+        line-height: 1.4;
+    }
+
     .itds-portfolio-content {
         padding: 1.5rem;
     }
-    
-    .itds-portfolio-tech-tags {
-        justify-content: center;
+
+    .itds-portfolio-image-container {
+        height: 200px;
+    }
+
+    /* Features section mobile improvements */
+    .itds-features-grid {
+        gap: 2rem;
+    }
+
+    .itds-feature-card {
+        padding: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
-    .itds-portfolio-image-container {
-        height: 200px;
+    /* Portfolio ultra-mobile fixes */
+    .itds-portfolio-item-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
     }
-    
+
     .itds-portfolio-content {
-        padding: 1rem;
+        padding: 1.2rem;
+    }
+
+    .itds-portfolio-description {
+        font-size: 0.9rem;
+    }
+
+    .itds-portfolio-tech-tags {
+        justify-content: center;
+    }
+
+    /* Features section ultra-mobile */
+    .itds-feature-icon-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .itds-feature-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .itds-feature-title {
+        font-size: 1.1rem;
+    }
+
+    .itds-feature-description {
+        font-size: 0.9rem;
     }
 }

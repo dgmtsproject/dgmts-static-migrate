@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Code,
   Smartphone,
@@ -21,36 +21,106 @@ import {
 import './ITDigitalServicesPage.css';
 
 const ITDigitalServicesPage = () => {
+  const carouselRef = useRef(null);
+  const cardsRef = useRef(null);
+
+  // Add horizontal scrolling with mouse wheel and drag functionality
+  useEffect(() => {
+    // choose target: on small screens, attach to cards track; otherwise attach to whole horizontal container
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
+    const target = isMobile ? cardsRef.current : carouselRef.current;
+    if (!target) return;
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // Mouse wheel horizontal scrolling
+    const handleWheel = (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        target.scrollLeft += e.deltaY;
+      }
+    };
+
+    // Drag to scroll functionality
+    const handleMouseDown = (e) => {
+      isDown = true;
+      target.style.cursor = 'grabbing';
+      startX = e.pageX - target.offsetLeft;
+      scrollLeft = target.scrollLeft;
+    };
+
+    const handleMouseLeave = () => {
+      isDown = false;
+      if (target) target.style.cursor = 'grab';
+    };
+
+    const handleMouseUp = () => {
+      isDown = false;
+      if (target) target.style.cursor = 'grab';
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - target.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed multiplier
+      target.scrollLeft = scrollLeft - walk;
+    };
+
+    // Add event listeners
+    target.addEventListener('wheel', handleWheel, { passive: false });
+    target.addEventListener('mousedown', handleMouseDown);
+    target.addEventListener('mouseleave', handleMouseLeave);
+    target.addEventListener('mouseup', handleMouseUp);
+    target.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      target.removeEventListener('wheel', handleWheel);
+      target.removeEventListener('mousedown', handleMouseDown);
+      target.removeEventListener('mouseleave', handleMouseLeave);
+      target.removeEventListener('mouseup', handleMouseUp);
+      target.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+  
   const services = [
     {
       icon: <Code className="itds-service-icon" />,
-      title: "Web & Mobile App Development",
-      description: "Custom web and mobile applications tailored to your business needs."
+      title: "Web & Mobile Development",
+      description: "Custom web and mobile applications tailored to your business needs with modern frameworks and cutting-edge technology.",
+      backgroundImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&h=400&fit=crop&crop=center"
     },
     {
       icon: <TrendingUp className="itds-service-icon" />,
       title: "Digital Marketing & SEO",
-      description: "Strategies to boost your online presence and search engine ranking."
+      description: "Comprehensive digital marketing strategies to boost your online presence and drive meaningful engagement.",
+      backgroundImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&crop=center"
     },
     {
       icon: <Shield className="itds-service-icon" />,
-      title: "Secure Client Portal Access",
-      description: "Secure portals for clients to access their data and services."
+      title: "Cybersecurity Solutions",
+      description: "Advanced security measures to protect your digital assets and ensure compliance with industry standards.",
+      backgroundImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&crop=center"
     },
     {
       icon: <BarChart3 className="itds-service-icon" />,
-      title: "Centralized Dashboards",
-      description: "Unified dashboards for a complete overview of your business."
+      title: "Business Intelligence",
+      description: "Transform your data into actionable insights with powerful analytics and visualization tools.",
+      backgroundImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&crop=center"
     },
     {
-      icon: <Smartphone className="itds-service-icon" />,
-      title: "Real-time Instrument Monitoring",
-      description: "Live monitoring of your instruments and devices."
+      icon: <Cloud className="itds-service-icon" />,
+      title: "Cloud Infrastructure",
+      description: "Scalable cloud solutions that grow with your business and ensure high availability and performance.",
+      backgroundImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&h=400&fit=crop&crop=center"
     },
     {
       icon: <Database className="itds-service-icon" />,
-      title: "Data Visualization & Analytics",
-      description: "In-depth data analysis and visualization for informed decisions."
+      title: "Data Management",
+      description: "Comprehensive data solutions including migration, integration, and real-time processing systems.",
+      backgroundImage: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=600&h=400&fit=crop&crop=center"
     },
     {
       icon: <Briefcase className="itds-service-icon" />,
@@ -58,9 +128,9 @@ const ITDigitalServicesPage = () => {
       description: "Bespoke software and ERP solutions for your specific requirements."
     },
     {
-      icon: <Cloud className="itds-service-icon" />,
-      title: "Cloud & IT Consulting",
-      description: "Expert advice on cloud adoption and IT infrastructure."
+      icon: <Smartphone className="itds-service-icon" />,
+      title: "Real-time Instrument Monitoring",
+      description: "Live monitoring of your instruments and devices."
     },
     {
       icon: <Palette className="itds-service-icon" />,
@@ -143,23 +213,39 @@ const ITDigitalServicesPage = () => {
         </div>
       </section>
 
-      {/* Services Grid Section */}
+      {/* Services Carousel Section */}
       <section className="itds-services-section">
         <div className="itds-services-content">
-          <div className="itds-services-header">
-            <h2 className="itds-services-title">Our Full Range of Services</h2>
-            <p className="itds-services-subtitle">
-              A comprehensive suite of services to meet all your IT and digital needs.
-            </p>
-          </div>
-          <div className="itds-services-grid">
-            {services.map((service, index) => (
-              <div key={index} className="itds-service-card">
-                <div className="itds-service-icon-wrapper">
-                  {service.icon}
+          <div className="itds-services-horizontal-container" ref={carouselRef}>
+            <div className="itds-services-intro-card">
+              <div className="itds-services-intro-content">
+                <h2 className="itds-services-main-title">
+                  Our Full Range of Services
+                </h2>
+                <p className="itds-services-main-description">
+                  We offer cutting-edge technology solutions, streamline business processes, 
+                  and enhance digital experiences to drive your company forward.
+                </p>
+              </div>
+            </div>
+            
+            {services.slice(0, 6).map((service, index) => (
+              <div key={index} className="itds-service-carousel-card">
+                <div className="itds-service-card-content">
+                  <img 
+                    src={service.backgroundImage} 
+                    alt={service.title}
+                    className="itds-service-card-bg-image"
+                  />
+                  <div className="itds-service-card-overlay"></div>
+                  <div className="itds-service-card-icon">
+                    {service.icon}
+                  </div>
+                  <div className="itds-service-card-text">
+                    <h3 className="itds-service-card-title">{service.title}</h3>
+                    <p className="itds-service-card-description">{service.description}</p>
+                  </div>
                 </div>
-                <h3 className="itds-service-title">{service.title}</h3>
-                <p className="itds-service-description">{service.description}</p>
               </div>
             ))}
           </div>
@@ -182,7 +268,7 @@ const ITDigitalServicesPage = () => {
                             <img src={item.image} alt={item.title} className="itds-portfolio-image" />
                         </div>
                         <div className="itds-portfolio-content">
-                            <h3 className="itds-portfolio-title">{item.title}</h3>
+                            <h3 className="itds-portfolio-item-title">{item.title}</h3>
                             <p className="itds-portfolio-category">{item.category}</p>
                             <p className="itds-portfolio-description">{item.description}</p>
                             
@@ -227,7 +313,7 @@ const ITDigitalServicesPage = () => {
         <div className="itds-cta-content">
           <h2 className="itds-cta-title">Ready to Start Your Project?</h2>
           <p className="itds-cta-description">
-            Let's connect and discuss how we can bring your vision to life.
+            Let&apos;s connect and discuss how we can bring your vision to life.
           </p>
           <button className="itds-cta-btn">
             Contact Us <ArrowRight className="itds-arrow-icon" />
