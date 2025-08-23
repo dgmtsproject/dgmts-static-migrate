@@ -191,6 +191,9 @@ li {
   gap: var(--spacing-md);
 }
 
+.contact-item p{
+  color:white;
+}
 .contact-icon {
   flex-shrink: 0;
   color: var(--primary-color);
