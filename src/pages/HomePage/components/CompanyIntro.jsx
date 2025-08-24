@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'; // React referenced for environments not using automatic runtime
 import PropTypes from 'prop-types';
 import './CompanyIntro.css';
-import { Users, Building, Construction, Map, Briefcase, Radar, Server, Laptop } from 'lucide-react';
+import { Users, Building, Construction, Map, Briefcase, Radar, Server, Laptop, Layers, Award, Trophy, Zap, Globe } from 'lucide-react';
 
 // Roles (chips) definitions
 const teamRoles = [
@@ -22,49 +22,43 @@ const pillars = [
   {
     title: 'Diverse Expertise',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4h16v4H4zM4 10h10v4H4zM4 16h6v4H4z" fill="currentColor" /></svg>
+      <Layers aria-hidden="true" />
     ),
     text: 'A multidisciplinary team spanning engineering, geology, design, inspection and support functions.'
   },
-  {
-    title: '70+ Professionals',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="2"/><circle cx="16" cy="8" r="3" stroke="currentColor" strokeWidth="2"/><path d="M3 18c0-2.2 1.8-4 4-4h2c2.2 0 4 1.8 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M10 18c0-2.2 1.8-4 4-4h1c2.2 0 4 1.8 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-    ),
-    text: 'A robust bench ready for complex consulting and site services at scale.'
-  },
+  
   {
     title: 'Quality & Professionalism',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l3 6 6 .9-4.5 4.4 1.1 6.3L12 16.6 6.4 19.6l1.1-6.3L3 8.9 9 8z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" fill="none"/></svg>
+      <Award aria-hidden="true" />
     ),
     text: 'Professional standards guide every interaction, deliverable and onsite decision.'
   },
   {
     title: 'Sustained Excellence',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 0116 0v6H4z" stroke="currentColor" strokeWidth="2" fill="none"/><path d="M8 12v6M12 10v8M16 14v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+      <Trophy aria-hidden="true" />
     ),
     text: 'Continuous improvement ensures durable value across all operations.'
   },
   {
     title: 'Fast-Track Delivery',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M14 5l6 7-6 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      <Zap aria-hidden="true" />
     ),
     text: 'Proven track record completing fast‑track projects and meeting deadlines efficiently.'
   },
   {
     title: 'Regional Presence',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2"/><path d="M12 3v18M3 12h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+      <Globe aria-hidden="true" />
     ),
     text: 'Headquarters in Chantilly, VA with branch offices in Prince George\'s County (MD), Hampton and Washington DC.'
   },
   {
     title: 'Accredited Labs',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M8 7h8M8 11h8M8 15h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+      <Server aria-hidden="true" />
     ),
     text: 'Two accredited, well‑equipped full‑service laboratories in Chantilly and Hampton, Virginia.'
   }

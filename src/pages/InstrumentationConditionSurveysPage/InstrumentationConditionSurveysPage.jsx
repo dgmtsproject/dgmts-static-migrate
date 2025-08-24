@@ -49,7 +49,7 @@ const InstrumentationConditionSurveysPage = () => {
             </button>
           </div>
           <div className="inst-hero-image-container">
-            <img src="https://goaudits.com/wp-content/uploads/2019/04/engineersS.jpg" alt="Instrumentation and Condition Surveys" className="inst-hero-image" />
+            <img src="/assets/photo-54-C2ZQWtDJ.jpg" alt="Instrumentation and Condition Surveys" className="inst-hero-image" />
           </div>
         </div>
       </section>

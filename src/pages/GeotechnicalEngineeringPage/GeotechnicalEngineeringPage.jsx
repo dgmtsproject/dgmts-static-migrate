@@ -4,13 +4,10 @@ import {
   Users, 
   Target, 
   Award, 
-  CheckCircle, 
   Layers,
   Settings,
   TrendingUp,
-  MapPin,
   ArrowRight,
-  Star
 } from 'lucide-react';
 import './GeotechnicalEngineeringPage.css';
 
@@ -66,7 +63,7 @@ const GeotechnicalEngineeringPage = () => {
             </button>
           </div>
           <div className="geotech-hero-image-container">
-            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop&crop=center" alt="Geotechnical Engineering" className="geotech-hero-image" />
+            <img src="/assets/photo-44-tVa5E9qI.jpg" alt="Geotechnical Engineering" className="geotech-hero-image" />
           </div>
         </div>
       </section>
@@ -142,7 +139,7 @@ const GeotechnicalEngineeringPage = () => {
             
             <div className="geotech-image-card">
               <img 
-                src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=800&fit=crop&crop=center" 
+                src="/assets/photo-87-D1Bcv6Rk.jpg" 
                 alt="Engineering team"
               />
               <div className="geotech-badge">

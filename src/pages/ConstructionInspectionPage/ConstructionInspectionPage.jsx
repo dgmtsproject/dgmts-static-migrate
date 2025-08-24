@@ -1,16 +1,8 @@
 import React from 'react';
 import { 
   Shield, 
-  Users, 
-  Target, 
-  Award, 
   CheckCircle, 
-  Layers,
-  Settings,
-  TrendingUp,
-  MapPin,
   ArrowRight,
-  Star,
   HardHat,
   ClipboardList,
   Building,
@@ -59,7 +51,7 @@ const ConstructionInspectionPage = () => {
             </button>
           </div>
           <div className="construction-hero-image-container">
-            <img src="https://www.letsbuild.com/wp-content/uploads/2023/07/shutterstock_1247187910.png" alt="Construction Inspection" className="construction-hero-image" />
+            <img src="/assets/photo-38-BKtxCF64.jpg" alt="Construction Inspection" className="construction-hero-image" />
           </div>
         </div>
       </section>
@@ -94,8 +86,7 @@ const ConstructionInspectionPage = () => {
           <div className="construction-two-col">
             <div className="construction-image-card">
               <img 
-                src="https://planradar-website.s3.amazonaws.com/production/uploads/2023/03/inspection-site-management-tablet-iStock-1405772906.jpg" 
-                alt="Inspection"
+                src="/assets/photo-103-C2RE4sPf.jpg"
               />
             </div>
             <div>

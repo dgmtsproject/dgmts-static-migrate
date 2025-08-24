@@ -51,7 +51,7 @@ const DrillingInSituTestingPage = () => {
             </button>
           </div>
           <div className="drilling-hero-image-container">
-            <img src="https://sitegeo.com.au/wp-content/uploads/2022/05/mid-rig-2.png" alt="Drilling and In-Situ Testing" 
+            <img src="/assets/photo-49-75pJ_R5R.jpg" alt="Drilling and In-Situ Testing" 
             className="drilling-hero-image" />
           </div>
         </div>
@@ -87,7 +87,7 @@ const DrillingInSituTestingPage = () => {
           <div className="drilling-two-col">
             <div className="drilling-image-card">
               <img 
-                src="https://marvel-b1-cdn.bc0a.com/f00000000216661/geoprobe.com/sites/default/files/slider-images/2022-02-14_3100GT-Field-0726.jpg" 
+                src="/assets/photo-84-DjvvmQdE.jpg" 
                 alt="Drilling Equipment"
               />
             </div>

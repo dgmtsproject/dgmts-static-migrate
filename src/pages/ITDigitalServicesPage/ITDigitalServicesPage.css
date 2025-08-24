@@ -634,6 +634,87 @@
     text-align: center;
 }
 
+/* CTA Section Styles */
+.itds-cta-section {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    margin:20px;
+    margin-top: 40px;
+    padding: 4rem 2rem;
+    background: linear-gradient(90deg, #4f46e5 0%, #3b82f6 100%); /* indigo to blue */
+    color: #fff;
+    border-radius: 12px;
+}
+.itds-cta-section .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.itds-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.itds-cta-left {
+    flex: 1 1 60%;
+}
+.itds-cta-right {
+    flex: 0 0 40%;
+    display: flex;
+    justify-content: flex-end;
+}
+.itds-cta-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    line-height: 1.05;
+    font-weight: 700;
+    color: #fff;
+}
+.itds-cta-description {
+    margin: 0;
+    color: rgba(255,255,255,0.95);
+    font-size: 1rem;
+    opacity: 0.95;
+}
+.itds-cta-action {
+    text-align: right;
+}
+.itds-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #fff;
+    color: #1f2937;
+    padding: 0.9rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(59,130,246,0.12);
+    transition: transform 160ms ease, box-shadow 160ms ease, opacity 140ms ease;
+}
+.itds-cta-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+.itds-arrow-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Decorative SVG spans */
+.itds-cta-deco { position: absolute; right: 0; top: 0; z-index: -10; }
+.itds-cta-deco-1 { right: -40px; top: -20px; }
+.itds-cta-deco-2 { right: -10px; top: -10px; }
+.itds-cta-deco-3 { left: -1100px; top: 16px; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .itds-cta-inner { flex-direction: column; align-items: stretch; }
+    .itds-cta-right { justify-content: center; margin-top: 1rem; }
+    .itds-cta-title { font-size: 1.5rem; }
+}
+
 .itds-cta-content {
     max-width: 600px;
     margin: 0 auto;
@@ -644,10 +725,13 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    text-align: left;
 }
 
 .itds-cta-description {
-    color: #dbeafe;
+    text-align: left;
+    color: whitesmoke;
+    font-weight: 600;
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 2rem;

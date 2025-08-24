@@ -25,10 +25,10 @@ const HomePage = () => {
         <div className="home-container">
           <div className="new-two-column-content">
             <div className="image-gallery">
-              <img src="https://tunnelingonline.com/wp-content/uploads/2025/04/Picture1.jpg" alt="Placeholder Image 1" className="gallery-image" />
-              <img src="https://static.iheartsitebuilder.com/a7c34ca42e7841bd9fd59b90f5e378ce/i/a734a5555c5449759afd22a9acd93734/1/4SoifmQpDrHbZJ6Vyc2hJ/ameritech-slope-constructors-home-gallery-16-1280w.jpg" alt="Placeholder Image 2" className="gallery-image" />
-              <img src="https://static.iheartsitebuilder.com/a7c34ca42e7841bd9fd59b90f5e378ce/i/a6ba0161925c4ca7ac756eef83a1db33/1/4SoifmQpDrHbZJ6Vyc2hJ/ameritech-slope-constructors-home-gallery-09-1280w.jpg" alt="Placeholder Image 3" className="gallery-image" />
-              <img src="https://static.iheartsitebuilder.com/a7c34ca42e7841bd9fd59b90f5e378ce/i/b2b9ce490a5243e397eb7be257d1f51b/1/4SoifmQpDrHbZJ6Vyc2hJ/ameritech-slope-constructors-home-gallery-10-1280w.jpg" alt="Placeholder Image 4" className="gallery-image" />
+              <img src="/assets/photo-48-DfeLIH3g.jpg" alt="Image 1" className="gallery-image" />
+              <img src="/assets/photo-105-lJm6m7KD.jpg" alt="Image 2" className="gallery-image" />
+              <img src="/assets/photo-37-BKSaYX2-.jpg" alt="Image 3" className="gallery-image" />
+              <img src="/assets/photo-74-CU6DhkAH.jpg" alt="Image 4" className="gallery-image" />
             </div>
             <div className="text-content">
               <h2 className="section-title">Our Commitment to Excellence</h2>

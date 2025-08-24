@@ -49,7 +49,7 @@ const LaboratoryTestingPage = () => {
             </button>
           </div>
           <div className="lab-hero-image-container">
-            <img src="https://sunlabtech.com/wp-content/uploads/2018/08/Triaxial-Test-Apparatus.jpg" alt="Laboratory Testing" className="lab-hero-image" />
+            <img src="/assets/photo-77-DXi5GhsD.jpg" alt="Laboratory Testing" className="lab-hero-image" />
           </div>
         </div>
       </section>

@@ -5,33 +5,39 @@ const ServicesSection = () => {
   const services = [
     {
       name: 'Geotechnical Engineering',
-      shortDescription: 'Comprehensive geotechnical analysis, foundation design, and soil investigation services for construction projects.',
-      image: 'https://images.pexels.com/photos/1117452/pexels-photo-1117452.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
+      shortDescription: 'DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation.',
+      image: '/assets/photo-44-tVa5E9qI.jpg',
+      url: '/services/geotechnical'
     },
     {
-      name: 'Materials Testing',
-      shortDescription: 'Quality control testing of construction materials including concrete, steel, asphalt, and aggregates.',
-      image: 'https://images.pexels.com/photos/3862379/pexels-photo-3862379.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
-    },
-    {
-      name: 'Special Inspections',
-      shortDescription: 'Specialized inspection services for structural components, welds, and construction quality assurance.',
-      image: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
-    },
-    {
-      name: 'Environmental Services',
-      shortDescription: 'Environmental site assessments, contamination testing, and remediation consulting services.',
-      image: 'https://images.pexels.com/photos/3964736/pexels-photo-3964736.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
-    },
-    {
-      name: 'Drilling Services',
-      shortDescription: 'Professional drilling services for geotechnical investigation, sampling, and monitoring well installation.',
-      image: 'https://images.pexels.com/photos/162639/nuclear-power-plant-cooling-tower-nuclear-power-plant-sky-162639.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
+      name: 'Construction Inspection & Testing',
+      shortDescription: 'Quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in roads, airports, buildings, and other infrastructure.',
+      image: '/assets/photo-38-BKtxCF64.jpg',
+      url: '/services/construction-inspection-testing'
     },
     {
       name: 'Laboratory Testing',
-      shortDescription: 'Full-service laboratory testing with state-of-the-art equipment and certified technicians.',
-      image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=400&h=300'
+      shortDescription: 'DGMTS offers a wide range of laboratory testing services for concrete, soil, asphalt and water analysis.',
+      image: '/assets/photo-77-DXi5GhsD.jpg',
+      url: '/services/laboratory-testing'
+    },
+    {
+      name: 'Drilling & In-Situ Testing',
+      shortDescription: 'Supervision of drilling, logger services, drilling for soil investigation, water well drilling and in-site rock and asphalt coring.',
+      image: '/assets/photo-49-75pJ_R5R.jpg',
+      url: '/services/drilling-in-situ-testing'
+    },
+    {
+      name: 'Instrumentation & Condition Surveys',
+      shortDescription: 'Automated monitoring systems for safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges.',
+      image: '/assets/photo-54-C2ZQWtDJ.jpg',
+      url: '/services/instrumentation-condition-surveys'
+    },
+    {
+      name: 'Materials Testing',
+      shortDescription: 'Comprehensive testing of concrete, soil, aggregate, and asphalt to ensure compliance and quality.',
+      image: '/assets/photo-77-DXi5GhsD.jpg',
+      url: '/services/laboratory-testing'
     }
   ];
 
@@ -54,7 +60,7 @@ const ServicesSection = () => {
               </div>
               <div className="service-content">
                 <h3 className="service-title">
-                  <a href={`/services/${service.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                  <a href={service.url ? service.url : `/services/${service.name.toLowerCase().replace(/\s+/g, '-')}`}>
                     {service.name}
                   </a>
                 </h3>
@@ -63,7 +69,7 @@ const ServicesSection = () => {
                 </p>
                 <div className="service-footer">
                   <a 
-                    href={`/services/${service.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    href={service.url ? service.url : `/services/${service.name.toLowerCase().replace(/\s+/g, '-')}`}
                     className="service-link"
                   >
                     Learn More
