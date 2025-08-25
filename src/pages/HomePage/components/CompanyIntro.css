@@ -19,6 +19,9 @@
 .intro-content {
   position: relative;
   z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--spacing-2xl) var(--spacing-lg);
 }
 
 .intro-hero {
@@ -53,13 +56,11 @@
 .team-strength-card {
   --card-pad: var(--spacing-xl);
   background: var(--white);
-  /* border-radius: var(--radius-xl, 32px); */
   padding: var(--card-pad);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
-  /* box-shadow: var(--shadow-md); */
   margin: 0 auto var(--spacing-2xl);
   max-width: 520px;
   position: relative;
@@ -92,7 +93,7 @@
 .team-strength-label { font-size: .95rem; text-transform: uppercase; letter-spacing: 2px; color: var(--grey-600); font-weight: var(--font-weight-semibold); }
 
 /* Role chips */
-.role-chips-wrapper { max-width: 1000px; margin: 0 auto var(--spacing-2xl); }
+.role-chips-wrapper { max-width: 1000px; margin: 0 auto; }
 
 .role-chips-heading { font-size: 1rem; font-weight: var(--font-weight-semibold); letter-spacing: .5px; color: var(--grey-600); margin: 0 0 var(--spacing-md); text-align: center; }
 
@@ -110,7 +111,7 @@
   gap: .5em;
   background: var(--chip-bg);
   border: none;
-  padding: .4em .9em .4em .4em;
+  padding: .65em 1.05em .65em .55em;
   border-radius: 12px;
   font-size: .9rem;
   font-weight: 600;
@@ -135,64 +136,13 @@
   background: linear-gradient(180deg, #fff, #fbfcff);
 }
 
-/* Increase chip padding for better touch targets */
-.role-chip { padding: .65em 1.05em .65em .55em; }
-
-/* Pillars / values */
-.pillars-grid {
-  display: grid;
-  gap: var(--spacing-xl);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  margin: 0 auto;
-  max-width: 1000px;
-}
-
-.pillar {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-lg) var(--spacing-lg) calc(var(--spacing-lg) + 4px);
-  position: relative;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--grey-200);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
-}
-
-.pillar::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-}
-
-.pillar:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
-
-.pillar-icon {
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: var(--white);
-  border-radius: 12px;
-  margin-bottom: var(--spacing-md);
-}
-
-.pillar h3 { margin: 0 0 var(--spacing-sm); font-size: 1.05rem; font-weight: var(--font-weight-semibold); color: var(--grey-900); }
-.pillar p { margin: 0; font-size: .95rem; line-height: 1.55; color: var(--grey-700); }
-
 /* Subtle entrance animation */
 @media (prefers-reduced-motion: no-preference) {
-  .role-chip, .pillar, .team-strength-card { animation: fadeUp .6s ease both; }
+  .role-chip, .team-strength-card { animation: fadeUp .6s ease both; }
   .role-chip { animation-duration: .5s; }
-  .pillar:nth-child(2) { animation-delay: .08s; }
-  .pillar:nth-child(3) { animation-delay: .16s; }
-  .pillar:nth-child(4) { animation-delay: .24s; }
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-/* Keep the width constraint for readability */
-.intro-content { max-width: 1100px; margin: 0 auto; padding: var(--spacing-2xl) var(--spacing-lg); }
 
 /* Accessibility adjustments */
 .intro-hero p a { color: var(--primary-color); text-decoration: underline; }
@@ -200,6 +150,7 @@
 
 /* Responsive tweaks */
 @media (max-width: 900px) {
+  .intro-content { padding: var(--spacing-xl) var(--spacing-lg); }
   .team-strength-card { --card-pad: var(--spacing-lg); }
   .role-chip { font-size: .8rem; }
 }
@@ -209,9 +160,7 @@
   .intro-sub { font-size: 1rem; }
   .role-chips { gap: .55rem; }
   .role-chip { padding: .5em .75em .5em .55em; }
-  .pillars-grid { gap: var(--spacing-lg); }
-  .pillar { padding: var(--spacing-md) var(--spacing-md) calc(var(--spacing-md) + 4px); }
 }
+
 /* Visually hidden utility (if needed later) */
 .visually-hidden { position: absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); border:0; }
-/* Removed legacy grid/highlight styles */

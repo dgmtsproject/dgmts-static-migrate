@@ -1,8 +1,7 @@
-
 import React, { useEffect, useRef, useState } from 'react'; // React referenced for environments not using automatic runtime
 import PropTypes from 'prop-types';
 import './CompanyIntro.css';
-import { Users, Building, Construction, Map, Briefcase, Radar, Server, Laptop, Layers, Award, Trophy, Zap, Globe } from 'lucide-react';
+import { Users, Building, Construction, Map, Briefcase, Radar, Server, Laptop } from 'lucide-react';
 
 // Roles (chips) definitions
 const teamRoles = [
@@ -16,52 +15,6 @@ const teamRoles = [
   { label: 'Technicians', icon: Server, color: 'linear-gradient(135deg,#ffb3c6,#ff7fa1)' },
   { label: 'Designers', icon: Laptop, color: 'linear-gradient(135deg,#9be15d,#57a845)' },
   { label: 'Admin Support', icon: Users, color: 'linear-gradient(135deg,#c1c8e4,#9fb0ff)' },
-];
-
-const pillars = [
-  {
-    title: 'Diverse Expertise',
-    icon: (
-      <Layers aria-hidden="true" />
-    ),
-    text: 'A multidisciplinary team spanning engineering, geology, design, inspection and support functions.'
-  },
-  
-  {
-    title: 'Quality & Professionalism',
-    icon: (
-      <Award aria-hidden="true" />
-    ),
-    text: 'Professional standards guide every interaction, deliverable and onsite decision.'
-  },
-  {
-    title: 'Sustained Excellence',
-    icon: (
-      <Trophy aria-hidden="true" />
-    ),
-    text: 'Continuous improvement ensures durable value across all operations.'
-  },
-  {
-    title: 'Fast-Track Delivery',
-    icon: (
-      <Zap aria-hidden="true" />
-    ),
-    text: 'Proven track record completing fast‑track projects and meeting deadlines efficiently.'
-  },
-  {
-    title: 'Regional Presence',
-    icon: (
-      <Globe aria-hidden="true" />
-    ),
-    text: 'Headquarters in Chantilly, VA with branch offices in Prince George\'s County (MD), Hampton and Washington DC.'
-  },
-  {
-    title: 'Accredited Labs',
-    icon: (
-      <Server aria-hidden="true" />
-    ),
-    text: 'Two accredited, well‑equipped full‑service laboratories in Chantilly and Hampton, Virginia.'
-  }
 ];
 
 // Simple intersection observer hook for counter
@@ -145,16 +98,6 @@ const CompanyIntro = () => {
                 );
               })}
             </div>
-          </div>
-
-          <div className="pillars-grid" aria-label="Core values and differentiators">
-            {pillars.map(p => (
-              <div className="pillar" key={p.title}>
-                <div className="pillar-icon" aria-hidden="true">{p.icon}</div>
-                <h3>{p.title}</h3>
-                <p>{p.text}</p>
-              </div>
-            ))}
           </div>
         </div>
       </div>

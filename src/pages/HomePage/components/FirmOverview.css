@@ -1,12 +1,35 @@
+
 .firm-overview {
-    background: var(--white);
     position: relative;
+    overflow: hidden; /* Prevent overflow of the background image */
+    background: white;
+}
+
+.firm-overview::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 55%; /* Position it to the right side */
+    width: 800px; /* Fixed width for the icon */
+    height: 800px; /* Fixed height for the icon */
+    background-image: url('../../../assets/logos/overlay.svg'); /* Path to the icon */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain; /* Keep aspect ratio and fit within dimensions */
+    opacity:0.35; /* Much more subtle for better blending */
+    z-index: 0; /* Ensure it's behind the content */
+    transform: translateY(-50%); /* Center vertically */
+    pointer-events: none; /* Make sure it doesn't interfere with interactions */
+    filter: grayscale(1) brightness(0.9); /* Convert to grayscale and adjust brightness */
+    mix-blend-mode: multiply; /* Blend mode for better integration */
 }
 
 .firm-overview__inner {
     max-width: 1100px;
     margin: 0 auto;
     padding: var(--spacing-2xl) var(--spacing-lg);
+    position: relative; /* Ensure content is above the pseudo-element */
+    z-index: 1;
 }
 
 .firm-overview__heading {

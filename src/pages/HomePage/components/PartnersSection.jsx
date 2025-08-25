@@ -5,32 +5,32 @@ const PartnersSection = () => {
   const partners = [
     {
       name: 'Virginia Department of Transportation',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://www.virginiadot.org'
     },
     {
       name: 'Washington Metropolitan Area Transit Authority',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://www.wmata.com'
     },
     {
       name: 'Maryland Department of Transportation',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://www.mdot.maryland.gov'
     },
     {
       name: 'District Department of Transportation',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://ddot.dc.gov'
     },
     {
       name: 'Metropolitan Washington Airport Authority',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://www.mwaa.com'
     },
     {
       name: 'Geo5 Software',
-      logo: 'https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=200&h=100',
+      logo: 'https://www.websiteessentials.com.au/wp-content/uploads/2023/03/logoipsum-logo-6.png',
       url: 'https://www.finesoftware.eu'
     }
   ];
