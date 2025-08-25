@@ -7,7 +7,9 @@ import {
   ArrowRight
 } from 'lucide-react';
 import './LaboratoryTestingPage.css';
+import HeroSection from '../../components/HeroSection';
 import photo77 from '../../assets/gallery/photo-77.jpg';
+import photo86 from '../../assets/gallery/photo-86.jpg';
 
 const LaboratoryTestingPage = () => {
   const services = [
@@ -36,24 +38,15 @@ const LaboratoryTestingPage = () => {
   return (
     <div className="lab-page">
       {/* Hero Section */}
-      <section className="lab-hero">
-        <div className="lab-hero-content">
-          <div className="lab-hero-text">
-            <h1 className="lab-hero-title">
-              Laboratory Testing
-            </h1>
-            <p className="lab-hero-subtitle">
-              Dulles Geotechnical and Material Testing Services (DGMTS) offers a wide range of laboratory testing services for concrete, soil, asphalt and water analysis.
-            </p>
-            <button className="lab-hero-cta">
-              Our Services <ArrowRight className="lab-arrow-icon" />
-            </button>
-          </div>
-          <div className="lab-hero-image-container">
-            <img src={photo77} alt="Laboratory Testing" className="lab-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Professional Laboratory Services"
+        title="Laboratory Testing"
+        subtitle="Dulles Geotechnical and Material Testing Services (DGMTS) offers a wide range of laboratory testing services for concrete, soil, asphalt and water analysis."
+        primaryButtonText="Our Services"
+        image1={photo77}
+        image2={photo86}
+        imageAlt="Laboratory Testing"
+      />
 
       {/* Services Grid */}
       <section className="lab-section">

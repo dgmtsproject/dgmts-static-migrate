@@ -7,7 +7,9 @@ import {
   ArrowRight
 } from 'lucide-react';
 import './InstrumentationConditionSurveysPage.css';
+import HeroSection from '../../components/HeroSection';
 import photo54 from '../../assets/gallery/photo-54.jpg';
+import photo52 from '../../assets/gallery/photo-52.jpg';
 
 const InstrumentationConditionSurveysPage = () => {
   const services = [
@@ -36,24 +38,15 @@ const InstrumentationConditionSurveysPage = () => {
   return (
     <div className="inst-page">
       {/* Hero Section */}
-      <section className="inst-hero">
-        <div className="inst-hero-content">
-          <div className="inst-hero-text">
-            <h1 className="inst-hero-title">
-              Instrumentation & Condition Surveys
-            </h1>
-            <p className="inst-hero-subtitle">
-              DGMTS provides automated systems for monitoring the safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges.
-            </p>
-            <button className="inst-hero-cta">
-              Learn More <ArrowRight className="inst-arrow-icon" />
-            </button>
-          </div>
-          <div className="inst-hero-image-container">
-            <img src={photo54} alt="Instrumentation and Condition Surveys" className="inst-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Advanced Monitoring Solutions"
+        title="Instrumentation & Condition Surveys"
+        subtitle="DGMTS provides automated systems for monitoring the safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges."
+        primaryButtonText="Learn More"
+        image1={photo54}
+        image2={photo52}
+        imageAlt="Instrumentation and Condition Surveys"
+      />
 
       {/* Services Grid */}
       <section className="inst-section">

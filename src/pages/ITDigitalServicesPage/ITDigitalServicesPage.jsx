@@ -19,6 +19,7 @@ import {
   Megaphone
 } from 'lucide-react';
 import './ITDigitalServicesPage.css';
+import HeroSection from '../../components/HeroSection';
 
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
@@ -196,22 +197,15 @@ const ITDigitalServicesPage = () => {
   return (
     <div className="itds-container">
       {/* Hero Section */}
-      <section className="itds-hero">
-        <div className="itds-hero-content">
-          <div className="itds-hero-text">
-            <h1 className="itds-hero-title">Transforming Businesses with Technology</h1>
-            <p className="itds-hero-subtitle">
-              We deliver innovative IT and digital solutions that empower your business to thrive in the digital age.
-            </p>
-            <button className="itds-hero-cta">
-              Discover Our Solutions <ArrowRight className="itds-arrow-icon" />
-            </button>
-          </div>
-          <div className="itds-hero-image-container">
-            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&crop=center" alt="Modern UI" className="itds-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Digital Innovation Solutions"
+        title="Transforming Businesses with Technology"
+        subtitle="We deliver innovative IT and digital solutions that empower your business to thrive in the digital age."
+        primaryButtonText="Discover Our Solutions"
+        image1="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&crop=center"
+        image2="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?cs=srgb&dl=pexels-luis-gomes-166706-546819.jpg&fm=jpg"
+        imageAlt="Modern UI"
+      />
 
       {/* Services Carousel Section */}
       <section className="itds-services-section">

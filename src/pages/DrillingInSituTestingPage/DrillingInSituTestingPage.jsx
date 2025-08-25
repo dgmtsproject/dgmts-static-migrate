@@ -9,6 +9,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import './DrillingInSituTestingPage.css';
+import HeroSection from '../../components/HeroSection';
 import photo84 from '../../assets/gallery/photo-84.jpg';
 import photo49 from '../../assets/gallery/photo-49.jpg';
 
@@ -39,24 +40,15 @@ const DrillingInSituTestingPage = () => {
   return (
     <div className="drilling-page">
       {/* Hero Section */}
-      <section className="drilling-hero">
-        <div className="drilling-hero-content">
-          <div className="drilling-hero-text">
-            <h1 className="drilling-hero-title">
-              Drilling & In-Situ Testing
-            </h1>
-            <p className="drilling-hero-subtitle">
-              DGMTS provides services of supervision of drilling, Logger services, drilling for soil investigation, water well drilling and in-site rock and asphalt coring.
-            </p>
-            <button className="drilling-hero-cta">
-              Learn More <ArrowRight className="drilling-arrow-icon" />
-            </button>
-          </div>
-          <div className="drilling-hero-image-container">
-            <img src={photo49} alt="Drilling and In-Situ Testing" className="drilling-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Professional Drilling Services"
+        title="Drilling & In-Situ Testing"
+        subtitle="DGMTS provides services of supervision of drilling, Logger services, drilling for soil investigation, water well drilling and in-site rock and asphalt coring."
+        primaryButtonText="Learn More"
+        image1={photo84}
+        image2={photo49}
+        imageAlt="Drilling and In-Situ Testing"
+      />
 
       {/* Services Grid */}
       <section className="drilling-section">

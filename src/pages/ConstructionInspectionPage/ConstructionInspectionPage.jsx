@@ -9,6 +9,7 @@ import {
   Wrench
 } from 'lucide-react';
 import './ConstructionInspectionPage.css';
+import HeroSection from '../../components/HeroSection';
 import photo103 from '../../assets/gallery/photo-103.jpg';
 import photo38 from '../../assets/gallery/photo-38.jpg';
 
@@ -39,24 +40,15 @@ const ConstructionInspectionPage = () => {
   return (
     <div className="construction-page">
       {/* Hero Section */}
-      <section className="construction-hero">
-        <div className="construction-hero-content">
-          <div className="construction-hero-text">
-            <h1 className="construction-hero-title">
-              Construction Inspection & Testing
-            </h1>
-            <p className="construction-hero-subtitle">
-              DGMTS provides quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in the construction of roads, airports, buildings, and other civil infrastructure.
-            </p>
-            <button className="construction-hero-cta">
-              Our Services <ArrowRight className="construction-arrow-icon" />
-            </button>
-          </div>
-          <div className="construction-hero-image-container">
-            <img src={photo38} alt="Construction Inspection" className="construction-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="DGMTS Quality Assurance"
+        title="Construction Inspection & Testing"
+        subtitle="DGMTS provides quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in the construction of roads, airports, buildings, and other civil infrastructure."
+        primaryButtonText="Our Services"
+        image1={photo38}
+        image2={photo103}
+        imageAlt="Construction Inspection"
+      />
 
       {/* Services Grid */}
       <section className="construction-section">

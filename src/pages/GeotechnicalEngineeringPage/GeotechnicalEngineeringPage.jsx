@@ -10,6 +10,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import './GeotechnicalEngineeringPage.css';
+import HeroSection from '../../components/HeroSection';
 import photo44 from '../../assets/gallery/photo-44.jpg';
 import photo87 from '../../assets/gallery/photo-87.jpg';
 
@@ -49,26 +50,15 @@ const GeotechnicalEngineeringPage = () => {
   return (
     <div className="geotech-page">
       {/* Hero Section */}
-      <section className="geotech-hero">
-        <div className="geotech-hero-content">
-          <div className="geotech-hero-text">
-            <h1 className="geotech-hero-title">
-              Geotechnical Engineering <span className="geotech-highlight">Excellence</span>
-            </h1>
-            <p className="geotech-hero-subtitle">
-              DGMTS delivers comprehensive geotechnical engineering services with precision, 
-              safety, and innovation. From site investigation to foundation design, we ensure 
-              your projects stand on solid ground.
-            </p>
-            <button className="geotech-hero-cta">
-              Get Started <ArrowRight className="geotech-arrow-icon" />
-            </button>
-          </div>
-          <div className="geotech-hero-image-container">
-            <img src={photo44} alt="Geotechnical Engineering" className="geotech-hero-image" />
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Geotechnical Excellence"
+        title="Geotechnical Engineering Excellence"
+        subtitle="DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation. From site investigation to foundation design, we ensure your projects stand on solid ground."
+        primaryButtonText="Get Started"
+        image1={photo44}
+        image2={photo87}
+        imageAlt="Geotechnical Engineering"
+      />
 
       {/* Services Grid */}
       <section className="geotech-section">
