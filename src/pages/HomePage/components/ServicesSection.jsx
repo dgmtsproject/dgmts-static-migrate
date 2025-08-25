@@ -1,42 +1,48 @@
 import React from 'react';
 import './ServicesSection.css';
+import photo44 from '../../../assets/gallery/photo-44.jpg';
+import photo38 from '../../../assets/gallery/photo-38.jpg';
+import photo77 from '../../../assets/gallery/photo-77.jpg';
+import photo49 from '../../../assets/gallery/photo-49.jpg';
+import photo54 from '../../../assets/gallery/photo-54.jpg';
+import photo86 from '../../../assets/gallery/photo-86.jpg';
 
 const ServicesSection = () => {
   const services = [
     {
       name: 'Geotechnical Engineering',
       shortDescription: 'DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation.',
-      image: '/assets/photo-44-tVa5E9qI.jpg',
+      image: photo44,
       url: '/services/geotechnical'
     },
     {
       name: 'Construction Inspection & Testing',
       shortDescription: 'Quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in roads, airports, buildings, and other infrastructure.',
-      image: '/assets/photo-38-BKtxCF64.jpg',
+      image: photo38,
       url: '/services/construction-inspection-testing'
     },
     {
       name: 'Laboratory Testing',
       shortDescription: 'DGMTS offers a wide range of laboratory testing services for concrete, soil, asphalt and water analysis.',
-      image: '/assets/photo-77-DXi5GhsD.jpg',
+      image: photo77,
       url: '/services/laboratory-testing'
     },
     {
       name: 'Drilling & In-Situ Testing',
       shortDescription: 'Supervision of drilling, logger services, drilling for soil investigation, water well drilling and in-site rock and asphalt coring.',
-      image: '/assets/photo-49-75pJ_R5R.jpg',
+      image: photo49,
       url: '/services/drilling-in-situ-testing'
     },
     {
       name: 'Instrumentation & Condition Surveys',
       shortDescription: 'Automated monitoring systems for safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges.',
-      image: '/assets/photo-54-C2ZQWtDJ.jpg',
+      image: photo54,
       url: '/services/instrumentation-condition-surveys'
     },
     {
       name: 'Materials Testing',
       shortDescription: 'Comprehensive testing of concrete, soil, aggregate, and asphalt to ensure compliance and quality.',
-      image: '/assets/photo-77-DXi5GhsD.jpg',
+      image: photo86,
       url: '/services/laboratory-testing'
     }
   ];

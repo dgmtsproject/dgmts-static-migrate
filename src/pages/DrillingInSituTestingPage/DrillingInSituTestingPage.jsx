@@ -9,6 +9,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import './DrillingInSituTestingPage.css';
+import photo84 from '../../assets/gallery/photo-84.jpg';
+import photo49 from '../../assets/gallery/photo-49.jpg';
 
 const DrillingInSituTestingPage = () => {
   const services = [
@@ -51,8 +53,7 @@ const DrillingInSituTestingPage = () => {
             </button>
           </div>
           <div className="drilling-hero-image-container">
-            <img src="/assets/photo-49-75pJ_R5R.jpg" alt="Drilling and In-Situ Testing" 
-            className="drilling-hero-image" />
+            <img src={photo49} alt="Drilling and In-Situ Testing" className="drilling-hero-image" />
           </div>
         </div>
       </section>
@@ -87,7 +88,7 @@ const DrillingInSituTestingPage = () => {
           <div className="drilling-two-col">
             <div className="drilling-image-card">
               <img 
-                src="/assets/photo-84-DjvvmQdE.jpg" 
+                src={photo84}
                 alt="Drilling Equipment"
               />
             </div>

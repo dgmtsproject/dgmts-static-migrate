@@ -10,6 +10,10 @@ import TestimonialsSection from './components/TestimonialsSection';
 import PartnersSection from './components/PartnersSection';
 import BlogsSection from './components/BlogsSection';
 import './HomePage.css';
+import photo48 from '../../assets/gallery/photo-48.jpg';
+import photo105 from '../../assets/gallery/photo-105.jpg';
+import photo37 from '../../assets/gallery/photo-37.jpg';
+import photo74 from '../../assets/gallery/photo-74.jpg';
 
 const HomePage = () => {
   return (
@@ -25,10 +29,10 @@ const HomePage = () => {
         <div className="home-container">
           <div className="new-two-column-content">
             <div className="image-gallery">
-              <img src="/assets/photo-48-DfeLIH3g.jpg" alt="Image 1" className="gallery-image" />
-              <img src="/assets/photo-105-lJm6m7KD.jpg" alt="Image 2" className="gallery-image" />
-              <img src="/assets/photo-37-BKSaYX2-.jpg" alt="Image 3" className="gallery-image" />
-              <img src="/assets/photo-74-CU6DhkAH.jpg" alt="Image 4" className="gallery-image" />
+              <img src={photo48} alt="Image 1" className="gallery-image" />
+              <img src={photo105} alt="Image 2" className="gallery-image" />
+              <img src={photo37} alt="Image 3" className="gallery-image" />
+              <img src={photo74} alt="Image 4" className="gallery-image" />
             </div>
             <div className="text-content">
               <h2 className="section-title">Our Commitment to Excellence</h2>

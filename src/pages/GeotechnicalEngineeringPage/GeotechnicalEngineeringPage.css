@@ -278,12 +278,13 @@
 /* ===== Image Card ===== */
 .geotech-image-card {
   position: relative;
+  left: 50px;
 }
 
 .geotech-image-card img {
   border-radius: 1rem;
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
-  width: 100%;
+  width: 70%;
 }
 
 .geotech-badge {

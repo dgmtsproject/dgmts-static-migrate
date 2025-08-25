@@ -9,6 +9,8 @@ import {
   Wrench
 } from 'lucide-react';
 import './ConstructionInspectionPage.css';
+import photo103 from '../../assets/gallery/photo-103.jpg';
+import photo38 from '../../assets/gallery/photo-38.jpg';
 
 const ConstructionInspectionPage = () => {
   const services = [
@@ -51,7 +53,7 @@ const ConstructionInspectionPage = () => {
             </button>
           </div>
           <div className="construction-hero-image-container">
-            <img src="/assets/photo-38-BKtxCF64.jpg" alt="Construction Inspection" className="construction-hero-image" />
+            <img src={photo38} alt="Construction Inspection" className="construction-hero-image" />
           </div>
         </div>
       </section>
@@ -86,7 +88,7 @@ const ConstructionInspectionPage = () => {
           <div className="construction-two-col">
             <div className="construction-image-card">
               <img 
-                src="/assets/photo-103-C2RE4sPf.jpg"
+                src={photo103}
               />
             </div>
             <div>

@@ -10,6 +10,8 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import './GeotechnicalEngineeringPage.css';
+import photo44 from '../../assets/gallery/photo-44.jpg';
+import photo87 from '../../assets/gallery/photo-87.jpg';
 
 const GeotechnicalEngineeringPage = () => {
   const services = [
@@ -63,7 +65,7 @@ const GeotechnicalEngineeringPage = () => {
             </button>
           </div>
           <div className="geotech-hero-image-container">
-            <img src="/assets/photo-44-tVa5E9qI.jpg" alt="Geotechnical Engineering" className="geotech-hero-image" />
+            <img src={photo44} alt="Geotechnical Engineering" className="geotech-hero-image" />
           </div>
         </div>
       </section>
@@ -139,7 +141,7 @@ const GeotechnicalEngineeringPage = () => {
             
             <div className="geotech-image-card">
               <img 
-                src="/assets/photo-87-D1Bcv6Rk.jpg" 
+                src={photo87}
                 alt="Engineering team"
               />
               <div className="geotech-badge">

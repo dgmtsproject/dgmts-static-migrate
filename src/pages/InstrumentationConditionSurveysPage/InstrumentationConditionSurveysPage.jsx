@@ -7,6 +7,7 @@ import {
   ArrowRight
 } from 'lucide-react';
 import './InstrumentationConditionSurveysPage.css';
+import photo54 from '../../assets/gallery/photo-54.jpg';
 
 const InstrumentationConditionSurveysPage = () => {
   const services = [
@@ -49,7 +50,7 @@ const InstrumentationConditionSurveysPage = () => {
             </button>
           </div>
           <div className="inst-hero-image-container">
-            <img src="/assets/photo-54-C2ZQWtDJ.jpg" alt="Instrumentation and Condition Surveys" className="inst-hero-image" />
+            <img src={photo54} alt="Instrumentation and Condition Surveys" className="inst-hero-image" />
           </div>
         </div>
       </section>

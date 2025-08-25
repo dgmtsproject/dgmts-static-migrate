@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './HeroSlider.css';
+import sliderImage1 from "../../../assets/gallery/photo-107.jpg";
+import sliderImage2 from "../../../assets/gallery/photo-44.jpg";
+import sliderImage3 from "../../../assets/gallery/photo-64.jpg";
+
+
+
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const slides = [
     {
-      image: '/assets/photo-107-C_4ccLao.jpg',
+      image: sliderImage1,
       heading: 'Leading Geotechnical Engineering Solutions',
       content: 'Providing comprehensive geotechnical engineering, materials testing, and construction services across Virginia, Maryland, and Washington DC.',
       buttonText: 'Learn More',
@@ -14,7 +20,7 @@ const HeroSlider = () => {
       position: 'center'
     },
     {
-      image: '/assets/photo-44-tVa5E9qI.jpg',
+      image: sliderImage2,
       heading: 'Certified SWaM and MBE/DBE Firm',
       content: 'Established in 2012, DGMTS is your trusted partner for quality engineering services and materials testing with industry-leading certifications.',
       buttonText: 'Our Services',
@@ -22,7 +28,7 @@ const HeroSlider = () => {
       position: 'left'
     },
     {
-      image: 'https://images.pexels.com/photos/3862379/pexels-photo-3862379.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600',
+      image: sliderImage3,
       heading: 'Advanced Testing Facilities',
       content: 'Our state-of-the-art laboratories in Chantilly and Hampton provide accurate, reliable testing results for your construction projects.',
       buttonText: 'Contact Us',
