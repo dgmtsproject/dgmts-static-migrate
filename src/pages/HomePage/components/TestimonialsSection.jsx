@@ -42,7 +42,7 @@ const TestimonialsSection = () => {
 
   return (
     <section 
-      className="testimonials-section"
+      className="testimonials-section bg-texture"
       style={{
         backgroundImage: `url('https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=1200&h=600')`
       }}

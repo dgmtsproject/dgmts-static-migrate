@@ -2,7 +2,6 @@
 .firm-overview {
     position: relative;
     overflow: hidden; /* Prevent overflow of the background image */
-    background: white;
 }
 
 .firm-overview::before {
@@ -16,14 +15,13 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain; /* Keep aspect ratio and fit within dimensions */
-    opacity:0.35; /* Much more subtle for better blending */
-    z-index: 0; /* Ensure it's behind the content */
+    opacity:0.25; /* Much more subtle for better blending */
+    z-index: 5; /* Ensure it's behind the content */
     transform: translateY(-50%); /* Center vertically */
     pointer-events: none; /* Make sure it doesn't interfere with interactions */
     filter: grayscale(1) brightness(0.9); /* Convert to grayscale and adjust brightness */
-    mix-blend-mode: multiply; /* Blend mode for better integration */
+    mix-blend-mode: darken;
 }
-
 .firm-overview__inner {
     max-width: 1100px;
     margin: 0 auto;

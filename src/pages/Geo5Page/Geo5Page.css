@@ -79,7 +79,7 @@
   align-items: center;
   text-align: center;
   padding: 2rem 1.5rem;
-  background-color: #f0f0f0;
+  background-color: #e7f6f8;
   border: 1px solid #e2e8f0;
   border-radius: 20px;
   box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
@@ -161,7 +161,6 @@
 /* Video section - now full width below hero */
 .geo5-video-section {
   padding: 3rem 0;
-  background: #ffffff;
 }
 
 .geo5-hero-video {
@@ -194,7 +193,6 @@
 /* Distributor Section */
 .geo5-distributor {
   padding: 5rem 0;
-  background: #ffffff;
 }
 
 .distributor-layout {

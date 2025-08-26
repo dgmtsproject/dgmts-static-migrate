@@ -33,7 +33,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <main className="payment-page">
+    <main className="payment-page bg-texture">
       <section className="payment-section">
         <div className="payment-header">
           <h1 className="payment-heading">Payment</h1>

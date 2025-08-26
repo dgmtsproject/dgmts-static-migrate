@@ -32,16 +32,18 @@ const JobOpening = ({ job }) => (
 );
 
 const CareerPage = () => (
-  <div className="career-page">
-    <h1 className="career-heading">Careers</h1>
-    <p className="career-intro">
-      Dulles Geotechnical and Materials Testing Services (DGMTS) is a growing company. We are always seeking talented individuals to join our team.
-    </p>
+  <div className="career-page bg-texture">
+    <div className="container">
+      <h1 className="career-heading">Careers</h1>
+      <p className="career-intro">
+        Dulles Geotechnical and Materials Testing Services (DGMTS) is a growing company. We are always seeking talented individuals to join our team.
+      </p>
 
-    <div className="job-listings">
-      {jobData.map((job, index) => (
-        <JobOpening key={index} job={job} />
-      ))}
+      <div className="job-listings">
+        {jobData.map((job, index) => (
+          <JobOpening key={index} job={job} />
+        ))}
+      </div>
     </div>
   </div>
 );

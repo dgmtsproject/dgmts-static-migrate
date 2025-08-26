@@ -31,7 +31,7 @@ export default function GalleryPage() {
                     <p className="gallery-subtitle">A collection of moments and projects that define us.</p>
                 </div>
             </section>
-            <section className="gallery-grid-section">
+            <section className="gallery-grid-section bg-texture">
                 <div className="container">
                     <div className="gallery-grid">
                         {imagePaths.map((image, index) => (

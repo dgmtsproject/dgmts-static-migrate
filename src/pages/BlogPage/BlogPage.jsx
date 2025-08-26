@@ -49,10 +49,30 @@ function BlogPage() {
   }
 
   if (loading) {
+    // show skeleton grid that mirrors the blogs-grid layout
     return (
-      <div className="blog-page">
+      <div className="blog-page bg-texture">
         <div className="container">
-          <div className="loading">Loading blogs...</div>
+          <div className="blogs-grid">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <article key={i} className="blog-card skeleton">
+                <div className="blog-card-image skeleton-image" />
+                <div className="blog-card-content">
+                  <div className="blog-meta">
+                    <span className="blog-date"><span className="skeleton-line short" /></span>
+                  </div>
+                  <h2 className="blog-title">
+                    <span className="skeleton-line title" />
+                  </h2>
+                  <p className="blog-excerpt">
+                    <span className="skeleton-line" />
+                    <span className="skeleton-line" />
+                  </p>
+                  <div className="read-more"><span className="skeleton-line small" /></div>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     )
@@ -60,7 +80,7 @@ function BlogPage() {
 
   if (error) {
     return (
-      <div className="blog-page">
+      <div className="blog-page bg-texture">
         <div className="container">
           <div className="error">Error loading blogs: {error}</div>
         </div>
@@ -69,7 +89,7 @@ function BlogPage() {
   }
 
   return (
-    <div className="blog-page">
+    <div className="blog-page bg-texture">
       <div className="container">
         <header className="blog-header">
           <h1>Our Blog</h1>

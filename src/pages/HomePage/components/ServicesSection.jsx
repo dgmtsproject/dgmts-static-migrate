@@ -48,7 +48,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="services-section home-section">
+    <section className="services-section home-section bg-texture">
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Our Engineering Services</h2>

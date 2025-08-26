@@ -14,7 +14,7 @@ const LocationPage = () => {
   const [selectedLocation, setSelectedLocation] = useState(locations[0]);
 
   return (
-    <div className="location-page-container">
+    <div className="location-page-container bg-texture">
       {/* Header Section */}
       <div className="location-page-header">
         <div className="location-page-header-content">

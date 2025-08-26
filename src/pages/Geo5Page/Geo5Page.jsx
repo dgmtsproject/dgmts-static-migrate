@@ -218,94 +218,95 @@ export default function Geo5Page() {
         </div>
       </section>
 
-      {/* Video moved to its own section with larger dimensions */}
-      <section className="geo5-video-section">
-        <div className="container">
-          <div className="geo5-hero-video">
-            <div className="video-container">
-              <iframe 
-                src="https://www.youtube.com/embed/gTkKkcYSLAk?autoplay=1&mute=1&loop=1&playlist=gTkKkcYSLAk&controls=0" 
-                title="GEO5 Overview Video" 
-                frameBorder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                referrerPolicy="strict-origin-when-cross-origin" 
-                allowFullScreen
-              />
+      <div className='bg-texture'>
+        {/* Video moved to its own section with larger dimensions */}
+        <section className="geo5-video-section">
+          <div className="container">
+            <div className="geo5-hero-video">
+              <div className="video-container">
+                <iframe
+                  src="https://www.youtube.com/embed/gTkKkcYSLAk?autoplay=1&mute=1&loop=1&playlist=gTkKkcYSLAk&controls=0"
+                  title="GEO5 Overview Video"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="geo5-distributor">
-        <div className="container">
-          <div className="distributor-layout">
-            <div className="distributor-left">
+        <section className="geo5-distributor">
+          <div className="container">
+            <div className="distributor-layout">
+              <div className="distributor-left">
+                <div className="section-header">
+                  <h2>Authorized U.S. Distributor</h2>
+                  <div className="section-divider"></div>
+                </div>
+                <div className="geo5-description">
+                  <p><strong>DGMTS</strong> is proud to be an authorized distributor in the United States for <strong>GEO5</strong>, a cutting-edge geotechnical engineering software suite developed by <strong>Fine Software</strong>, as part of our technology solutions. <strong>GEO5</strong> is a user-friendly and powerful platform that covers the full scope of geotechnical analysis—from site investigation and soil profiling to the design of foundations, retaining structures, slopes, and underground works.</p>
+
+                  <p>As an <strong>authorized U.S. distributor, DGMTS</strong> provides <strong>sales, training, and technical support</strong> for GEO5, empowering engineering professionals to streamline workflows, reduce risk, and improve design quality. Whether you&apos;re working on small-scale projects or large infrastructure developments, GEO5 delivers the performance and confidence needed for successful geotechnical engineering outcomes.</p>
+                </div>
+              </div>
+
+              <div className="distributor-right">
+                <div className="features-grid">
+                  <div className="feature-item">
+                    <div className="feature-icon">🎯</div>
+                    <h4>Comprehensive Analysis</h4>
+                    <p>Full scope geotechnical analysis from site investigation to design</p>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">⚡</div>
+                    <h4>User-Friendly Interface</h4>
+                    <p>Intuitive modeling tools and robust computational methods</p>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">🌍</div>
+                    <h4>International Standards</h4>
+                    <p>Compliance with international design codes and standards</p>
+                  </div>
+                  <div className="feature-item">
+                    <div className="feature-icon">🎓</div>
+                    <h4>Training & Support</h4>
+                    <p>Complete sales, training, and technical support services</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="solutions-section">
               <div className="section-header">
-                <h2>Authorized U.S. Distributor</h2>
+                <h2>Geotechnical Solutions</h2>
                 <div className="section-divider"></div>
               </div>
-              <div className="geo5-description">
-                <p><strong>DGMTS</strong> is proud to be an authorized distributor in the United States for <strong>GEO5</strong>, a cutting-edge geotechnical engineering software suite developed by <strong>Fine Software</strong>, as part of our technology solutions. <strong>GEO5</strong> is a user-friendly and powerful platform that covers the full scope of geotechnical analysis—from site investigation and soil profiling to the design of foundations, retaining structures, slopes, and underground works.</p>
-                
-                <p>As an <strong>authorized U.S. distributor, DGMTS</strong> provides <strong>sales, training, and technical support</strong> for GEO5, empowering engineering professionals to streamline workflows, reduce risk, and improve design quality. Whether you&apos;re working on small-scale projects or large infrastructure developments, GEO5 delivers the performance and confidence needed for successful geotechnical engineering outcomes.</p>
+              <div className="geo5-cards">
+                {solutionCards.map(card => (
+                  <a className="geo5-card" href={card.url} target="_blank" rel="noopener noreferrer" key={card.label} aria-label={card.label}>
+                    <img src={card.image} alt={card.label} className="card-image" />
+                    <div className="card-content">
+                      <h4 className="card-title">{card.label}</h4>
+                      <p className="card-description">{card.description}</p>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
-            
-            <div className="distributor-right">
-              <div className="features-grid">
-                <div className="feature-item">
-                  <div className="feature-icon">🎯</div>
-                  <h4>Comprehensive Analysis</h4>
-                  <p>Full scope geotechnical analysis from site investigation to design</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon">⚡</div>
-                  <h4>User-Friendly Interface</h4>
-                  <p>Intuitive modeling tools and robust computational methods</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon">🌍</div>
-                  <h4>International Standards</h4>
-                  <p>Compliance with international design codes and standards</p>
-                </div>
-                <div className="feature-item">
-                  <div className="feature-icon">🎓</div>
-                  <h4>Training & Support</h4>
-                  <p>Complete sales, training, and technical support services</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="solutions-section">
-            <div className="section-header">
-              <h2>Geotechnical Solutions</h2>
-              <div className="section-divider"></div>
-            </div>
-            <div className="geo5-cards">
-              {solutionCards.map(card => (
-                <a className="geo5-card" href={card.url} target="_blank" rel="noopener noreferrer" key={card.label} aria-label={card.label}>
-                  <img src={card.image} alt={card.label} className="card-image" />
-                  <div className="card-content">
-                    <h4 className="card-title">{card.label}</h4>
-                    <p className="card-description">{card.description}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-          
-          <div className="geo5-buttons">
-            <a href="https://www.finesoftware.eu/geotechnical-software/solutions/" target="_blank" rel="noopener noreferrer" className="btn-primary">
-              Learn More
-            </a>
-            <a href="/contact" className="btn-secondary">
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </section>
 
+            <div className="geo5-buttons">
+              <a href="https://www.finesoftware.eu/geotechnical-software/solutions/" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Learn More
+              </a>
+              <a href="/contact" className="btn-secondary">
+                Contact Us
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
       <section className="geo5-carousel-section">
         <div className="container">
           <div className="section-header">
@@ -331,19 +332,19 @@ export default function Geo5Page() {
             <div className="geo5-controls">
               <button onClick={() => changeSlide(-1)} aria-label="Previous slide">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="m15 18-6-6 6-6"/>
+                  <path d="m15 18-6-6 6-6" />
                 </svg>
               </button>
               <button onClick={() => changeSlide(1)} aria-label="Next slide">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="m9 18 6-6-6-6"/>
+                  <path d="m9 18 6-6-6-6" />
                 </svg>
               </button>
             </div>
             <div className="geo5-dots">
               {slides.map((_, i) => (
-                <button 
-                  key={i} 
+                <button
+                  key={i}
                   className={`dot ${i === activeIndex ? 'active-dot' : ''}`}
                   onClick={() => goToSlide(i)}
                   aria-label={`Go to slide ${i + 1}`}

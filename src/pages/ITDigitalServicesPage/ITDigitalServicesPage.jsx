@@ -36,13 +36,7 @@ const ITDigitalServicesPage = () => {
     let startX;
     let scrollLeft;
 
-    // Mouse wheel horizontal scrolling
-    const handleWheel = (e) => {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        target.scrollLeft += e.deltaY;
-      }
-    };
+  // Do NOT hijack the mouse wheel here. Leave wheel scrolling to the page vertical scroll.
 
     // Drag to scroll functionality
     const handleMouseDown = (e) => {
@@ -70,16 +64,14 @@ const ITDigitalServicesPage = () => {
       target.scrollLeft = scrollLeft - walk;
     };
 
-    // Add event listeners
-    target.addEventListener('wheel', handleWheel, { passive: false });
-    target.addEventListener('mousedown', handleMouseDown);
+  // Add event listeners — only drag/ mouse interactions for horizontal scrolling
+  target.addEventListener('mousedown', handleMouseDown);
     target.addEventListener('mouseleave', handleMouseLeave);
     target.addEventListener('mouseup', handleMouseUp);
     target.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      target.removeEventListener('wheel', handleWheel);
-      target.removeEventListener('mousedown', handleMouseDown);
+  target.removeEventListener('mousedown', handleMouseDown);
       target.removeEventListener('mouseleave', handleMouseLeave);
       target.removeEventListener('mouseup', handleMouseUp);
       target.removeEventListener('mousemove', handleMouseMove);
@@ -206,7 +198,7 @@ const ITDigitalServicesPage = () => {
         image2="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?cs=srgb&dl=pexels-luis-gomes-166706-546819.jpg&fm=jpg"
         imageAlt="Modern UI"
       />
-
+      <div className='bg-texture'>
       {/* Services Carousel Section */}
       <section className="itds-services-section">
         <div className="itds-services-content">
@@ -331,6 +323,7 @@ const ITDigitalServicesPage = () => {
           </svg>
         </span>
       </section>
+      </div>
     </div>
   );
 };

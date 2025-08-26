@@ -48,7 +48,7 @@ function BlogsSection() {
 
   if (loading) {
     return (
-      <section className="blogs-section section">
+      <section className="blogs-section section bg-texture">
         <div className="container">
           <div className="loading-blogs">Loading latest posts...</div>
         </div>
@@ -61,7 +61,7 @@ function BlogsSection() {
   }
 
   return (
-    <section className="blogs-section section">
+    <section className="blogs-section section bg-texture">
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Latest Blog Posts</h2>

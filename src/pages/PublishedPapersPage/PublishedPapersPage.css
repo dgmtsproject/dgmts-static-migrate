@@ -1,6 +1,5 @@
 .papers-page {
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 40%, var(--primary-color-10, #e8f2ff) 100%);
   color: var(--grey-900);
   padding: 2rem 0;
   min-height: 100vh;

@@ -41,7 +41,7 @@ const ContactPage = () => {
   };
 
   return (
-    <main className="contact-page">
+    <main className="contact-page bg-texture">
       {/* SVG defs for gradient used by icons */}
       <svg width="0" height="0" aria-hidden="true" style={{position: 'absolute'}}>
         <defs>

@@ -36,7 +36,7 @@ const PartnersSection = () => {
   ];
 
   return (
-    <section className="partners-section home-section bg-grey-50">
+    <section className="partners-section home-section bg-texture">
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">Our Partners & Clients</h2>

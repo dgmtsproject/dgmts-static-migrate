@@ -4,7 +4,7 @@ import { publications, presentations, bookChapters } from './publishedPapersData
 
 const PublishedPapersPage = () => {
   return (
-    <div className="papers-page">
+    <div className="papers-page bg-texture">
       <div className="papers-container">
         <div className="papers-header">
           <h1 className="papers-title">Published Papers</h1>

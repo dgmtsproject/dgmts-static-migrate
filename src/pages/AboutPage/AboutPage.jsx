@@ -5,7 +5,7 @@ import teamPhoto from '../../assets/gallery/photo-94.jpg';
 
 
 const AboutPage = () => (
-  <main className="about-page">
+  <main className="about-page bg-texture">
     <div className="team-photo-container">
       <img src={teamPhoto} alt="DGMTS Team" className="team-photo-header" />
     </div>

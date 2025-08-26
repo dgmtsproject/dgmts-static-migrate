@@ -59,7 +59,7 @@ const GeotechnicalEngineeringPage = () => {
         image2={photo87}
         imageAlt="Geotechnical Engineering"
       />
-
+      <div className='bg-texture'>
       {/* Services Grid */}
       <section className="geotech-section">
         <div className="geotech-container">
@@ -85,7 +85,7 @@ const GeotechnicalEngineeringPage = () => {
       </section>
 
       {/* Why Choose DGMTS */}
-      <section className="geotech-section white-bg">
+      <section className="geotech-section">
         <div className="geotech-container">
           <div className="geotech-two-col">
             <div>
@@ -173,7 +173,7 @@ const GeotechnicalEngineeringPage = () => {
           </div>
         </div>
       </section>
-
+      </div>
       {/* Remaining sections... */}
     </div>
   );

@@ -276,6 +276,12 @@ a:hover {
   background-color: var(--primary-color);
 }
 
+
+.bg-texture{
+  background: url("https://www.toptal.com/designers/subtlepatterns/uploads/papyrus.png");
+  background-repeat: repeat;
+  z-index: 2;
+}
 .bg-white {
   background-color: var(--white);
 }

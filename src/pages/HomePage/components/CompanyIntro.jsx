@@ -59,7 +59,7 @@ AnimatedNumber.propTypes = {
 const CompanyIntro = () => {
   return (
     <React.Fragment>
-    <section className="company-intro home-section" aria-labelledby="company-intro-heading">
+    <section className="company-intro home-section bg-texture" aria-labelledby="company-intro-heading">
       {/* SVG defs for chip gradient */}
       <svg width="0" height="0" aria-hidden="true" style={{position: 'absolute'}}>
         <defs>

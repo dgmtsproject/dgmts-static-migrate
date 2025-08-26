@@ -53,7 +53,7 @@ function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="blog-post-page">
+      <div className="blog-post-page bg-texture">
         <div className="container">
           <div className="loading">Loading blog post...</div>
         </div>
@@ -63,7 +63,7 @@ function BlogPostPage() {
 
   if (error || !blog) {
     return (
-      <div className="blog-post-page">
+      <div className="blog-post-page bg-texture">
         <div className="container">
           <div className="error">
             {error || 'Blog post not found'}
@@ -77,7 +77,7 @@ function BlogPostPage() {
   }
 
   return (
-    <div className="blog-post-page">
+    <div className="blog-post-page bg-texture">
       <div className="container">
         <nav className="breadcrumb">
           <Link to="/">Home</Link>
