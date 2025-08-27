@@ -165,6 +165,7 @@ const Navigation = () => {
                 )}
               </div>
             ))}
+            <Link to="/contact" className="desktop-nav-link">Contact</Link>
           </div>
 
           {/* Mobile Menu Button */}

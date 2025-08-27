@@ -153,6 +153,24 @@
   .modern-btn { padding: 0.7em 1.2em; font-size: 1rem; }
 }
 
+/* Extra small / mobile tweaks for CTA */
+@media (max-width: 480px) {
+  .partners-cta.modern-cta { padding: 1rem 0.75rem; border-radius: 12px; }
+  .modern-cta-content { max-width: 100%; padding: 0 0.25rem; }
+  .modern-cta-heading { font-size: 1.15rem; line-height: 1.15; text-align: center; margin-bottom: 0.75rem; }
+  .modern-cta-list { gap: 0.6rem; align-items: center; }
+  .modern-cta-list li { font-size: 0.98rem; display: flex; align-items: center; gap: 0.6em; }
+  .checkmark { width: 1.6em; height: 1.6em; font-size: 1rem; line-height: 1.6em; }
+
+  /* Stack CTA actions and make buttons easy to tap */
+  .modern-cta-actions { flex-direction: column; gap: 0.65rem; align-items: stretch; }
+  .modern-btn { width: 100%; padding: 0.9em 1rem; font-size: 1rem; }
+  .btn-secondary.modern-btn { border-width: 2px; }
+
+  /* Reduce whitespace around partners section to keep everything visible */
+  .partners-section { padding-bottom: var(--spacing-lg); }
+}
+
 .partners-text {
   font-size: 1.25rem;
   color: var(--grey-700);

@@ -12,6 +12,7 @@
 .desktop-nav-link,
 .mega-menu-button,
 .nav-cta {
+  font-size: 15px;
   font-family: var(--font-family-heading); /* Montserrat */
   font-weight: 700; /* make nav headings and CTA bolder */
 }
