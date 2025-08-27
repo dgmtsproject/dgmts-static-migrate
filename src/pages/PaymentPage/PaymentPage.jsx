@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import './PaymentPage.css';
 import Modal from '../../components/Modal/Modal';
-import { supabase } from '../../supabaseClient';
+import { supabase } from '../../supabaseClient'
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 const PaymentPage = () => {
   const [formData, setFormData] = useState({
@@ -13,38 +17,110 @@ const PaymentPage = () => {
     paymentNote: ''
   });
   const [status, setStatus] = useState('');
+  const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (error) setError('');
+  };
+
+  const validateForm = () => {
+    const errors = [];
+    
+    if (!formData.customerName.trim()) errors.push('Customer Name is required');
+    if (!formData.customerEmail.trim()) errors.push('Customer Email is required');
+    if (!formData.customerAddress.trim()) errors.push('Customer Address is required');
+    if (!formData.invoiceNo.trim()) errors.push('Invoice No. is required');
+    if (!formData.invoiceAmount || parseFloat(formData.invoiceAmount) <= 0) {
+      errors.push('Amount must be a valid positive number');
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.customerEmail && !emailRegex.test(formData.customerEmail)) {
+      errors.push('Please enter a valid email address');
+    }
+
+    return errors;
+  };
+
+  const calculateServiceCharge = (amount) => {
+    const numAmount = parseFloat(amount);
+    return (numAmount * 0.029) + 0.30;
+  };
+
+  const calculateTotalAmount = (amount) => {
+    const numAmount = parseFloat(amount);
+    const serviceCharge = calculateServiceCharge(amount);
+    return numAmount + serviceCharge;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '));
+      return;
+    }
+
     setIsModalOpen(true);
   };
 
   const handleConfirm = async () => {
     setIsModalOpen(false);
+    setIsLoading(true);
     setStatus('Processing...');
+    
     try {
-      const { data, error } = await supabase.functions.invoke('create-checkout-session', {
-        body: JSON.stringify(formData),
+      // Calculate amounts
+      const invoiceAmount = parseFloat(formData.invoiceAmount);
+      const serviceCharge = calculateServiceCharge(invoiceAmount);
+      const totalAmount = calculateTotalAmount(invoiceAmount);
+      
+      // Create Stripe checkout session using Supabase Edge Function
+      const response = await fetch(`${supabaseUrl}/functions/v1/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          amount: totalAmount, // Send total amount in dollars
+          originalAmount: invoiceAmount, // Send original amount for database
+          customerName: formData.customerName,
+          customerEmail: formData.customerEmail,
+          customerAddress: formData.customerAddress,
+          invoiceNo: formData.invoiceNo,
+          paymentNote: formData.paymentNote,
+        }),
       });
 
-      if (error) {
-        throw error;
+      const session = await response.json();
+
+      if (session.error) {
+        throw new Error(session.error);
       }
 
-      if (data) {
-        window.location.href = data.url;
-      }
+      // Redirect to Stripe Checkout
+      window.location.href = session.url;
+
     } catch (error) {
-      setStatus('An error occurred. Please try again.');
-      console.error('Error creating checkout session:', error);
+      console.error('Payment error:', error);
+      setError('Payment processing failed: ' + error.message);
+      setStatus('');
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const serviceCharge = formData.invoiceAmount ? calculateServiceCharge(formData.invoiceAmount) : 0;
+  const totalAmount = formData.invoiceAmount ? calculateTotalAmount(formData.invoiceAmount) : 0;
 
   return (
     <main className="payment-page bg-texture">
@@ -53,6 +129,20 @@ const PaymentPage = () => {
           <h1 className="payment-heading">Payment</h1>
           <p>Please fill out the form below to complete your payment.</p>
         </div>
+        
+        {error && (
+          <div className="error-message" style={{
+            backgroundColor: '#f8d7da',
+            color: '#721c24',
+            padding: '12px',
+            borderRadius: '4px',
+            margin: '20px 0',
+            border: '1px solid #f5c6cb'
+          }}>
+            {error}
+          </div>
+        )}
+        
         <div className="payment-grid">
           <div className="payment-form-container">
             <form onSubmit={handleSubmit} className="payment-form">
@@ -65,8 +155,10 @@ const PaymentPage = () => {
                   value={formData.customerName} 
                   onChange={handleChange} 
                   required 
+                  disabled={isLoading}
                 />
               </div>
+              
               <div className="form-group">
                 <label htmlFor="customerEmail">Customer Email*</label>
                 <input 
@@ -76,8 +168,10 @@ const PaymentPage = () => {
                   value={formData.customerEmail} 
                   onChange={handleChange} 
                   required 
+                  disabled={isLoading}
                 />
               </div>
+              
               <div className="form-group">
                 <label htmlFor="customerAddress">Customer Address*</label>
                 <textarea 
@@ -87,8 +181,10 @@ const PaymentPage = () => {
                   value={formData.customerAddress} 
                   onChange={handleChange} 
                   required 
-                ></textarea>
+                  disabled={isLoading}
+                />
               </div>
+              
               <div className="form-group">
                 <label htmlFor="invoiceNo">Invoice No.*</label>
                 <input 
@@ -98,19 +194,47 @@ const PaymentPage = () => {
                   value={formData.invoiceNo} 
                   onChange={handleChange} 
                   required 
+                  disabled={isLoading}
                 />
               </div>
+              
               <div className="form-group">
-                <label htmlFor="invoiceAmount">Invoice Amount*</label>
+                <label htmlFor="invoiceAmount">Invoice Amount ($)*</label>
                 <input 
                   type="number" 
+                  step="0.01"
+                  min="0.01"
                   id="invoiceAmount" 
                   name="invoiceAmount" 
                   value={formData.invoiceAmount} 
                   onChange={handleChange} 
                   required 
+                  disabled={isLoading}
                 />
               </div>
+
+              {formData.invoiceAmount && parseFloat(formData.invoiceAmount) > 0 && (
+                <div className="amount-breakdown" style={{
+                  backgroundColor: '#f8f9fa',
+                  padding: '15px',
+                  borderRadius: '4px',
+                  margin: '15px 0'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span>Invoice Amount:</span>
+                    <span>${parseFloat(formData.invoiceAmount).toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span>Service Charge (2.9% + $0.30):</span>
+                    <span>${serviceCharge.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', borderTop: '1px solid #dee2e6', paddingTop: '8px' }}>
+                    <span>Total Payable:</span>
+                    <span>${totalAmount.toFixed(2)}</span>
+                  </div>
+                </div>
+              )}
+              
               <div className="form-group">
                 <label htmlFor="paymentNote">Payment Note</label>
                 <textarea 
@@ -119,29 +243,96 @@ const PaymentPage = () => {
                   rows="4" 
                   value={formData.paymentNote} 
                   onChange={handleChange} 
-                ></textarea>
+                  disabled={isLoading}
+                />
               </div>
-              <button type="submit" className="submit-button">Submit Payment</button>
+              
+              <button 
+                type="submit" 
+                className="submit-button" 
+                disabled={isLoading}
+                style={{ 
+                  opacity: isLoading ? 0.6 : 1,
+                  cursor: isLoading ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {isLoading ? 'Processing...' : 'Submit Payment'}
+              </button>
             </form>
-            {status && <p className="status-message">{status}</p>}
+            
+            {status && (
+              <p className="status-message" style={{
+                backgroundColor: status.includes('success') ? '#d4edda' : '#fff3cd',
+                color: status.includes('success') ? '#155724' : '#856404',
+                padding: '12px',
+                borderRadius: '4px',
+                margin: '15px 0'
+              }}>
+                {status}
+              </p>
+            )}
           </div>
         </div>
       </section>
+      
       <Modal 
         isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        onClose={() => !isLoading && setIsModalOpen(false)} 
         onConfirm={handleConfirm} 
-        title="Confirm Payment"
+        title="Confirm Payment Details"
       >
-        <p>Please confirm the details before submitting:</p>
-        <ul>
-          <li><strong>Customer Name:</strong> {formData.customerName}</li>
-          <li><strong>Customer Email:</strong> {formData.customerEmail}</li>
-          <li><strong>Customer Address:</strong> {formData.customerAddress}</li>
-          <li><strong>Invoice Number:</strong> {formData.invoiceNo}</li>
-          <li><strong>Invoice Amount:</strong> ${formData.invoiceAmount}</li>
-          <li><strong>Payment Note:</strong> {formData.paymentNote}</li>
-        </ul>
+        <div style={{ textAlign: 'left' }}>
+          <p style={{ marginBottom: '15px' }}>Please confirm the details before proceeding:</p>
+          
+          <table style={{ width: '100%', borderSpacing: '0 8px' }}>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Name:</td>
+              <td>{formData.customerName}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Email:</td>
+              <td>{formData.customerEmail}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Address:</td>
+              <td>{formData.customerAddress}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Invoice Number:</td>
+              <td>{formData.invoiceNo}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Invoice Amount:</td>
+              <td>${parseFloat(formData.invoiceAmount).toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Service Charge:</td>
+              <td>${serviceCharge.toFixed(2)}</td>
+            </tr>
+            <tr style={{ borderTop: '1px solid #dee2e6' }}>
+              <td style={{ fontWeight: 'bold', paddingRight: '20px', paddingTop: '8px' }}>Total Payable:</td>
+              <td style={{ fontWeight: 'bold', paddingTop: '8px' }}>${totalAmount.toFixed(2)}</td>
+            </tr>
+            {formData.paymentNote && (
+              <tr>
+                <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Payment Note:</td>
+                <td>{formData.paymentNote}</td>
+              </tr>
+            )}
+          </table>
+          
+          <div style={{ 
+            backgroundColor: '#f8f9fa', 
+            padding: '15px', 
+            borderRadius: '4px', 
+            marginTop: '20px',
+            fontSize: '14px'
+          }}>
+            <p style={{ margin: '0', textAlign: 'justify' }}>
+              <strong>Disclaimer:</strong> By selecting "Confirm & Pay", you will be redirected to a third-party payment processor's website to complete your transaction. Please note that your payment will be processed according to the terms, conditions, and privacy policies of the payment processor. DGMTS does not own or control the website to which you are being redirected.
+            </p>
+          </div>
+        </div>
       </Modal>
     </main>
   );
