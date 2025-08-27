@@ -186,30 +186,26 @@ const Navigation = () => {
           
           {Object.entries(megaMenuData).map(([key, menu]) => (
             <div key={key} className="mobile-menu-section">
-              <div className="mobile-menu-title">{menu.title}</div>
-              {menu.sections.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="mobile-menu-subsection">
-                  <div className="mobile-menu-subtitle">{section.title}</div>
-                  <div className="mobile-menu-sublist">
-                    {section.items.map((item, itemIndex) => {
-                      const Icon = item.icon;
-                      return (
-                        <Link
-                          key={itemIndex}
-                          to={item.path}
-                          className="mobile-menu-sublink"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          <Icon />
-                          <span>{item.name}</span>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+              <h3 className="mobile-menu-title">{menu.title}</h3>
+              <div className="mobile-menu-sublist">
+                {menu.sections.flatMap(section => section.items).map((item, itemIndex) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={itemIndex}
+                      to={item.path}
+                      className="mobile-menu-sublink"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <Icon />
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           ))}
+          <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
         </div>
       </div>
     </nav>
