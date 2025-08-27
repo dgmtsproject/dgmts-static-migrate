@@ -45,8 +45,8 @@ const ConstructionInspectionPage = () => {
         title="Construction Inspection & Testing"
         subtitle="DGMTS provides quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in the construction of roads, airports, buildings, and other civil infrastructure."
         primaryButtonText="Our Services"
-        image1={photo38}
-        image2={photo103}
+        image2={photo38}
+        image1={photo103}
         imageAlt="Construction Inspection"
       />
 

@@ -55,8 +55,8 @@ const GeotechnicalEngineeringPage = () => {
         title="Geotechnical Engineering Excellence"
         subtitle="DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation. From site investigation to foundation design, we ensure your projects stand on solid ground."
         primaryButtonText="Get Started"
-        image1={photo44}
-        image2={photo87}
+        image2={photo44}
+        image1={photo87}
         imageAlt="Geotechnical Engineering"
       />
       <div className='bg-texture'>
