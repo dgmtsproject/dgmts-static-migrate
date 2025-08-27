@@ -56,6 +56,9 @@ function App() {
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/team/:id" element={<TeamMemberPage />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/success" element={<SuccessPage />} />
+            <Route path="/cancel" element={<CancelPage />} />
+
             
           </Routes>
         </main>
