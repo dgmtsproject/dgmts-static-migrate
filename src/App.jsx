@@ -25,6 +25,8 @@ import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot com
 import ScrollToTop from './components/ScrollToTop';
 import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
+import SuccessPage from './pages/SuccessPage/SuccessPage';
+import CancelPage from './pages/CancelPage/CancelPage';
 function App() {
   return (
     <Router>

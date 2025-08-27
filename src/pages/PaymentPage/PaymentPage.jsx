@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './PaymentPage.css';
 import Modal from '../../components/Modal/Modal';
+import { supabase } from '../../supabaseClient';
 
 const PaymentPage = () => {
   const [formData, setFormData] = useState({
@@ -24,12 +25,25 @@ const PaymentPage = () => {
     setIsModalOpen(true);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setIsModalOpen(false);
     setStatus('Processing...');
-    // I'll implement the submission logic later
-    console.log(formData);
-    setStatus('Payment processed successfully!');
+    try {
+      const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+        body: JSON.stringify(formData),
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      setStatus('An error occurred. Please try again.');
+      console.error('Error creating checkout session:', error);
+    }
   };
 
   return (
