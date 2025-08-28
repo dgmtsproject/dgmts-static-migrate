@@ -15,7 +15,7 @@ function BlogPostPage() {
         setLoading(true)
         const { data, error } = await supabase
           .from('blogs')
-          .select('*')
+          .select('*, categories(category_name)')
           .eq('id', id)
           .single()
         
@@ -96,6 +96,9 @@ function BlogPostPage() {
           <header className="blog-post-header">
             <h1 className="blog-post-title">{blog.title}</h1>
             <div className="blog-post-meta">
+              {blog.categories && (
+                <span className="blog-post-category">{blog.categories.category_name}</span>
+              )}
               <span className="blog-post-date">
                 Published on {formatDate(blog.created_at)}
               </span>

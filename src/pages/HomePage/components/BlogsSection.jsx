@@ -15,7 +15,7 @@ function BlogsSection() {
     try {
       const { data, error } = await supabase
         .from('blogs')
-        .select('*')
+        .select('*, categories(category_name)')
         .order('created_at', { ascending: false })
         .limit(3)
       
@@ -76,6 +76,9 @@ function BlogsSection() {
               {blog.image_url && (
                 <div className="blog-preview-image">
                   <img src={blog.image_url} alt={blog.title} />
+                  {blog.categories && (
+                    <span className="blog-category-chip">{blog.categories.category_name}</span>
+                  )}
                 </div>
               )}
               <div className="blog-preview-content">
