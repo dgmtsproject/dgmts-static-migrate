@@ -6,32 +6,46 @@ const TestimonialsSection = () => {
 
   const testimonials = [
     {
-      name: 'John Smith',
-      designation: 'Project Manager',
-      company: 'Metropolitan Construction',
-      comment: 'DGMTS has consistently delivered exceptional geotechnical engineering services for our projects. Their attention to detail and professional approach has made them our go-to partner for all materials testing and inspection needs.',
+      name: 'Mark Reynolds',
+      designation: 'Project Engineer',
+      company: '',
+      comment: 'Worked with DGMTS on a road expansion project in Fairfax... the geotech team was on top of everything. Fast turnaround on lab reports and the field guys really knew what they were doing. Saved us from a couple delays. Solid group to work with.',
       photo: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150'
     },
     {
-      name: 'Sarah Johnson',
-      designation: 'Engineering Director',
-      company: 'Virginia Infrastructure Group',
-      comment: 'The team at DGMTS brings unmatched expertise to every project. Their comprehensive testing services and timely reporting have helped us maintain project schedules while ensuring quality and compliance.',
+      name: 'Sarah Collins',
+      designation: 'Site Supervisor',
+      company: 'Clark Construction',
+      comment: 'Honestly... inspections can be a headache, but the team from DGMTS made it feel smooth. They explained test results in plain english, not just numbers on paper. That\'s rare. Felt like I could actually trust the ground under my feet, no pun intended.',
       photo: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150'
     },
     {
-      name: 'Michael Rodriguez',
-      designation: 'Senior Engineer',
-      company: 'DMV Development Solutions',
-      comment: 'Working with DGMTS has been a game-changer for our construction projects. Their certified professionals and state-of-the-art laboratory facilities provide the reliability and accuracy we need for critical infrastructure work.',
+      name: 'David Kim',
+      designation: 'Site Superintendent',
+      company: '',
+      comment: 'Well, I wasn\'t expecting the level of detail we got. Their drilling crew came out last summer for subsurface work... neat, efficient, and left the site clean. Reports were thorough too. Big thanks to the Chantilly office!',
       photo: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150'
+    },
+    {
+      name: 'James Whitfield',
+      designation: 'Residential Builder',
+      company: '',
+      comment: 'Small jobs don\'t always get the same respect as big contracts, but Dulles treated ours seriously. Their field tech came out on time (in the rain!) and got the soil compaction tests done without fuss.',
+      photo: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150'
+    },
+    {
+      name: 'Lisa Carter',
+      designation: 'Construction Manager',
+      company: '',
+      comment: 'We\'ve hired them a few times now for materials testing and inspections... they show up on time, keep things professional, and actually explain stuff without all the jargon. That\'s rare in this line of work. Highly recommend.',
+      photo: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150'
     }
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(timer);
   }, [testimonials.length]);

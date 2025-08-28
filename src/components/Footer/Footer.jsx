@@ -5,7 +5,7 @@ import mbeImg from '../../assets/logos/mbe.png';
 import dbeImg from '../../assets/logos/dbe.png';
 import geo5Img from '../../assets/logos/geo5-logo.png';
 import logoIcon from '../../assets/logos/logo-icon.png';
-
+import { supabase } from '../../supabaseClient';
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,13 +13,35 @@ const Footer = () => {
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    if (!email.trim()) {
+          alert('Please fill the email field.')
+          setIsSubmitting(false);
+          return
+        }
     
-    // Simulate form submission
-    setTimeout(() => {
-      alert('Thank you for subscribing to our newsletter!');
-      setEmail('');
-      setIsSubmitting(false);
-    }, 1000);
+        try {
+          const { error } = await supabase
+            .from('subscribers')
+            .insert([
+              {
+                email: email,
+                date_joined: new Date().toISOString(),
+                is_active: true
+              }
+            ])
+    
+          if (error) throw error
+
+          // Success case
+          alert('Thank you for subscribing to our newsletter!');
+          setEmail('');
+          setIsSubmitting(false);
+    
+        } catch (err) {
+          console.error('Error subscribing:', err)
+          alert('There was an error subscribing to the newsletter. Please try again.');
+          setIsSubmitting(false);
+        }
   };
 
   // Quick links for footer (simple site navigation)
