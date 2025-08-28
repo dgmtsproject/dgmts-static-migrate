@@ -1,6 +1,7 @@
 :root {
   --primary-color: #4a90e2;
   --primary-hover-color: #357abd;
+  --secondary-hover-color: #5a6268;
   --text-color: #333;
   --background-color: #f7f9fc;
   --sidebar-background: #fff;
@@ -61,6 +62,7 @@
 .content {
   flex: 1;
   padding: 2rem 3rem;
+  overflow-y: auto;
 }
 
 .content h2 {
@@ -85,7 +87,7 @@
 }
 
 .blog-form-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   background: #fff;
   padding: 2rem;
@@ -132,16 +134,34 @@
   border: 1px solid transparent;
   cursor: pointer;
   transition: background-color 0.2s, box-shadow 0.2s;
+  font-size: 0.9rem;
 }
 
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
+  border: 1px solid var(--primary-color);
 }
 
 .btn-primary:hover {
   background-color: var(--primary-hover-color);
   box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+  border: 1px solid var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover-color);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 input,
@@ -157,24 +177,290 @@ textarea {
   resize: vertical;
 }
 
+/* ReactQuill Styling */
 .quill-container {
-  margin: 1rem 0;
+  margin: 1rem 0 2rem 0;
 }
 
-.quill-container .ql-editor {
-  min-height: 200px;
-}
-
+/* Override ReactQuill default styles */
 .ql-toolbar {
-  border-top: 1px solid var(--border-color);
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  border-radius: 6px 6px 0 0;
+  border-top: 1px solid var(--border-color) !important;
+  border-left: 1px solid var(--border-color) !important;
+  border-right: 1px solid var(--border-color) !important;
+  border-bottom: none !important;
+  border-radius: 6px 6px 0 0 !important;
+  background: #f8f9fa;
 }
 
 .ql-container {
-  border-bottom: 1px solid var(--border-color);
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  border-radius: 0 0 6px 6px;
+  border-bottom: 1px solid var(--border-color) !important;
+  border-left: 1px solid var(--border-color) !important;
+  border-right: 1px solid var(--border-color) !important;
+  border-top: none !important;
+  border-radius: 0 0 6px 6px !important;
+  font-family: inherit;
 }
+
+.ql-editor {
+  min-height: 300px !important;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 1rem !important;
+}
+
+.ql-editor.ql-blank::before {
+  font-style: normal;
+  color: #adb5bd;
+  left: 1rem;
+}
+
+/* Ensure formatting is visible in the editor */
+.ql-editor strong {
+  font-weight: bold !important;
+}
+
+.ql-editor em {
+  font-style: italic !important;
+}
+
+.ql-editor u {
+  text-decoration: underline !important;
+}
+
+.ql-editor s {
+  text-decoration: line-through !important;
+}
+
+.ql-editor a {
+  color: var(--primary-color) !important;
+  text-decoration: underline !important;
+}
+
+.ql-editor blockquote {
+  border-left: 4px solid var(--border-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  background: #f8f9fa;
+}
+
+.ql-editor pre {
+  background: #f8f9fa;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+/* Toolbar button active states */
+.ql-toolbar .ql-active {
+  color: var(--primary-color) !important;
+}
+
+.ql-toolbar button:hover {
+  color: var(--primary-color) !important;
+}
+
+.ql-toolbar .ql-stroke {
+  stroke: currentColor !important;
+}
+
+.ql-toolbar .ql-fill {
+  fill: currentColor !important;
+}
+
+/* HTML Preview Section */
+.html-preview {
+  margin: 2rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.html-preview h4 {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.preview-content {
+  padding: 1rem;
+  background: white;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.preview-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.preview-content h1,
+.preview-content h2,
+.preview-content h3 {
+  margin: 1rem 0 0.5rem 0;
+  color: var(--text-color);
+}
+
+.preview-content p {
+  margin: 0.5rem 0;
+}
+
+.preview-content ul,
+.preview-content ol {
+  margin: 0.5rem 0;
+  padding-left: 2rem;
+}
+
+.preview-content a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.preview-content blockquote {
+  border-left: 4px solid var(--primary-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Editor Controls */
+.editor-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.mode-toggle {
+  background: #fff !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.mode-toggle:hover {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+}
+
+.mode-toggle.active {
+  background: var(--primary-color) !important;
+  color: white !important;
+  border-color: var(--primary-color) !important;
+}
+
+.html-help {
+  flex: 1;
+}
+
+.html-help small {
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.html-help code {
+  background: #e9ecef;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  color: #d63384;
+}
+
+/* HTML Editor Styles */
+.content-editor {
+  margin: 1rem 0 2rem 0;
+}
+
+.html-editor {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.html-textarea {
+  width: 100%;
+  min-height: 400px;
+  padding: 1rem;
+  border: none;
+  resize: vertical;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #f8f9fa;
+  color: #333;
+  outline: none;
+}
+
+.html-textarea::placeholder {
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.html-textarea:focus {
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Quill container adjustments for toggle mode */
+.quill-container {
+  margin: 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .admin-page {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .sidebar nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .blog-form-container {
+    padding: 1rem;
+  }
+
+  .editor-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .html-help {
+    width: 100%;
+  }
+}
+

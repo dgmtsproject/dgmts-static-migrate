@@ -27,7 +27,7 @@
   margin: 0 auto;
 }
 
-.blogs-grid {
+.home-page .blogs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--spacing-xl);
@@ -67,6 +67,9 @@
 
 .blog-preview-content {
   padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* allow content area to grow so footer can stick to bottom */
 }
 
 .blog-preview-meta {
@@ -104,6 +107,11 @@
   font-family: 'Red Hat Display', var(--font-family-primary);
 }
 
+.blog-preview-excerpt {
+  /* allow excerpt to take available vertical space so the link can align to bottom */
+  flex: 1 1 auto;
+}
+
 .blog-preview-link {
   color: var(--primary-color);
   font-weight: var(--font-weight-medium);
@@ -111,6 +119,7 @@
   font-size: 0.875rem;
   letter-spacing: 0.5px;
   transition: color var(--transition-fast);
+  margin-top: auto; /* push link to the bottom of the content area */
 }
 
 .blog-preview-link:hover {

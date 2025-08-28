@@ -12,9 +12,41 @@ function AdminPage() {
   const [blogs, setBlogs] = useState([])
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [rawHtmlContent, setRawHtmlContent] = useState('') // Store raw HTML separately
   const [imageUrl, setImageUrl] = useState('')
   const [editingId, setEditingId] = useState(null)
   const [view, setView] = useState('all') // 'all', 'add', 'edit'
+  const [isHtmlMode, setIsHtmlMode] = useState(false) // Toggle between rich text and HTML
+
+  // Enhanced ReactQuill modules configuration
+  const quillModules = {
+    toolbar: [
+      [{ 'header': ['1', '2', '3', false] }],
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'indent': '-1' }, { 'indent': '+1' }],
+      [{ 'align': [] }],
+      ['link', 'image', 'video', 'blockquote', 'code-block'],
+      ['clean']
+    ],
+    clipboard: {
+      matchVisual: false,
+    }
+  }
+
+  const quillFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'indent',
+    'align',
+    'link', 'image', 'video', 'blockquote', 'code-block'
+  ]
 
   useEffect(() => {
     if (loggedIn) fetchBlogs()
@@ -60,49 +92,67 @@ function AdminPage() {
       alert('Title is required')
       return
     }
-    if (!content.trim() || content.trim() === '<p><br></p>') {
+    
+    // Use raw HTML content if in HTML mode, otherwise use rich text content
+    const finalContent = isHtmlMode ? rawHtmlContent : content
+    
+    if (!finalContent.trim() || finalContent.trim() === '<p><br></p>') {
       alert('Content is required')
       return
     }
     
-    console.log('Attempting to save:', { title, content })
+    console.log('Attempting to save:', { title, content: finalContent })
     
     if (editingId) {
-      const { data, error } = await supabase.from('blogs').update({ title, content, image_url: imageUrl }).eq('id', editingId)
+      const { data, error } = await supabase.from('blogs').update({ 
+        title, 
+        content: finalContent, 
+        image_url: imageUrl 
+      }).eq('id', editingId)
       if (error) {
         console.error('Update error:', error)
         alert('Update failed: ' + error.message)
       } else {
         console.log('Update successful:', data)
-        setTitle('')
-        setContent('')
-        setImageUrl('')
-        setEditingId(null)
+        resetForm()
         fetchBlogs()
         setView('all')
       }
     } else {
-      const { data, error } = await supabase.from('blogs').insert([{ title, content, image_url: imageUrl }])
+      const { data, error } = await supabase.from('blogs').insert([{ 
+        title, 
+        content: finalContent, 
+        image_url: imageUrl 
+      }])
       if (error) {
         console.error('Insert error:', error)
         alert('Insert failed: ' + error.message)
       } else {
         console.log('Insert successful:', data)
-        setTitle('')
-        setContent('')
-        setImageUrl('')
+        resetForm()
         fetchBlogs()
         setView('all')
       }
     }
   }
 
+  const resetForm = () => {
+    setTitle('')
+    setContent('')
+    setRawHtmlContent('')
+    setImageUrl('')
+    setEditingId(null)
+    setIsHtmlMode(false)
+  }
+
   const edit = (b) => {
     setEditingId(b.id)
     setTitle(b.title)
     setContent(b.content)
+    setRawHtmlContent(b.content) // Set both content states
     setImageUrl(b.image_url || '')
     setView('edit')
+    setIsHtmlMode(false)
   }
 
   const remove = async (id) => {
@@ -113,19 +163,36 @@ function AdminPage() {
   }
 
   const cancelEdit = () => {
-    setEditingId(null)
-    setTitle('')
-    setContent('')
-    setImageUrl('')
+    resetForm()
     setView('all')
   }
 
   const showAddForm = () => {
-    setEditingId(null)
-    setTitle('')
-    setContent('')
-    setImageUrl('')
+    resetForm()
     setView('add')
+  }
+
+  const toggleHtmlMode = () => {
+    if (isHtmlMode) {
+      // Switching from HTML to Rich Text
+      // Update the rich text editor with the raw HTML content
+      setContent(rawHtmlContent)
+    } else {
+      // Switching from Rich Text to HTML
+      // Update the raw HTML with the rich text content
+      setRawHtmlContent(content)
+    }
+    setIsHtmlMode(!isHtmlMode)
+  }
+
+  const handleRichTextChange = (value) => {
+    setContent(value)
+    setRawHtmlContent(value) // Keep both in sync
+  }
+
+  const handleRawHtmlChange = (value) => {
+    setRawHtmlContent(value)
+    // Don't sync back to rich text to avoid ReactQuill sanitization
   }
 
   if (!loggedIn) return (
@@ -185,21 +252,82 @@ function AdminPage() {
                 onChange={e => setImageUrl(e.target.value)}
                 type="url"
               />
-              <div className="quill-container">
-                <ReactQuill 
-                  theme="snow" 
-                  value={content} 
-                  onChange={setContent}
-                  placeholder="Write your blog content here..."
-                  style={{ height: '300px', marginBottom: '50px' }}
-                />
+              
+              {/* Editor Mode Toggle */}
+              <div className="editor-controls">
+                <button 
+                  type="button" 
+                  className={`btn mode-toggle ${isHtmlMode ? 'active' : ''}`}
+                  onClick={toggleHtmlMode}
+                  title={isHtmlMode ? 'Switch to Rich Text Editor' : 'Switch to HTML Code Editor'}
+                >
+                  {isHtmlMode ? '📝 Rich Text' : '</> HTML Code'}
+                </button>
+                {isHtmlMode && (
+                  <div className="html-help">
+                    <small>
+                      💡 <strong>Tip:</strong> You can add images with: 
+                      <code>&lt;img src="your-image-url" alt="description" /&gt;</code>
+                    </small>
+                  </div>
+                )}
               </div>
-              <div>
+
+              <div className="content-editor">
+                {isHtmlMode ? (
+                  // HTML Code Editor
+                  <div className="html-editor">
+                    <textarea
+                      className="html-textarea"
+                      value={rawHtmlContent}
+                      onChange={e => handleRawHtmlChange(e.target.value)}
+                      placeholder="Enter HTML content here...
+
+Examples:
+<h1>Main Heading</h1>
+<h2>Sub Heading</h2>
+<p>This is a paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+<img src='https://example.com/image.jpg' alt='Description' />
+<a href='https://example.com'>Link text</a>
+<ul>
+  <li>List item 1</li>
+  <li>List item 2</li>
+</ul>"
+                      rows={20}
+                    />
+                  </div>
+                ) : (
+                  // Rich Text Editor
+                  <div className="quill-container">
+                    <ReactQuill
+                      theme="snow"
+                      value={content}
+                      onChange={handleRichTextChange}
+                      placeholder="Write your blog content here..."
+                      modules={quillModules}
+                      formats={quillFormats}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Preview Section */}
+              {isHtmlMode && rawHtmlContent && (
+                <div className="html-preview">
+                  <h4>Preview:</h4>
+                  <div 
+                    className="preview-content" 
+                    dangerouslySetInnerHTML={{ __html: rawHtmlContent }}
+                  />
+                </div>
+              )}
+
+              <div className="form-actions">
                 <button className="btn btn-primary" type="submit">
-                  {editingId ? 'Update' : 'Add'}
+                  {editingId ? 'Update Blog' : 'Add Blog'}
                 </button>
                 {(view === 'edit' || view === 'add') && (
-                  <button type="button" className="btn" onClick={cancelEdit}>
+                  <button type="button" className="btn btn-secondary" onClick={cancelEdit}>
                     Cancel
                   </button>
                 )}
