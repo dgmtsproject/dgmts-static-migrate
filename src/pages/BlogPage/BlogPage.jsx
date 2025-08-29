@@ -104,21 +104,61 @@ function BlogPage() {
     }
 
     try {
-      const { error } = await supabase
+      // First, check if email already exists
+      const { data: existingSubscriber, error: checkError } = await supabase
         .from('subscribers')
-        .insert([
-          {
-            name: newsletterData.name,
-            email: newsletterData.email,
-            date_joined: new Date().toISOString(),
-            is_active: true
-          }
-        ])
+        .select('email, is_active')
+        .eq('email', newsletterData.email)
+        .single();
 
-      if (error) throw error
+      if (checkError && checkError.code !== 'PGRST116') {
+        // PGRST116 is "not found" error, which is expected if email doesn't exist
+        throw checkError;
+      }
 
-      setNewsletterMessage('Thank you for subscribing!')
-      setNewsletterData({ name: '', email: '' })
+      if (existingSubscriber) {
+        if (existingSubscriber.is_active) {
+          setNewsletterMessage('This email is already subscribed to our newsletter!')
+          return;
+        } else {
+          // Reactivate inactive subscriber
+          const token = `${Date.now()}${Math.random()}`;
+          const { error: updateError } = await supabase
+            .from('subscribers')
+            .update({
+              name: newsletterData.name,
+              is_active: true,
+              token: token,
+              date_joined: new Date().toISOString()
+            })
+            .eq('email', newsletterData.email);
+
+          if (updateError) throw updateError;
+
+          setNewsletterMessage('Welcome back! Your subscription has been reactivated.')
+          setNewsletterData({ name: '', email: '' })
+        }
+      } else {
+        // Insert new subscriber
+        const token = `${Date.now()}${Math.random()}`;
+        const { error } = await supabase
+          .from('subscribers')
+          .insert([
+            {
+              name: newsletterData.name,
+              email: newsletterData.email,
+              date_joined: new Date().toISOString(),
+              is_active: true,
+              token: token
+            }
+          ])
+
+        if (error) throw error
+
+        setNewsletterMessage('Thank you for subscribing!')
+        setNewsletterData({ name: '', email: '' })
+      }
+
     } catch (err) {
       console.error('Error subscribing:', err)
       setNewsletterMessage('Error subscribing. Please try again.')

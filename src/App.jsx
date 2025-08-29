@@ -27,6 +27,8 @@ import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import SuccessPage from './pages/SuccessPage/SuccessPage';
 import CancelPage from './pages/CancelPage/CancelPage';
+import NewsletterModal from './components/Modal/NewsletterModal';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 function App() {
   return (
     <Router>
@@ -59,10 +61,13 @@ function App() {
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
 
+            {/* Catch-all route for 404 errors - must be last */}
+            <Route path="*" element={<NotFoundPage />} />
             
           </Routes>
         </main>
         <ChatBot />
+        <NewsletterModal />
         <Footer />
       </div>
     </Router>

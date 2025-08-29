@@ -20,21 +20,59 @@ const Footer = () => {
         }
     
         try {
-          const { error } = await supabase
+          // First, check if email already exists
+          const { data: existingSubscriber, error: checkError } = await supabase
             .from('subscribers')
-            .insert([
-              {
-                email: email,
-                date_joined: new Date().toISOString(),
-                is_active: true
-              }
-            ])
-    
-          if (error) throw error
+            .select('email, is_active')
+            .eq('email', email)
+            .single();
 
-          // Success case
-          alert('Thank you for subscribing to our newsletter!');
-          setEmail('');
+          if (checkError && checkError.code !== 'PGRST116') {
+            // PGRST116 is "not found" error, which is expected if email doesn't exist
+            throw checkError;
+          }
+
+          if (existingSubscriber) {
+            if (existingSubscriber.is_active) {
+              alert('This email is already subscribed to our newsletter!');
+              setEmail('');
+              setIsSubmitting(false);
+              return;
+            } else {
+              // Reactivate inactive subscriber
+              const { error: updateError } = await supabase
+                .from('subscribers')
+                .update({
+                  is_active: true,
+                  token: `${Date.now()}${Math.random()}`,
+                  date_joined: new Date().toISOString()
+                })
+                .eq('email', email);
+
+              if (updateError) throw updateError;
+
+              alert('Welcome back! Your subscription has been reactivated.');
+              setEmail('');
+            }
+          } else {
+            // Insert new subscriber
+            const { error } = await supabase
+              .from('subscribers')
+              .insert([
+                {
+                  email: email,
+                  date_joined: new Date().toISOString(),
+                  is_active: true,
+                  token: `${Date.now()}${Math.random()}`
+                }
+              ])
+
+            if (error) throw error
+
+            alert('Thank you for subscribing to our newsletter!');
+            setEmail('');
+          }
+
           setIsSubmitting(false);
     
         } catch (err) {

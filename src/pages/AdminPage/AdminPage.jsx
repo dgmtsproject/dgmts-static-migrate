@@ -123,12 +123,29 @@ function AdminPage() {
         title, 
         content: finalContent, 
         image_url: imageUrl 
-      }])
+      }]).select()
       if (error) {
         console.error('Insert error:', error)
         alert('Insert failed: ' + error.message)
       } else {
         console.log('Insert successful:', data)
+        const newBlog = data[0];
+        // Notify subscribers
+        try {
+          const { data: functionData, error: functionError } = await supabase.functions.invoke('notify-subscribers', {
+            body: { 
+              blog_title: newBlog.title,
+              blog_url: `${window.location.origin}/blog/${newBlog.id}`
+            },
+          });
+          if(functionError) throw functionError;
+          console.log('Notify subscribers function invoked:', functionData);
+          alert('Blog added and subscribers notified!');
+        } catch (e) {
+          console.error('Function error:', e);
+          alert('Blog was added, but failed to notify subscribers.');
+        }
+
         resetForm()
         fetchBlogs()
         setView('all')
