@@ -42,37 +42,7 @@
   flex-wrap: wrap;
 }
 
-.btn-primary, .btn-secondary {
-  display: inline-block;
-  padding: 12px 24px;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
 
-.btn-primary {
-  background: linear-gradient(45deg, #007bff, #0056b3);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(45deg, #0056b3, #004494);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: #003366;
-  border-color: #003366;
-}
-
-.btn-secondary:hover {
-  background: #003366;
-  color: white;
-  transform: translateY(-2px);
-}
 
 .helpful-links {
   background: #f8f9fa;
