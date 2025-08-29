@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import supabase from '../../supabaseClient';
 import './NewsletterModal.css'; // Make sure this path is correct
+import logo from "../../assets/logos/cropped-logo.png";
 const devMode = false;
 const NewsletterModal = () => {
     const [isVisible, setIsVisible] = useState(false);
@@ -112,7 +113,7 @@ const NewsletterModal = () => {
                 <button className="newsletter-modal-close" onClick={closeModal}>&times;</button>
                 <div className="newsletter-modal-body">
                     <div className="newsletter-modal-header">
-                        <img src="/src/assets/logos/cropped-logo.png" alt="DGMTS Logo" style={{ height: '60px', marginBottom: '15px' }} />
+                        <img src={logo} alt="DGMTS Logo" style={{ height: '60px', marginBottom: '15px' }} />
                         <h3 style={{ color: '#003366', marginBottom: '10px' }}>Stay Updated with DGMTS</h3>
                         <p style={{ color: '#666', marginBottom: '20px' }}>Get the latest news, blog posts, and updates from Dulles Geotechnical and Material Testing Services delivered to your inbox.</p>
                     </div>
