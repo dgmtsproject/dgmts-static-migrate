@@ -14,6 +14,9 @@ function AdminPage() {
   const [content, setContent] = useState('')
   const [rawHtmlContent, setRawHtmlContent] = useState('') // Store raw HTML separately
   const [imageUrl, setImageUrl] = useState('')
+  const [slug, setSlug] = useState('')
+  const [category, setCategory] = useState('')
+  const [categories, setCategories] = useState([])
   const [editingId, setEditingId] = useState(null)
   const [view, setView] = useState('all') // 'all', 'add', 'edit'
   const [isHtmlMode, setIsHtmlMode] = useState(false) // Toggle between rich text and HTML
@@ -49,7 +52,10 @@ function AdminPage() {
   ]
 
   useEffect(() => {
-    if (loggedIn) fetchBlogs()
+    if (loggedIn) {
+      fetchBlogs()
+      fetchCategories()
+    }
   }, [loggedIn])
 
   const fetchBlogs = async () => {
@@ -61,6 +67,18 @@ function AdminPage() {
     } else {
       console.log('Fetched blogs:', data)
       setBlogs(data || [])
+    }
+  }
+
+  const fetchCategories = async () => {
+    console.log('Fetching categories...')
+    const { data, error } = await supabase.from('categories').select('*').order('category_name')
+    if (error) {
+      console.error('Fetch categories error:', error)
+      alert('Failed to fetch categories: ' + error.message)
+    } else {
+      console.log('Fetched categories:', data)
+      setCategories(data || [])
     }
   }
 
@@ -107,7 +125,9 @@ function AdminPage() {
       const { data, error } = await supabase.from('blogs').update({ 
         title, 
         content: finalContent, 
-        image_url: imageUrl 
+        image_url: imageUrl,
+        slug,
+        category: category || null
       }).eq('id', editingId)
       if (error) {
         console.error('Update error:', error)
@@ -122,7 +142,9 @@ function AdminPage() {
       const { data, error } = await supabase.from('blogs').insert([{ 
         title, 
         content: finalContent, 
-        image_url: imageUrl 
+        image_url: imageUrl,
+        slug,
+        category: category || null
       }]).select()
       if (error) {
         console.error('Insert error:', error)
@@ -132,12 +154,15 @@ function AdminPage() {
         const newBlog = data[0];
         // Notify subscribers
         try {
-          const { data: functionData, error: functionError } = await supabase.functions.invoke('notify-subscribers', {
+            const { data: functionData, error: functionError } = await supabase.functions.invoke('notify-subscribers', {
             body: { 
-              blog_title: newBlog.title,
-              blog_url: `${window.location.origin}/blog/${newBlog.id}`
+              blogId: newBlog.id,
+              blogTitle: newBlog.title,
+              blogSlug: newBlog.id,
+              blogExcerpt: newBlog.content?.replace(/<[^>]+>/g, '').slice(0, 120) || '',
+              blogAuthor: 'Admin'
             },
-          });
+            });
           if(functionError) throw functionError;
           console.log('Notify subscribers function invoked:', functionData);
           alert('Blog added and subscribers notified!');
@@ -158,6 +183,8 @@ function AdminPage() {
     setContent('')
     setRawHtmlContent('')
     setImageUrl('')
+    setSlug('')
+    setCategory('')
     setEditingId(null)
     setIsHtmlMode(false)
   }
@@ -168,6 +195,8 @@ function AdminPage() {
     setContent(b.content)
     setRawHtmlContent(b.content) // Set both content states
     setImageUrl(b.image_url || '')
+    setSlug(b.slug || '')
+    setCategory(b.category_id || '')
     setView('edit')
     setIsHtmlMode(false)
   }
@@ -269,6 +298,21 @@ function AdminPage() {
                 onChange={e => setImageUrl(e.target.value)}
                 type="url"
               />
+              <input 
+                placeholder="Slug (URL-friendly identifier)" 
+                value={slug} 
+                onChange={e => setSlug(e.target.value)} 
+                required 
+              />
+              <select 
+                value={category} 
+                onChange={e => setCategory(e.target.value)}
+              >
+                <option value="">Select Category (optional)</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>{cat.category_name}</option>
+                ))}
+              </select>
               
               {/* Editor Mode Toggle */}
               <div className="editor-controls">
@@ -284,7 +328,7 @@ function AdminPage() {
                   <div className="html-help">
                     <small>
                       💡 <strong>Tip:</strong> You can add images with: 
-                      <code>&lt;img src="your-image-url" alt="description" /&gt;</code>
+                      <code>&lt;img src=&quot;your-image-url&quot; alt=&quot;description&quot; /&gt;</code>
                     </small>
                   </div>
                 )}

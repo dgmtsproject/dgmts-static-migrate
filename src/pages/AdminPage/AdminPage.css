@@ -16,7 +16,7 @@
   color: var(--text-color);
 }
 
-.sidebar {
+.admin-page .sidebar {
   width: 240px;
   background: var(--sidebar-background);
   border-right: 1px solid var(--border-color);
@@ -25,20 +25,20 @@
   flex-direction: column;
 }
 
-.sidebar h3 {
+.admin-page .sidebar h3 {
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0 0 2rem 0;
   text-align: center;
 }
 
-.sidebar nav {
+.admin-page .sidebar nav {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.sidebar nav button {
+.admin-page .sidebar nav button {
   background: none;
   border: none;
   padding: 0.8rem 1rem;
@@ -49,29 +49,29 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.sidebar nav button:hover {
+.admin-page .sidebar nav button:hover {
   background-color: #eaf2fa;
 }
 
-.sidebar nav button.active {
+.admin-page .sidebar nav button.active {
   background-color: var(--primary-color);
   color: white;
   font-weight: 500;
 }
 
-.content {
+.admin-page .content {
   flex: 1;
   padding: 2rem 3rem;
   overflow-y: auto;
 }
 
-.content h2 {
+.admin-page .content h2 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 2rem;
 }
 
-.admin-login {
+.admin-page .admin-login {
   max-width: 400px;
   margin: 5rem auto;
   padding: 2rem;
@@ -80,13 +80,14 @@
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.admin-login form, .blog-form {
+.admin-page .admin-login form,
+.admin-page .blog-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.blog-form-container {
+.admin-page .blog-form-container {
   max-width: 900px;
   margin: 0 auto;
   background: #fff;
@@ -95,13 +96,13 @@
   box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-.blogs-list {
+.admin-page .blogs-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
 }
 
-.blog-row {
+.admin-page .blog-row {
   background: #fff;
   border-radius: 8px;
   padding: 1.5rem;
@@ -111,24 +112,24 @@
   justify-content: space-between;
 }
 
-.blog-row strong {
+.admin-page .blog-row strong {
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.muted {
+.admin-page .muted {
   color: #888;
   font-size: 0.9rem;
   margin-top: 0.5rem;
 }
 
-.actions {
+.admin-page .actions {
   margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
 }
 
-.btn {
+.admin-page .btn {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: 1px solid transparent;
@@ -137,53 +138,83 @@
   font-size: 0.9rem;
 }
 
-.btn-primary {
+.admin-page .btn-primary {
   background-color: var(--primary-color);
   color: white;
   border: 1px solid var(--primary-color);
 }
 
-.btn-primary:hover {
+.admin-page .btn-primary:hover {
   background-color: var(--primary-hover-color);
   box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
 }
 
-.btn-secondary {
+.admin-page .btn-secondary {
   background-color: var(--secondary-color);
   color: white;
   border: 1px solid var(--secondary-color);
 }
 
-.btn-secondary:hover {
+.admin-page .btn-secondary:hover {
   background-color: var(--secondary-hover-color);
 }
 
-.form-actions {
+.admin-page .form-actions {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-input,
-textarea {
+.admin-page input,
+.admin-page textarea,
+.admin-page select {
   padding: 0.8rem;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 1rem;
+  background-color: white;
+  color: var(--text-color);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-textarea {
+.admin-page input:focus,
+.admin-page textarea:focus,
+.admin-page select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.admin-page select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.admin-page select option {
+  padding: 0.5rem;
+  background-color: white;
+  color: var(--text-color);
+}
+
+.admin-page textarea {
   min-height: 150px;
   resize: vertical;
 }
 
 /* ReactQuill Styling */
-.quill-container {
+.admin-page .quill-container {
   margin: 1rem 0 2rem 0;
 }
 
 /* Override ReactQuill default styles */
-.ql-toolbar {
+.admin-page .ql-toolbar {
   border-top: 1px solid var(--border-color) !important;
   border-left: 1px solid var(--border-color) !important;
   border-right: 1px solid var(--border-color) !important;
@@ -192,7 +223,7 @@ textarea {
   background: #f8f9fa;
 }
 
-.ql-container {
+.admin-page .ql-container {
   border-bottom: 1px solid var(--border-color) !important;
   border-left: 1px solid var(--border-color) !important;
   border-right: 1px solid var(--border-color) !important;
@@ -201,42 +232,42 @@ textarea {
   font-family: inherit;
 }
 
-.ql-editor {
+.admin-page .ql-editor {
   min-height: 300px !important;
   font-size: 1rem;
   line-height: 1.6;
   padding: 1rem !important;
 }
 
-.ql-editor.ql-blank::before {
+.admin-page .ql-editor.ql-blank::before {
   font-style: normal;
   color: #adb5bd;
   left: 1rem;
 }
 
 /* Ensure formatting is visible in the editor */
-.ql-editor strong {
+.admin-page .ql-editor strong {
   font-weight: bold !important;
 }
 
-.ql-editor em {
+.admin-page .ql-editor em {
   font-style: italic !important;
 }
 
-.ql-editor u {
+.admin-page .ql-editor u {
   text-decoration: underline !important;
 }
 
-.ql-editor s {
+.admin-page .ql-editor s {
   text-decoration: line-through !important;
 }
 
-.ql-editor a {
+.admin-page .ql-editor a {
   color: var(--primary-color) !important;
   text-decoration: underline !important;
 }
 
-.ql-editor blockquote {
+.admin-page .ql-editor blockquote {
   border-left: 4px solid var(--border-color);
   padding-left: 1rem;
   margin: 1rem 0;
@@ -244,7 +275,7 @@ textarea {
   background: #f8f9fa;
 }
 
-.ql-editor pre {
+.admin-page .ql-editor pre {
   background: #f8f9fa;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -252,7 +283,7 @@ textarea {
   overflow-x: auto;
 }
 
-.ql-editor img {
+.admin-page .ql-editor img {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
@@ -260,31 +291,31 @@ textarea {
 }
 
 /* Toolbar button active states */
-.ql-toolbar .ql-active {
+.admin-page .ql-toolbar .ql-active {
   color: var(--primary-color) !important;
 }
 
-.ql-toolbar button:hover {
+.admin-page .ql-toolbar button:hover {
   color: var(--primary-color) !important;
 }
 
-.ql-toolbar .ql-stroke {
+.admin-page .ql-toolbar .ql-stroke {
   stroke: currentColor !important;
 }
 
-.ql-toolbar .ql-fill {
+.admin-page .ql-toolbar .ql-fill {
   fill: currentColor !important;
 }
 
 /* HTML Preview Section */
-.html-preview {
+.admin-page .html-preview {
   margin: 2rem 0;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.html-preview h4 {
+.admin-page .html-preview h4 {
   margin: 0;
   padding: 0.75rem 1rem;
   background: #f8f9fa;
@@ -294,43 +325,43 @@ textarea {
   color: var(--text-color);
 }
 
-.preview-content {
+.admin-page .preview-content {
   padding: 1rem;
   background: white;
   min-height: 100px;
   line-height: 1.6;
 }
 
-.preview-content img {
+.admin-page .preview-content img {
   max-width: 100%;
   height: auto;
   border-radius: 4px;
   margin: 0.5rem 0;
 }
 
-.preview-content h1,
-.preview-content h2,
-.preview-content h3 {
+.admin-page .preview-content h1,
+.admin-page .preview-content h2,
+.admin-page .preview-content h3 {
   margin: 1rem 0 0.5rem 0;
   color: var(--text-color);
 }
 
-.preview-content p {
+.admin-page .preview-content p {
   margin: 0.5rem 0;
 }
 
-.preview-content ul,
-.preview-content ol {
+.admin-page .preview-content ul,
+.admin-page .preview-content ol {
   margin: 0.5rem 0;
   padding-left: 2rem;
 }
 
-.preview-content a {
+.admin-page .preview-content a {
   color: var(--primary-color);
   text-decoration: underline;
 }
 
-.preview-content blockquote {
+.admin-page .preview-content blockquote {
   border-left: 4px solid var(--primary-color);
   padding-left: 1rem;
   margin: 1rem 0;
@@ -341,7 +372,7 @@ textarea {
 }
 
 /* Editor Controls */
-.editor-controls {
+.admin-page .editor-controls {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -352,7 +383,7 @@ textarea {
   border: 1px solid var(--border-color);
 }
 
-.mode-toggle {
+.admin-page .mode-toggle {
   background: #fff !important;
   border: 1px solid var(--border-color) !important;
   color: var(--text-color) !important;
@@ -360,28 +391,28 @@ textarea {
   transition: all 0.2s;
 }
 
-.mode-toggle:hover {
+.admin-page .mode-toggle:hover {
   background: var(--primary-color) !important;
   color: white !important;
   border-color: var(--primary-color) !important;
 }
 
-.mode-toggle.active {
+.admin-page .mode-toggle.active {
   background: var(--primary-color) !important;
   color: white !important;
   border-color: var(--primary-color) !important;
 }
 
-.html-help {
+.admin-page .html-help {
   flex: 1;
 }
 
-.html-help small {
+.admin-page .html-help small {
   color: #6c757d;
   line-height: 1.4;
 }
 
-.html-help code {
+.admin-page .html-help code {
   background: #e9ecef;
   padding: 2px 4px;
   border-radius: 3px;
@@ -390,17 +421,17 @@ textarea {
 }
 
 /* HTML Editor Styles */
-.content-editor {
+.admin-page .content-editor {
   margin: 1rem 0 2rem 0;
 }
 
-.html-editor {
+.admin-page .html-editor {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.html-textarea {
+.admin-page .html-textarea {
   width: 100%;
   min-height: 400px;
   padding: 1rem;
@@ -414,18 +445,18 @@ textarea {
   outline: none;
 }
 
-.html-textarea::placeholder {
+.admin-page .html-textarea::placeholder {
   color: #6c757d;
   line-height: 1.4;
 }
 
-.html-textarea:focus {
+.admin-page .html-textarea:focus {
   background: #fff;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 /* Quill container adjustments for toggle mode */
-.quill-container {
+.admin-page .quill-container {
   margin: 0;
 }
 
@@ -435,31 +466,31 @@ textarea {
     flex-direction: column;
   }
   
-  .sidebar {
+  .admin-page .sidebar {
     width: 100%;
     padding: 1rem;
   }
   
-  .sidebar nav {
+  .admin-page .sidebar nav {
     flex-direction: row;
     overflow-x: auto;
   }
   
-  .content {
+  .admin-page .content {
     padding: 1rem;
   }
   
-  .blog-form-container {
+  .admin-page .blog-form-container {
     padding: 1rem;
   }
 
-  .editor-controls {
+  .admin-page .editor-controls {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
 
-  .html-help {
+  .admin-page .html-help {
     width: 100%;
   }
 }
