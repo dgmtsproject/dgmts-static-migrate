@@ -137,14 +137,14 @@ const ITDigitalServicesPage = () => {
 
   const portfolio = [
     {
-      image: {dataManagementSoftwarePicture},
+      image: dataManagementSoftwarePicture,
       title: "DGMTS Management Software",
       category: "Data Management Platform",
       description: "DGMTS Management Dashboard is a smart business solution that streamlines operations, tracks projects, manages resources, and simplifies reporting—all in one place. Designed for efficiency and collaboration, it helps teams stay organized, boost productivity, and ensure smooth workflows across all company branches.",
       technologies: ["React", "Node.js","Express.js", "MongoDB", "AWS"]
     },
     {
-      image: {monitoringSoftwarePicture},
+      image: monitoringSoftwarePicture,
       title: "DGMTS Monitoring Software",
       category: "Data Monitoring Platform",
       description: "DGMTS Monitoring System is a powerful platform for real-time project monitoring, data visualization, and system alerts. It allows teams to manage projects, analyze data through interactive graphs, track alarms, and streamline file management—all from a centralized dashboard.",

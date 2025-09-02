@@ -280,10 +280,10 @@ function BlogPage() {
                         )}
                       </div>
                       <h2 className="blog-title">
-                        <Link to={`/blog/${blog.id}`}>{blog.title}</Link>
+                        <Link to={`/blog/${blog.slug || blog.id}`}>{blog.title}</Link>
                       </h2>
                       <p className="blog-excerpt">{getExcerpt(blog.content)}</p>
-                      <Link to={`/blog/${blog.id}`} className="read-more">
+                      <Link to={`/blog/${blog.slug || blog.id}`} className="read-more">
                         Read More →
                       </Link>
                     </div>

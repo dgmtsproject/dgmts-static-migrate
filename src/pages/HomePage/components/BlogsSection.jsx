@@ -86,10 +86,10 @@ function BlogsSection() {
                   <span className="blog-preview-date">{formatDate(blog.created_at)}</span>
                 </div>
                 <h3 className="blog-preview-title">
-                  <Link to={`/blog/${blog.id}`}>{blog.title}</Link>
+                  <Link to={`/blog/${blog.slug || blog.id}`}>{blog.title}</Link>
                 </h3>
                 <p className="blog-preview-excerpt">{getExcerpt(blog.content)}</p>
-                <Link to={`/blog/${blog.id}`} className="blog-preview-link">
+                <Link to={`/blog/${blog.slug || blog.id}`} className="blog-preview-link">
                   Read More →
                 </Link>
               </div>

@@ -4,7 +4,7 @@ import { supabase } from '../../supabaseClient'
 import './BlogPostPage.css'
 
 function BlogPostPage() {
-  const { id } = useParams()
+  const { id } = useParams() // This will actually be either slug or id
   const [blog, setBlog] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,11 +13,32 @@ function BlogPostPage() {
     const fetchBlog = async () => {
       try {
         setLoading(true)
-        const { data, error } = await supabase
+        let data = null
+        let error = null
+
+        // First try to fetch by slug
+        const slugResponse = await supabase
           .from('blogs')
           .select('*, categories(category_name)')
-          .eq('id', id)
+          .eq('slug', id)
           .single()
+
+        if (slugResponse.data) {
+          data = slugResponse.data
+        } else {
+          // If no blog found by slug, try by ID (for backward compatibility)
+          const idResponse = await supabase
+            .from('blogs')
+            .select('*, categories(category_name)')
+            .eq('id', id)
+            .single()
+
+          if (idResponse.error) {
+            error = idResponse.error
+          } else {
+            data = idResponse.data
+          }
+        }
         
         if (error) throw error
         setBlog(data)
