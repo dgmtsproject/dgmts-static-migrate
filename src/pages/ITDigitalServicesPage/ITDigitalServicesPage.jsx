@@ -9,17 +9,15 @@ import {
   Users,
   Palette,
   ArrowRight,
-  CheckCircle,
   Zap,
-  Globe,
-  Headphones,
   Database,
   Briefcase,
-  PenTool,
   Megaphone
 } from 'lucide-react';
 import './ITDigitalServicesPage.css';
 import HeroSection from '../../components/HeroSection';
+import dataManagementSoftwarePicture from '../../assets/applications/dgmts-management-software.png';
+import monitoringSoftwarePicture from '../../assets/applications/dgmts-monitoring-software.png';
 
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
@@ -139,33 +137,20 @@ const ITDigitalServicesPage = () => {
 
   const portfolio = [
     {
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop&crop=center",
-      title: "HealthTracker Pro",
-      category: "Healthcare Management Platform",
-      description: "A comprehensive patient management system that streamlines appointment scheduling, medical records, and billing processes for healthcare providers.",
-      technologies: ["React", "Node.js", "MongoDB", "AWS"]
+      image: {dataManagementSoftwarePicture},
+      title: "DGMTS Management Software",
+      category: "Data Management Platform",
+      description: "DGMTS Management Dashboard is a smart business solution that streamlines operations, tracks projects, manages resources, and simplifies reporting—all in one place. Designed for efficiency and collaboration, it helps teams stay organized, boost productivity, and ensure smooth workflows across all company branches.",
+      technologies: ["React", "Node.js","Express.js", "MongoDB", "AWS"]
     },
     {
-      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=300&fit=crop&crop=center",
-      title: "EcoDelivery",
-      category: "Sustainable Logistics Mobile App",
-      description: "A green delivery platform that optimizes routes for minimal carbon footprint while connecting local businesses with eco-conscious consumers.",
-      technologies: ["React Native", "Express.js", "PostgreSQL", "Google Maps API"]
+      image: {monitoringSoftwarePicture},
+      title: "DGMTS Monitoring Software",
+      category: "Data Monitoring Platform",
+      description: "DGMTS Monitoring System is a powerful platform for real-time project monitoring, data visualization, and system alerts. It allows teams to manage projects, analyze data through interactive graphs, track alarms, and streamline file management—all from a centralized dashboard.",
+      technologies: ["React", "Tailwind CSS","Django", "PostgreSQL", "Google Maps API"]
     },
-    {
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop&crop=center",
-      title: "ManufactureFlow",
-      category: "Industrial ERP System",
-      description: "An integrated enterprise resource planning system designed for manufacturing companies to manage inventory, production, quality control, and supply chain operations.",
-      technologies: ["Angular", "Spring Boot", "Oracle DB", "Apache Kafka"]
-    },
-    {
-        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&h=300&fit=crop&crop=center",
-        title: "InsightIQ Dashboard",
-        category: "Business Intelligence Platform",
-        description: "A powerful data analytics dashboard that transforms raw business data into actionable insights through interactive visualizations and predictive analytics.",
-        technologies: ["Vue.js", "Python", "TensorFlow", "Elasticsearch"]
-    }
+    
   ];
 
   const features = [

@@ -1,81 +1,79 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-serve(async (req) => {
+import nodemailer from "npm:nodemailer";
+serve(async (req)=>{
   if (req.method === "OPTIONS") {
-    return new Response("ok", { 
-      headers: { 
-        "Access-Control-Allow-Origin": "*", 
+    return new Response("ok", {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "content-type, authorization, x-client-info, apikey",
         "Access-Control-Allow-Methods": "POST, OPTIONS"
-      } 
+      }
     });
   }
-
   try {
     const { blogId, blogTitle, blogSlug, blogExcerpt, blogAuthor } = await req.json();
-
-    console.log('New blog post data received:', { blogTitle, blogAuthor });
-
+    console.log("New blog post data received:", {
+      blogTitle,
+      blogAuthor
+    });
     // Get environment variables
-    const resendApiKey = Deno.env.get("RESEND_API");
+    const smtpHost = "smtp.gmail.com";
+    const smtpPort = 587;
+    const smtpUser = Deno.env.get("SMTP_USERNAME");
+    const smtpPass = Deno.env.get("SMTP_PASSWORD"); // Your API key or app password
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
     const blogBaseUrl = Deno.env.get("BLOG_BASE_URL") || "https://dgmts-static.vercel.app/blog";
-
-    if (!resendApiKey || !supabaseUrl || !supabaseAnonKey || !adminEmail) {
+    if (!smtpUser || !smtpPass || !supabaseUrl || !supabaseAnonKey || !adminEmail) {
       throw new Error("Missing required environment variables");
     }
-
     // Initialize Supabase client
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
     // Query active subscribers
-    const { data: subscribers, error } = await supabase
-      .from('subscribers')
-      .select('email')
-      .eq('is_active', true);
-
-    console.log('Subscribers query result:', { subscribers, error });
-
+    const { data: subscribers, error } = await supabase.from("subscribers").select("email").eq("is_active", true);
+    console.log("Subscribers query result:", {
+      subscribers,
+      error
+    });
     if (error) {
       throw new Error(`Database query error: ${error.message}`);
     }
-
     if (!subscribers || subscribers.length === 0) {
-      console.log('No active subscribers found');
-      return new Response(JSON.stringify({ 
+      console.log("No active subscribers found");
+      return new Response(JSON.stringify({
         message: "No active subscribers to notify"
       }), {
         status: 200,
-        headers: { 
-          "Content-Type": "application/json", 
+        headers: {
+          "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "content-type, authorization, x-client-info, apikey",
           "Access-Control-Allow-Methods": "POST, OPTIONS"
-        },
+        }
       });
     }
-
-    const bccEmails = subscribers.map(sub => sub.email);
-    console.log('BCC emails:', bccEmails);
-
+    const bccEmails = subscribers.map((sub)=>sub.email);
+    console.log("BCC emails:", bccEmails);
     const link = `${blogBaseUrl}/${blogSlug}`;
-
-    // Send email using Resend API
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: "DGMTS Newsletter <onboarding@resend.dev>", // Change this after domain verification
-        to: adminEmail, // Send to admin, BCC to subscribers
-        bcc: bccEmails,
-        subject: `📰 New Blog Post: ${blogTitle}`,
-        text: `
+    // Configure Nodemailer transport
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: false,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass
+      }
+    });
+    // Send email
+    const info = await transporter.sendMail({
+      from: `DGMTS Newsletter <abdullahk5404@gmail.com>`,
+      to: adminEmail,
+      bcc: bccEmails,
+      subject: `📰 New Blog Post: ${blogTitle}`,
+      text: `
 NEW BLOG POST PUBLISHED
 ========================
 
@@ -93,8 +91,8 @@ ${blogExcerpt}
 ---
 This is an automated newsletter from DGMTS.
 If you no longer wish to receive these emails, please unsubscribe.
-        `,
-        html: `
+      `,
+      html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -144,41 +142,33 @@ If you no longer wish to receive these emails, please unsubscribe.
     </div>
 </body>
 </html>
-        `,
-      }),
+      `
     });
-
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.text();
-      throw new Error(`Resend API error: ${emailResponse.status} - ${errorData}`);
-    }
-
-    console.log(`Email sent successfully to ${bccEmails.length} subscribers`);
-
-    return new Response(JSON.stringify({ 
+    console.log(`Email sent successfully: ${info.messageId}`);
+    return new Response(JSON.stringify({
       message: `Notification sent to ${bccEmails.length} subscribers`
     }), {
       status: 200,
-      headers: { 
-        "Content-Type": "application/json", 
+      headers: {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "content-type, authorization, x-client-info, apikey",
         "Access-Control-Allow-Methods": "POST, OPTIONS"
-      },
+      }
     });
   } catch (error) {
-    console.error('Error in notify-subscribers function:', error);
-    return new Response(JSON.stringify({ 
+    console.error("Error in notify-subscribers function:", error);
+    return new Response(JSON.stringify({
       message: error.message,
       error: error.toString()
     }), {
       status: 500,
-      headers: { 
-        "Content-Type": "application/json", 
+      headers: {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "content-type, authorization, x-client-info, apikey",
         "Access-Control-Allow-Methods": "POST, OPTIONS"
-      },
+      }
     });
   }
 });
