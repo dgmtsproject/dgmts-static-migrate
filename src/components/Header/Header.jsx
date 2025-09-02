@@ -16,49 +16,32 @@ const Header = () => {
       {/* Hero Section */}
       <div className="header-hero">
         <div className="header-hero__container">
-          {/* Main Content Row */}
-          <div className="header-main">
-            {/* Left: Main Logo */}
-            <div className="header-brand">
-              <Link to="/" className="brand-logo">
-                <img src={logoImg} alt="DGMTS Logo" />
-              </Link>
-            </div>
-
-            {/* Center: Company Info */}
-            <div className="header-info">
-              <h1 className="company-title">
-                <span className="title-primary">Dulles Geotechnical</span>
-                <span className="title-secondary">& Material Testing Services Inc.</span>
-              </h1>
-              <div className="company-subtitle">
-                <div className="subtitle-line"></div>
-                <span>Professional Engineering Excellence</span>
-                <div className="subtitle-line"></div>
-              </div>
-              
-              {/* Certifications below subtitle */}
-              <div className="header-certifications">
-                <div className="cert-badge">
-                  <img src={swamImg} alt="SWAM Certification" />
-                  <span>SWaM Certified</span>
-                </div>
-                <div className="cert-badge">
-                  <img src={mbeImg} alt="MBE Certification" />
-                  <span>MBE Certified</span>
-                </div>
-                <div className="cert-badge">
-                  <img src={dbeImg} alt="DBE Certification" />
-                  <span>DBE Certified</span>
+          {/* Top Bar */}
+          <div className="top-bar">
+            <div className="top-bar-content">
+              {/* Company Info */}
+              <div className="company-info">
+                <Link to="/" className="logo-link">
+                  <img src={logoImg} alt="DGMTS Logo" className="logo" />
+                </Link>
+                <div className="company-details">
+                  <h1 className="company-name">
+                    Dulles Geotechnical & Material Testing Services Inc.
+                  </h1>
+                  <p className="company-tagline">
+                    A Certified SWaM and MBE/DBE Firm
+                  </p>
+                  <div className="certifications">
+                    <img src={swamImg} alt="SWAM Certification" className="cert-logo" />
+                    <img src={mbeImg} alt="MBE Certification" className="cert-logo" />
+                    <img src={dbeImg} alt="DBE Certification" className="cert-logo" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Right: Partner Logo */}
-            <div className="header-partner">
-              <div className="partner-badge">
-                <span className="partner-label">Authorized Partner</span>
-                <img src={geo5Img} alt="Geo5 Authorized Partner" />
+              {/* Partner Logo */}
+              <div className="partner-logo">
+                <img src={geo5Img} alt="Geo5 Authorized Partner" className="geo5-logo" />
               </div>
             </div>
           </div>

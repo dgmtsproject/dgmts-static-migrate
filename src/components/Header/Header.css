@@ -3,6 +3,7 @@
   position: relative;
   z-index: 100;
   background: white;
+  transition: all 0.3s ease;
 }
 
 .modern-header::before {
@@ -16,214 +17,148 @@
   pointer-events: none;
 }
 
-/* scroll-related styles removed */
-
-/* Hero Section */
-.header-hero {
-  position: relative;
-  z-index: 2;
-  padding: 2rem 0;
+.modern-header.scrolled {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* scroll-related styles removed */
+/* Hero Section */
+.modern-header .header-hero {
+  position: relative;
+  z-index: 2;
+  padding: 0 0;
+}
 
-.header-hero__container {
+.modern-header .header-hero__container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-/* Certifications Row */
-.header-certifications {
+/* Top Bar */
+.modern-header .top-bar {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 0;
+}
+
+.modern-header .top-bar-content {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
-  opacity: 1;
-}
-
-/* scroll-related styles removed */
-
-.cert-badge {
-  display: block;
-  cursor: pointer;
-}
-
-.cert-badge img {
-  height: 3rem;
-  width: auto;
-}
-
-.cert-badge span {
-  display: none;
-}
-
-/* Main Content Row */
-.header-main {
-  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
 }
 
-@media (min-width: 1024px) {
-  .header-main {
-    display: flex;
-  }
-}
-
-/* Brand Section */
-.header-brand {
-  /* equal-width columns for brand and partner */
-  flex: 1 1 0;
+/* Company Info */
+.modern-header .company-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 0;
+  gap: 1rem;
 }
 
-.brand-logo {
-  display: block;
+.modern-header .logo-link {
+  flex-shrink: 0;
 }
 
-.brand-logo img {
-  height: 7rem;
-  width: auto;
+.modern-header .logo {
+  height: 140px;
+  width: 140px;
+  object-fit: contain;
+  border-radius: 0.5rem;
 }
 
-/* scroll-related styles removed */
-
-/* Company Info */
-.header-info {
-  flex: 8;
-  text-align: center;
-  max-width: 800px;
+.modern-header .company-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-.company-title {
-  margin: 0;
+.modern-header .company-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #213764;
   line-height: 1.2;
+  margin: 0;
 }
 
-.title-primary {
-  display: block;
-  font-size: 2.5rem;
-  font-weight: 800;
-  /* gradient text */
-  background: linear-gradient(90deg, #1058b1, #497CBA);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+.modern-header .company-tagline {
+  font-size: 1rem;
+  color: #F6B549;
+  font-weight: 700;
+  font-style: italic;
+  margin: 0;
 }
 
-/* scroll-related styles removed */
-
-.title-secondary {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #255291;
+.modern-header .certifications {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin-top: 0.25rem;
 }
 
-/* scroll-related styles removed */
-
-.company-subtitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-/* scroll-related styles removed */
-
-.subtitle-line {
-  height: 1px;
-  width: 3rem;
-  background: linear-gradient(90deg, transparent, rgba(71, 85, 105, 0.5), transparent);
-}
-
-/* scroll-related styles removed */
-
-.company-subtitle span {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-/* scroll-related styles removed */
-
-/* Partner Section */
-.header-partner {
-  /* equal-width columns for brand and partner */
-  flex: 1 1 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-}
-
-.partner-badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.partner-label {
-  display: none;
-}
-
-.partner-badge img {
-  height: 3.5rem;
+.modern-header .cert-logo {
+  height: 40px;
   width: auto;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
 }
 
-/* scroll-related styles removed */
+.modern-header .cert-logo:hover {
+  opacity: 1;
+}
+
+/* Partner Logo */
+.modern-header .partner-logo {
+  flex-shrink: 0;
+}
+
+.modern-header .geo5-logo {
+  height: 70px;
+  width: 140px;
+  min-width: 220px;
+  object-fit: contain;
+}
 
 /* Mobile Layout */
-.header-mobile {
+.modern-header .header-mobile {
   display: block;
 }
 
 @media (min-width: 1024px) {
-  .header-mobile {
+  .modern-header .header-mobile {
     display: none;
   }
 }
 
-.mobile-top {
+@media (max-width: 1023px) {
+  .modern-header .top-bar {
+    display: none;
+  }
+}
+
+.modern-header .mobile-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 
-.mobile-logo img {
+.modern-header .mobile-logo img {
   height: 3.5rem;
   width: auto;
 }
 
-/* scroll-related styles removed */
-
-
-.mobile-partner img {
+.modern-header .mobile-partner img {
   height: 2rem;
   width: auto;
 }
 
-/* scroll-related styles removed */
-
-.mobile-info {
+.modern-header .mobile-info {
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
-.mobile-title {
+.modern-header .mobile-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: #1e293b;
@@ -232,18 +167,12 @@
 }
 
 @media (min-width: 640px) {
-  .mobile-title {
+  .modern-header .mobile-title {
     font-size: 1.5rem;
   }
 }
 
-/* scroll-related styles removed */
-
-@media (min-width: 640px) {
-  /* scroll-related styles removed */
-}
-
-.mobile-subtitle {
+.modern-header .mobile-subtitle {
   font-size: 0.875rem;
   color: #64748b;
   font-weight: 500;
@@ -252,53 +181,110 @@
   margin: 0;
 }
 
-/* scroll-related styles removed */
-
-.mobile-certifications {
+.modern-header .mobile-certifications {
   display: flex;
   justify-content: center;
   gap: 1rem;
   opacity: 1;
 }
 
-/* scroll-related styles removed */
-
-.mobile-certifications img {
+.modern-header .mobile-certifications img {
   height: 1.75rem;
   width: auto;
 }
 
-/* scroll-related styles removed */
-
-/* Responsive Adjustments */
-@media (max-width: 640px) {
-  .header-hero__container {
-    padding: 0 1rem;
+/* Responsive Design for Desktop Layout */
+@media (max-width: 1200px) {
+  .modern-header .top-bar-content {
+    gap: 1rem;
   }
   
-  .header-hero {
-    padding: 1.5rem 0;
-  }
-  
-  /* scroll-related styles removed */
-  
-  .mobile-top {
-    margin-bottom: 1rem;
-  }
-  
-  .mobile-info {
-    margin-bottom: 1rem;
-  }
-  
-  .mobile-title {
+  .modern-header .company-name {
     font-size: 1.125rem;
   }
   
-  .mobile-certifications {
+  .modern-header .geo5-logo {
+    height: 70px;
+    width: 280px;
+    min-width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modern-header .top-bar {
+    padding: 0.75rem 0;
+  }
+  
+  .modern-header .logo {
+    height: 60px;
+    width: 60px;
+  }
+  
+  .modern-header .company-name {
+    font-size: 1rem;
+  }
+  
+  .modern-header .company-tagline {
+    font-size: 0.75rem;
+  }
+  
+  .modern-header .certifications {
+    gap: 0.25rem;
+  }
+  
+  .modern-header .cert-logo {
+    height: 24px;
+  }
+  
+  .modern-header .geo5-logo {
+    height: 50px;
+    width: 160px;
+    min-width: 140px;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .modern-header .header-hero__container {
+    padding: 0 1rem;
+  }
+  
+  .modern-header .header-hero {
+    padding: 1.5rem 0;
+  }
+  
+  .modern-header .mobile-top {
+    margin-bottom: 1rem;
+  }
+  
+  .modern-header .mobile-info {
+    margin-bottom: 1rem;
+  }
+  
+  .modern-header .mobile-title {
+    font-size: 1.125rem;
+  }
+  
+  .modern-header .mobile-certifications {
     gap: 0.75rem;
   }
   
-  .mobile-certifications img {
+  .modern-header .mobile-certifications img {
     height: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modern-header .company-info {
+    gap: 0.5rem;
+  }
+  
+  .modern-header .company-name {
+    font-size: 0.875rem;
+  }
+  
+  .modern-header .certifications {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
