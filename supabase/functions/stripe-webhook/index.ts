@@ -1,6 +1,7 @@
 // supabase/functions/stripe-webhook/index.ts
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import nodemailer from "npm:nodemailer";
 // Use the same CORS headers as your working function
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -170,25 +171,47 @@ async function handleExpiredPayment(session, supabaseClient) {
 }
 async function sendPaymentNotificationEmail(session) {
   try {
-    const resendApiKey = Deno.env.get("RESEND_API");
+    // Get SMTP credentials
+    const smtpHost = "smtp.gmail.com";
+    const smtpPort = 587;
+    const smtpUser = Deno.env.get("SMTP_USERNAME");
+    const smtpPass = Deno.env.get("SMTP_PASSWORD");
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
+    
     console.log('Environment variables check:', {
-      hasResendApiKey: !!resendApiKey,
+      hasSmtpUser: !!smtpUser,
+      hasSmtpPass: !!smtpPass,
       hasAdminEmail: !!adminEmail
     });
-    if (!resendApiKey || !adminEmail) {
+
+    if (!smtpUser || !smtpPass || !adminEmail) {
       console.error('Missing environment variables for email notification');
       return; // Don't throw, as payment was already processed
     }
+
     const customerName = session.metadata?.customer_name || 'N/A';
     const customerEmail = session.customer_email || 'N/A';
     const customerAddress = session.metadata?.customer_address || 'N/A';
     const invoiceNo = session.metadata?.invoice_no || 'N/A';
     const paymentNote = session.metadata?.payment_note || 'N/A';
     const amount = session.amount_total ? (session.amount_total / 100).toFixed(2) : 'N/A';
+
     console.log('Preparing to send payment notification email');
-    const emailPayload = {
-      from: "DGMTS Payment System <onboarding@resend.dev>",
+
+    // Configure Nodemailer transport
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: false,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    // Send email using SMTP
+    const info = await transporter.sendMail({
+      from: `DGMTS Payment System <${smtpUser}>`,
       to: adminEmail,
       subject: `💰 Payment Completed - Invoice ${invoiceNo}`,
       text: `
@@ -281,26 +304,13 @@ This is an automated notification from your DGMTS payment system.
 </body>
 </html>
       `,
-      reply_to: customerEmail
-    };
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(emailPayload)
+      replyTo: customerEmail,
     });
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.text();
-      console.error('Email sending failed:', errorData);
-    // Don't throw - payment was successful, email is just notification
-    } else {
-      const successData = await emailResponse.json();
-      console.log('Payment notification email sent successfully:', successData);
-    }
+
+    console.log(`Payment notification email sent successfully: ${info.messageId}`);
+
   } catch (error) {
     console.error('Error sending payment notification email:', error);
-  // Don't throw - payment was successful, email is just notification
+    // Don't throw - payment was successful, email is just notification
   }
 }
