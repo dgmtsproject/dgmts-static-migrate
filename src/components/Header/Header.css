@@ -60,10 +60,11 @@
 }
 
 .modern-header .logo {
-  height: 140px;
-  width: 140px;
+  height: 150px;
+  width: 150px;
   object-fit: contain;
   border-radius: 0.5rem;
+  margin-bottom: 5px;
 }
 
 .modern-header .company-details {
@@ -115,7 +116,7 @@
 .modern-header .geo5-logo {
   height: 70px;
   width: 140px;
-  min-width: 220px;
+  min-width: 240px;
   object-fit: contain;
 }
 
