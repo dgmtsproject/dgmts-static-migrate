@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import nodemailer from "npm:nodemailer";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,26 +17,34 @@ serve(async (req) => {
 
     console.log('Form data received:', { name, email });
 
-    // Get Resend API key and admin email
-    const resendApiKey = Deno.env.get("RESEND_API");
+    // Get SMTP credentials and admin email
+    const smtpHost = "smtp.gmail.com";
+    const smtpPort = 587;
+    const smtpUser = Deno.env.get("SMTP_USERNAME");
+    const smtpPass = Deno.env.get("SMTP_PASSWORD");
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
 
-    if (!resendApiKey || !adminEmail) {
-      throw new Error("Missing RESEND_API or ADMIN_EMAIL environment variables");
+    if (!smtpUser || !smtpPass || !adminEmail) {
+      throw new Error("Missing SMTP_USERNAME, SMTP_PASSWORD, or ADMIN_EMAIL environment variables");
     }
 
-    // Send email using Resend API
-    const emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${resendApiKey}`,
-        "Content-Type": "application/json",
+    // Configure Nodemailer transport
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: false,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
       },
-      body: JSON.stringify({
-        from: "DGMTS Contact Form <onboarding@resend.dev>", // Change this after domain verification
-        to: adminEmail,
-        subject: `🔔 New Contact Form Submission from ${name}`,
-        text: `
+    });
+
+    // Send email using SMTP
+    const info = await transporter.sendMail({
+      from: `DGMTS Contact Form <${smtpUser}>`,
+      to: adminEmail,
+      subject: `🔔 New Contact Form Submission from ${name}`,
+      text: `
 NEW CONTACT FORM SUBMISSION
 ============================
 
@@ -51,8 +60,8 @@ ${message}
 ---
 This email was sent from your DGMTS website contact form.
 Reply directly to this email to respond to ${name}.
-        `,
-        html: `
+      `,
+      html: `
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,17 +113,11 @@ Reply directly to this email to respond to ${name}.
     </div>
 </body>
 </html>
-        `,
-        reply_to: email,
-      }),
+      `,
+      replyTo: email,
     });
 
-    if (!emailResponse.ok) {
-      const errorData = await emailResponse.text();
-      throw new Error(`Resend API error: ${emailResponse.status} - ${errorData}`);
-    }
-
-    console.log('Email sent successfully via Resend');
+    console.log(`Email sent successfully: ${info.messageId}`);
 
     return new Response(JSON.stringify({ 
       message: "Email sent successfully"
