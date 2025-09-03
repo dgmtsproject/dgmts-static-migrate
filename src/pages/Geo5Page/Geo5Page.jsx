@@ -11,6 +11,11 @@ import geo6 from '../../assets/geo5-images/6-retaining-wall-min.png';
 import geo7 from '../../assets/geo5-images/7-tunnel-shaft-min.png';
 import geo8 from '../../assets/geo5-images/8-geological-modelling-min.png';
 import geo9 from '../../assets/geo5-images/9-survey-laboratory-min.png';
+import carouselImage1 from '../../assets/geo5-images/geo5-carousel-image-1.png';
+import carouselImage2 from '../../assets/geo5-images/geo5-carousel-image-2.png';
+import carouselImage3 from '../../assets/geo5-images/geo5-carousel-image-3.png';
+import carouselImage4 from '../../assets/geo5-images/geo5-carousel-image-4.png';
+
 
 const slides = [
   {
@@ -69,22 +74,22 @@ const slides = [
     description: 'GEO5 contains catalogs of profiles, sheet piles, anchors, nails, geogrids and blocks.'
   },
   {
-    image: '/assets/uploads/geo5-carousel-image-1.png',
+    image: carouselImage1,
     title: 'Advanced Slope Stability Analysis',
     description: 'GEO5 provides comprehensive slope stability verification with multiple calculation methods and detailed safety factor analysis.'
   },
   {
-    image: '/assets/uploads/geo5-carousel-image-2.png',
+    image: carouselImage2,
     title: '3D Terrain Modeling & Visualization',
     description: 'Create detailed 3D models of terrain surfaces with integrated geological data for enhanced project visualization.'
   },
   {
-    image: '/assets/uploads/geo5-carousel-image-3.png',
+    image: carouselImage3,
     title: 'Multi-Layer Geological Analysis',
     description: 'Analyze complex geological structures with detailed soil layer identification and comprehensive stability verification.'
   },
   {
-    image: '/assets/uploads/geo5-carousel-image-4.png',
+    image: carouselImage4,
     title: 'Ground Loss & Settlement Analysis',
     description: 'Evaluate building damage risk and ground settlement effects with detailed damage assessment classifications.'
   }
