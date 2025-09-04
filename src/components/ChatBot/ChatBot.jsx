@@ -91,7 +91,7 @@ function ChatBot() {
     bottom: isMobile ? '0px' : '90px',
     right: isMobile ? '0px' : '20px',
     left: isMobile ? '0px' : 'auto',
-    zIndex: 1000,
+    zIndex: 10000,
     borderRadius: isMobile ? '0px' : '12px',
     boxShadow: isMobile 
       ? 'none' 
@@ -138,7 +138,7 @@ function ChatBot() {
           right: 0,
           bottom: 0,
           background: 'rgba(0, 0, 0, 0.5)',
-          zIndex: 9999,
+          zIndex: 10000,
         }} onClick={toggleWebchat} />
       )}
 
