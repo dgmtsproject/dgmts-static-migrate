@@ -7,6 +7,16 @@
   z-index: 1000;
 }
 
+/* Make navigation sticky on desktop only */
+@media (min-width: 1024px) {
+  .mega-menu-nav {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
 /* Typography for navigation: headings/links use Montserrat, descriptions use Red Hat Display */
 .mega-menu-nav,
 .desktop-nav-link,
