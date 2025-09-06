@@ -13,6 +13,7 @@ import './GeotechnicalEngineeringPage.css';
 import HeroSection from '../../components/HeroSection';
 import photo44 from '../../assets/gallery/photo-44.jpg';
 import photo87 from '../../assets/gallery/photo-87.jpg';
+import teamMember1 from '../../assets/team-members/team-member-1.jpg';
 
 const GeotechnicalEngineeringPage = () => {
   const services = [
@@ -164,7 +165,7 @@ const GeotechnicalEngineeringPage = () => {
                 </div>
                 <div className="geotech-leadership-image">
                   <img 
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" 
+                    src={teamMember1}
                     alt="Dr. Tariq Hamid"
                   />
                 </div>
