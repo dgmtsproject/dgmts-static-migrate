@@ -23,6 +23,7 @@ import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage
 import GalleryPage from './pages/GalleryPage/GalleryPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 import ScrollToTop from './components/ScrollToTop';
+import FloatingQuoteButton from './components/FloatingQuoteButton/FloatingQuoteButton';
 import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import SuccessPage from './pages/SuccessPage/SuccessPage';
@@ -67,6 +68,7 @@ function App() {
           </Routes>
         </main>
         <ChatBot />
+        <FloatingQuoteButton />
         <NewsletterModal />
         <Footer />
       </div>
