@@ -3,6 +3,8 @@
   position: relative;
   background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 100%);
   overflow: hidden;
+  padding: var(--spacing-3xl) 0 !important;
+
 }
 
 .company-intro::before {
@@ -21,13 +23,12 @@
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: var(--spacing-2xl) var(--spacing-lg);
 }
 
 .intro-hero {
   text-align: center;
   max-width: 880px;
-  margin: 0 auto var(--spacing-2xl);
+  margin: 0 auto var(--spacing-md);
 }
 
 .intro-heading {
@@ -39,7 +40,7 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  margin: 0 0 var(--spacing-lg);
+  margin: 0 0 var(--spacing-sm);
 }
 
 .intro-sub {
@@ -54,14 +55,14 @@
 
 /* Animated counter card */
 .team-strength-card {
-  --card-pad: var(--spacing-xl);
+  --card-pad: var(--spacing-md);
   background: var(--white);
   padding: var(--card-pad);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
-  margin: 0 auto var(--spacing-2xl);
+  margin: 0 auto var(--spacing-md);
   max-width: 520px;
   position: relative;
   overflow: hidden;
@@ -95,7 +96,7 @@
 /* Role chips */
 .role-chips-wrapper { max-width: 1000px; margin: 0 auto; }
 
-.role-chips-heading { font-size: 1rem; font-weight: var(--font-weight-semibold); letter-spacing: .5px; color: var(--grey-600); margin: 0 0 var(--spacing-md); text-align: center; }
+.role-chips-heading { font-size: 1rem; font-weight: var(--font-weight-semibold); letter-spacing: .5px; color: var(--grey-600); margin: 0 0 var(--spacing-sm); text-align: center; }
 
 .role-chips {
   display: flex;
@@ -150,8 +151,8 @@
 
 /* Responsive tweaks */
 @media (max-width: 900px) {
-  .intro-content { padding: var(--spacing-xl) var(--spacing-lg); }
-  .team-strength-card { --card-pad: var(--spacing-lg); }
+  .intro-content { padding: var(--spacing-sm) var(--spacing-md); }
+  .team-strength-card { --card-pad: var(--spacing-sm); }
   .role-chip { font-size: .8rem; }
 }
 

@@ -4,7 +4,7 @@
 
 /* Section spacing */
 .home-section {
-  padding: var(--spacing-4xl) 0;
+  padding: var(--spacing-2xl) 0;
 }
 
 .home-section-sm {
@@ -54,7 +54,7 @@
 /* New Two Column Section */
 .new-two-column-section {
   background-color: #0f172a;
-  padding: 8rem 0;
+  padding: 4rem 0;
 }
 
 .home-container {

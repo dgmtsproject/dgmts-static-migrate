@@ -51,7 +51,7 @@ const pillars = [
 const CoreValues = () => {
   return (
     <section className="core-values home-section" aria-labelledby="core-values-heading">
-      <div className="container">
+      <div className="">
         <div className="core-values-content">
           <header className="core-values-hero">
             <h2 id="core-values-heading" className="core-values-heading">
