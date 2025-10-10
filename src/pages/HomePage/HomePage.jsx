@@ -6,7 +6,7 @@ import CertificationsSection from './components/CertificationsSection';
 import ServicesSection from './components/ServicesSection';
 import StatsSection from './components/StatsSection';
 import NewsSection from './components/NewsSection';
-import TestimonialsSection from './components/TestimonialsSection';
+// import TestimonialsSection from './components/TestimonialsSection';
 import PartnersSection from './components/PartnersSection';
 import BlogsSection from './components/BlogsSection';
 import './HomePage.css';
@@ -50,7 +50,7 @@ const HomePage = () => {
       <StatsSection />
       <BlogsSection />
       {/* <NewsSection /> */}
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
       <PartnersSection />
 
      
