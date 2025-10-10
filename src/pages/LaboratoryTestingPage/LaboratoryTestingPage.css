@@ -127,7 +127,7 @@
 
 /* ===== Services Section ===== */
 .lab-section {
-  padding: 5rem 1.5rem;
+  padding: 3rem 1.5rem;
 }
 
 .lab-section-header {
@@ -237,7 +237,7 @@
 .lab-feature-list {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .lab-feature-item {
@@ -281,6 +281,7 @@
 
 .lab-feature-desc {
   color: #4b5563;
+  font-size: 1.1rem;
 }
 
 /* ===== Image Card ===== */

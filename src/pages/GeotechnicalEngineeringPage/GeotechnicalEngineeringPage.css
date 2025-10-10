@@ -126,12 +126,12 @@
 
 /* ===== Services Section ===== */
 .geotech-section {
-  padding: 5rem 1.5rem;
+  padding: 3rem 1.5rem;
 }
 
 .geotech-section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
 }
 
 .geotech-section-title {
@@ -273,6 +273,7 @@
 
 .geotech-feature-desc {
   color: #4b5563;
+  font-size: 1.2rem;
 }
 
 /* ===== Image Card ===== */

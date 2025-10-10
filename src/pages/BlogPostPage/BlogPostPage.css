@@ -27,7 +27,7 @@
 }
 
 .blog-post {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   background: var(--white);
   border-radius: var(--radius-lg);

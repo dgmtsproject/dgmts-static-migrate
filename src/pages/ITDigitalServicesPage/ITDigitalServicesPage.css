@@ -70,7 +70,7 @@
 
 /* Services Carousel Section - Full Section Scroll */
 .itds-services-section {
-    padding: 4rem 0 6rem 0;
+    padding: 2rem 0 3rem 0;
     overflow: hidden;
     position: relative;
 }
@@ -425,7 +425,7 @@
 
 /* Portfolio Section - Fixed title overflow and improved styling */
 .itds-portfolio-section {
-    padding: 6rem 2rem;
+    padding: 0 2rem 0 2rem;
 }
 
 /* Portfolio & Features subtitle styling (consistent with other subtitles) */
@@ -555,7 +555,7 @@
 
 /* Features Section - Properly styled "Why Choose Us" */
 .itds-features-section {
-    padding: 6rem 2rem;
+    padding: 3rem 2rem;
 }
 
 .itds-features-grid {
@@ -627,7 +627,7 @@
 .itds-cta-section {
     background-color: #1e3a8a;
     color: white;
-    padding: 6rem 2rem;
+    padding: 3rem 2rem;
     text-align: center;
 }
 
@@ -799,7 +799,7 @@
     }
 
     .itds-hero, .itds-portfolio-section, .itds-features-section, .itds-cta-section {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem;
     }
 
     /* Portfolio mobile fixes - prevent title cutoff */
