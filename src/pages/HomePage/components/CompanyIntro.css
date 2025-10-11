@@ -3,7 +3,7 @@
   position: relative;
   background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 100%);
   overflow: hidden;
-  padding: var(--spacing-3xl) 0 !important;
+  padding: var(--spacing-3xl) 0 ;
 
 }
 
@@ -21,37 +21,65 @@
 .intro-content {
   position: relative;
   z-index: 1;
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  align-items: start;
+}
+
+.intro-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.intro-right {
+  display: flex;
+  align-items: center;
+  min-height: 100%;
 }
 
 .intro-hero {
-  text-align: center;
-  max-width: 880px;
-  margin: 0 auto var(--spacing-md);
+  text-align: left;
+  max-width: 100%;
+  margin: 0;
 }
 
 .intro-heading {
-  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
-  line-height: 1.15;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.2;
   font-weight: var(--font-weight-extrabold, 800);
   letter-spacing: -0.5px;
   background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  margin: 0 0 var(--spacing-sm);
+  margin: 0 0 var(--spacing-md);
 }
 
 .intro-sub {
-  font-size: 1.1rem;
-  line-height: 1.65;
+  font-size: 1.2rem;
+  line-height: 1.7;
   color: var(--grey-700);
 }
 
-.intro-sub strong { color: var(--grey-900); }
-.intro-sub .text-primary { color: var(--primary-color); }
-.intro-sub .text-accent { color: var(--secondary-color); }
+.intro-sub strong {
+  color: var(--grey-900);
+}
+
+.intro-sub .text-primary {
+  color: var(--primary-color);
+}
+
+.intro-sub .text-accent {
+  color: var(--secondary-color);
+}
 
 /* Animated counter card */
 .team-strength-card {
@@ -62,11 +90,12 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
-  margin: 0 auto var(--spacing-md);
-  max-width: 520px;
+  margin: 0;
+  max-width: 100%;
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  border-radius: var(--radius-lg);
 }
 
 .team-strength-card::before {
@@ -90,13 +119,31 @@
   color: var(--primary-color);
 }
 
-.team-strength-number span.suffix { font-size: 55%; font-weight: inherit; color: var(--secondary-color); }
-.team-strength-label { font-size: .95rem; text-transform: uppercase; letter-spacing: 2px; color: var(--grey-600); font-weight: var(--font-weight-semibold); }
+.team-strength-number span.suffix {
+  font-size: 55%;
+  font-weight: inherit;
+  color: var(--secondary-color);
+}
+
+.team-strength-label {
+  text-align: center;
+  font-size: .95rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--grey-600);
+  font-weight: var(--font-weight-semibold);
+}
 
 /* Role chips */
-.role-chips-wrapper { max-width: 1000px; margin: 0 auto; }
+.role-chips-wrapper {
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
 
-.role-chips-heading { font-size: 1rem; font-weight: var(--font-weight-semibold); letter-spacing: .5px; color: var(--grey-600); margin: 0 0 var(--spacing-sm); text-align: center; }
 
 .role-chips {
   display: flex;
@@ -123,15 +170,24 @@
 }
 
 .role-chip .chip-icon {
-  width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; display:flex; align-items:center; justify-content:center;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   color: #fff;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-.role-chip .chip-icon svg { display:block; }
+.role-chip .chip-icon svg {
+  display: block;
+}
 
-.role-chip:hover, .role-chip:focus-visible {
+.role-chip:hover,
+.role-chip:focus-visible {
   transform: translateY(-4px) scale(1.02);
   box-shadow: var(--shadow-md);
   background: linear-gradient(180deg, #fff, #fbfcff);
@@ -139,29 +195,103 @@
 
 /* Subtle entrance animation */
 @media (prefers-reduced-motion: no-preference) {
-  .role-chip, .team-strength-card { animation: fadeUp .6s ease both; }
-  .role-chip { animation-duration: .5s; }
+
+  .role-chip,
+  .team-strength-card {
+    animation: fadeUp .6s ease both;
+  }
+
+  .role-chip {
+    animation-duration: .5s;
+  }
 }
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Accessibility adjustments */
-.intro-hero p a { color: var(--primary-color); text-decoration: underline; }
-.intro-hero p a:hover { text-decoration: none; }
+.intro-hero p a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.intro-hero p a:hover {
+  text-decoration: none;
+}
 
 /* Responsive tweaks */
+@media (max-width: 1100px) {
+  .intro-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .intro-hero {
+    text-align: center;
+  }
+
+  .role-chips-heading {
+    text-align: center;
+  }
+
+  .role-chips {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 900px) {
-  .intro-content { padding: var(--spacing-sm) var(--spacing-md); }
-  .team-strength-card { --card-pad: var(--spacing-sm); }
-  .role-chip { font-size: .8rem; }
+  .intro-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .team-strength-card {
+    --card-pad: var(--spacing-sm);
+  }
+
+  .role-chip {
+    font-size: .8rem;
+  }
+
+  .intro-grid {
+    gap: var(--spacing-xl);
+  }
 }
 
 @media (max-width: 640px) {
-  .intro-heading { font-size: clamp(1.9rem, 7vw, 2.4rem); }
-  .intro-sub { font-size: 1rem; }
-  .role-chips { gap: .55rem; }
-  .role-chip { padding: .5em .75em .5em .55em; }
+  .intro-heading {
+    font-size: clamp(1.9rem, 7vw, 2.4rem);
+  }
+
+  .intro-sub {
+    font-size: 1rem;
+  }
+
+  .role-chips {
+    gap: .55rem;
+  }
+
+  .role-chip {
+    padding: .5em .75em .5em .55em;
+  }
 }
 
 /* Visually hidden utility (if needed later) */
-.visually-hidden { position: absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); border:0; }
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}

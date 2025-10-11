@@ -69,34 +69,37 @@ const CompanyIntro = () => {
           </linearGradient>
         </defs>
       </svg>
-      <div className="">
-        <div className="intro-content">
-          <header className="intro-hero">
-            <h2 id="company-intro-heading" className="intro-heading">Our Strength Lies In Our Diverse Team</h2>
-            <p className="intro-sub">
-              At <strong className="text-primary">Dulles Geotechnical and Materials Testing Services, Inc. (DGMTS)</strong>, our highly trained and experienced team of more than <strong className="text-primary">70</strong> professionals spans disciplines including professional, geotechnical and structural engineering, geology, project and construction management, inspection, technical services, design and administrative support—ready to deliver superior consulting and site services while upholding industry standards. <strong>Professionalism and quality</strong> are at the heart of everything we do.
-            </p>
-          </header>
-
-          <div className="team-strength-card" role="group" aria-label="Team strength">
-            <div className="team-strength-number"><AnimatedNumber target={70} /><span className="suffix">people</span></div>
-            <div className="team-strength-label">Multidisciplinary Professionals</div>
+      <div className="intro-content">
+        <div className="intro-grid">
+          <div className="intro-left">
+            <header className="intro-hero">
+              <h2 id="company-intro-heading" className="intro-heading">Our Strength Lies In Our Diverse Team</h2>
+              <p className="intro-sub">
+                At <strong className="text-primary">Dulles Geotechnical and Materials Testing Services, Inc. (DGMTS)</strong>, our highly trained and experienced team of more than <strong className="text-primary">70</strong> professionals spans disciplines including professional, geotechnical and structural engineering, geology, project and construction management, inspection, technical services, design and administrative support—ready to deliver superior consulting and site services while upholding industry standards. <strong>Professionalism and quality</strong> are at the heart of everything we do.
+              </p>
+            </header>
           </div>
 
-          <div className="role-chips-wrapper" aria-label="Team roles">
-            <p className="role-chips-heading">Disciplines & Roles</p>
-            <div className="role-chips">
-              {teamRoles.map(role => {
-                const Icon = role.icon;
-                return (
-                  <span className="role-chip" key={role.label} tabIndex={0} aria-label={role.label}>
-                      <span className="chip-icon" aria-hidden="true" style={{ background: role.color }}>
-                        <Icon size={16} color="#ffffff" />
-                      </span>
-                    {role.label}
-                  </span>
-                );
-              })}
+          <div className="intro-right">
+            <div className="role-chips-wrapper" aria-label="Team roles">
+              <div className="role-chips">
+                {teamRoles.map(role => {
+                  const Icon = role.icon;
+                  return (
+                    <span className="role-chip" key={role.label} tabIndex={0} aria-label={role.label}>
+                        <span className="chip-icon" aria-hidden="true" style={{ background: role.color }}>
+                          <Icon size={16} color="#ffffff" />
+                        </span>
+                      {role.label}
+                    </span>
+                  );
+                })}
+              </div>
+
+              <div className="team-strength-card" role="group" aria-label="Team strength">
+                <div className="team-strength-number"><AnimatedNumber target={70} /><span className="suffix">people</span></div>
+                <div className="team-strength-label">Multidisciplinary Professionals</div>
+              </div>
             </div>
           </div>
         </div>

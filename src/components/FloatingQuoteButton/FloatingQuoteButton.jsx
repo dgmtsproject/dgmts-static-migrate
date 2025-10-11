@@ -1,20 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './FloatingQuoteButton.css';
 
 const FloatingQuoteButton = () => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isJiggling, setIsJiggling] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Jiggle every 7 seconds when not expanded
+    const jiggleInterval = setInterval(() => {
+      if (!isExpanded) {
+        setIsJiggling(true);
+        setTimeout(() => setIsJiggling(false), 4000); // Longer duration to show content
+      }
+    }, 7000);
+
+    return () => clearInterval(jiggleInterval);
+  }, [isExpanded]);
+
   const handleClick = () => {
-    navigate('/contact');
+    if (!isExpanded) {
+      setIsExpanded(true);
+      setIsJiggling(false);
+    } else {
+      navigate('/contact');
+    }
+  };
+
+  const handleMouseLeave = () => {
+    // Auto-collapse after a delay when mouse leaves
+    setTimeout(() => {
+      setIsExpanded(false);
+    }, 4000);
   };
 
   return (
     <div 
-      className={`floating-quote-button ${isHovered ? 'hovered' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className={`floating-quote-button ${isExpanded ? 'expanded' : ''} ${isJiggling ? 'jiggling' : ''}`}
+      onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
       <div className="quote-button-content">

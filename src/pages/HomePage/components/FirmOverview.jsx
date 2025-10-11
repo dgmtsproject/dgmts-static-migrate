@@ -5,7 +5,7 @@ const FirmOverview = () => {
   return (
     <React.Fragment>
     <section className="firm-overview home-section bg-texture" aria-labelledby="firm-overview-heading">
-      <div className="container">
+      <div className="">
         <div className="firm-overview__inner">
           <h2 id="firm-overview-heading" className="firm-overview__heading">Established in 2012</h2>
           <p className="firm-overview__lead">

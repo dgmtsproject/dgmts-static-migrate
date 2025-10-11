@@ -9,16 +9,29 @@
   background: linear-gradient(135deg, var(--primary-color, #3b82f6), var(--secondary-color, #1d4ed8));
   border-radius: 0 0 0 0;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15), -2px 0 8px rgba(59, 130, 246, 0.3);
-  overflow: visible;
+  overflow: hidden;
   user-select: none;
-  min-width: 160px;
+  min-width: 60px;
+  max-width: 60px;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 20px 0 30px;
+  padding: 0 15px;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
+}
+
+.floating-quote-button.jiggling {
+  min-width: 140px;
+  max-width: 140px;
+  padding: 0 15px 0 25px;
+}
+
+.floating-quote-button.expanded {
+  min-width: 160px;
+  max-width: 160px;
+  padding: 0 20px 0 30px;
 }
 
 .floating-quote-button::before {
@@ -33,7 +46,7 @@
 }
 
 .floating-quote-button:hover,
-.floating-quote-button.hovered {
+.floating-quote-button.expanded {
   transform: translateY(-50%) translateX(-5px) scale(1.02);
   box-shadow: -6px 0 30px rgba(0, 0, 0, 0.2), -4px 0 15px rgba(59, 130, 246, 0.4);
 }
@@ -42,12 +55,28 @@
   transform: translateY(-50%) translateX(0) scale(0.98);
 }
 
+/* Jiggle animation */
+.floating-quote-button.jiggling {
+  animation: jiggle 0.8s ease-in-out;
+}
+
+@keyframes jiggle {
+  0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: translateY(-50%) translateX(-2px) rotate(-2deg); }
+  20%, 40%, 60%, 80% { transform: translateY(-50%) translateX(-2px) rotate(2deg); }
+}
+
 .quote-button-content {
   display: flex;
   align-items: center;
   gap: 12px;
   color: white;
   flex: 1;
+  justify-content: center;
+}
+
+.floating-quote-button.expanded .quote-button-content {
+  justify-content: flex-start;
 }
 
 .quote-icon {
@@ -68,15 +97,32 @@
 }
 
 .quote-text {
-  display: flex;
+  display: none;
   flex-direction: column;
   line-height: 1.2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.floating-quote-button.jiggling .quote-text {
+  display: flex;
+  opacity: 1;
+}
+
+.floating-quote-button.expanded .quote-text {
+  display: flex;
+  opacity: 1;
 }
 
 .quote-main {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+}
+
+.floating-quote-button.jiggling .quote-main {
+  font-size: 14px;
 }
 
 .quote-sub {
@@ -111,15 +157,14 @@
     transition: none;
   }
   
-  .floating-quote-button:hover .quote-arrow,
-  .floating-quote-button.hovered .quote-arrow {
-    transform: none;
+  .floating-quote-button.jiggling {
+    animation: none;
   }
 }
 
 /* Ensure button doesn't interfere with other floating elements */
 .floating-quote-button {
-  z-index: 999; /* Lower than modals but higher than content */
+  z-index: 9999; /* Lower than modals but higher than content */
 }
 
 /* Hide on very small screens to avoid interference - already covered above */
