@@ -138,9 +138,12 @@ const LocationPage = () => {
                   src={(() => {
                     const hasEmbed = selectedLocation.googleMapsLink &&
                       (selectedLocation.googleMapsLink.includes('/embed') || selectedLocation.googleMapsLink.includes('output=embed'));
-                    return hasEmbed
-                      ? selectedLocation.googleMapsLink
-                      : `https://www.google.com/maps?q=${encodeURIComponent(selectedLocation.address)}&output=embed`;
+                    if (hasEmbed) {
+                      return selectedLocation.googleMapsLink;
+                    }
+                    // Add location name as label in the query
+                    const query = `${selectedLocation.name}, ${selectedLocation.address}`;
+                    return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
                   })()}
                   width="100%"
                   height="100%"
