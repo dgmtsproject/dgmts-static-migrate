@@ -1,5 +1,6 @@
 .certifications-section {
   background: var(--grey-50);
+  padding: var(--spacing-xl) 0;
 }
 
 /* Use Red Hat Display for this component's body text (falls back to the primary system font) */
@@ -13,8 +14,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-xl);
-  max-width: 1000px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0 var(--spacing-lg);
 }
 
 .cert-card {
@@ -84,7 +85,7 @@
   gap: var(--spacing-md);
   padding: var(--spacing-sm) 0;
   border-bottom: 1px solid var(--grey-200);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--grey-700);
 }
 
@@ -95,8 +96,13 @@
 .cert-icon {
   flex-shrink: 0;
   color: var(--secondary-color);
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
+}
+
+.cert-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 /* Resources Card Styles */
@@ -109,7 +115,7 @@
 }
 
 .resources-section h4 {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: var(--font-weight-semibold);
   color: var(--primary-color);
   margin-bottom: var(--spacing-sm);
@@ -144,6 +150,11 @@
   .certifications-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+  }
+
+  .cert-header {
+    padding: var(--spacing-lg);
   }
   
   .cert-header h3 {
@@ -155,12 +166,35 @@
   }
   
   .cert-item {
-  font-size: 0.95rem;
+    font-size: 0.95rem;
     gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+  }
+
+  .cert-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cert-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .resources-section {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .resources-section h4 {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
   }
   
   .resource-item {
-  font-size: 0.95rem;
+    font-size: 0.95rem;
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
   }
 }
 

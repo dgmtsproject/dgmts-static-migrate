@@ -68,7 +68,6 @@ const HeroSection = ({
                   className="hero-image-secondary-img" 
                   src={image2}
                 />
-                <div className="hero-image-blur-bg"></div>
               </div>
               {children}
             </div>

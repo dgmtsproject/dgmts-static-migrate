@@ -20,14 +20,13 @@
 .core-values-content {
   position: relative;
   z-index: 1;
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 .core-values-hero {
   text-align: center;
   max-width: 880px;
   margin: 0 auto var(--spacing-2xl);
+  padding: 0 var(--spacing-lg);
 }
 
 .core-values-heading {
@@ -52,15 +51,15 @@
 .core-values .pillars-grid {
   display: grid;
   gap: var(--spacing-xl);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  margin: 0 auto;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  margin: 0;
+  padding: 0 var(--spacing-lg);
 }
 
 .core-values .pillar {
   background: rgba(30, 41, 59, 0.8);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-lg) var(--spacing-lg) calc(var(--spacing-lg) + 4px);
+  padding: var(--spacing-xl) var(--spacing-xl) calc(var(--spacing-xl) + 4px);
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(51, 65, 85, 0.6);
@@ -84,29 +83,34 @@
 }
 
 .core-values .pillar-icon {
-  width: 44px; 
-  height: 44px;
+  width: 52px; 
+  height: 52px;
   display: flex; 
   align-items: center; 
   justify-content: center;
   background: linear-gradient(135deg, var(--primary-color, #4f8cff), var(--secondary-color, #7ed957));
   color: #ffffff;
   border-radius: 12px;
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   box-shadow: 0 4px 12px rgba(79, 140, 255, 0.3);
 }
 
+.core-values .pillar-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
 .core-values .pillar h3 {
-  margin: 0 0 var(--spacing-sm);
-  font-size: 1.05rem;
+  margin: 0 0 var(--spacing-md);
+  font-size: 1.25rem;
   font-weight: var(--font-weight-semibold);
   color: #ffffff;
 }
 
 .core-values .pillar p {
   margin: 0;
-  font-size: .95rem;
-  line-height: 1.55;
+  font-size: 1.05rem;
+  line-height: 1.65;
   color: #cbd5e1;
 }
 
@@ -137,7 +141,15 @@
 /* Responsive adjustments */
 @media (max-width: 900px) {
   .core-values-content {
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: var(--spacing-xl) 0;
+  }
+
+  .core-values-hero {
+    padding: 0 var(--spacing-md);
+  }
+
+  .core-values .pillars-grid {
+    padding: 0 var(--spacing-md);
   }
 }
 
@@ -152,9 +164,31 @@
   
   .core-values .pillars-grid {
     gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
   
   .core-values .pillar {
     padding: var(--spacing-md) var(--spacing-md) calc(var(--spacing-md) + 4px);
+  }
+
+  .core-values .pillar-icon {
+    width: 44px; 
+    height: 44px;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .core-values .pillar-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .core-values .pillar h3 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: 1.05rem;
+  }
+
+  .core-values .pillar p {
+    font-size: .95rem;
+    line-height: 1.55;
   }
 }

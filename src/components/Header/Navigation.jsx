@@ -49,18 +49,7 @@ const Navigation = () => {
         }
       ]
     },
-    solutions: {
-        title: 'Solutions & Software',
-        sections: [
-          {
-            title: 'Digital Solutions',
-            items: [
-              { name: 'Geo5 Software', path: '/geo5-software', icon: Laptop, description: 'Professional geotechnical software solutions' },
-              { name: 'IT & Digital Services', path: '/it-services', icon: Server, description: 'Technology consulting and services' },
-            ]
-          },
-        ]
-      },
+  
       knowledgeCenter: {
         title: 'Knowledge Center',
         sections: [
@@ -165,6 +154,8 @@ const Navigation = () => {
                 )}
               </div>
             ))}
+            <Link to="/geo5-software" className="desktop-nav-link">GEO5 Software</Link>
+            <Link to="/it-services" className="desktop-nav-link">IT & Digital Services</Link>
             <Link to="/contact" className="desktop-nav-link">Contact</Link>
           </div>
 

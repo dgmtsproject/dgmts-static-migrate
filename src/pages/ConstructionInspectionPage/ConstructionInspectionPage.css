@@ -126,12 +126,12 @@
 
 /* ===== Services Section ===== */
 .construction-section {
-  padding: 3rem 1.5rem;
+  padding: 1.75rem 1.5rem 0.5rem 1.5rem;
 }
 
 .construction-section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 
 .construction-section-title {
@@ -273,6 +273,7 @@
 }
 
 .construction-feature-desc {
+  text-align: justify;
   color: #4b5563;
 }
 

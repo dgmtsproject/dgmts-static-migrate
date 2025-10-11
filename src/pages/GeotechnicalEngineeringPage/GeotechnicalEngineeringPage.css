@@ -126,12 +126,17 @@
 
 /* ===== Services Section ===== */
 .geotech-section {
-  padding: 3rem 1.5rem;
+  padding: 1.75rem 1.5rem;
+}
+
+.geotech-section:nth-child(3) {
+  padding: 0;
+  padding-bottom: 1rem;
 }
 
 .geotech-section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .geotech-section-title {
@@ -272,6 +277,7 @@
 }
 
 .geotech-feature-desc {
+  text-align: justify;
   color: #4b5563;
   font-size: 1.2rem;
 }
@@ -313,7 +319,7 @@
 
 /* ===== Leadership Section ===== */
 .geotech-leadership {
-  max-width: 900px;
+  max-width: 980px;
   margin: 0 auto;
 }
 
@@ -349,6 +355,7 @@
   font-size: 1.1rem;
   color: #475569;
   line-height: 1.7;
+  text-align: justify;
 }
 
 .geotech-leadership-image {

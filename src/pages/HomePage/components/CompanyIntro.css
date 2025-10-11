@@ -64,6 +64,8 @@
 }
 
 .intro-sub {
+  padding-right: 1rem;
+  text-align: justify;
   font-size: 1.2rem;
   line-height: 1.7;
   color: var(--grey-700);

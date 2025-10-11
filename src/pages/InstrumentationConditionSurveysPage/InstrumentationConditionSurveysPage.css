@@ -126,12 +126,12 @@
 
 /* ===== Services Section ===== */
 .inst-section {
-  padding: 3rem 1.5rem;
+  padding: 1.75rem 1.5rem 1rem 1.5rem;
 }
 
 .inst-section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 1rem;
 }
 
 .inst-section-title {
@@ -218,7 +218,6 @@
 .inst-full-width-content {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
 }
 
 .inst-feature-grid {

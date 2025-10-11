@@ -1,5 +1,6 @@
 .blogs-section {
   background: var(--grey-50);
+  padding: var(--spacing-xl) 0;
 }
 
 .loading-blogs {

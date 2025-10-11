@@ -34,8 +34,8 @@ const CertificationsSection = () => {
   };
 
   return (
-    <section className="certifications-section home-section-sm bg-texture">
-      <div className="container">
+    <section className="bg-texture certifications-section">
+      <div className="">
         <div className="certifications-grid">
           {/* MBE/DBE Certifications */}
           <div className="cert-card mbe-card">
