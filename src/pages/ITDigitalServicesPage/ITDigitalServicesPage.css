@@ -70,7 +70,7 @@
 
 /* Services Carousel Section - Full Section Scroll */
 .itds-services-section {
-    padding: 2rem 0 3rem 0;
+    padding:0;
     overflow: hidden;
     position: relative;
 }
@@ -112,7 +112,7 @@
     gap: 2rem;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 2rem 2rem 0 2rem;
     cursor: grab;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE/Edge */
@@ -555,7 +555,7 @@
 
 /* Features Section - Properly styled "Why Choose Us" */
 .itds-features-section {
-    padding: 3rem 2rem;
+    padding: 0.5rem 2rem;
 }
 
 .itds-features-grid {
@@ -862,5 +862,335 @@
 
     .itds-feature-description {
         font-size: 0.9rem;
+    }
+}
+
+/* Page Flip Applications Gallery */
+.itds-pageflip-section {
+    padding: 4rem 2rem;
+    background-color: #f8fafc;
+}
+
+.itds-pageflip-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.itds-pageflip-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 1rem;
+}
+
+.itds-pageflip-subtitle {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.itds-pageflip-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.itds-flip-book {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.itds-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border: 1px solid #e5e7eb;
+    box-sizing: border-box;
+}
+
+.itds-page-cover {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.itds-page-cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+.itds-page-back-cover {
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.itds-page-back-cover::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite reverse;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.itds-cover-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.itds-cover-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.itds-cover-icon:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.itds-cover-icon-svg {
+    color: white;
+    width: 36px;
+    height: 36px;
+}
+
+.itds-cover-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.02em;
+}
+
+.itds-cover-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+.itds-cover-decoration {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.itds-decoration-line {
+    width: 30px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
+}
+
+.itds-decoration-dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.itds-cover-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 300px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.itds-contact-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.itds-contact-hint:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.itds-contact-arrow {
+    width: 16px;
+    height: 16px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.itds-contact-hint:hover .itds-contact-arrow {
+    transform: translateX(4px);
+}
+
+.itds-contact-hint span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+}
+
+.itds-page-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Responsive Design for Page Flip */
+@media (max-width: 768px) {
+    .itds-pageflip-section {
+        padding: 3rem 1rem;
+    }
+
+    .itds-pageflip-title {
+        font-size: 2rem;
+    }
+
+    .itds-pageflip-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .itds-pageflip-container {
+        min-height: 400px;
+    }
+
+    .itds-flip-book {
+        width: 100%;
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .itds-pageflip-section {
+        padding: 2rem 1rem;
+    }
+
+    .itds-pageflip-title {
+        font-size: 1.75rem;
+    }
+
+    .itds-cover-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .itds-cover-icon-svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .itds-cover-title {
+        font-size: 1.5rem;
+    }
+
+    .itds-cover-subtitle {
+        font-size: 1rem;
+    }
+
+    .itds-cover-description {
+        font-size: 0.9rem;
+        max-width: 200px;
+    }
+
+    .itds-decoration-line {
+        width: 20px;
+    }
+
+    .itds-decoration-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .itds-page-cover, .itds-page-back-cover {
+        flex-direction: column;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .itds-cover-decoration-left, .itds-cover-decoration-right {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.5rem;
+        opacity: 0.4;
+    }
+
+    .itds-cover-decoration-right {
+        align-items: center;
+    }
+
+    .itds-decoration-shape {
+        width: 12px;
+        height: 12px;
+    }
+
+    .itds-decoration-shape.shape-2 {
+        width: 8px;
+        height: 8px;
+    }
+
+    .itds-decoration-shape.shape-3 {
+        width: 16px;
+        height: 16px;
+    }
+
+    .itds-decoration-shape.shape-4 {
+        width: 10px;
+        height: 10px;
+    }
+
+    .itds-decoration-shape.shape-5 {
+        width: 6px;
+        height: 6px;
     }
 }

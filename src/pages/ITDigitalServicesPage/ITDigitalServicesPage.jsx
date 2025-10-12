@@ -14,10 +14,16 @@ import {
   Briefcase,
   Megaphone
 } from 'lucide-react';
+import HTMLFlipBook from 'react-pageflip';
 import './ITDigitalServicesPage.css';
 import HeroSection from '../../components/HeroSection';
 import dataManagementSoftwarePicture from '../../assets/applications/dgmts-management-software.png';
 import monitoringSoftwarePicture from '../../assets/applications/dgmts-monitoring-software.png';
+import app1 from '../../assets/applications/1.png';
+import app2 from '../../assets/applications/2.png';
+import app3 from '../../assets/applications/3.png';
+import app4 from '../../assets/applications/4.png';
+import app5 from '../../assets/applications/5.png';
 
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
@@ -194,7 +200,7 @@ const ITDigitalServicesPage = () => {
                   IT & Digital Services for Geotechnical Teams
                 </h2>
                 <p className="itds-services-main-description">
-                  We design and deliver digital tools that fit engineering workflows—site investigation, instrumentation, lab testing, reporting, and project delivery.
+                  We design and deliver digital tools that fit engineering workflows—site investigation, instrumentation, lab testing, reporting, and project delivery. Our solutions are built to integrate seamlessly with existing processes, improving data accuracy, workflow efficiency, and collaboration across project teams. By connecting field and office operations through intuitive, purpose-built interfaces, we help engineers make faster, better-informed decisions throughout every stage of the project lifecycle.
                 </p>
               </div>
             </div>
@@ -254,6 +260,87 @@ const ITDigitalServicesPage = () => {
                     </div>
                 ))}
             </div>
+        </div>
+      </section>
+
+      {/* Page Flip Applications Gallery */}
+      <section className="itds-pageflip-section">
+        <div className="itds-pageflip-content">
+          <h2 className="itds-pageflip-title">Application Gallery</h2>
+          <p className="itds-pageflip-subtitle">
+            Browse through our developed applications with a page flip effect.
+          </p>
+          <div className="itds-pageflip-container">
+            <HTMLFlipBook
+              width={800}
+              height={450}
+              size="stretch"
+              minWidth={600}
+              maxWidth={1000}
+              minHeight={338}
+              maxHeight={563}
+              maxShadowOpacity={0.5}
+              showCover={true}
+              mobileScrollSupport={true}
+              className="itds-flip-book"
+            >
+              <div className="itds-page itds-page-cover">
+                <div className="itds-cover-content">
+                  <div className="itds-cover-icon">
+                    <Code className="itds-cover-icon-svg" />
+                  </div>
+                  <h3 className="itds-cover-title">Our Applications</h3>
+                  <p className="itds-cover-subtitle">Interactive Portfolio</p>
+                  <div className="itds-cover-decoration">
+                    <div className="itds-decoration-line"></div>
+                    <div className="itds-decoration-dot"></div>
+                    <div className="itds-decoration-line"></div>
+                  </div>
+                  <p className="itds-cover-description">Flip through to explore our innovative geotechnical software solutions</p>
+                </div>
+              </div>
+              <div className="itds-page">
+                <img src={app1} alt="Application 1" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app2} alt="Application 2" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app3} alt="Application 3" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app4} alt="Application 4" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app5} alt="Application 5" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={dataManagementSoftwarePicture} alt="DGMTS Management Software" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={monitoringSoftwarePicture} alt="DGMTS Monitoring Software" className="itds-page-image" />
+              </div>
+              <div className="itds-page itds-page-back-cover">
+                <div className="itds-cover-content">
+                  <div className="itds-cover-icon">
+                    <Zap className="itds-cover-icon-svg" />
+                  </div>
+                  <h3 className="itds-cover-title">Thank You</h3>
+                  <p className="itds-cover-subtitle">For Your Interest</p>
+                  <div className="itds-cover-decoration">
+                    <div className="itds-decoration-line"></div>
+                    <div className="itds-decoration-dot"></div>
+                    <div className="itds-decoration-line"></div>
+                  </div>
+                  <p className="itds-cover-description">Ready to transform your geotechnical workflows? Let's discuss your next project.</p>
+                  <div className="itds-contact-hint">
+                    <ArrowRight className="itds-contact-arrow" />
+                    <span>Contact us below</span>
+                  </div>
+                </div>
+              </div>
+            </HTMLFlipBook>
+          </div>
         </div>
       </section>
 
