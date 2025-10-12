@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Code,
@@ -29,6 +29,19 @@ import app5 from '../../assets/applications/5.png';
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
   const cardsRef = useRef(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  // Handle window resize for flip book responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
 
   // Add horizontal scrolling with mouse wheel and drag functionality
   useEffect(() => {
@@ -269,17 +282,17 @@ const ITDigitalServicesPage = () => {
         <div className="itds-pageflip-content">
           <h2 className="itds-pageflip-title">Application Gallery</h2>
           <p className="itds-pageflip-subtitle">
-            Browse through our developed applications with a page flip effect.
+            Browse through our developed applications.
           </p>
           <div className="itds-pageflip-container">
             <HTMLFlipBook
-              width={800}
-              height={450}
+              width={windowWidth < 480 ? Math.min(280, windowWidth - 20) : windowWidth < 768 ? Math.min(350, windowWidth - 40) : 800}
+              height={windowWidth < 480 ? 200 : windowWidth < 768 ? 250 : 450}
               size="stretch"
-              minWidth={600}
-              maxWidth={1000}
-              minHeight={338}
-              maxHeight={563}
+              minWidth={windowWidth < 768 ? Math.min(280, windowWidth - 20) : 600}
+              maxWidth={windowWidth < 768 ? Math.min(windowWidth - 20, 400) : 1000}
+              minHeight={windowWidth < 480 ? 200 : windowWidth < 768 ? 250 : 338}
+              maxHeight={windowWidth < 768 ? 300 : 563}
               maxShadowOpacity={0.5}
               showCover={false}
               mobileScrollSupport={true}
