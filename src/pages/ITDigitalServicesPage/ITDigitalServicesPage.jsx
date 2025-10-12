@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Code,
   Smartphone,
@@ -280,7 +281,7 @@ const ITDigitalServicesPage = () => {
               minHeight={338}
               maxHeight={563}
               maxShadowOpacity={0.5}
-              showCover={true}
+              showCover={false}
               mobileScrollSupport={true}
               className="itds-flip-book"
             >
@@ -376,9 +377,9 @@ const ITDigitalServicesPage = () => {
           </div>
           <div className="itds-cta-right">
             <div className="itds-cta-action">
-              <a className="itds-cta-btn" href="#contact">
+              <Link className="itds-cta-btn" to="/contact">
                 Contact Us <ArrowRight className="itds-arrow-icon" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

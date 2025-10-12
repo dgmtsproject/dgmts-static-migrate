@@ -867,7 +867,7 @@
 
 /* Page Flip Applications Gallery */
 .itds-pageflip-section {
-    padding: 4rem 2rem;
+    padding: 0 2rem 2rem 2rem;
     background-color: #f8fafc;
 }
 
@@ -902,6 +902,10 @@
 .itds-flip-book {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    /* Make the flip book read more like a physical book */
+    background-clip: padding-box; /* keep background inside rounded corners */
+    position: relative;
+    border: 1px solid rgba(30,58,138,0.12); /* subtle outer border */
 }
 
 .itds-page {
@@ -911,6 +915,8 @@
     background: white;
     border: 1px solid #e5e7eb;
     box-sizing: border-box;
+    /* page edge and slight depth to resemble paper */
+    box-shadow: inset -8px 0 20px -12px rgba(0,0,0,0.12), inset 0 6px 18px -12px rgba(0,0,0,0.06);
 }
 
 .itds-page-cover {
@@ -921,6 +927,41 @@
     padding: 2rem;
     position: relative;
     overflow: hidden;
+}
+
+/* Spine/Book-edge effect on the flip-book container */
+.itds-flip-book::before {
+    content: '';
+    position: absolute;
+    left: -8px; /* slightly outside to suggest a spine */
+    top: 6%;
+    bottom: 6%;
+    width: 18px;
+    background: linear-gradient(90deg, rgba(30,58,138,0.12), rgba(255,255,255,0.02));
+    border-radius: 6px 0 0 6px;
+    box-shadow: 3px 8px 18px rgba(0,0,0,0.08);
+    z-index: 15;
+    pointer-events: none;
+}
+
+/* Slight darker edge on right side of each page to simulate page thickness */
+.itds-page::after {
+    content: '';
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 6px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0));
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Tweak cover/back-cover so spine doesn't overlap badly on small widths */
+@media (max-width: 600px) {
+    .itds-flip-book::before { left: -6px; width: 14px; }
+    .itds-page::after { right: 4px; width: 4px; }
 }
 
 .itds-page-cover::before {
