@@ -122,7 +122,7 @@ const ProjectsPage = () => {
       </section>
 
       {/* Projects Grid */}
-      <section className="projects-grid-section">
+      <section className="projects-grid-section bg-texture">
         <div className="container">
           <div className="projects-stats">
             <p>Showing {filteredProjects.length} of {projectsData.projects.length} projects</p>

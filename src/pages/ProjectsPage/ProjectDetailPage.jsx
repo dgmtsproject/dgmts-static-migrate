@@ -128,16 +128,7 @@ const ProjectDetailPage = () => {
                   src={resolvedImages[currentImageIndex]} 
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
                 />
-                {resolvedImages.length > 1 && (
-                  <>
-                    <button className="gallery-nav prev" onClick={prevImage}>
-                      &#8249;
-                    </button>
-                    <button className="gallery-nav next" onClick={nextImage}>
-                      &#8250;
-                    </button>
-                  </>
-                )}
+                
               </div>
               {resolvedImages.length > 1 && (
                 <div className="gallery-thumbnails">

@@ -12,6 +12,7 @@
 }
 
 .breadcrumb {
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -36,7 +37,7 @@
 
 /* Hero Section */
 .project-hero {
-  padding: var(--spacing-3xl) 0;
+  padding: var(--spacing-xl) 0 0 0;
   background: linear-gradient(135deg, var(--white) 0%, var(--grey-50) 100%);
 }
 
@@ -88,8 +89,7 @@
 .meta-value.status {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: var(--secondary-color);
-  color: var(--white);
+  color: var(--secondary-color);
   font-size: 0.8rem;
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-sm);
