@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library } from 'lucide-react';
+import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library, FolderOpen } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -15,6 +15,7 @@ const Navigation = () => {
           title: 'About Us',
           items: [
             { name: 'About DGMTS', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
+            { name: 'Projects', path: '/projects', icon: FolderOpen, description: 'Explore our portfolio of successful projects' },
             { name: 'Careers', path: '/careers', icon: Briefcase, description: 'Join our team of professionals' },
             { name: 'Gallery', path: '/gallery', icon: GalleryVertical, description: 'View our project gallery' },
           ]

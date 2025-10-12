@@ -30,6 +30,8 @@ import SuccessPage from './pages/SuccessPage/SuccessPage';
 import CancelPage from './pages/CancelPage/CancelPage';
 import NewsletterModal from './components/Modal/NewsletterModal';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
+import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
 function App() {
   return (
     <Router>
@@ -61,6 +63,8 @@ function App() {
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
 
             {/* Catch-all route for 404 errors - must be last */}
             <Route path="*" element={<NotFoundPage />} />
