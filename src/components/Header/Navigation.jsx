@@ -15,7 +15,7 @@ const Navigation = () => {
           title: 'About Us',
           items: [
             { name: 'About DGMTS', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
-            { name: 'Projects', path: '/projects', icon: FolderOpen, description: 'Explore our portfolio of successful projects' },
+            // { name: 'Projects', path: '/projects', icon: FolderOpen, description: 'Explore our portfolio of successful projects' },
             { name: 'Careers', path: '/careers', icon: Briefcase, description: 'Join our team of professionals' },
             { name: 'Gallery', path: '/gallery', icon: GalleryVertical, description: 'View our project gallery' },
           ]
@@ -100,7 +100,7 @@ const Navigation = () => {
             {/* Desktop Navigation */}
           <div className="desktop-nav">
             <Link to="/" className="desktop-nav-link">Home</Link>
-            
+            <Link to="/projects" className="desktop-nav-link">Projects</Link>
             {Object.entries(megaMenuData).map(([key, menu]) => (
               <div
                 key={key}

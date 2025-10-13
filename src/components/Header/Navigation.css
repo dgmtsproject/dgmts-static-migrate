@@ -66,7 +66,7 @@
 @media (min-width: 1024px) {
   .desktop-nav {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 2rem; /* space-x-8 */
   }
 }

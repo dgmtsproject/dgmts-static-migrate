@@ -2,6 +2,7 @@
 
 .project-detail-page {
   min-height: 100vh;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Breadcrumb */
@@ -61,6 +62,7 @@
   color: var(--grey-900);
   margin-bottom: var(--spacing-lg);
   line-height: 1.2;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .project-meta {
@@ -79,11 +81,13 @@
   font-weight: var(--font-weight-semibold);
   color: var(--grey-700);
   min-width: 100px;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .meta-value {
   color: var(--grey-800);
   flex: 1;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .meta-value.status {
@@ -96,6 +100,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   width: fit-content;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Gallery */
@@ -216,6 +221,7 @@
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-md);
   border-bottom: 2px solid var(--primary-color);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .detail-section p {
@@ -223,6 +229,7 @@
   line-height: 1.7;
   color: var(--grey-700);
   margin-bottom: var(--spacing-md);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .services-list,
@@ -237,9 +244,10 @@
   position: relative;
   padding-left: var(--spacing-lg);
   margin-bottom: var(--spacing-md);
-  font-size: 1rem;
+  font-size: 1.1rem;
   line-height: 1.6;
   color: var(--grey-700);
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .services-list li::before {
@@ -288,6 +296,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--grey-900);
   margin-bottom: var(--spacing-xs);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .personnel-card p {
@@ -295,6 +304,7 @@
   color: var(--primary-color);
   margin: 0;
   font-weight: var(--font-weight-medium);
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Sidebar */
@@ -319,6 +329,7 @@
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-sm);
   border-bottom: 1px solid var(--grey-200);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .info-item {
@@ -334,12 +345,14 @@
   color: var(--grey-600);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .info-value {
   font-size: 1rem;
   color: var(--grey-800);
   font-weight: var(--font-weight-medium);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Services Tags */
@@ -351,13 +364,14 @@
 
 .service-tag {
   display: inline-block;
-  padding: 5px 8px;
+  padding: 5px 10px;
   background-color: rgb(221, 230, 231);
   color: rgb(116, 110, 110);
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-lg);
   border: none;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Contact Info */
@@ -372,6 +386,7 @@
   font-weight: var(--font-weight-semibold);
   color: var(--grey-900);
   margin-bottom: var(--spacing-sm);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .contact-item {
@@ -379,6 +394,7 @@
   align-items: center;
   gap: var(--spacing-sm);
   font-size: 0.9rem;
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .contact-item span:first-child {
@@ -431,10 +447,12 @@
 .error-message h2 {
   color: var(--grey-800);
   margin-bottom: var(--spacing-lg);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .error-message p {
   margin-bottom: var(--spacing-xl);
+  font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Responsive Design */

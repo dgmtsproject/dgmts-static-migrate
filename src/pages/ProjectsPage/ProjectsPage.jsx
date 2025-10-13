@@ -35,10 +35,16 @@ const ProjectsPage = () => {
     '/src/assets/projects/project5_2.png': project5_2,
   };
 
-  // Get all unique services
-  const allServices = [...new Set(
-    projectsData.projects.flatMap(project => project.servicesProvided || [])
-  )].filter(Boolean);
+  // Major service categories only
+  const majorCategories = [
+    'Engineering Analysis and Design',
+    'Instrumentation',
+    'Inspection',
+    'Drilling',
+    'In-Situ Testing',
+    'Laboratory Testing',
+    'Non-Destructive Testing'
+  ];
 
   // Filter projects
   const filteredProjects = projectsData.projects.filter(project => {
@@ -112,8 +118,8 @@ const ProjectsPage = () => {
                 className="service-filter"
               >
                 <option value="all">All Services</option>
-                {allServices.map((service, index) => (
-                  <option key={index} value={service}>{service}</option>
+                {majorCategories.map((category, index) => (
+                  <option key={index} value={category}>{category}</option>
                 ))}
               </select>
             </div>

@@ -10,10 +10,10 @@
         "/src/assets/projects/project1_2.png"
       ],
       "servicesProvided": [
-        "Construction Material Testing",
-        "Field Inspection",
+        "Inspection",
+        "Special Inspection",
         "Laboratory Testing",
-        "Special Inspections"
+        "Material Testing"
       ],
       "projectOwner": "Industrial Development Authority of Louisa County",
       "projectDesigner": "Talbert and Bright",
@@ -52,8 +52,9 @@
         "/src/assets/projects/project2_2.png"
       ],
       "servicesProvided": [
-        "Construction Material Testing",
-        "Laboratory Testing"
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": "Walmart, Inc.",
       "projectDesigner": "Galloway & Company, Inc.",
@@ -92,12 +93,16 @@
         "/src/assets/projects/project3_2.png"
       ],
       "servicesProvided": [
+        "Engineering Analysis and Design",
         "Geotechnical Engineering",
         "Instrumentation",
-        "Construction Material testing and Inspection",
+        "Geotechnical Instrumentation",
+        "PDA, Piezometers, Inclinometers",
+        "Inspection",
         "Special Inspection",
-        "Lab Testing",
-        "Drilling"
+        "Drilling",
+        "Soil Investigation",
+        "Laboratory Testing"
       ],
       "projectOwner": "WMATA",
       "projectDesigner": "ARUP",
@@ -141,9 +146,10 @@
         "/src/assets/projects/project4_3.png"
       ],
       "servicesProvided": [
-        "Construction Material testing and Inspection",
+        "Inspection",
         "Special Inspection",
-        "Lab Testing"
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": "Fairfax County",
       "projectDesigner": "Samaha",
@@ -177,8 +183,9 @@
         "/src/assets/projects/project5_2.png"
       ],
       "servicesProvided": [
-        "Construction Material testing and Inspection",
-        "Lab Testing"
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": "Fairfax County",
       "projectDesigner": null,
@@ -209,7 +216,8 @@
         "/src/assets/projects/project1_1.png"
       ],
       "servicesProvided": [
-        "Third-Party Construction Inspection",
+        "Inspection",
+        "Third Party Inspection",
         "Laboratory Testing"
       ],
       "projectOwner": null,
@@ -240,9 +248,9 @@
         "/src/assets/projects/project2_1.png"
       ],
       "servicesProvided": [
-        "Onsite Material Testing",
-        "Foundation Inspection",
-        "Laboratory Testing"
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": "One Loudoun Holdings, LLC",
       "projectDesigner": null,
@@ -274,10 +282,12 @@
         "/src/assets/projects/project3_2.png"
       ],
       "servicesProvided": [
-        "Geotechnical Drilling",
-        "Engineering Support Services",
-        "Construction Inspection & Materials Testing",
-        "Laboratory Testing"
+        "Engineering Analysis and Design",
+        "Drilling",
+        "Soil Investigation",
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -313,12 +323,13 @@
         "/src/assets/projects/project4_2.png"
       ],
       "servicesProvided": [
-        "Geotechnical Drilling",
+        "Engineering Analysis and Design",
         "Geotechnical Engineering",
-        "Rebar Inspection",
-        "Concrete Testing",
-        "Soil Testing",
-        "Structural Steel Inspection"
+        "Drilling",
+        "Soil Investigation",
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -351,8 +362,10 @@
         "/src/assets/projects/project5_1.png"
       ],
       "servicesProvided": [
-        "Drilling Supervision",
-        "Quality Testing Services"
+        "Drilling",
+        "Soil Investigation",
+        "Inspection",
+        "Laboratory Testing"
       ],
       "projectOwner": "VDOT",
       "projectDesigner": null,
@@ -385,9 +398,11 @@
         "/src/assets/projects/project1_2.png"
       ],
       "servicesProvided": [
-        "QC Inspection",
-        "Materials Testing",
-        "Geotechnical Engineering"
+        "Engineering Analysis and Design",
+        "Geotechnical Engineering",
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -415,9 +430,11 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "Fairfax, VA",
       "servicesProvided": [
-        "QC Inspection",
-        "Materials Testing",
-        "Geotechnical Engineering"
+        "Engineering Analysis and Design",
+        "Geotechnical Engineering",
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -445,11 +462,10 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "College Park, Maryland",
       "servicesProvided": [
-        "Structural & Fireproofing Inspections",
-        "Building Envelope Assessments",
-        "Concrete and Rebar Inspection and Testing",
-        "Utility and Sitework Testing",
-        "Certification Reporting and QA/QC Coordination"
+        "Inspection",
+        "Special Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": "University of Maryland and City of College Park",
       "projectDesigner": null,
@@ -479,8 +495,9 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "4820 Annapolis Road, Bladensburg, MD 20710",
       "servicesProvided": [
-        "Floor Flatness (FF) and Floor Levelness (FL) testing services",
-        "Fireproofing Inspections"
+        "Inspection",
+        "Special Inspection",
+        "Laboratory Testing"
       ],
       "projectOwner": "Prince George's County",
       "projectDesigner": null,
@@ -507,10 +524,10 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "Triple seven Road, Loudoun County, VA",
       "servicesProvided": [
-        "Soil Compaction Testing and Concrete Inspection",
-        "Field Concrete Testing and Compressive Strength Lab Analysis",
-        "Special Inspections: Welding, Anchor Bolts, Rebar, Formwork, Soil, and Deep Foundations",
-        "Material Verification for Multiple Facilities on Site"
+        "Inspection",
+        "Special Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -539,9 +556,12 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "1250 Constitution Ave NE, Washington, DC 20002",
       "servicesProvided": [
-        "Geotechnical engineering services including subsurface investigation and laboratory testing",
-        "Soil compaction testing and concrete inspection",
-        "Quality control and inspection services"
+        "Engineering Analysis and Design",
+        "Geotechnical Engineering",
+        "Drilling",
+        "Soil Investigation",
+        "Inspection",
+        "Laboratory Testing"
       ],
       "projectOwner": "District of Columbia Public Schools (DCPS)",
       "projectDesigner": null,
@@ -570,10 +590,10 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "851 Holland Lane, Alexandria, VA",
       "servicesProvided": [
-        "Construction Quality Control Inspection",
-        "Tunnel and Shaft Inspection",
-        "Surface Facility and Underground Structure Monitoring",
-        "Reporting, Deficiency Tracking, and Corrective Action Recommendations"
+        "Inspection",
+        "Special Inspection",
+        "Instrumentation",
+        "Vibration, Noise & Crack Monitoring"
       ],
       "projectOwner": "Alexandria Renew Enterprises (AlexRenew)",
       "projectDesigner": null,
@@ -602,8 +622,8 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
-        "Construction material testing",
-        "Laboratory testing"
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -649,8 +669,8 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
-        "Construction inspection and testing",
-        "Construction management and field quality control"
+        "Inspection",
+        "Laboratory Testing"
       ],
       "projectOwner": null,
       "projectDesigner": null,
@@ -695,7 +715,9 @@
       "images": [        "/src/assets/projects/project1_1.png"      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
-        "Construction inspection and materials testing services"
+        "Inspection",
+        "Laboratory Testing",
+        "Material Testing"
       ],
       "projectOwner": null,
       "projectDesigner": "Flanagan Architects",

@@ -29,6 +29,7 @@ import app5 from '../../assets/applications/5.png';
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
   const cardsRef = useRef(null);
+  const flipBookRef = useRef(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   // Handle window resize for flip book responsiveness
@@ -41,6 +42,29 @@ const ITDigitalServicesPage = () => {
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
     }
+  }, []);
+
+  // Auto-flip pages effect
+  useEffect(() => {
+    if (!flipBookRef.current) return;
+
+    const autoFlipInterval = setInterval(() => {
+      const book = flipBookRef.current;
+      if (book && book.pageFlip) {
+        const currentPage = book.pageFlip().getCurrentPageIndex();
+        const totalPages = book.pageFlip().getPageCount();
+        
+        // If we're at the last page, flip back to the beginning
+        if (currentPage >= totalPages - 1) {
+          book.pageFlip().flip(0);
+        } else {
+          // Otherwise, flip to the next page
+          book.pageFlip().flipNext();
+        }
+      }
+    }, 5000); // Flip every 5 seconds
+
+    return () => clearInterval(autoFlipInterval);
   }, []);
 
   // Add horizontal scrolling with mouse wheel and drag functionality
@@ -286,6 +310,7 @@ const ITDigitalServicesPage = () => {
           </p>
           <div className="itds-pageflip-container">
             <HTMLFlipBook
+              ref={flipBookRef}
               width={windowWidth < 480 ? Math.min(280, windowWidth - 20) : windowWidth < 768 ? Math.min(350, windowWidth - 40) : 800}
               height={windowWidth < 480 ? 200 : windowWidth < 768 ? 250 : 450}
               size="stretch"
