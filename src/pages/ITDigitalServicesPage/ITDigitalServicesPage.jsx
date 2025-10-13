@@ -20,11 +20,21 @@ import './ITDigitalServicesPage.css';
 import HeroSection from '../../components/HeroSection';
 import dataManagementSoftwarePicture from '../../assets/applications/dgmts-management-software.png';
 import monitoringSoftwarePicture from '../../assets/applications/dgmts-monitoring-software.png';
-import app1 from '../../assets/applications/1.png';
-import app2 from '../../assets/applications/2.png';
-import app3 from '../../assets/applications/3.png';
-import app4 from '../../assets/applications/4.png';
-import app5 from '../../assets/applications/5.png';
+
+import app1 from '../../assets/applications/Pic1.png';
+import app2 from '../../assets/applications/Pic2.png';
+import app3 from '../../assets/applications/Pic3.png';
+import app4 from '../../assets/applications/Pic4.png';
+import app5 from '../../assets/applications/Pic5.png';
+import app6 from '../../assets/applications/Pic6.png';
+import app7 from '../../assets/applications/Pic7.png';
+
+import app8 from '../../assets/applications/1.png';
+import app9 from '../../assets/applications/2.png';
+import app10 from '../../assets/applications/3.png';
+import app11 from '../../assets/applications/4.png';
+import app12 from '../../assets/applications/5.png';
+
 
 const ITDigitalServicesPage = () => {
   const carouselRef = useRef(null);
@@ -352,6 +362,27 @@ const ITDigitalServicesPage = () => {
               </div>
               <div className="itds-page">
                 <img src={app5} alt="Application 5" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app6} alt="Application 6" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app7} alt="Application 7" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app8} alt="Application 8" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app9} alt="Application 9" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app10} alt="Application 10" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app11} alt="Application 11" className="itds-page-image" />
+              </div>
+              <div className="itds-page">
+                <img src={app12} alt="Application 12" className="itds-page-image" />
               </div>
               <div className="itds-page">
                 <img src={dataManagementSoftwarePicture} alt="DGMTS Management Software" className="itds-page-image" />
