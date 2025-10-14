@@ -134,6 +134,11 @@
   padding-bottom: 1rem;
 }
 
+
+.geotech-section:nth-child(4) {
+  padding-top: 0;
+}
+
 .geotech-section-header {
   text-align: center;
   margin-bottom: 1rem;
@@ -222,7 +227,12 @@
 /* ===== Feature List ===== */
 .geotech-two-col {
   display: grid;
+  align-items: center;
   gap: 4rem;
+}
+
+.geotech-two-col:nth-child(2){
+  align-items: start;
 }
 
 @media (min-width: 1024px) {
@@ -285,13 +295,13 @@
 /* ===== Image Card ===== */
 .geotech-image-card {
   position: relative;
-  left: 50px;
+  left:50px;
 }
 
 .geotech-image-card img {
   border-radius: 1rem;
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
-  width: 70%;
+  width: 100%;
 }
 
 .geotech-badge {
@@ -372,6 +382,24 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== Overview Content Section ===== */
+.geotech-overview-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.geotech-overview-content .geotech-section-title {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.geotech-overview-text {
+  font-size: 1.1rem;
+  color: #475569;
+  line-height: 1.8;
+  text-align: justify;
+}
+
 /* ===== Icons ===== */
 .geotech-icon-lg {
   width: 2rem;
@@ -407,6 +435,23 @@
   .geotech-hero-title {
     font-size: 3rem;
   }
+
+  .geotech-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  /* On mobile, always show image first */
+  .geotech-two-col .geotech-image-card {
+    order: -1;
+  }
+
+  .geotech-image-card {
+    left: 0;
+  }
+
+  .geotech-image-card img {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -433,4 +478,9 @@
     width: 150px;
     height: 150px;
   }
+}
+
+
+#geotech-overview-image {
+  width: 70% ;
 }

@@ -136,7 +136,7 @@
       ]
     },
     {
-      "projectNumber": "1",
+      "projectNumber": "4",
       "title": "Edsall Road Fire Station",
       "client": "Carlson Construction",
       "location": "Springfield, Virginia",
@@ -174,7 +174,7 @@
       "results": []
     },
     {
-      "projectNumber": "2",
+      "projectNumber": "5",
       "title": "Fairfax Police Tactical Operations Support Bureau (OSB)",
       "client": "HESS Construction",
       "location": "Annandale, Virginia",
@@ -208,12 +208,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "6",
       "title": "Prestige Preschool Construction",
       "client": null,
       "location": "Sterling, VA",
       "images": [
-        "/src/assets/projects/project1_1.png"
+        "/src/assets/projects/project6_1.png"
       ],
       "servicesProvided": [
         "Inspection",
@@ -240,12 +240,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "7",
       "title": "One Loudoun Landbay C Residential",
       "client": null,
       "location": "One Loudoun, VA",
       "images": [
-        "/src/assets/projects/project2_1.png"
+        "/src/assets/projects/project7_1.png"
       ],
       "servicesProvided": [
         "Inspection",
@@ -273,13 +273,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "8",
       "title": "I-495 Express Lanes Northern Extension (I-495 NEXT)",
       "client": null,
       "location": "Fairfax County, VA",
       "images": [
-        "/src/assets/projects/project3_1.png",
-        "/src/assets/projects/project3_2.png"
+        "/src/assets/projects/project8_1.png"
       ],
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -314,13 +313,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "9",
       "title": "Transform I-66 – Outside the Beltway",
       "client": null,
       "location": "Northern Virginia (I-495 to Gainesville, VA)",
       "images": [
-        "/src/assets/projects/project4_1.png",
-        "/src/assets/projects/project4_2.png"
+        "/src/assets/projects/project9_1.png"
       ],
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -354,12 +352,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "10",
       "title": "Route 7 Corridor Improvement Project",
       "client": null,
-      "location": "Fairfax County, VA",
+      "location": "Fairfax, VA",
       "images": [
-        "/src/assets/projects/project5_1.png"
+        "/src/assets/projects/project12_1.png"
       ],
       "servicesProvided": [
         "Drilling",
@@ -390,12 +388,12 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "11",
       "title": "Aston Martin Car Dealership",
       "client": null,
       "location": "Loudoun County, VA",
       "images": [
-        "/src/assets/projects/project1_2.png"
+        "/src/assets/projects/project11_1.png"
       ],
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -424,7 +422,7 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "12",
       "title": "Brown Mazda Car Dealership",
       "client": null,
       "images": [        "/src/assets/projects/project1_1.png"      ],
@@ -456,10 +454,10 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "13",
       "title": "City Hall Redevelopment for the City of College Park and the University of Maryland",
       "client": null,
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project13_1.png"      ],
       "location": "College Park, Maryland",
       "servicesProvided": [
         "Inspection",
@@ -489,7 +487,7 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "14",
       "title": "Bladensburg Library",
       "client": "Rich Moe Enterprises, LLC",
       "images": [        "/src/assets/projects/project1_1.png"      ],
@@ -518,10 +516,10 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "15",
       "title": "Safe Routes to School (SRTS) – Countryside Elementary School",
       "client": "F.H. Paschen, S.N. Nielsen & Associates LLC",
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project15_1.png"      ],
       "location": "Triple seven Road, Loudoun County, VA",
       "servicesProvided": [
         "Inspection",
@@ -550,10 +548,10 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "16",
       "title": "Maury Elementary School Modernization",
       "client": null,
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project16_1.png"      ],
       "location": "1250 Constitution Ave NE, Washington, DC 20002",
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -584,10 +582,10 @@
       "results": []
     },
     {
-      "projectNumber": null,
+      "projectNumber": "17",
       "title": "River Renew Tunnel System Project",
       "client": null,
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project17_1.png"      ],
       "location": "851 Holland Lane, Alexandria, VA",
       "servicesProvided": [
         "Inspection",
@@ -616,10 +614,10 @@
       "results": []
     },
     {
-      "projectNumber": "2",
+      "projectNumber": "18",
       "title": "Leesburg Executive Airport Apron Paving",
       "client": "Chemung Contracting Corporation",
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project18_1.png"      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
         "Laboratory Testing",
@@ -663,10 +661,13 @@
       "results": []
     },
     {
-      "projectNumber": "3",
+      "projectNumber": "19",
       "title": "Morven Park Road Sidewalk & Drainage Improvements",
       "client": "Ardent Company, LLC",
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [
+        "/src/assets/projects/project19_1.png",
+        "/src/assets/projects/project19_2.png"
+      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
         "Inspection",
@@ -709,10 +710,10 @@
       "results": []
     },
     {
-      "projectNumber": "5",
+      "projectNumber": "21",
       "title": "Safford Brown Hyundai Dealership",
       "client": "Chemung Contracting Corporation",
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [        "/src/assets/projects/project21_1.png"      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
         "Inspection",

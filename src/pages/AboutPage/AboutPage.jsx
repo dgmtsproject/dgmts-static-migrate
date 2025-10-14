@@ -1,10 +1,40 @@
 import MeetTheTeam from './MeetTheTeam';
 import ServiceMap from './components/ServiceMap';
+import ServicesSection from './components/ServicesSection';
+import CertificationsSection from '../HomePage/components/CertificationsSection';
 import './AboutPage.css';
 import teamPhoto from '../../assets/gallery/photo-94.jpg';
 
+const AboutPage = () => {
+  const aboutPageCertificationsData = {
+    certifications: [
+      'Virginia Department of Transportation (VDOT)',
+      'District Department of Transportation (DDOT)',
+      'Metropolitan Washington Airport Authority (MWAA)',
+      'Washington Metropolitan Area Transit Authority (WMATA)',
+      'Maryland Department of Transportation (MDOT)',
+      'Maryland Transit Administration (MTA)',
+      'Maryland Transportation Authority (MDTA)'
+    ],
+    secondCard: {
+      title: 'CLIENTELE',
+      items: [
+        'Virginia Department of Transportation (VDOT)',
+        'District Department of Transportation (DDOT)',
+        'Maryland Department of Transportation (MDOT)',
+        'Washington Metropolitan Area Transit Authority (WMATA)',
+        'District of Columbia Water and Sewer Authority (DC Water)',
+        'Howard University (HU)',
+        'George Mason University (GMU)',
+        'Towson University (TU)',
+        'Churches',
+        'Schools',
+        'Private Developers'
+      ]
+    }
+  };
 
-const AboutPage = () => (
+  return (
   <main className="about-page bg-texture">
     <div className="team-photo-container">
       <img src={teamPhoto} alt="DGMTS Team" className="team-photo-header" />
@@ -18,7 +48,12 @@ const AboutPage = () => (
         <p><strong>Fleet:</strong> DGMTS owns a FLEET of ATVs, truck mounted drill rigs with capability of hollow-stem auger, mud rotary and rock coring. Our support equipment consists of service trucks, trailers, light towers, generators, and welding equipment. We also have asphalt and concrete coring machine.</p>
       </div>
     </section>
+    
+    <ServicesSection />
+    
     <MeetTheTeam />
+    <CertificationsSection data={aboutPageCertificationsData} />
+
 
     <section className="about-section areas-of-service">
     <h2 className="about-heading">Areas of Service</h2>
@@ -34,7 +69,9 @@ const AboutPage = () => (
       </div>
     </section>
 
+
   </main>
-);
+  );
+};
 
 export default AboutPage;

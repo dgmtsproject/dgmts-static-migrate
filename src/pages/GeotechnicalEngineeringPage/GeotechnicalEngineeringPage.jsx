@@ -11,8 +11,12 @@ import {
 } from 'lucide-react';
 import './GeotechnicalEngineeringPage.css';
 import HeroSection from '../../components/HeroSection';
+import ProjectsList from '../../components/ProjectsList';
 import photo44 from '../../assets/gallery/photo-44.jpg';
+import photo35 from '../../assets/gallery/photo-35.jpg';
 import photo87 from '../../assets/gallery/photo-87.jpg';
+import photo91 from '../../assets/gallery/photo-91.jpg';
+
 import teamMember1 from '../../assets/team-members/team-member-1.jpg';
 
 const GeotechnicalEngineeringPage = () => {
@@ -48,6 +52,20 @@ const GeotechnicalEngineeringPage = () => {
     "Environmental Compliance"
   ];
 
+  const geotechnicalProjects = [
+    { title: "BWI Airport Concourse E", location: "Maryland" },
+    { title: "DC 295/I-295 Near Term Improvements", location: "Washington, DC" },
+    { title: "Foxcroft Mall", location: "Martinsburg, West Virginia" },
+    { title: "U.S. Consulate", location: "Hamilton, Bermuda" },
+    { title: "U.S. Consulate", location: "Madrid, Spain" },
+    { title: "Marine Security Guard Residence (MSGR) Expansion", location: "US Embassy Khartoum, Sudan" },
+    { title: "Retaining Walls, 6024 Telegraph Road", location: "Alexandria, VA" },
+    { title: "Holly Springs Residential Development", location: "Capitol Heights, Prince George's County, MD" },
+    { title: "Miller Ham Radio Hobby Tower", location: "Great Falls, VA" },
+    { title: "Walmart Parking Lot Improvement", location: "Warrenton, VA" },
+    { title: "Pedestrian Bridge Foundation", location: "Alexandria, VA" }
+  ];
+
   return (
     <div className="geotech-page">
       {/* Hero Section */}
@@ -81,6 +99,47 @@ const GeotechnicalEngineeringPage = () => {
                 <p className="geotech-service-desc">{service.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comprehensive Services Overview - Part 1 */}
+      <section className="geotech-section">
+        <div className="geotech-container">
+          <div className="geotech-two-col">
+            <div className="geotech-overview-content">
+              <h2 className="geotech-section-title">Comprehensive Geotechnical Services</h2>
+              <p className="geotech-overview-text">
+                DGMTS offers a comprehensive portfolio of geotechnical engineering services. Our experienced teams of registered professional engineers provide preliminary and design level geotechnical engineering services with accuracy and safety in compliance with the approved plans, according to environmental considerations and client requirements.
+              </p>
+            </div>
+            
+            <div className="geotech-image-card">
+              <img 
+                src={photo91}
+                alt="Geotechnical Services"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comprehensive Services Overview - Part 2 */}
+      <section className="geotech-section">
+        <div className="geotech-container">
+          <div className="geotech-two-col">
+            <div className="geotech-image-card">
+              <img 
+                src={photo35}
+                alt="Engineering Excellence"
+              />
+            </div>
+
+            <div className="geotech-overview-content">
+              <p className="geotech-overview-text">
+                We develop unique subsurface investigation and laboratory testing programs, according to project type, scope, technical complexity, client needs, governing entities requirements and according to industry standards. Our President, Dr. Tariq Hamid, PhD, PE has 30+ year experience in geotechnical engineering with special emphasis on foundation engineering, retaining wall, support of excavation system design, material analysis & finite element modelling.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -133,6 +192,8 @@ const GeotechnicalEngineeringPage = () => {
             <div className="geotech-image-card">
               <img 
                 src={photo87}
+                id="geotech-overview-image"
+
                 alt="Engineering team"
               />
               <div className="geotech-badge">
@@ -158,7 +219,7 @@ const GeotechnicalEngineeringPage = () => {
                   <h3 className="geotech-leadership-name">Dr. Tariq Hamid, PhD, PE, CCM</h3>
                   <p className="geotech-leadership-title">President</p>
                   <p className="geotech-leadership-description">
-                    Our president, Dr. Tariq Hamid, PhD, PE, CCM has over 26 years of experience in geotechnical engineering, 
+                    Our president, Dr. Tariq Hamid, PhD, PE, CCM has over 30 years of experience in geotechnical engineering, 
                     with special expertise in foundation engineering, retaining walls, support of excavation system design, 
                     material analysis, and finite element modeling.
                   </p>
@@ -174,6 +235,13 @@ const GeotechnicalEngineeringPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Featured Projects Section */}
+      <ProjectsList 
+        title={<>Featured Geotechnical<br />Engineering Projects</>}
+        subtitle="A selection of our notable geotechnical engineering projects across various sectors"
+        projects={geotechnicalProjects}
+      />
       </div>
       {/* Remaining sections... */}
     </div>

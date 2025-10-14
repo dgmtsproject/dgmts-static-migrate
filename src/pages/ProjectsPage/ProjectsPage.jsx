@@ -2,37 +2,17 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectsPage.css';
 import projectsData from './data.json';
-
-// Import project images
-import project1_1 from '../../assets/projects/project1_1.png';
-import project1_2 from '../../assets/projects/project1_2.png';
-import project2_1 from '../../assets/projects/project2_1.png';
-import project2_2 from '../../assets/projects/project2_2.png';
-import project3_1 from '../../assets/projects/project3_1.png';
-import project3_2 from '../../assets/projects/project3_2.png';
-import project4_1 from '../../assets/projects/project4_1.png';
-import project4_2 from '../../assets/projects/project4_2.png';
-import project4_3 from '../../assets/projects/project4_3.png';
-import project5_1 from '../../assets/projects/project5_1.png';
-import project5_2 from '../../assets/projects/project5_2.png';
+import { imageMap, defaultImage } from '../../assets/imageMap';
 
 const ProjectsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterService, setFilterService] = useState('all');
 
-  // Image mapping
-  const imageMap = {
-    '/src/assets/projects/project1_1.png': project1_1,
-    '/src/assets/projects/project1_2.png': project1_2,
-    '/src/assets/projects/project2_1.png': project2_1,
-    '/src/assets/projects/project2_2.png': project2_2,
-    '/src/assets/projects/project3_1.png': project3_1,
-    '/src/assets/projects/project3_2.png': project3_2,
-    '/src/assets/projects/project4_1.png': project4_1,
-    '/src/assets/projects/project4_2.png': project4_2,
-    '/src/assets/projects/project4_3.png': project4_3,
-    '/src/assets/projects/project5_1.png': project5_1,
-    '/src/assets/projects/project5_2.png': project5_2,
+    const getProjectImage = (project, index) => {
+    if (project.images && project.images.length > 0) {
+      return imageMap[project.images[0]] || defaultImage;
+    }
+    return defaultImage; // Default fallback image
   };
 
   // Major service categories only
@@ -68,13 +48,6 @@ const ProjectsPage = () => {
     }).format(amount);
   };
 
-  const getProjectImage = (project, index) => {
-    if (project.images && project.images.length > 0) {
-      return imageMap[project.images[0]] || project1_1;
-    }
-    return project1_1; // Default fallback image
-  };
-
   const generateSlug = (title) => {
     return title
       .toLowerCase()
@@ -91,8 +64,8 @@ const ProjectsPage = () => {
           <div className="hero-content">
             <h1>Our Projects</h1>
             <p>
-              Explore our portfolio of successful geotechnical engineering, construction inspection, 
-              and testing projects across Virginia, Maryland, and Washington D.C.
+              Explore our portfolio of successful geotechnical engineering, construction inspection 
+              and testing projects across Virginia, Maryland and Washington D.C.
             </p>
           </div>
         </div>

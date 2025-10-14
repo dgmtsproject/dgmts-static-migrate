@@ -1,39 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import './ProjectDetailPage.css';
-
-// Import project images
-import project1_1 from '../../assets/projects/project1_1.png';
-import project1_2 from '../../assets/projects/project1_2.png';
-import project2_1 from '../../assets/projects/project2_1.png';
-import project2_2 from '../../assets/projects/project2_2.png';
-import project3_1 from '../../assets/projects/project3_1.png';
-import project3_2 from '../../assets/projects/project3_2.png';
-import project4_1 from '../../assets/projects/project4_1.png';
-import project4_2 from '../../assets/projects/project4_2.png';
-import project4_3 from '../../assets/projects/project4_3.png';
-import project5_1 from '../../assets/projects/project5_1.png';
-import project5_2 from '../../assets/projects/project5_2.png';
+import { imageMap, defaultImage } from '../../assets/imageMap';
 
 const ProjectDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Image mapping
-  const imageMap = {
-    '/src/assets/projects/project1_1.png': project1_1,
-    '/src/assets/projects/project1_2.png': project1_2,
-    '/src/assets/projects/project2_1.png': project2_1,
-    '/src/assets/projects/project2_2.png': project2_2,
-    '/src/assets/projects/project3_1.png': project3_1,
-    '/src/assets/projects/project3_2.png': project3_2,
-    '/src/assets/projects/project4_1.png': project4_1,
-    '/src/assets/projects/project4_2.png': project4_2,
-    '/src/assets/projects/project4_3.png': project4_3,
-    '/src/assets/projects/project5_1.png': project5_1,
-    '/src/assets/projects/project5_2.png': project5_2,
-  };
 
   // Get project from location state
   const project = location.state?.project;
@@ -56,7 +29,7 @@ const ProjectDetailPage = () => {
   }
 
   const projectImages = project.images || ['/src/assets/projects/project1_1.png'];
-  const resolvedImages = projectImages.map(path => imageMap[path] || project1_1);
+  const resolvedImages = projectImages.map(path => imageMap[path] || defaultImage);
 
   const formatCurrency = (amount) => {
     if (!amount) return 'N/A';
