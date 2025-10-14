@@ -51,7 +51,7 @@
 .core-values .pillars-grid {
   display: grid;
   gap: var(--spacing-xl);
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: 1fr 1fr 1fr;
   margin: 0;
   padding: 0 var(--spacing-lg);
 }

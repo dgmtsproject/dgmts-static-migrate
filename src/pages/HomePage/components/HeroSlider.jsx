@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './HeroSlider.css';
-import sliderImage1 from "../../../assets/gallery/photo-107.jpg";
+import HTMLFlipBook from 'react-pageflip';
+import sliderImage1 from "../../../assets/gallery/photo-66.jpg";
 import sliderImage2 from "../../../assets/gallery/photo-44.jpg";
 import sliderImage3 from "../../../assets/gallery/photo-49.jpg";
 import sliderImage4 from "../../../assets/gallery/photo-54.jpg";
@@ -13,6 +14,19 @@ import sliderImage7 from "../../../assets/gallery/photo-86.jpg";
 
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const flipBookRef = useRef(null);
+  const isAutoFlipping = useRef(false);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const slides = [
     {
@@ -74,43 +88,90 @@ const HeroSlider = () => {
     }
   ];
 
+  // Auto-flip pages effect
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      if (flipBookRef.current && flipBookRef.current.pageFlip) {
+        try {
+          isAutoFlipping.current = true;
+          
+          setCurrentSlide((prevSlide) => {
+            const nextSlide = (prevSlide + 1) % slides.length;
+            
+            // Use setTimeout to ensure state update happens before flip
+            setTimeout(() => {
+              if (flipBookRef.current && flipBookRef.current.pageFlip) {
+                flipBookRef.current.pageFlip().flip(nextSlide);
+              }
+              // Reset flag after flip
+              setTimeout(() => {
+                isAutoFlipping.current = false;
+              }, 200);
+            }, 10);
+            
+            return nextSlide;
+          });
+          
+        } catch (error) {
+          console.error('Page flip error:', error);
+          isAutoFlipping.current = false;
+        }
+      }
     }, 5000);
 
     return () => clearInterval(timer);
   }, [slides.length]);
 
   const goToSlide = (index) => {
-    setCurrentSlide(index);
+    if (flipBookRef.current && flipBookRef.current.pageFlip) {
+      flipBookRef.current.pageFlip().flip(index);
+      setCurrentSlide(index);
+    }
   };
 
   return (
     <section className="hero-slider">
       <div className="slider-container">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`slide ${index === currentSlide ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${slide.image})` }}
-          >
-            <div className="slide-overlay"></div>
-            <div className="slide-content">
-              <div className={`slide-inner ${slide.position}`}>
-                <div className="slide-text">
-                  <h2 className="slide-heading fade-in">{slide.heading}</h2>
-                  <p className="slide-description fade-in">{slide.content}</p>
-                  <div className="slide-button fade-in">
-                    <a href={slide.buttonUrl} className="btn btn-primary">
-                      {slide.buttonText}
-                    </a>
+        <HTMLFlipBook
+          ref={flipBookRef}
+          width={windowWidth}
+          height={windowWidth < 480 ? 400 : windowWidth < 768 ? 450 : windowWidth < 1024 ? 500 : 600}
+          size="stretch"
+          minWidth={windowWidth}
+          maxWidth={windowWidth}
+          minHeight={windowWidth < 480 ? 350 : windowWidth < 768 ? 400 : 500}
+          maxHeight={windowWidth < 768 ? 500 : 700}
+          maxShadowOpacity={0}
+          showCover={false}
+          mobileScrollSupport={true}
+          className="hero-flip-book"
+          onFlip={(e) => {
+            // Only update state if this was a manual flip
+            if (e && e.data !== undefined && !isAutoFlipping.current) {
+              setCurrentSlide(e.data);
+            }
+          }}
+        >
+          {slides.map((slide, index) => (
+            <div key={index} className="hero-page">
+              <img src={slide.image} alt={`Slide ${index + 1}`} className="hero-page-bg-image" />
+              <div className="slide-overlay"></div>
+              <div className="slide-content">
+                <div className={`slide-inner ${slide.position}`}>
+                  <div className="slide-text">
+                    <h2 className="slide-heading">{slide.heading}</h2>
+                    <p className="slide-description">{slide.content}</p>
+                    <div className="slide-button">
+                      <a href={slide.buttonUrl} className="btn btn-primary">
+                        {slide.buttonText}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </HTMLFlipBook>
       </div>
 
       {/* Slider Controls */}
