@@ -225,6 +225,7 @@ const LaboratoryTestingPage = () => {
                 <img
                   src={photo64}
                   alt="Laboratory Equipment"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -239,6 +240,7 @@ const LaboratoryTestingPage = () => {
                 <img
                   src={photo77}
                   alt="Laboratory Staff"
+                  loading="lazy"
                 />
               </div>
               <div>

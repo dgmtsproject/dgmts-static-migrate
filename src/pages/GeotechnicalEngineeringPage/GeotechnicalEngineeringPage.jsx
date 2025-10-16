@@ -118,6 +118,7 @@ const GeotechnicalEngineeringPage = () => {
               <img 
                 src={photo91}
                 alt="Geotechnical Services"
+                loading="lazy"
               />
             </div>
           </div>
@@ -132,6 +133,7 @@ const GeotechnicalEngineeringPage = () => {
               <img 
                 src={photo35}
                 alt="Engineering Excellence"
+                loading="lazy"
               />
             </div>
 
@@ -195,6 +197,7 @@ const GeotechnicalEngineeringPage = () => {
                 id="geotech-overview-image"
 
                 alt="Engineering team"
+                loading="lazy"
               />
               <div className="geotech-badge">
                 <Award className="geotech-icon-lg yellow" />
@@ -228,6 +231,7 @@ const GeotechnicalEngineeringPage = () => {
                   <img 
                     src={teamMember1}
                     alt="Dr. Tariq Hamid"
+                    loading="lazy"
                   />
                 </div>
               </div>

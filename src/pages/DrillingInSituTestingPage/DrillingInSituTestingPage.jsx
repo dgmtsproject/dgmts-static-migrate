@@ -142,6 +142,7 @@ const DrillingInSituTestingPage = () => {
                   <img
                     src={photo113}
                     alt="ATV CME 55 Drilling Rig"
+                    loading="lazy"
                   />
                 </div>
                 <div className="drilling-equipment-content">
@@ -157,6 +158,7 @@ const DrillingInSituTestingPage = () => {
                   <img
                     src={photo112}
                     alt="ATV CME 45C Drilling Rig"
+                    loading="lazy"
                   />
                 </div>
                 <div className="drilling-equipment-content">
@@ -172,6 +174,7 @@ const DrillingInSituTestingPage = () => {
                   <img
                     src={photo56}
                     alt="Truck Mounted Mobile B56 Drill Rig"
+                    loading="lazy"
                   />
                 </div>
                 <div className="drilling-equipment-content">
@@ -233,6 +236,7 @@ const DrillingInSituTestingPage = () => {
                 <img
                   src={photo84}
                   alt="Drilling Operations"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -247,6 +251,7 @@ const DrillingInSituTestingPage = () => {
                 <img
                   src={photo49}
                   alt="Support Equipment"
+                  loading="lazy"
                 />
               </div>
               <div>
@@ -333,6 +338,7 @@ const DrillingInSituTestingPage = () => {
                 <img
                   src={photo114}
                   alt="Drilling Team"
+                  loading="lazy"
                 />
               </div>
             </div>

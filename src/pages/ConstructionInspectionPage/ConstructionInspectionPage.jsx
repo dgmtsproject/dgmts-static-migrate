@@ -143,6 +143,7 @@ const ConstructionInspectionPage = () => {
         image2={photo38}
         image1={photo103}
         imageAlt="Construction Inspection"
+        loading="lazy"
       />
 
       {/* Services Grid */}
