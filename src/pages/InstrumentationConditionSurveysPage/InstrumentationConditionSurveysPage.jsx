@@ -4,12 +4,20 @@ import {
   ClipboardCheck,
   ScanEyeIcon,
   Lightbulb,
-  Siren
+  Siren,
+  FileSearch,
+  Building2,
+  GraduationCap
 } from 'lucide-react';
 import './InstrumentationConditionSurveysPage.css';
 import HeroSection from '../../components/HeroSection';
 import photo54 from '../../assets/gallery/photo-54.jpg';
 import photo52 from '../../assets/gallery/photo-52.jpg';
+import photo48 from '../../assets/gallery/photo-48.jpg';
+import photo117 from '../../assets/gallery/photo-117.jpg';
+
+import preConstructionImage from '../../assets/instrumentation/picture_1.jpg';
+import postConstructionImage from '../../assets/instrumentation/picture_2.jpg';
 
 const InstrumentationConditionSurveysPage = () => {
   const services = [
@@ -35,6 +43,42 @@ const InstrumentationConditionSurveysPage = () => {
     }
   ];
 
+  const surveyTypes = [
+    {
+      image: preConstructionImage,
+      title: "Pre-Construction Condition Survey",
+      description: "Comprehensive assessment of structures and properties before construction activities begin. We utilize standardized forms, photographs, videotaping, visual observations, and crack monitoring gauges to document existing conditions."
+    },
+    {
+      image: postConstructionImage,
+      title: "Post-Construction Condition Survey",
+      description: "Thorough evaluation of structures after construction completion to document any changes, ensure structural integrity, and provide comparison with pre-construction conditions using our proprietary reporting system."
+    }
+  ];
+
+  const instruments = [
+    "Piezometers",
+    "Inclinometers",
+    "Extensometers",
+    "Strain Gauges",
+    "Crack Meters",
+    "Tilt Meters",
+    "Seismograph",
+    "Vibration Monitors",
+    "PDAs",
+    "Noise Monitors"
+  ];
+
+  const techniques = [
+    "Visual Observations",
+    "Crack Monitoring Gauges",
+    "Non-Destructive Testing",
+    "Real-Time Data Collection",
+    "Remote Monitoring",
+    "Videotaping & Photography",
+    "Standardized Assessment Forms"
+  ];
+
   return (
     <div className="inst-page">
       {/* Hero Section */}
@@ -48,7 +92,32 @@ const InstrumentationConditionSurveysPage = () => {
         imageAlt="Instrumentation and Condition Surveys"
       />
       <div className='bg-texture'>
-        {/* Services Grid */}
+        <section className="inst-section inst-survey-section">
+          <div className="inst-container">
+            <div className="inst-section-header">
+              <h2 className="inst-section-title">Structural Condition Surveys</h2>
+              <p className="inst-section-subtitle">
+                DGMTS has resources and necessary expertise to perform comprehensive pre-construction and post-construction condition surveys for various structures and properties.
+              </p>
+            </div>
+
+            <div className="inst-survey-grid">
+              {surveyTypes.map((survey, index) => (
+                <div key={index} className="inst-survey-card">
+                  <div className="inst-survey-image-container">
+                    <img src={survey.image} alt={survey.title} className="inst-survey-image" loading="lazy" />
+                  </div>
+                  <div className="inst-survey-content">
+                    <h3 className="inst-survey-title">{survey.title}</h3>
+                    <p className="inst-survey-desc">{survey.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Our Expertise Section */}
         <section className="inst-section">
           <div className="inst-container">
             <div className="inst-section-header">
@@ -72,47 +141,97 @@ const InstrumentationConditionSurveysPage = () => {
           </div>
         </section>
 
-        {/* Advanced Technologies and Surveys Section */}
+        {/* Instruments & Techniques Section */}
+        <section className="inst-section inst-tech-section">
+          <div className="inst-container">
+            <div className="inst-section-header">
+              <h2 className="inst-section-title">Our Technologies & Techniques</h2>
+              <p className="inst-section-subtitle">
+                We utilize a comprehensive range of geotechnical instruments and advanced assessment techniques for structural monitoring and health assessment.
+              </p>
+            </div>
+
+            <div className="inst-tech-container">
+              {/* Instruments */}
+              <div className="inst-tech-block">
+                <div className="inst-tech-header">
+                  <Monitor className="inst-tech-header-icon" />
+                  <h3 className="inst-tech-heading">Geotechnical Instruments</h3>
+                </div>
+                <p className="inst-tech-description">
+                  Sensors used to monitor the health of structures in geotechnical and civil engineering projects with real-time data collection and remote access capabilities.
+                </p>
+                <div className="inst-chips-container">
+                  {instruments.map((instrument, index) => (
+                    <span key={index} className="inst-chip inst-chip-blue">
+                      {instrument}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Techniques */}
+              <div className="inst-tech-block">
+                <div className="inst-tech-header">
+                  <ScanEyeIcon className="inst-tech-header-icon" />
+                  <h3 className="inst-tech-heading">Assessment Techniques</h3>
+                </div>
+                <p className="inst-tech-description">
+                  Comprehensive methodologies for accurate condition assessment and documentation of structural properties.
+                </p>
+                <div className="inst-chips-container">
+                  {techniques.map((technique, index) => (
+                    <span key={index} className="inst-chip inst-chip-green">
+                      {technique}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Experience & Expertise Section */}
         <section className="inst-section">
           <div className="inst-container">
-            <div className="inst-full-width-content">
-              <h2 className="inst-section-title">
-                Advanced Technologies & Condition Surveys
-              </h2>
-              <div className="inst-feature-grid">
-                <div className="inst-feature-item">
-                  <div className="inst-feature-icon green">
-                    <Monitor className="inst-icon-md" />
-                  </div>
-                  <div>
-                    <h3 className="inst-feature-title">Advanced Sensing Technologies</h3>
-                    <p className="inst-feature-desc">
-                      DGMTS specialized in implementing innovative solutions for challenging projects. With extensive experience in instrumentation, we harness a wide range of both traditional and advanced sensing technologies. Our instrumentation services encompass PDAs, Piezometers, Inclinometers, Vibration, Noise & Crack Monitoring and has resources and necessary expertise that provides indigenous virtual monitoring services with remote access to collect data in real time.
-                    </p>
-                  </div>
-                </div>
-                <div className="inst-feature-item">
-                  <div className="inst-feature-icon blue">
-                    <ClipboardCheck className="inst-icon-md" />
-                  </div>
-                  <div>
-                    <h3 className="inst-feature-title">Pre- and Post-Construction Condition Surveys</h3>
-                    <p className="inst-feature-desc">
-                      DGMTS provide pre- and post-construction condition survey services to review the condition of structures and properties before and after construction activities. Our experienced staff and proprietary professional reporting system ensure thorough and accurate assessments.
-                    </p>
-                  </div>
-                </div>
-                <div className="inst-feature-item">
-                  <div className="inst-feature-icon purple">
-                    <ScanEyeIcon className="inst-icon-md" />
-                  </div>
-                  <div>
-                    <h3 className="inst-feature-title">Assessment Techniques</h3>
-                    <p className="inst-feature-desc">
-                      DGMTS utilize standardized forms, stilleutiliz photographs, videotaping, visual observations, crack monitoring gauges, and non-destructive testing techniques for pre-construction condition assessments of the structures.
-                    </p>
+            {/* Main Two Column Layout */}
+            <div className="inst-two-column-layout">
+              {/* Left Column: Large Image */}
+              <div className="inst-left-column">
+                <img src={photo54} alt="Instrumentation Equipment" className="inst-large-image" loading="lazy" />
+              </div>
+
+              {/* Right Column: Text Content */}
+              <div className="inst-right-column">
+                <div className="inst-text-content">
+                  <h2 className="inst-column-heading">Proven Experience & Leadership</h2>
+                  <p className="inst-column-subheading">
+                    DGMTS has successfully completed several projects related to condition assessments and instrument installation for structural monitoring solutions. We provide indigenous online monitoring services for civil engineering structural projects with remote access to real-time data.
+                  </p>
+                  
+                  {/* Expertise Highlight */}
+                  <div className="inst-expertise-box">
+                    <div className="inst-expertise-icon">
+                      <GraduationCap className="inst-icon-md" />
+                    </div>
+                    <div className="inst-expertise-content">
+                      <h4 className="inst-expertise-title">Expert Leadership</h4>
+                      <p className="inst-expertise-text">
+                        Our President, <strong>Tariq Hamid, PhD, PE</strong>, has extensive knowledge and experience in structural condition assessments and pre-construction surveys, ensuring the highest standards of quality and accuracy in all our projects.
+                      </p>
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Two Images Below - Separate Block */}
+            <div className="inst-two-images-row">
+              <div className="inst-image-wrapper">
+                <img src={photo48} alt="Field Instrumentation" className="inst-dual-image" loading="lazy" />
+              </div>
+              <div className="inst-image-wrapper">
+                <img src={photo117} alt="Monitoring Systems" className="inst-dual-image" loading="lazy" />
               </div>
             </div>
           </div>
