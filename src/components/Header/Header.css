@@ -29,7 +29,6 @@
 }
 
 .modern-header .header-hero__container {
-  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -37,7 +36,6 @@
 .modern-header .top-bar {
   background: white;
   border-bottom: 1px solid #e5e7eb;
-  padding: 1rem 0;
 }
 
 .modern-header .top-bar-content {
@@ -115,7 +113,7 @@
 .modern-header .geo5-logo {
   height: 70px;
   width: 140px;
-  min-width: 240px;
+  min-width: 290px;
   object-fit: contain;
 }
 

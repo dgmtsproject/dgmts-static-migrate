@@ -18,7 +18,13 @@
 
 @media (min-width: 1280px) {
   .hero-container {
-    max-width: 1280px;
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-container {
+    max-width: none;
   }
 }
 
@@ -54,6 +60,12 @@
   }
 }
 
+@media (min-width: 1280px) {
+  .hero-text-section {
+    width: 48%;
+  }
+}
+
 .hero-text-content {
   margin: 0 auto 3rem;
   max-width: 33.125rem;
@@ -74,6 +86,18 @@
     margin-bottom: 0;
     margin-left: 0;
     text-align: left;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-text-content {
+    max-width: 40rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-text-content {
+    max-width: 48rem;
   }
 }
 
@@ -137,6 +161,20 @@
   }
 }
 
+@media (min-width: 1280px) {
+  .hero-title {
+    font-size: 3.5rem;
+    line-height: 4rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-title {
+    font-size: 4rem;
+    line-height: 4.5rem;
+  }
+}
+
 .dark .hero-title {
   color: white;
 }
@@ -147,6 +185,20 @@
   margin-bottom: 3rem;
   font-size: 1.2rem;
   line-height: 1.4;
+}
+
+@media (min-width: 1280px) {
+  .hero-subtitle {
+    font-size: 1.25rem;
+    line-height: 1.75;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-subtitle {
+    font-size: 1.375rem;
+    line-height: 1.8;
+  }
 }
 
 /* Tablet subtitle adjustments */
@@ -254,6 +306,12 @@
   }
 }
 
+@media (min-width: 1280px) {
+  .hero-image-section {
+    width: 52%;
+  }
+}
+
 .hero-image-container {
   position: relative;
   z-index: 30;
@@ -275,6 +333,20 @@
 @media (min-width: 1024px) {
   .hero-image-container {
     margin-left: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-image-container {
+    height: 40rem;
+    max-width: 50rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-image-container {
+    height: 45rem;
+    max-width: 55rem;
   }
 }
 
@@ -307,6 +379,24 @@
   }
 }
 
+@media (min-width: 1280px) {
+  .hero-image-primary {
+    height: 580px;
+    max-width: 620px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-image-primary {
+    height: 680px;
+    max-width: 720px;
+  }
+
+  .hero-image-main {
+    width: 80%;
+  }
+}
+
 .hero-image-secondary {
   position: absolute;
   bottom: 0;
@@ -328,6 +418,20 @@
   .hero-image-secondary-img {
     height: 320px;
     max-width: 280px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-image-secondary-img {
+    height: 480px;
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .hero-image-secondary-img {
+    height: 520px;
+    max-width: 500px;
   }
 }
 
