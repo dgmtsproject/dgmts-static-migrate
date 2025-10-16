@@ -16,7 +16,7 @@ const ProjectDetailPage = () => {
     return (
       <div className="project-detail-page">
         <div className="container">
-          <div className="error-message">
+          <div className="project-detail-page-error-message">
             <h2>Project Not Found</h2>
             <p>The requested project could not be found.</p>
             <Link to="/projects" className="btn btn-primary">
@@ -56,9 +56,9 @@ const ProjectDetailPage = () => {
   return (
     <div className="project-detail-page">
       {/* Breadcrumb */}
-      <div className="breadcrumb-section">
+      <div className="project-detail-page-breadcrumb-section">
         <div className="container">
-          <nav className="breadcrumb">
+          <nav className="project-detail-page-breadcrumb">
             <Link to="/">Home</Link>
             <span>/</span>
             <Link to="/projects">Projects</Link>
@@ -69,34 +69,34 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="project-hero">
+      <section className="project-detail-page-project-hero">
         <div className="container">
-          <div className="project-hero-content">
-            <div className="project-hero-text">
+          <div className="project-detail-page-project-hero-content">
+            <div className="project-detail-page-project-hero-text">
               <h1>{project.title}</h1>
-              <div className="project-meta">
-                <div className="meta-item">
-                  <span className="meta-label">Location:</span>
-                  <span className="meta-value">{project.location}</span>
+              <div className="project-detail-page-project-meta">
+                <div className="project-detail-page-meta-item">
+                  <span className="project-detail-page-meta-label">Location:</span>
+                  <span className="project-detail-page-meta-value">{project.location}</span>
                 </div>
                 {project.client && (
-                  <div className="meta-item">
-                    <span className="meta-label">Client:</span>
-                    <span className="meta-value">{project.client}</span>
+                  <div className="project-detail-page-meta-item">
+                    <span className="project-detail-page-meta-label">Client:</span>
+                    <span className="project-detail-page-meta-value">{project.client}</span>
                   </div>
                 )}
                 {project.completionDate && (
-                  <div className="meta-item">
-                    <span className="meta-label">Status:</span>
-                    <span className="meta-value status">{project.completionDate}</span>
+                  <div className="project-detail-page-meta-item">
+                    <span className="project-detail-page-meta-label">Status:</span>
+                    <span className="project-detail-page-meta-value status">{project.completionDate}</span>
                   </div>
                 )}
               </div>
             </div>
             
             {/* Image Gallery */}
-            <div className="project-gallery">
-              <div className="gallery-main">
+            <div className="project-detail-page-project-gallery">
+              <div className="project-detail-page-gallery-main">
                 <img 
                   src={resolvedImages[currentImageIndex]} 
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
@@ -104,11 +104,11 @@ const ProjectDetailPage = () => {
                 
               </div>
               {resolvedImages.length > 1 && (
-                <div className="gallery-thumbnails">
+                <div className="project-detail-page-gallery-thumbnails">
                   {resolvedImages.map((image, index) => (
                     <button
                       key={index}
-                      className={`thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                      className={`project-detail-page-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
                       onClick={() => setCurrentImageIndex(index)}
                     >
                       <img src={image} alt={`Thumbnail ${index + 1}`} />
@@ -122,23 +122,23 @@ const ProjectDetailPage = () => {
       </section>
 
       {/* Project Details */}
-      <section className="project-details-section">
+      <section className="project-detail-page-project-details-section">
         <div className="container">
-          <div className="project-details-grid">
+          <div className="project-detail-page-project-details-grid">
             
             {/* Main Content */}
-            <div className="project-main-content">
+            <div className="project-detail-page-project-main-content">
               {project.description && (
-                <div className="detail-section">
+                <div className="project-detail-page-detail-section">
                   <h2>Project Overview</h2>
                   <p>{project.description}</p>
                 </div>
               )}
 
               {project.scopeOfServices && project.scopeOfServices.length > 0 && (
-                <div className="detail-section">
+                <div className="project-detail-page-detail-section">
                   <h2>Scope of Services</h2>
-                  <ul className="services-list">
+                  <ul className="project-detail-page-services-list">
                     {project.scopeOfServices.map((service, index) => (
                       <li key={index}>{service}</li>
                     ))}
@@ -147,9 +147,9 @@ const ProjectDetailPage = () => {
               )}
 
               {project.results && project.results.length > 0 && (
-                <div className="detail-section">
+                <div className="project-detail-page-detail-section">
                   <h2>Project Results</h2>
-                  <ul className="results-list">
+                  <ul className="project-detail-page-results-list">
                     {project.results.map((result, index) => (
                       <li key={index}>{result}</li>
                     ))}
@@ -158,11 +158,11 @@ const ProjectDetailPage = () => {
               )}
 
               {project.keyPersonnel && project.keyPersonnel.length > 0 && (
-                <div className="detail-section">
+                <div className="project-detail-page-detail-section">
                   <h2>Key Personnel</h2>
-                  <div className="personnel-grid">
+                  <div className="project-detail-page-personnel-grid">
                     {project.keyPersonnel.map((person, index) => (
-                      <div key={index} className="personnel-card">
+                      <div key={index} className="project-detail-page-personnel-card">
                         <h4>{person.name}</h4>
                         <p>{person.role}</p>
                       </div>
@@ -173,59 +173,59 @@ const ProjectDetailPage = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="project-sidebar">
-              <div className="sidebar-card">
+            <div className="project-detail-page-project-sidebar">
+              <div className="project-detail-page-sidebar-card">
                 <h3>Project Information</h3>
                 
                 {project.projectOwner && (
-                  <div className="info-item">
-                    <span className="info-label">Project Owner:</span>
-                    <span className="info-value">{project.projectOwner}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">Project Owner:</span>
+                    <span className="project-detail-page-info-value">{project.projectOwner}</span>
                   </div>
                 )}
                 
                 {project.projectDesigner && (
-                  <div className="info-item">
-                    <span className="info-label">Designer:</span>
-                    <span className="info-value">{project.projectDesigner}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">Designer:</span>
+                    <span className="project-detail-page-info-value">{project.projectDesigner}</span>
                   </div>
                 )}
                 
                 {project.generalContractor && (
-                  <div className="info-item">
-                    <span className="info-label">General Contractor:</span>
-                    <span className="info-value">{project.generalContractor}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">General Contractor:</span>
+                    <span className="project-detail-page-info-value">{project.generalContractor}</span>
                   </div>
                 )}
                 
                 {project.projectCost && (
-                  <div className="info-item">
-                    <span className="info-label">Project Cost:</span>
-                    <span className="info-value">{formatCurrency(project.projectCost)}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">Project Cost:</span>
+                    <span className="project-detail-page-info-value">{formatCurrency(project.projectCost)}</span>
                   </div>
                 )}
                 
                 {project.taskBudget && (
-                  <div className="info-item">
-                    <span className="info-label">DGMTS Budget:</span>
-                    <span className="info-value">{formatCurrency(project.taskBudget)}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">DGMTS Budget:</span>
+                    <span className="project-detail-page-info-value">{formatCurrency(project.taskBudget)}</span>
                   </div>
                 )}
                 
                 {project.dgmtsValue && (
-                  <div className="info-item">
-                    <span className="info-label">DGMTS Value:</span>
-                    <span className="info-value">{formatCurrency(project.dgmtsValue)}</span>
+                  <div className="project-detail-page-info-item">
+                    <span className="project-detail-page-info-label">DGMTS Value:</span>
+                    <span className="project-detail-page-info-value">{formatCurrency(project.dgmtsValue)}</span>
                   </div>
                 )}
               </div>
 
               {project.servicesProvided && project.servicesProvided.length > 0 && (
-                <div className="sidebar-card">
+                <div className="project-detail-page-sidebar-card">
                   <h3>Services Provided</h3>
-                  <div className="services-tags">
+                  <div className="project-detail-page-services-tags">
                     {project.servicesProvided.map((service, index) => (
-                      <span key={index} className="service-tag">
+                      <span key={index} className="project-detail-page-service-tag">
                         {service}
                       </span>
                     ))}
@@ -234,18 +234,18 @@ const ProjectDetailPage = () => {
               )}
 
               {project.contact && (
-                <div className="sidebar-card">
+                <div className="project-detail-page-sidebar-card">
                   <h3>Project Contact</h3>
-                  <div className="contact-info">
-                    <div className="contact-name">{project.contact.name}</div>
+                  <div className="project-detail-page-contact-info">
+                    <div className="project-detail-page-contact-name">{project.contact.name}</div>
                     {project.contact.phone && (
-                      <div className="contact-item">
+                      <div className="project-detail-page-contact-item">
                         <span>📞</span>
                         <a href={`tel:${project.contact.phone}`}>{project.contact.phone}</a>
                       </div>
                     )}
                     {project.contact.email && (
-                      <div className="contact-item">
+                      <div className="project-detail-page-contact-item">
                         <span>✉️</span>
                         <a href={`mailto:${project.contact.email}`}>{project.contact.email}</a>
                       </div>
@@ -259,9 +259,9 @@ const ProjectDetailPage = () => {
       </section>
 
       {/* Navigation */}
-      <section className="project-navigation">
+      <section className="project-detail-page-project-navigation">
         <div className="container">
-          <div className="nav-actions">
+          <div className="project-detail-page-nav-actions">
             <button onClick={() => navigate(-1)} className="btn btn-secondary">
               ← Back to Projects
             </button>

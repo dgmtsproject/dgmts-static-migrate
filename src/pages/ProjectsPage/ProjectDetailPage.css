@@ -6,13 +6,13 @@
 }
 
 /* Breadcrumb */
-.breadcrumb-section {
+.project-detail-page-breadcrumb-section {
   background-color: var(--grey-50);
   padding: var(--spacing-lg) 0;
   border-bottom: 1px solid var(--grey-200);
 }
 
-.breadcrumb {
+.project-detail-page-breadcrumb {
   margin-bottom: 0;
   display: flex;
   align-items: center;
@@ -21,28 +21,28 @@
   color: var(--grey-600);
 }
 
-.breadcrumb a {
+.project-detail-page-breadcrumb a {
   color: var(--primary-color);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.breadcrumb a:hover {
+.project-detail-page-breadcrumb a:hover {
   color: var(--primary-dark);
 }
 
-.breadcrumb span:last-child {
+.project-detail-page-breadcrumb span:last-child {
   color: var(--grey-800);
   font-weight: var(--font-weight-medium);
 }
 
 /* Hero Section */
-.project-hero {
+.project-detail-page-project-hero {
   padding: var(--spacing-xl) 0 0 0;
   background: linear-gradient(135deg, var(--white) 0%, var(--grey-50) 100%);
 }
 
-.project-hero-content {
+.project-detail-page-project-hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-3xl);
@@ -50,13 +50,13 @@
 }
 
 @media (max-width: 968px) {
-  .project-hero-content {
+  .project-detail-page-project-hero-content {
     grid-template-columns: 1fr;
     gap: var(--spacing-2xl);
   }
 }
 
-.project-hero-text h1 {
+.project-detail-page-project-hero-text h1 {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: var(--font-weight-bold);
   color: var(--grey-900);
@@ -65,32 +65,32 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.project-meta {
+.project-detail-page-project-meta {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.meta-item {
+.project-detail-page-meta-item {
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-sm);
 }
 
-.meta-label {
+.project-detail-page-meta-label {
   font-weight: var(--font-weight-semibold);
   color: var(--grey-700);
   min-width: 100px;
   font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.meta-value {
+.project-detail-page-meta-value {
   color: var(--grey-800);
   flex: 1;
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.meta-value.status {
+.project-detail-page-meta-value.status {
   display: inline-block;
   padding: var(--spacing-xs) var(--spacing-sm);
   color: var(--secondary-color);
@@ -104,13 +104,13 @@
 }
 
 /* Gallery */
-.project-gallery {
+.project-detail-page-project-gallery {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.gallery-main {
+.project-detail-page-gallery-main {
   position: relative;
   background-color: var(--grey-100);
   border-radius: var(--radius-lg);
@@ -118,13 +118,13 @@
   aspect-ratio: 16/10;
 }
 
-.gallery-main img {
+.project-detail-page-gallery-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.gallery-nav {
+.project-detail-page-gallery-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -142,27 +142,27 @@
   justify-content: center;
 }
 
-.gallery-nav:hover {
+.project-detail-page-gallery-nav:hover {
   background-color: rgba(0, 0, 0, 0.9);
   transform: translateY(-50%) scale(1.1);
 }
 
-.gallery-nav.prev {
+.project-detail-page-gallery-nav.prev {
   left: var(--spacing-md);
 }
 
-.gallery-nav.next {
+.project-detail-page-gallery-nav.next {
   right: var(--spacing-md);
 }
 
-.gallery-thumbnails {
+.project-detail-page-gallery-thumbnails {
   display: flex;
   gap: var(--spacing-sm);
   overflow-x: auto;
   padding-bottom: var(--spacing-xs);
 }
 
-.thumbnail {
+.project-detail-page-thumbnail {
   flex-shrink: 0;
   width: 80px;
   height: 50px;
@@ -175,46 +175,46 @@
   transition: all var(--transition-fast);
 }
 
-.thumbnail:hover {
+.project-detail-page-thumbnail:hover {
   border-color: var(--primary-light);
 }
 
-.thumbnail.active {
+.project-detail-page-thumbnail.active {
   border-color: var(--primary-color);
 }
 
-.thumbnail img {
+.project-detail-page-thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 /* Project Details */
-.project-details-section {
+.project-detail-page-project-details-section {
   padding: 0 0 2rem 0;
 }
 
-.project-details-grid {
+.project-detail-page-project-details-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: var(--spacing-3xl);
 }
 
 @media (max-width: 968px) {
-  .project-details-grid {
+  .project-detail-page-project-details-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-2xl);
   }
 }
 
 /* Main Content */
-.project-main-content {
+.project-detail-page-project-main-content {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3xl);
 }
 
-.detail-section h2 {
+.project-detail-page-detail-section h2 {
   font-size: 1.75rem;
   font-weight: var(--font-weight-bold);
   color: var(--grey-900);
@@ -224,7 +224,7 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.detail-section p {
+.project-detail-page-detail-section p {
   font-size: 1.1rem;
   line-height: 1.7;
   color: var(--grey-700);
@@ -232,15 +232,15 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.services-list,
-.results-list {
+.project-detail-page-services-list,
+.project-detail-page-results-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.services-list li,
-.results-list li {
+.project-detail-page-services-list li,
+.project-detail-page-results-list li {
   position: relative;
   padding-left: var(--spacing-lg);
   margin-bottom: var(--spacing-md);
@@ -250,7 +250,7 @@
   font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.services-list li::before {
+.project-detail-page-services-list li::before {
   content: '✓';
   position: absolute;
   left: 0;
@@ -260,7 +260,7 @@
   font-size: 1.1rem;
 }
 
-.results-list li::before {
+.project-detail-page-results-list li::before {
   content: '→';
   position: absolute;
   left: 0;
@@ -271,13 +271,13 @@
 }
 
 /* Personnel Grid */
-.personnel-grid {
+.project-detail-page-personnel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-lg);
 }
 
-.personnel-card {
+.project-detail-page-personnel-card {
   background: var(--white);
   border: 1px solid var(--grey-200);
   border-radius: var(--radius-md);
@@ -286,12 +286,12 @@
   transition: all var(--transition-fast);
 }
 
-.personnel-card:hover {
+.project-detail-page-personnel-card:hover {
   border-color: var(--primary-color);
   box-shadow: var(--shadow-sm);
 }
 
-.personnel-card h4 {
+.project-detail-page-personnel-card h4 {
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--grey-900);
@@ -299,7 +299,7 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.personnel-card p {
+.project-detail-page-personnel-card p {
   font-size: 0.9rem;
   color: var(--primary-color);
   margin: 0;
@@ -308,13 +308,13 @@
 }
 
 /* Sidebar */
-.project-sidebar {
+.project-detail-page-project-sidebar {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xl);
 }
 
-.sidebar-card {
+.project-detail-page-sidebar-card {
   background: var(--white);
   border: 1px solid var(--grey-200);
   border-radius: var(--radius-lg);
@@ -322,7 +322,7 @@
   box-shadow: var(--shadow-sm);
 }
 
-.sidebar-card h3 {
+.project-detail-page-sidebar-card h3 {
   font-size: 1.25rem;
   font-weight: var(--font-weight-bold);
   color: var(--grey-900);
@@ -332,14 +332,14 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.info-item {
+.project-detail-page-info-item {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
   margin-bottom: var(--spacing-md);
 }
 
-.info-label {
+.project-detail-page-info-label {
   font-size: 0.9rem;
   font-weight: var(--font-weight-semibold);
   color: var(--grey-600);
@@ -348,7 +348,7 @@
   font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.info-value {
+.project-detail-page-info-value {
   font-size: 1rem;
   color: var(--grey-800);
   font-weight: var(--font-weight-medium);
@@ -356,13 +356,13 @@
 }
 
 /* Services Tags */
-.services-tags {
+.project-detail-page-services-tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-sm);
 }
 
-.service-tag {
+.project-detail-page-service-tag {
   display: inline-block;
   padding: 5px 10px;
   background-color: rgb(221, 230, 231);
@@ -375,13 +375,13 @@
 }
 
 /* Contact Info */
-.contact-info {
+.project-detail-page-contact-info {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-.contact-name {
+.project-detail-page-contact-name {
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
   color: var(--grey-900);
@@ -389,7 +389,7 @@
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.contact-item {
+.project-detail-page-contact-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
@@ -397,28 +397,28 @@
   font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.contact-item span:first-child {
+.project-detail-page-contact-item span:first-child {
   font-size: 1rem;
 }
 
-.contact-item a {
+.project-detail-page-contact-item a {
   color: var(--primary-color);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
-.contact-item a:hover {
+.project-detail-page-contact-item a:hover {
   color: var(--primary-dark);
 }
 
 /* Navigation */
-.project-navigation {
+.project-detail-page-project-navigation {
   background-color: var(--grey-50);
   padding: var(--spacing-xl) 0;
   border-top: 1px solid var(--grey-200);
 }
 
-.nav-actions {
+.project-detail-page-nav-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -426,60 +426,60 @@
 }
 
 @media (max-width: 568px) {
-  .nav-actions {
+  .project-detail-page-nav-actions {
     flex-direction: column;
     align-items: stretch;
   }
   
-  .nav-actions .btn {
+  .project-detail-page-nav-actions .btn {
     width: 100%;
     text-align: center;
   }
 }
 
 /* Error Message */
-.error-message {
+.project-detail-page-error-message {
   text-align: center;
   padding: var(--spacing-4xl) var(--spacing-lg);
   color: var(--grey-600);
 }
 
-.error-message h2 {
+.project-detail-page-error-message h2 {
   color: var(--grey-800);
   margin-bottom: var(--spacing-lg);
   font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.error-message p {
+.project-detail-page-error-message p {
   margin-bottom: var(--spacing-xl);
   font-family: 'Red Hat Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .project-hero {
+  .project-detail-page-project-hero {
     padding: var(--spacing-2xl) 0;
   }
   
-  .project-details-section {
+  .project-detail-page-project-details-section {
     padding: var(--spacing-2xl) 0;
   }
   
-  .sidebar-card {
+  .project-detail-page-sidebar-card {
     padding: var(--spacing-lg);
   }
   
-  .gallery-nav {
+  .project-detail-page-gallery-nav {
     width: 40px;
     height: 40px;
     font-size: 1.2rem;
   }
   
-  .gallery-nav.prev {
+  .project-detail-page-gallery-nav.prev {
     left: var(--spacing-sm);
   }
   
-  .gallery-nav.next {
+  .project-detail-page-gallery-nav.next {
     right: var(--spacing-sm);
   }
 }
