@@ -104,43 +104,46 @@ const GeotechnicalEngineeringPage = () => {
       </section>
 
       {/* Comprehensive Services Overview - Part 1 */}
-      <section className="geotech-section">
+      <section className="geotech-section geotech-featured-section">
         <div className="geotech-container">
-          <div className="geotech-two-col">
-            <div className="geotech-overview-content">
-              <h2 className="geotech-section-title">Comprehensive Geotechnical Services</h2>
-              <p className="geotech-overview-text">
-                DGMTS offers a comprehensive portfolio of geotechnical engineering services. Our experienced teams of registered professional engineers provide preliminary and design level geotechnical engineering services with accuracy and safety in compliance with the approved plans, according to environmental considerations and client requirements.
-              </p>
-            </div>
-            
-            <div className="geotech-image-card">
+          <div className="geotech-featured-card">
+            <div className="geotech-featured-image">
               <img 
                 src={photo91}
                 alt="Geotechnical Services"
                 loading="lazy"
               />
             </div>
+            
+            <div className="geotech-featured-content">
+              <div className="geotech-featured-badge">HIGHLIGHTED PROJECT</div>
+              <h2 className="geotech-featured-title">Comprehensive Geotechnical Services</h2>
+              <p className="geotech-featured-text">
+                DGMTS offers a comprehensive portfolio of geotechnical engineering services. Our experienced teams of registered professional engineers provide preliminary and design level geotechnical engineering services with accuracy and safety in compliance with the approved plans, according to environmental considerations and client requirements.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Comprehensive Services Overview - Part 2 */}
-      <section className="geotech-section">
+      <section className="geotech-section geotech-featured-section">
         <div className="geotech-container">
-          <div className="geotech-two-col">
-            <div className="geotech-image-card">
+          <div className="geotech-featured-card geotech-featured-card-reverse">
+            <div className="geotech-featured-content">
+              <div className="geotech-featured-badge">ENGINEERING EXCELLENCE</div>
+              <h2 className="geotech-featured-title">Expert Leadership & Innovation</h2>
+              <p className="geotech-featured-text">
+                We develop unique subsurface investigation and laboratory testing programs, according to project type, scope, technical complexity, client needs, governing entities requirements and according to industry standards. Our President, Dr. Tariq Hamid, PhD, PE has 30+ year experience in geotechnical engineering with special emphasis on foundation engineering, retaining wall, support of excavation system design, material analysis & finite element modelling.
+              </p>
+            </div>
+
+            <div className="geotech-featured-image">
               <img 
                 src={photo35}
                 alt="Engineering Excellence"
                 loading="lazy"
               />
-            </div>
-
-            <div className="geotech-overview-content">
-              <p className="geotech-overview-text">
-                We develop unique subsurface investigation and laboratory testing programs, according to project type, scope, technical complexity, client needs, governing entities requirements and according to industry standards. Our President, Dr. Tariq Hamid, PhD, PE has 30+ year experience in geotechnical engineering with special emphasis on foundation engineering, retaining wall, support of excavation system design, material analysis & finite element modelling.
-              </p>
             </div>
           </div>
         </div>
