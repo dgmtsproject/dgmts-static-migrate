@@ -26,22 +26,24 @@
       "completionDate": "Ongoing",
       "taskBudget": 40000,
       "projectCost": 600000,
-      "description": "The Southside Taxiway – Phase 1 project at Louisa County Airport (Freeman Field) involves the construction of a new 400-foot parallel taxiway and a 240-foot connector taxiway. Funded through the FAA's Airport Improvement Program and supported by the Virginia Aviation Board, this initiative enhances the airport's airside infrastructure to support growing aircraft operations and ensure compliance with updated FAA design standards.",
+      "description": "The Southside Taxiway – Phase 1 project at Louisa County Airport (Freeman Field) involves the construction of a new 400-foot parallel taxiway and a 240-foot connector taxiway. Funded through the FAA's Airport Improvement Program and supported by the Virginia Aviation Board, this initiative enhances the airport's airside infrastructure to support growing aircraft operations and ensure compliance with updated FAA design standards.\nThis project is a critical component of a multi-phase airport development plan aimed at improving safety, increasing operational capacity, and supporting regional economic development through improved aviation access.",
       "scopeOfServices": [
-        "Observation and Density Testing of Soil and Aggregate Base Materials during subgrade and base preparation",
-        "Laboratory Testing of Soils: classification, Atterberg Limits, gradation, Standard Proctor, and CBR analysis",
-        "Concrete Field Testing: slump, air content, unit weight, temperature, and compressive strength testing",
-        "Reinforcement Inspection: verification of steel bar placement, size, spacing, and coverage",
-        "Asphalt Testing and Roller Pattern Verification",
-        "Daily Field Reports and Periodic Summary Documentation"
+        "Observation and Density Testing of Soil and Aggregate Base Materials during subgrade and base preparation.",
+        "Laboratory Testing of Soils: classification, Atterberg Limits, gradation, Standard Proctor, and CBR analysis to confirm design criteria.",
+        "Concrete Field Testing: slump, air content, unit weight, temperature, and compressive strength testing for airfield pavement and structural components.",
+        "Reinforcement Inspection: verification of steel bar placement, size, spacing, and coverage as per FAA and project specifications.",
+        "Asphalt Testing and Roller Pattern Verification to ensure compaction, mat thickness, and in-place density per FAA/VDOT requirements.",
+        "Daily Field Reports and Periodic Summary Documentation to track test results, identify nonconformance, and recommend corrective actions."
       ],
       "results": [
-        "Ensured compliance with FAA, VDOT, and project-specific standards",
-        "Improved safety and long-term durability of taxiway infrastructure",
-        "Maintained project schedule and prevented costly rework",
-        "Provided detailed documentation for FAA review and future maintenance planning"
+        "Ensured compliance with FAA, VDOT, and project-specific standards for all construction materials.",
+        "Improved safety and long-term durability of the new taxiway infrastructure.",
+        "Contributed to maintaining the project schedule and preventing costly rework by identifying deficiencies in real time.",
+        "Provided detailed documentation for project records, useful for FAA review and future maintenance planning."
       ]
     },
+        
+
     {
       "projectNumber": "2",
       "title": "Walmart Distribution Center – Gordonsville, Louisa County, VA",
@@ -67,22 +69,22 @@
       "completionDate": "Ongoing",
       "taskBudget": 42000,
       "projectCost": 150000000,
-      "description": "The Walmart Distribution Center in Gordonsville is a state-of-the-art, 628,713-square-foot cold storage and distribution facility situated on a 68-acre site. The scope included preconstruction and construction services for a high-capacity perishable warehouse featuring temperature-controlled zones (-15°F freezer, 28°F meat, 34°F produce, and 55°F dairy), integrated with an Automated Storage and Retrieval System (ASRS).",
+      "description": "The Walmart Distribution Center in Gordonsville is a state-of-the-art, 628,713-square-foot cold storage and distribution facility situated on a 68-acre site. The scope included preconstruction and construction services for a high-capacity perishable warehouse featuring temperature-controlled zones (-15°F freezer, 28°F meat, 34°F produce, and 55°F dairy), integrated with an Automated Storage and Retrieval System (ASRS).\nAdditional facilities included a truck maintenance garage, pallet processing center, fuel island, fire pump house, guardhouse, and a maintenance building. Testing and inspection services were critical due to the specialized temperature requirements and structural demands of the facility.\nThe project supports Walmart’s strategic logistics operations along key transportation corridors, enhancing inventory control and regional food delivery. Testing services ensured compliance with ASTM standards for structural integrity and thermal performance, vital for cold chain operations.\nIn 2024, plans were submitted to expand the facility with an additional warehouse, a 39,953-square-foot maintenance garage, new fuel bays with underground tanks, and expanded stormwater retention infrastructure.",
       "scopeOfServices": [
-        "Field and Laboratory Testing of Concrete in all cold zones",
-        "Soil Compaction Testing and evaluation of structural backfill",
-        "Asphalt Compaction and Thickness Testing for logistics truck lanes",
-        "Inspection of Reinforcing Steel and Concrete Placement",
-        "Testing and Inspection of Ancillary Structures including fuel stations, fire pump facilities, maintenance buildings, and underground storage tanks"
+        "Field and Laboratory Testing of Concrete in all cold zones (freezer, meat, dairy, produce) to ensure structural integrity and performance in sub-zero environments.",
+        "Soil Compaction Testing and evaluation of structural backfill supporting heavy equipment and warehouse foundations.",
+        "Asphalt Compaction and Thickness Testing for logistics truck lanes and staging areas.",
+        "Inspection of Reinforcing Steel and Concrete Placement to validate code compliance and construction sequencing.",
+        "Testing and Inspection of Ancillary Structures including fuel stations, fire pump facilities, maintenance buildings, and underground storage tanks."
       ],
       "results": [
-        "Ensured conformance with ASTM standards and Walmart operational requirements",
-        "Assured long-term durability and load-bearing performance",
-        "Reliable temperature zone performance critical to food safety",
-        "Documentation supporting contractor milestones and regulatory approvals",
-        "Support for phased expansion planning"
+        "Assurance of long-term durability and load-bearing performance.",
+        "Reliable temperature zone performance is critical to food safety and cold chain integrity.",
+        "Documentation and reporting that supported contractor milestones and regulatory approvals.",
+        "Support for phased expansion planning by establishing a verified baseline for soil conditions and structural compliance."
       ]
     },
+
     {
       "projectNumber": "3",
       "title": "Potomac Yard Station",
