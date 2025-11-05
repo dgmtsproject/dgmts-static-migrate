@@ -32,6 +32,7 @@ import NewsletterModal from './components/Modal/NewsletterModal';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
+import ClientsPage from './pages/ClientsPage/ClientsPage';
 function App() {
   return (
     <Router>
@@ -65,6 +66,7 @@ function App() {
             <Route path="/cancel" element={<CancelPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="/clients" element={<ClientsPage />} />
 
             {/* Catch-all route for 404 errors - must be last */}
             <Route path="*" element={<NotFoundPage />} />

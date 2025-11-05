@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library, FolderOpen } from 'lucide-react';
+import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library, FolderOpen, UserCircle } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -15,6 +15,7 @@ const Navigation = () => {
           title: 'About Us',
           items: [
             { name: 'About DGMTS', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
+            { name: 'Our Clients', path: '/clients', icon: UserCircle, description: 'Meet our trusted partners and clients' },
             // { name: 'Projects', path: '/projects', icon: FolderOpen, description: 'Explore our portfolio of successful projects' },
             { name: 'Careers', path: '/careers', icon: Briefcase, description: 'Join our team of professionals' },
             { name: 'Gallery', path: '/gallery', icon: GalleryVertical, description: 'View our project gallery' },
@@ -175,6 +176,7 @@ const Navigation = () => {
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-content">
           <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+          <Link to="/projects" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Projects</Link>
           
           {Object.entries(megaMenuData).map(([key, menu]) => (
             <div key={key} className="mobile-menu-section">
