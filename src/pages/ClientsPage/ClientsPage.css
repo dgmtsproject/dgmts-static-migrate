@@ -3,7 +3,7 @@
    =========================== */
 
 .clients-page {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  background: #f8f9fa;
   min-height: 100vh;
 }
 
@@ -13,9 +13,8 @@
 
 .clients-page .clients-hero {
   position: relative;
-  padding: 8rem 0 6rem;
+  padding: 4rem 0 1rem;
   overflow: hidden;
-  /* background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%); */
 }
 
 .clients-page .clients-hero-content {
@@ -29,7 +28,7 @@
 .clients-page .clients-hero-title {
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: 800;
-  color: #ffffff;
+  color: var(--primary-color);
   margin-bottom: 1.5rem;
   line-height: 1.15;
   letter-spacing: -1px;
@@ -45,7 +44,7 @@
 
 .clients-page .clients-hero-subtitle {
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  color: #cbd5e1;
+  color: #6c757d;
   margin-bottom: 3rem;
   line-height: 1.6;
   max-width: 700px;
@@ -79,7 +78,7 @@
 
 .clients-page .stat-label {
   font-size: 1rem;
-  color: #94a3b8;
+  color: #6c757d;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
@@ -111,11 +110,13 @@
   cursor: pointer;
   transition: transform 0.3s ease;
   position: relative;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 8px 15px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.08);
 }
 
 .clients-page .hexagon-item:hover {
   transform: scale(1.05);
   z-index: 10;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2), 0 12px 25px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Hexagon Content */
@@ -145,16 +146,12 @@
 }
 
 .clients-page .hexagon-front {
-  background: rgba(255, 255, 255, 0.05);
-  /* backdrop-filter: blur(10px); */
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
 }
 
 .clients-page .hexagon-back {
   background: linear-gradient(135deg, rgba(39, 149, 208, 0.9) 0%, rgba(40, 167, 69, 0.9) 100%);
   transform: rotateY(180deg);
-  /* backdrop-filter: blur(10px); */
-  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Logo Container */
@@ -167,16 +164,33 @@
   padding: 1rem;
 }
 
+/* Logo Wrapper */
+.clients-page .logo-wrapper {
+  background: transparent;
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.clients-page .hexagon-item:hover .logo-wrapper {
+  box-shadow: none;
+  transform: none;
+}
+
 .clients-page .client-logo {
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  filter: brightness(1.2) contrast(1.1);
   transition: filter 0.3s ease;
 }
 
 .clients-page .hexagon-item:hover .client-logo {
-  filter: brightness(1.4) contrast(1.2);
+  filter: brightness(1.05);
 }
 
 /* Initials Container */
@@ -188,6 +202,7 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  border-radius: 8px;
 }
 
 .clients-page .initials-container::before {
@@ -197,15 +212,15 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
 }
 
 .clients-page .initials-text {
   font-size: 2rem;
   font-weight: 800;
-  color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  color: #0f172a;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   letter-spacing: 2px;
   position: relative;
   z-index: 1;
@@ -226,6 +241,27 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.clients-page .company-website {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.35rem 0.9rem;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.clients-page .company-website:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .clients-page .company-category {
   display: inline-block;
   font-size: 0.75rem;
@@ -241,7 +277,7 @@
 .clients-page .no-results {
   text-align: center;
   padding: 4rem 2rem;
-  color: #cbd5e1;
+  color: #6c757d;
 }
 
 .clients-page .no-results-icon {
@@ -252,12 +288,12 @@
 
 .clients-page .no-results h3 {
   font-size: 1.5rem;
-  color: #ffffff;
+  color: #212529;
   margin-bottom: 0.5rem;
 }
 
 .clients-page .no-results p {
-  color: #94a3b8;
+  color: #6c757d;
 }
 
 /* ===========================
@@ -266,17 +302,16 @@
 
 .clients-page .clients-cta-section {
   padding: 1rem 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(30, 41, 59, 0.5) 100%);
 }
 
 .clients-page .clients-cta-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
   border-radius: 24px;
-  padding: 4rem 3rem;
+  padding: 3rem 2rem;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   max-width: 900px;
   margin: 0 auto;
 }
@@ -409,12 +444,21 @@
     font-size: 0.9rem;
   }
 
+  .clients-page .logo-wrapper {
+    padding: 0.5rem;
+  }
+
   .clients-page .initials-text {
     font-size: 1.5rem;
   }
 
   .clients-page .company-name {
     font-size: 0.85rem;
+  }
+
+  .clients-page .company-website {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
   }
 
   .clients-page .company-category {
@@ -453,6 +497,11 @@
 
   .clients-page .honeycomb-container {
     padding: 0.5rem 0.25rem;
+  }
+
+  .clients-page .logo-wrapper {
+    padding: 0.4rem;
+    border-radius: 6px;
   }
 
   .clients-page .clients-cta-card {

@@ -3,75 +3,100 @@ import { ResponsiveHoneycomb, Hexagon } from 'react-honeycomb';
 import './ClientsPage.css';
 
 const ClientsPage = () => {
-  // Complete list of clients with logos, some without logos (will use initials)
+  // Complete list of actual DGMTS clients
   const clients = [
-    { name: 'AECOM', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0022_AECOM.png', category: 'engineering', hasLogo: true },
-    { name: 'AKRF', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_AKRF.png', category: 'engineering', hasLogo: true },
-    { name: 'Amazon', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-Amazon.png', category: 'technology', hasLogo: true },
-    { name: 'Arcadis', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0013_Arcadis-1.png', category: 'engineering', hasLogo: true },
-    { name: 'BDI', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_BDI.png', category: 'engineering', hasLogo: true },
-    { name: 'BHP', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white_BHP.png', category: 'mining', hasLogo: true },
-    { name: 'Brandt', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Brandt.png', category: 'construction', hasLogo: true },
-    { name: 'Braun Intertec', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_Braun-Intertec.png', category: 'engineering', hasLogo: true },
-    { name: 'Chevron', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white_Chevron.png', category: 'energy', hasLogo: true },
-    { name: 'CDOT', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_CDOT.png', category: 'government', hasLogo: true },
-    { name: 'Colliers', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Colliers.png', category: 'realestate', hasLogo: true },
-    { name: 'DWRSC', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0004_DWRSC-1.png', category: 'government', hasLogo: true },
-    { name: 'EXP', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_EXP.png', category: 'engineering', hasLogo: true },
-    { name: 'Exxon Mobile', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-Exxon-Mobile.png', category: 'energy', hasLogo: true },
-    { name: 'FDOT', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_FDOT.png', category: 'government', hasLogo: true },
-    { name: 'GEI', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0008_GEI.png', category: 'engineering', hasLogo: true },
-    { name: 'Geocomp', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Geocomp.png', category: 'engineering', hasLogo: true },
-    { name: 'Geosyntic', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/12/Logo-white_Geosyntic.png', category: 'engineering', hasLogo: true },
-    { name: 'Gilbane', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Gilbane.png', category: 'construction', hasLogo: true },
-    { name: 'Grupo Mexico', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_Grupo-Mexico.png', category: 'mining', hasLogo: true },
-    { name: 'GTR', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/12/Logo-white_GTRpng.png', category: 'engineering', hasLogo: true },
-    { name: 'GZA', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0007_GZA.png', category: 'engineering', hasLogo: true },
-    { name: 'Haley Aldrich', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0002_Haley-Aldrich.png', category: 'engineering', hasLogo: true },
-    { name: 'HNTB', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0016_HNTB.png', category: 'engineering', hasLogo: true },
-    { name: 'JACOBS', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0012_JACOBS-1.png', category: 'engineering', hasLogo: true },
-    { name: 'Kiewit', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0011_Kiewit-1.png', category: 'construction', hasLogo: true },
-    { name: 'Kimley Horn', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Kimley-Horn.png', category: 'engineering', hasLogo: true },
-    { name: 'LADWP', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0005_LADWP.png', category: 'government', hasLogo: true },
-    { name: 'Langan', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0015_Langan.png', category: 'engineering', hasLogo: true },
-    { name: 'MDOT', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_MDOT.png', category: 'government', hasLogo: true },
-    { name: 'Montrose Environmental', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-Montrose-Environmental.png', category: 'environmental', hasLogo: true },
-    { name: 'Mott Macdonald', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Mott-Macdonald.png', category: 'engineering', hasLogo: true },
-    { name: 'MRCE', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_MRCE.png', category: 'engineering', hasLogo: true },
-    { name: 'NBC', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_NBC.png', category: 'construction', hasLogo: true },
-    { name: 'NIOSH', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0017_NIOSH.png', category: 'government', hasLogo: true },
-    { name: 'NV5', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_NV5.png', category: 'engineering', hasLogo: true },
-    { name: 'Parsons', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white_Parsons.png', category: 'engineering', hasLogo: true },
-    { name: 'PGE', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0014_PGE.png', category: 'energy', hasLogo: true },
-    { name: 'Port Authority NYNJ', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Port-Authority-NYNJ.png', category: 'government', hasLogo: true },
-    { name: 'Olsson', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Olsson.png', category: 'engineering', hasLogo: true },
-    { name: 'Ramboll', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0019_Ramboll.png', category: 'engineering', hasLogo: true },
-    { name: 'Rio Tinto', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white_RioTinto.png', category: 'mining', hasLogo: true },
-    { name: 'Roux', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0003_Roux.png', category: 'environmental', hasLogo: true },
-    { name: 'Scnabel', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Scnabel.png', category: 'engineering', hasLogo: true },
-    { name: 'Sevenson', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-Sevenson.png', category: 'construction', hasLogo: true },
-    { name: 'Shannon Wilson', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/12/Logo-white_Shannon-Wilson.png', category: 'engineering', hasLogo: true },
-    { name: 'Sixense', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0006_Sixense.png', category: 'technology', hasLogo: true },
-    { name: 'Skanska', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Skanska.png', category: 'construction', hasLogo: true },
-    { name: 'SLR', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_SLR.png', category: 'environmental', hasLogo: true },
-    { name: 'Socotec', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_Socotec.png', category: 'engineering', hasLogo: true },
-    { name: 'Stantec', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0001_Stantec.png', category: 'engineering', hasLogo: true },
-    { name: 'Terracon', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0020_Terracon.png', category: 'engineering', hasLogo: true },
-    { name: 'Tesla', logo: 'https://www.spectotechnology.com/wp-content/uploads/2023/01/Logo-white-_0021_Tesla.png', category: 'technology', hasLogo: true },
-    { name: 'Tetra Tech', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-tetra-tech.png', category: 'engineering', hasLogo: true },
-    { name: 'Texas Univ', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_texas-univ.png', category: 'education', hasLogo: true },
-    { name: 'TRC', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-TRC.png', category: 'engineering', hasLogo: true },
-    { name: 'Trimble', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white-_0010_Trimble.png', category: 'technology', hasLogo: true },
-    { name: 'Trinity Consultants', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/04/Logo-white-_Trinity-Consultants.png', category: 'environmental', hasLogo: true },
-    { name: 'Turner', logo: 'https://www.spectotechnology.com/wp-content/uploads/2024/06/Logo-white_Turner.png', category: 'construction', hasLogo: true },
-    { name: 'USACOE', logo: 'https://www.spectotechnology.com/wp-content/uploads/2025/01/Logo-white_USACOE.png', category: 'government', hasLogo: true },
-    // Adding clients without logos - using initials
-    { name: 'Metropolitan Transit Authority', initials: 'MTA', category: 'government', hasLogo: false },
-    { name: 'Infrastructure Group LLC', initials: 'IGL', category: 'engineering', hasLogo: false },
-    { name: 'Coastal Engineering Partners', initials: 'CEP', category: 'engineering', hasLogo: false },
-    { name: 'Urban Development Corp', initials: 'UDC', category: 'construction', hasLogo: false },
-    { name: 'Regional Water Board', initials: 'RWB', category: 'government', hasLogo: false },
+    { "name": "AECOM", "website": "https://aecom.com/" },
+    { "name": "AERO Systems Engineering", "website": "https://www.aerosys.net/", logo_url:"https://www.aerosys.net/wp-content/uploads/2022/09/ase-logo-larg.png"},
+    { "name": "Aldridge Electric Inc", "website": "https://www.aldridgegroup.com/" },
+    { "name": "Allan Myers", "website": "https://www.allanmyers.com/" },
+    { "name": "Alpha Corporation", "website": "https://www.alphacorporation.com/" },
+    { "name": "Anchor Construction Corporation", "website": "https://anchorconst.com/" },
+    { "name": "Ardent Company LLC", "website": "https://ardentco.com/"},
+    { "name": "ATCS", "website": "https://atcs.com/" ,logo_url:"https://atcs.com/wp-content/uploads/ATCS-logo-2022-NAVY-header-340x156-small.png"},
+    { "name": "AtkinsRéalis", "website": "https://www.atkinsrealis.com/" },
+    { "name": "Black & Veatch", "website": "https://www.bv.com/" },
+    { "name": "Branscome Paving Co", "website": "https://branscome.com/" },
+    { "name": "C.A. Murren & Sons Co., Inc", "website": "https://camurren.com/" },
+    { "name": "Capitol Riverfront", "website": "https://www.capitolriverfront.org/" },
+    { "name": "Case Architects and Remodelers", "website": "https://www.casedesign.com/" },
+    { "name": "CES Consulting LLC", "website": "https://ces-consultingllc.com/" },
+    { "name": "Chemung Contracting Corporation", "website": "https://www.chemungcontracting.com/" },
+    { "name": "Chesapeake Contracting Group", "website": "https://www.ccgmd.com/" },
+    { "name": "City of Baltimore", "website": "https://www.baltimorecity.gov/" },
+    { "name": "Clark Construction Group, LLC", "website": "https://www.clarkconstruction.com/" },
+    { "name": "Concrete General, Inc.", "website": "https://www.concretegeneral.com/" },
+    { "name": "County of Louisa", "website": "https://www.louisacounty.gov/" },
+    { "name": "CP&Y", "website": "https://www.cpyi.com/" },
+    { "name": "DC Water", "website": "https://www.dcwater.com/" },
+    { "name": "Delve Underground", "website": "https://delveunderground.com/" },
+    { "name": "Development Facilitators, Inc", "website": "https://www.dfiengineering.com/" },
+    { "name": "Dominion Construction Group", "website": "https://www.dcgcontractor.com/" },
+    { "name": "EBA Engineering", "website": "https://ebaengineering.com/" },
+    { "name": "ETC", "website": "https://etcengineersinc.com/" },
+    { "name": "F & R", "website": "https://www.fandr.com/" },
+    { "name": "F.H. Paschen", "website": "https://www.fhpaschen.com/" },
+    { "name": "FAY", "website": "https://www.shikunusa.com/" },
+    { "name": "Flippo Construction Company, Inc.", "website": "https://flippo.com/" },
+    { "name": "Fort Myer Construction Corp.", "website": "https://fortmyer.us/" , logo_url:"https://media.licdn.com/dms/image/v2/C4E0BAQGDd2F8xUi9Ww/company-logo_200_200/company-logo_200_200/0/1631361377624/fmcc_logo?e=2147483647&v=beta&t=_Aau1vjrnxKWa1hyWTILh_BoHgsnOLycT5zud_CUsWg"},
+    { "name": "Greeley and Hansen", "website": "https://www.greeley-hansen.com/" },
+    { "name": "Grunley Construction Company, Inc.", "website": "https://grunley.com/" },
+    { "name": "Haley and Aldrich Inc", "website": "https://www.haleyaldrich.com/" },
+    { "name": "Halo Development LLC", "website": "https://www.halo-development.com/" },
+    { "name": "HDR Inc", "website": "https://www.hdrinc.com/" },
+    { "name": "HICO America", "website": "https://www.hicoamerica.com/" },
+    { "name": "HRCP", "website": null , logo_url:"https://hrcpjobs.com/wp-content/uploads/2021/06/cropped-hrcp-logo-raster.png"},
+    { "name": "JMT", "website": "https://jmt.com/" },
+    { "name": "KIEWIT Corporation", "website": "https://www.kiewit.com/" },
+    { "name": "Kokosing Construction Company Inc", "website": "https://www.kokosing.biz/" },
+    { "name": "Labella Associates", "website": "https://www.labellapc.com/" },
+    { "name": "LANGAN", "website": "https://www.langan.com/" },
+    { "name": "Metro Paving Corporation", "website": "https://www.metropolitanpaving.com/" },
+    { "name": "MFO Homes", "website": "https://www.mfocore.com/" , logo_url:"https://img1.wsimg.com/isteam/ip/fcc3241e-4b8f-4fb6-b4b5-e476a4af9f6a/grayscale_transparent_nobuffer.png/:/rs=w:138,h:100,cg:true,m/cr=w:138,h:100/qt=q:95"},
+    { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:"https://mimararchitecture.com/wp-content/uploads/2023/04/Mimar-Group-Logo-WIde-Navy-2048x634.png"},
+    { "name": "Murphy-Puris Corporation", "website": "https://puriscorp.com/" },
+    { "name": "O'Berry Engineering, Inc.", "website": null },
+    { "name": "PGH Wong", "website": "https://pghwong.com/" },
+    { "name": "PSI Intertek Inc.", "website": "https://www.intertek.com/building/psi/" },
+    { "name": "Puris Corp", "website": "https://puriscorp.com/" },
+    { "name": "RS&H", "website": "https://www.rsandh.com/" },
+    { "name": "Sagres Construction", "website": "https://www.sagresconstruction.com/" , logo_url:"https://www.sagresconstruction.com/wp-content/uploads/2019/02/sagreslogo-1-220x64.png"},
+    { "name": "Schnabel Engineering", "website": "https://www.schnabel-eng.com/" },
+    { "name": "Schnabel Foundations", "website": "https://www.schnabel.com/" },
+    { "name": "Shirley Contracting Company, LLC", "website": "https://shirleycontracting.com/" },
+    { "name": "Skanska", "website": "https://www.skanska.com/" , logo_url:"https://www.usa.skanska.com/4ae4c0/globalassets/common-items/skanska_logotype_posblue.svg"},
+    { "name": "T.Y. Lin International", "website": "https://www.tylin.com/" },
+    { "name": "Terra Site Constructors", "website": "https://terraconstructs.com/" },
+    { "name": "Terracon", "website": "https://www.terracon.com/" },
+    { "name": "TGM Construction", "website": "https://www.tmgworld.net/" },
+    { "name": "The King's Masons", "website": "https://kingsmasons.com/" },
+    { "name": "The Plan Source", "website": "http://www.plan-source.com/" , logo_url:"http://www.plan-source.com/img/tps-logo.png"},
+    { "name": "Thomson & Cooke Architects", "website": "https://www.thomsoncooke.com/" },
+    { "name": "VDOT", "website": "https://www.vdot.virginia.gov/" , logo_url:"https://www.vdot.virginia.gov/media/vdotvirginiagov/website-developers-only/site-assets/images/vdot-logo.png"},
+    { "name": "Volkert", "website": "https://volkert.com/" },
+    { "name": "Wengell, McDonnell & Costello, Inc.", "website": "https://wmcengineers.com/" },
+    { "name": "Whitman, Requardt and Associates, LLP", "website": "https://wrallp.com/" },
+    { "name": "WMATA", "website": "https://www.wmata.com/" },
+    { "name": "Wright Angle Consulting, PLLC", "website": "https://wrightanglepllc.com/" },
+    { "name": "WSP", "website": "https://www.wsp.com/" , logo_url:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/WSP_logo.svg/102px-WSP_logo.svg.png"},
+    { "name": "WSSC", "website": "https://www.wsscwater.com/" }
   ];
+
+  // Function to get logo URL - prefer logo_url, fallback to Clearbit API
+  const getLogoUrl = (client) => {
+    // First check if client has a direct logo_url
+    if (client.logo_url) {
+      return client.logo_url;
+    }
+    
+    // Fallback to Clearbit Logo API if website exists
+    if (!client.website) return null;
+    try {
+      const domain = new URL(client.website).hostname.replace('www.', '');
+      return `https://logo.clearbit.com/${domain}`;
+    } catch (e) {
+      return null;
+    }
+  };
 
   // Function to get initials from company name
   const getInitials = (name) => {
@@ -80,10 +105,16 @@ const ClientsPage = () => {
     return words.slice(0, 2).map(word => word[0]).join('').toUpperCase();
   };
 
-  // Function to get a color based on company name (for consistent colors)
-  const getColorFromName = (name) => {
-    // Return consistent color matching the front face of logo hexagons
-    return 'transparent';
+  // Function to handle logo load error - show initials instead
+  const handleLogoError = (e) => {
+    const logoWrapper = e.target.closest('.logo-wrapper');
+    if (logoWrapper) {
+      logoWrapper.style.display = 'none';
+    }
+    const initialsEl = e.target.closest('.logo-container')?.querySelector('.initials-container');
+    if (initialsEl) {
+      initialsEl.style.display = 'flex';
+    }
   };
 
   return (
@@ -130,32 +161,44 @@ const ClientsPage = () => {
                   <div className="hexagon-content">
                     {/* Front Face - Logo or Initials */}
                     <div className="hexagon-face hexagon-front">
-                      {client.hasLogo ? (
-                        <div className="logo-container">
-                          <img 
-                            src={client.logo} 
-                            alt={client.name} 
-                            loading="lazy"
-                            className="client-logo"
-                          />
-                        </div>
-                      ) : (
+                      <div className="logo-container">
+                        {getLogoUrl(client) && (
+                          <div className="logo-wrapper">
+                            <img 
+                              src={getLogoUrl(client)} 
+                              alt={client.name} 
+                              loading="lazy"
+                              className="client-logo"
+                              onError={handleLogoError}
+                            />
+                          </div>
+                        )}
                         <div 
                           className="initials-container"
-                          style={{ background: getColorFromName(client.name) }}
+                          style={{ display: getLogoUrl(client) ? 'none' : 'flex' }}
                         >
                           <span className="initials-text">
-                            {client.initials || getInitials(client.name)}
+                            {getInitials(client.name)}
                           </span>
                         </div>
-                      )}
+                      </div>
                     </div>
                     
                     {/* Back Face - Company Name */}
                     <div className="hexagon-face hexagon-back">
                       <div className="company-info">
                         <h3 className="company-name">{client.name}</h3>
-                        <span className="company-category">{client.category}</span>
+                        {client.website && (
+                          <a 
+                            href={client.website} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="company-website"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            Visit Website →
+                          </a>
+                        )}
                       </div>
                     </div>
                   </div>
