@@ -137,7 +137,7 @@ const ProjectDetailPage = () => {
 
               {project.scopeOfServices && project.scopeOfServices.length > 0 && (
                 <div className="project-detail-page-detail-section">
-                  <h2>Scope of Services</h2>
+                  <h2>Services Provided</h2>
                   <ul className="project-detail-page-services-list">
                     {project.scopeOfServices.map((service, index) => (
                       <li key={index}>{service}</li>
@@ -198,19 +198,7 @@ const ProjectDetailPage = () => {
                   </div>
                 )}
                 
-                {project.projectCost && (
-                  <div className="project-detail-page-info-item">
-                    <span className="project-detail-page-info-label">Project Cost:</span>
-                    <span className="project-detail-page-info-value">{formatCurrency(project.projectCost)}</span>
-                  </div>
-                )}
                 
-                {project.taskBudget && (
-                  <div className="project-detail-page-info-item">
-                    <span className="project-detail-page-info-label">DGMTS Budget:</span>
-                    <span className="project-detail-page-info-value">{formatCurrency(project.taskBudget)}</span>
-                  </div>
-                )}
                 
                 {project.dgmtsValue && (
                   <div className="project-detail-page-info-item">
@@ -220,39 +208,7 @@ const ProjectDetailPage = () => {
                 )}
               </div>
 
-              {project.servicesProvided && project.servicesProvided.length > 0 && (
-                <div className="project-detail-page-sidebar-card">
-                  <h3>Services Provided</h3>
-                  <div className="project-detail-page-services-tags">
-                    {project.servicesProvided.map((service, index) => (
-                      <span key={index} className="project-detail-page-service-tag">
-                        {service}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
 
-              {project.contact && (
-                <div className="project-detail-page-sidebar-card">
-                  <h3>Project Contact</h3>
-                  <div className="project-detail-page-contact-info">
-                    <div className="project-detail-page-contact-name">{project.contact.name}</div>
-                    {project.contact.phone && (
-                      <div className="project-detail-page-contact-item">
-                        <span>📞</span>
-                        <a href={`tel:${project.contact.phone}`}>{project.contact.phone}</a>
-                      </div>
-                    )}
-                    {project.contact.email && (
-                      <div className="project-detail-page-contact-item">
-                        <span>✉️</span>
-                        <a href={`mailto:${project.contact.email}`}>{project.contact.email}</a>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
