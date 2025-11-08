@@ -10,6 +10,12 @@ import sagres_logo from '../../assets/logos/sagres.png';
 import puris_logo from '../../assets/logos/puris.png';
 import hdr_logo from '../../assets/logos/hdr.png';
 import plan_source_logo from '../../assets/logos/plan_source.png';
+import tgm_logo from '../../assets/logos/tgm.png';
+import thomson_and_cooke_logo from '../../assets/logos/thompson_and_cooke.jpeg';
+import hico_america_logo from '../../assets/logos/hico_america.png';
+import kokosing_logo from '../../assets/logos/kokosing.jpeg';
+import schnabel_foundations_logo from '../../assets/logos/schnabel.png';
+
 const ClientsPage = () => {
   // Complete list of actual DGMTS clients
   const clients = [
@@ -51,14 +57,14 @@ const ClientsPage = () => {
     { "name": "Haley and Aldrich Inc", "website": "https://www.haleyaldrich.com/" },
     { "name": "Halo Development LLC", "website": "https://www.halo-development.com/", logo_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrRbXbvaLl2zfLlPM3TDYZvsng5vn8cceFQ&s" },
     { "name": "HDR Inc", "website": "https://www.hdrinc.com/", logo_url: hdr_logo },
-    { "name": "HICO America", "website": "https://www.hicoamerica.com/" },
+    { "name": "HICO America", "website": "https://www.hicoamerica.com/" , logo_url: hico_america_logo },
     { "name": "HRCP", "website": null , logo_url:"https://hrcpjobs.com/wp-content/uploads/2021/06/cropped-hrcp-logo-raster.png"},
     { "name": "JMT", "website": "https://jmt.com/" },
     { "name": "KIEWIT Corporation", "website": "https://www.kiewit.com/" },
-    { "name": "Kokosing Construction Company Inc", "website": "https://www.kokosing.biz/" },
+    { "name": "Kokosing Construction Company Inc", "website": "https://www.kokosing.biz/", logo_url: kokosing_logo },
     { "name": "Labella Associates", "website": "https://www.labellapc.com/" , logo_url: labella_logo},
     { "name": "LANGAN", "website": "https://www.langan.com/" },
-    { "name": "Metro Paving Corporation", "website": "https://www.metropolitanpaving.com/" },
+    { "name": "Metro Paving Corporation", "website": "https://www.metropaving.net/" , logo_url:"https://www.metropaving.net/mt-content/uploads/2020/02/logo-2_5e4ad126db3fb.png"},
     { "name": "MFO Homes", "website": "https://www.mfocore.com/" , logo_url:"https://img1.wsimg.com/isteam/ip/fcc3241e-4b8f-4fb6-b4b5-e476a4af9f6a/grayscale_transparent_nobuffer.png/:/rs=w:138,h:100,cg:true,m/cr=w:138,h:100/qt=q:95"},
     { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:"https://mimararchitecture.com/wp-content/uploads/2023/04/Mimar-Group-Logo-WIde-Navy-2048x634.png"},
     { "name": "Murphy-Puris Corporation", "website": "https://puriscorp.com/" , logo_url:"https://puriscorp.com/wp-content/uploads/2022/11/MPC-Blue-a-PURIS-Company.png"},
@@ -69,16 +75,16 @@ const ClientsPage = () => {
     { "name": "RS&H", "website": "https://www.rsandh.com/" },
     { "name": "Sagres Construction", "website": "https://www.sagresconstruction.com/" , logo_url:sagres_logo},
     { "name": "Schnabel Engineering", "website": "https://www.schnabel-eng.com/" , logo_url: schnabel_logo},
-    { "name": "Schnabel Foundations", "website": "https://www.schnabel.com/" },
+    { "name": "Schnabel Foundations", "website": "https://www.schnabel.com/" , logo_url: schnabel_foundations_logo},
     { "name": "Shirley Contracting Company, LLC", "website": "https://shirleycontracting.com/" },
     { "name": "Skanska", "website": "https://www.skanska.com/" , logo_url:"https://www.usa.skanska.com/4ae4c0/globalassets/common-items/skanska_logotype_posblue.svg"},
     { "name": "T.Y. Lin International", "website": "https://www.tylin.com/" },
     { "name": "Terra Site Constructors", "website": "https://terraconstructs.com/" },
     { "name": "Terracon", "website": "https://www.terracon.com/" },
-    { "name": "TGM Construction", "website": "https://www.tmgworld.net/" },
+    { "name": "TGM Construction", "website": "https://www.tgmconstruction.co/", logo_url: tgm_logo },
     { "name": "The King's Masons", "website": "https://kingsmasons.com/" },
     { "name": "The Plan Source", "website": "http://www.plan-source.com/" , logo_url: plan_source_logo },
-    { "name": "Thomson & Cooke Architects", "website": "https://www.thomsoncooke.com/" },
+    { "name": "Thomson & Cooke Architects", "website": "https://www.thomsoncooke.com/", logo_url: thomson_and_cooke_logo },
     { "name": "VDOT", "website": "https://www.vdot.virginia.gov/" , logo_url:"https://www.vdot.virginia.gov/media/vdotvirginiagov/website-developers-only/site-assets/images/vdot-logo.png"},
     { "name": "Volkert", "website": "https://volkert.com/" },
     { "name": "Wengell, McDonnell & Costello, Inc.", "website": "https://wmcengineers.com/", logo_url:"https://wmcengineers.com/new/wp-content/uploads/2021/04/logo_transparent.png" },
