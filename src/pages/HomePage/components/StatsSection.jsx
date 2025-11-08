@@ -7,7 +7,7 @@ const StatsSection = () => {
 
   const stats = [
     { value: 500, title: 'Projects Completed', suffix: '+' },
-    { value: 70, title: 'Team Members', suffix: '+' },
+    { value: 90, title: 'Team Members', suffix: '+' },
     { value: 12, title: 'Years of Experience', suffix: '' },
     { value: 15, title: 'Certifications', suffix: '+' }
   ];

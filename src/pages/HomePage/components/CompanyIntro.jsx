@@ -97,7 +97,7 @@ const CompanyIntro = () => {
               </div>
 
               <div className="team-strength-card" role="group" aria-label="Team strength">
-                <div className="team-strength-number"><AnimatedNumber target={70} /><span className="suffix">people</span></div>
+                <div className="team-strength-number"><AnimatedNumber target={90} /><span className="suffix">people</span></div>
                 <div className="team-strength-label">Multidisciplinary Professionals</div>
               </div>
             </div>
