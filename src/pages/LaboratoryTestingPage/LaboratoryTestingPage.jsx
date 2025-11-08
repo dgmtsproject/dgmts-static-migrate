@@ -18,6 +18,20 @@ import photo86 from '../../assets/gallery/photo-86.jpg';
 import photo64 from '../../assets/gallery/photo-64.jpg';
 
 const LaboratoryTestingPage = () => {
+  const handleOurServicesClick = () => {
+    const element = document.getElementById('testing-services');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const services = [
     {
       icon: <Microscope className="lab-icon-lg" />,
@@ -99,13 +113,14 @@ const LaboratoryTestingPage = () => {
         title="Laboratory Testing"
         subtitle="Dulles Geotechnical and Materials Testing Services (DGMTS) provides independent construction materials testing at our two in-house testing laboratory facilities in Chantilly and Hampton, ensuring efficiency and cost savings for our clients."
         primaryButtonText="Our Services"
+        onPrimaryClick={handleOurServicesClick}
         image1={photo77}
         image2={photo86}
         imageAlt="Laboratory Testing"
       />
       <div className='bg-texture'>
         {/* Services Grid */}
-        <section className="lab-section">
+        <section className="lab-section" id="testing-services">
           <div className="lab-container">
             <div className="lab-section-header">
               <h2 className="lab-section-title">Our Testing Services</h2>

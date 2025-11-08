@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import './InstrumentationConditionSurveysPage.css';
 import HeroSection from '../../components/HeroSection';
+import ProjectsList from '../../components/ProjectsList';
 import photo54 from '../../assets/gallery/photo-54.jpg';
 import photo52 from '../../assets/gallery/photo-52.jpg';
 import photo48 from '../../assets/gallery/photo-48.jpg';
@@ -20,6 +21,20 @@ import preConstructionImage from '../../assets/instrumentation/picture_1.jpg';
 import postConstructionImage from '../../assets/instrumentation/picture_2.jpg';
 
 const InstrumentationConditionSurveysPage = () => {
+  const handleLearnMoreClick = () => {
+    const element = document.getElementById('structural-condition-surveys');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const services = [
     {
       icon: <Monitor className="inst-icon-lg" />,
@@ -79,6 +94,41 @@ const InstrumentationConditionSurveysPage = () => {
     "Standardized Assessment Forms"
   ];
 
+  const instrumentationProjects = [
+    {
+      title: "ANC Yellow Line - Instrumentation",
+      location: "Alington Virginia"
+    },
+    {
+      title: "Summit School Road - Geotechnical Instrumentation and Monitoring",
+      location: "Woodbridge, Virginia"
+    },
+    {
+      title: "ANC DAR-B/C Vibration Monitoring",
+      location: "Arlington, Virginia"
+    },
+    {
+      title: "Long Bridge North Package - Instrumentation Monitoring",
+      location: "Washington DC"
+    },
+    {
+      title: "ANC Sheridan Area - Geotech & Instrumentation",
+      location: "Arlington Virginia"
+    },
+    {
+      title: "Potomac Yards - Instrumentation",
+      location: "Potomac Yards"
+    },
+    {
+      title: "Amtrack-Track 22 Track Monitoring",
+      location: "Amtrack Track 22"
+    },
+    {
+      title: "Instrumentation - MDOT Tennyson Wetland Mitigation",
+      location: "St Mary's County MD"
+    }
+  ];
+
   return (
     <div className="inst-page">
       {/* Hero Section */}
@@ -87,12 +137,13 @@ const InstrumentationConditionSurveysPage = () => {
         title="Instrumentation & Condition Surveys"
         subtitle="DGMTS provides automated systems for monitoring the safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges."
         primaryButtonText="Learn More"
+        onPrimaryClick={handleLearnMoreClick}
         image1={photo54}
         image2={photo52}
         imageAlt="Instrumentation and Condition Surveys"
       />
       <div className='bg-texture'>
-        <section className="inst-section inst-survey-section">
+        <section className="inst-section inst-survey-section" id="structural-condition-surveys">
           <div className="inst-container">
             <div className="inst-section-header">
               <h2 className="inst-section-title">Structural Condition Surveys</h2>
@@ -236,6 +287,13 @@ const InstrumentationConditionSurveysPage = () => {
             </div>
           </div>
         </section>
+
+        {/* Instrumentation Projects Section */}
+        <ProjectsList
+          title="Instrumentation Projects"
+          subtitle="Explore our comprehensive portfolio of instrumentation and monitoring projects across various locations and applications."
+          projects={instrumentationProjects}
+        />
       </div>
     </div>
   );

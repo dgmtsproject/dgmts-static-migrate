@@ -20,6 +20,20 @@ import photo91 from '../../assets/gallery/photo-91.jpg';
 import teamMember1 from '../../assets/team-members/team-member-1.jpg';
 
 const GeotechnicalEngineeringPage = () => {
+  const handleGetStartedClick = () => {
+    const element = document.getElementById('core-services');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const services = [
     {
       icon: <Layers className="geotech-icon-lg" />,
@@ -74,13 +88,14 @@ const GeotechnicalEngineeringPage = () => {
         title="Geotechnical Engineering Excellence"
         subtitle="DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation. From site investigation to foundation design, we ensure your projects stand on solid ground."
         primaryButtonText="Get Started"
+        onPrimaryClick={handleGetStartedClick}
         image2={photo44}
         image1={photo87}
         imageAlt="Geotechnical Engineering"
       />
       <div className='bg-texture'>
       {/* Services Grid */}
-      <section className="geotech-section">
+      <section className="geotech-section" id="core-services">
         <div className="geotech-container">
           <div className="geotech-section-header">
             <h2 className="geotech-section-title">Our Core Services</h2>

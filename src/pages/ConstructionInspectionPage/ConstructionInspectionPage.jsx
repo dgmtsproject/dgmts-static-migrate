@@ -17,6 +17,20 @@ import photo38 from '../../assets/gallery/photo-38.jpg';
 import photo118 from '../../assets/gallery/photo-118.jpg';
 
 const ConstructionInspectionPage = () => {
+  const handleOurServicesClick = () => {
+    const element = document.getElementById('inspection-programs');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const services = [
     {
       icon: <HardHat className="construction-icon-lg" />,
@@ -140,6 +154,7 @@ const ConstructionInspectionPage = () => {
         title="Construction Inspection & Testing"
         subtitle="DGMTS provides quality assurance and quality control inspection and testing services for earthwork, concrete, asphalt, and steel in the construction of roads, airports, buildings, and other civil infrastructure."
         primaryButtonText="Our Services"
+        onPrimaryClick={handleOurServicesClick}
         image2={photo38}
         image1={photo103}
         imageAlt="Construction Inspection"
@@ -149,7 +164,7 @@ const ConstructionInspectionPage = () => {
       {/* Services Grid */}
       <div className='bg-texture'>
         {/* Inspection Types Section */}
-        <section className="construction-section construction-inspection-types">
+        <section className="construction-section construction-inspection-types" id="inspection-programs">
           <div className="construction-container">
             <div className="construction-section-header">
               <h2 className="construction-section-title">Inspection Programs</h2>

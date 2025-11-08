@@ -230,6 +230,20 @@ const ITDigitalServicesPage = () => {
     }
   ];
 
+  const handleDiscoverSolutionsClick = () => {
+    const element = document.getElementById('developed-applications');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="itds-container">
       {/* Hero Section */}
@@ -238,6 +252,7 @@ const ITDigitalServicesPage = () => {
   title="Geotechnical IT & Digital Services"
   subtitle="Software, cloud, and data solutions built for geotechnical workflows—from field data capture to analysis, dashboards, and reporting."
         primaryButtonText="Discover Our Solutions"
+        onPrimaryClick={handleDiscoverSolutionsClick}
         image1="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=400&fit=crop&crop=center"
         image2="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?cs=srgb&dl=pexels-luis-gomes-166706-546819.jpg&fm=jpg"
   imageAlt="Geotechnical software UI"
@@ -282,7 +297,7 @@ const ITDigitalServicesPage = () => {
       </section>
 
       {/* Portfolio Section */}
-      <section className="itds-portfolio-section">
+      <section className="itds-portfolio-section" id="developed-applications">
         <div className="itds-portfolio-content">
             <div className="itds-portfolio-header">
                 <h2 className="itds-portfolio-title">Our Developed Applications</h2>

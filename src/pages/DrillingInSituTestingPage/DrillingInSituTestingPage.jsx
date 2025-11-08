@@ -22,6 +22,20 @@ import photo113 from '../../assets/gallery/photo-113.png';
 import photo114 from '../../assets/gallery/photo-114.png';
 
 const DrillingInSituTestingPage = () => {
+  const handleLearnMoreClick = () => {
+    const element = document.getElementById('scope-of-services');
+    if (element) {
+      const navbarHeight = 64; // Height of the navigation bar in pixels
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const services = [
     {
       icon: <Drill className="drilling-icon-lg" />,
@@ -97,13 +111,14 @@ const DrillingInSituTestingPage = () => {
         title="Drilling & In-Situ Testing"
         subtitle="DGMTS owns and operates three drilling rigs and three drilling crews as well as coring equipment. We provide comprehensive drilling services for soil investigation, water well drilling, and rock and asphalt coring."
         primaryButtonText="Learn More"
+        onPrimaryClick={handleLearnMoreClick}
         image1={photo84}
         image2={photo49}
         imageAlt="Drilling and In-Situ Testing"
       />
       <div className='bg-texture'>
         {/* Services Grid */}
-        <section className="drilling-section">
+        <section className="drilling-section" id="scope-of-services">
           <div className="drilling-container">
             <div className="drilling-section-header">
               <h2 className="drilling-section-title">Our Scope of Services</h2>

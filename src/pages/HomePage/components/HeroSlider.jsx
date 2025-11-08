@@ -8,6 +8,7 @@ import sliderImage4 from "../../../assets/gallery/photo-54.jpg";
 import sliderImage5 from "../../../assets/gallery/photo-103.jpg";
 import sliderImage6 from "../../../assets/gallery/photo-38.jpg";
 import sliderImage7 from "../../../assets/gallery/photo-86.jpg";
+import ourClientsImage from "../../../assets/our_clients_section.png";
 
 
 
@@ -37,13 +38,22 @@ const HeroSlider = () => {
       buttonUrl: '/about',
       position: 'center'
     },
+    {
+      image: ourClientsImage,
+      heading: 'Trusted by Industry Leaders',
+      content: 'DGMTS partners with premier engineering firms, construction companies, and government agencies across the Mid-Atlantic region, delivering exceptional geotechnical engineering and materials testing services.',
+      buttonText: 'View Our Clients',
+      buttonUrl: '/clients',
+      position: 'left',
+      hasShadow: true
+    },
         {
       image: sliderImage2,
       heading: 'Geotechnical Engineering',
       content: 'DGMTS provides expert design and civil engineering solutions to large-scale projects, including preliminary and design level geotechnical engineering services according to client requirements, environmental considerations and approved plans.',
       buttonText: 'Our Services',
       buttonUrl: '/services/geotechnical',
-      position: 'left'
+      position: 'right'
     },
     {
       image: sliderImage3,
@@ -51,7 +61,7 @@ const HeroSlider = () => {
       content: 'All of our drill rigs are equipped with 250 to 350 gallons water tanks on-board, state-of-the-art Automatic SPT Hammer to sample subsurface profile and undisturbed sampling soil and NQ rock coring capabilities.',
       buttonText: 'Learn More',
       buttonUrl: '/services/drilling-in-situ-testing',
-      position: 'right'
+      position: 'center'
     },
     {
       image: sliderImage4,
@@ -59,7 +69,7 @@ const HeroSlider = () => {
       content: 'DGMTS has extensive experience in instrumentation and can utilize a wide range of both traditional and advanced sensing technologies. Our instrumentation services include PDAs, Piezometers, Inclinometers, Vibration, Noise & Crack Monitoring.',
       buttonText: 'Our Services',
       buttonUrl: '/services/instrumentation-condition-surveys',
-      position: 'center'
+      position: 'left'
     },
     {
       image: sliderImage5,
@@ -67,7 +77,7 @@ const HeroSlider = () => {
       content: 'DGMTS provides Third-Party and Special Inspection for a wide range of items including single/multi-family dwellings and/or all modifications/renovations for building of any type, conforming to applicable codes and specifications requirements.',
       buttonText: 'Learn More',
       buttonUrl: '/services/construction-inspection-testing',
-      position: 'left'
+      position: 'right'
     },
 
     {
@@ -76,7 +86,7 @@ const HeroSlider = () => {
       content: 'DGMTS handles Quality Assurance/Quality Control and related construction inspection and testing of earthwork, concrete, asphalt, and steel associated with the construction of roads, airports, buildings, and other civil infrastructure.',
       buttonText: 'Learn More',
       buttonUrl: '/services/construction-inspection-testing',
-      position: 'right'
+      position: 'center'
     },
     {
       image: sliderImage7,
@@ -84,7 +94,7 @@ const HeroSlider = () => {
       content: 'DGMTS maintains and operates a complete Geotechnical and Materials Testing laboratory accredited by the American Association of State Highway and Transportation Officials (AASHTO). We also offer in-situ and PDA testing.',
       buttonText: 'Our Services',
       buttonUrl: '/services/laboratory-testing',
-      position: 'center'
+      position: 'left'
     }
   ];
 
@@ -159,8 +169,18 @@ const HeroSlider = () => {
               <div className="slide-content">
                 <div className={`slide-inner ${slide.position}`}>
                   <div className="slide-text">
-                    <h2 className="slide-heading">{slide.heading}</h2>
-                    <p className="slide-description">{slide.content}</p>
+                    <h2 
+                      className="slide-heading"
+                      style={slide.hasShadow ? { textShadow: '0 0 20px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.6)' } : {}}
+                    >
+                      {slide.heading}
+                    </h2>
+                    <p 
+                      className="slide-description"
+                      style={slide.hasShadow ? { textShadow: '0 0 15px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.6)' } : {}}
+                    >
+                      {slide.content}
+                    </p>
                     <div className="slide-button">
                       <a href={slide.buttonUrl} className="btn btn-primary">
                         {slide.buttonText}
