@@ -754,9 +754,72 @@
         {
           "role": "Field Technician",
           "name": "MD Mobarak Hussain"
-        }
-      ],
-      "results": []
+        }] 
+    },
+    {
+      "projectNumber": "22",
+      "title": "ANC Yellow Line - Instrumentation, Alington Virginia",
+      "client": "Metro Paving Corporation",
+      "location": "Arlington National Cemetery, Arlington Virginia",
+      "images": ["/src/assets/instrumentation/project1_1.png","/src/assets/instrumentation/project1_2.png","/src/assets/instrumentation/project1_3.png"],
+      "servicesProvided": ["Pre and Post Construction Survey", "Vibration Monitoring", "Slope settlement Monitoring"],
+      "projectOwner": "USACE",
+      "generalContractor": "Metro Paving Corporation",
+      "completionDate": "On going",
+      "description": "In September 2019, the Army Corps of Engineers released the Draft Finding of No Significant Impact for the Southern Expansion and Associated Roadway Realignment Final Environmental Assessment. The Final Environmental Assessment evaluated potential impacts resulting from the proposed increase of the cemetery's contiguous acreage and roadway realignment by utilizing the adjacent, former Navy Annex site located just south of the existing cemetery in Arlington, Virginia. It also described the potential historical effects of integrating the Air Force Memorial with the cemetery as part of the expansion.",
+      "scopeOfServices": ["Pre and Post Construction Survey", "Vibration Monitoring", "Slope settlement Monitoring"]
+    },
+    {
+      "projectNumber": "23",
+      "title": "Summit School Road - Geotechnical Instrumentation and Monitoring",
+      "client": "Sagres Construction Corporation",
+      "location": "Summit School Road, Woodbridge, Virginia",
+      "images": ["/src/assets/instrumentation/project2_1.png","/src/assets/instrumentation/project2_2.png","/src/assets/instrumentation/project2_3.png"],
+      "servicesProvided": ["Settlement Monitoring of the Concrete Retaining Walls"],
+      "projectOwner": "",
+      "generalContractor": "Sagres Construction Corporation",
+      "completionDate": "On going",
+      "description": "Following a groundbreaking ceremony, Lake Ridge's Summit School Road project is now underway and marks the county's infrastructure development. This 1.2-mile extension stretches from Kinnicutt Drive to Telegraph Road and will be transformed into a four-lane divided roadway. The project will widen Telegraph Road from Caton Hill Road to Prince William Parkway, increasing it from two to four lanes. Enhancements include a raised grass median, a five-foot sidewalk, and a ten-foot shared-use path to accommodate additional pedestrian traffic.",
+      "scopeOfServices": ["Settlement Monitoring of the Concrete Retaining Walls"]
+    },
+    {
+      "projectNumber": "24",
+      "title": "ANC DAR-B/C Vibration Monitoring - Geotechnical Instrumentation and Monitoring",
+      "client": "Kokosing Construction Company Inc.",
+      "location": "Columbia Pike, Arlington, Virginia",
+      "images": ["/src/assets/instrumentation/project3_1.png","/src/assets/instrumentation/project3_2.png"],
+      "servicesProvided": ["Pre and Post Construction Survey", "Vibration and Noise Monitoring", "Tilt Monitoring"],
+      "projectOwner": "USACE",
+      "generalContractor": "Kokosing Construction Company Inc.",
+      "completionDate": "On going",
+      "description": "The Federal Highway Administration (FHWA) Eastern Federal Lands Highway Division is designing the roadways that would be relocated as a result of Cemetery expansion. This project will realign Columbia Pike from east of South Oak Street to Washington Boulevard, modify the South Joyce Street intersection and the Columbia Pike/Washington Boulevard (Route 27) interchange, and removes a segment of Southgate Road and builds a new South Nash Street.\\nThe project also includes a new multi-use trail adjacent to the cemetery, pedestrian and bicycle facilities, and a new tunnel between the cemetery and its new maintenance compound.",
+      "scopeOfServices": ["Pre and Post Construction Survey", "Vibration and Noise Monitoring", "Tilt Monitoring"]
+    },
+    {
+      "projectNumber": "25",
+      "title": "VPRA Long Bridge North: Phase 1 Instrumentation and Monitoring",
+      "client": "SKANSKA USA Civil",
+      "location": "900 Ohio Drive SW, Washington DC",
+      "images": ["/src/assets/instrumentation/project4_1.png","/src/assets/instrumentation/project4_2.png", "/src/assets/instrumentation/project4_3.png"],
+      "servicesProvided": ["Instrumentation", "Geotechnical Instrumentation", "Track monitoring", "Structures monitoring", "AMTS", "Seismographs", "Tiltmeters"],
+      "projectOwner": "CSX",
+      "generalContractor": "SKANSKA USA Civil",
+      "completionDate": "On going",
+      "description": "The Long Bridge Project includes the construction of a new two-track rail bridge over the Potomac River ( \" Potomac River Undergrade Bridge \" ). This new bridge will be constructed adjacent to the existing CSXT owned George Washington Memorial Parkway (GWMP) Bridge and Long Bridge. The overall proposed construction involves building a new bridge alongside the Long Bridge. Dulles Geotechnical and Material Testing Services, Inc. (DGMTS) is retained by Skanska to develop an Instrumentation and Monitoring (I&M) program in support of the Early Work Program #3 (EWP#3) for Long Bridge North Package. Instrumentation included Track monitoring and the structures monitoring by using AMTS, Seismographs and Tiltmeters.",
+      "scopeOfServices": ["Instrumentation and Monitoring (I&M) program", "Track monitoring", "Structures monitoring", "AMTS", "Seismographs", "Tiltmeters"]
+    },
+    {
+      "projectNumber": "26",
+      "title": "Sheridan, Wilson, McClellan Road, Repairs Arlington National Cemetery, Arlington, Virginia – Geotechnical Engineering Services",
+      "client": "Metro Paving Corporation",
+      "location": "Arlington National Cemetery, Arlington Virginia",
+      "images": ["/src/assets/instrumentation/project5_1.png","/src/assets/instrumentation/project5_2.png","/src/assets/instrumentation/project5_3.png"],
+      "servicesProvided": ["Pre and Post Construction Condition Survey", "Vibration Monitoring"],
+      "projectOwner": "USACE",
+      "generalContractor": "Metro Paving Corporation",
+      "completionDate": "Completed May 2025",
+      "description": "This project at the historic Arlington National Cemetery involved replacement / rehabilitation of several roadways including Sheridan, Wilson, McClellan, and Weeks / Grant Loop drives, along with drainage improvements. The scope also covered rehabilitating Crooks Walk, its bridge, Red Spring areas, and improving the Kennedy Memorial Tram Stop. Key elements included addressing site conditions, surveying, evaluating environmental needs, enhancing pedestrian access and drainage systems, protecting historic structures / trees, and providing phased construction plans. Design work focused on safety, curb / underdrain installations, utility adjustments, tree preservation, erosion control plans, and pedestrian area enhancements like step/handrail replacements and sidewalk improvements.",
+      "scopeOfServices": ["Pre and Post Construction Condition Survey", "Vibration Monitoring"]
     }
   ],
   "metadata": {
@@ -764,7 +827,7 @@
     "rfpTitle": "Geotechnical Engineering, Construction Inspection and Testing Services",
     "companyName": "Dulles Geotechnical and Material Testing Services, Inc. (DGMTS)",
     "extractionDate": "2025-10-12",
-    "totalProjects": 21,
+    "totalProjects": 26,
     "documentPages": 19
   }
 }

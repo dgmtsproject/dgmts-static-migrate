@@ -96,35 +96,43 @@ const InstrumentationConditionSurveysPage = () => {
 
   const instrumentationProjects = [
     {
-      title: "ANC Yellow Line - Instrumentation",
-      location: "Alington Virginia"
+      title: "ANC Yellow Line - Instrumentation, Alington Virginia",
+      displayTitle: "ANC Yellow Line - Instrumentation",
+      location: "Arlington Virginia"
     },
     {
       title: "Summit School Road - Geotechnical Instrumentation and Monitoring",
+      displayTitle: "Summit School Road",
       location: "Woodbridge, Virginia"
     },
     {
-      title: "ANC DAR-B/C Vibration Monitoring",
+      title: "ANC DAR-B/C Vibration Monitoring - Geotechnical Instrumentation and Monitoring",
+      displayTitle: "ANC DAR-B/C Vibration Monitoring",
       location: "Arlington, Virginia"
     },
     {
-      title: "Long Bridge North Package - Instrumentation Monitoring",
+      title: "VPRA Long Bridge North: Phase 1 Instrumentation and Monitoring",
+      displayTitle: "Long Bridge North Package Washington DC - Instrumentation Monitoring",
       location: "Washington DC"
     },
     {
-      title: "ANC Sheridan Area - Geotech & Instrumentation",
+      title: "Sheridan, Wilson, McClellan Road, Repairs Arlington National Cemetery, Arlington, Virginia – Geotechnical Engineering Services",
+      displayTitle: "ANC Sheridan Area - Geotech and Instrumentation",
       location: "Arlington Virginia"
     },
     {
       title: "Potomac Yards - Instrumentation",
+      displayTitle: "Potomac Yards - Instrumentation",
       location: "Potomac Yards"
     },
     {
       title: "Amtrack-Track 22 Track Monitoring",
+      displayTitle: "Amtrack-Track 22 Track Monitoring",
       location: "Amtrack Track 22"
     },
     {
       title: "Instrumentation - MDOT Tennyson Wetland Mitigation",
+      displayTitle: "Instrumentation - MDOT Tennyson Wetland Mitigation",
       location: "St Mary's County MD"
     }
   ];

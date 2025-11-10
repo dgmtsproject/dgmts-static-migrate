@@ -105,9 +105,16 @@
   font-style: italic;
 }
 
-.project-list-owner,
-.project-list-client {
-  font-size: 0.85rem;
-  color: #475569;
-  margin: 0.25rem 0;
+.project-list-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.project-list-link:hover .project-list-item {
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin: 0 -0.5rem;
+  border-bottom: none;
 }

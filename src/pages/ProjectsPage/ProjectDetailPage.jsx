@@ -7,6 +7,7 @@ const ProjectDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Get project from location state
   const project = location.state?.project;
@@ -49,6 +50,22 @@ const ProjectDetailPage = () => {
 
   const prevImage = () => {
     setCurrentImageIndex((prev) => 
+      prev === 0 ? resolvedImages.length - 1 : prev - 1
+    );
+  };
+
+  const closePreview = () => {
+    setIsPreviewOpen(false);
+  };
+
+  const nextPreviewImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === resolvedImages.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevPreviewImage = () => {
+    setCurrentImageIndex((prev) =>
       prev === 0 ? resolvedImages.length - 1 : prev - 1
     );
   };
@@ -96,12 +113,15 @@ const ProjectDetailPage = () => {
             
             {/* Image Gallery */}
             <div className="project-detail-page-project-gallery">
-              <div className="project-detail-page-gallery-main">
+              <div 
+                className="project-detail-page-gallery-main"
+                onClick={() => setIsPreviewOpen(true)}
+              >
                 <img 
                   src={resolvedImages[currentImageIndex]} 
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
+                  style={{ cursor: 'pointer' }}
                 />
-                
               </div>
               {resolvedImages.length > 1 && (
                 <div className="project-detail-page-gallery-thumbnails">
@@ -227,6 +247,50 @@ const ProjectDetailPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Image Preview Modal */}
+      {isPreviewOpen && (
+        <div className="project-detail-page-preview-modal" onClick={closePreview}>
+          <button 
+            className="project-detail-page-preview-close"
+            onClick={closePreview}
+            aria-label="Close preview"
+          >
+            ✕
+          </button>
+          
+          <div className="project-detail-page-preview-container" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={resolvedImages[currentImageIndex]} 
+              alt={`${project.title} - Preview ${currentImageIndex + 1}`}
+              className="project-detail-page-preview-image"
+            />
+            
+            {resolvedImages.length > 1 && (
+              <>
+                <button 
+                  className="project-detail-page-preview-nav prev"
+                  onClick={prevPreviewImage}
+                  aria-label="Previous image"
+                >
+                  ❮
+                </button>
+                <button 
+                  className="project-detail-page-preview-nav next"
+                  onClick={nextPreviewImage}
+                  aria-label="Next image"
+                >
+                  ❯
+                </button>
+                
+                <div className="project-detail-page-preview-counter">
+                  {currentImageIndex + 1} / {resolvedImages.length}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
