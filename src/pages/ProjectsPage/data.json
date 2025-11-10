@@ -18,11 +18,6 @@
       "projectOwner": "Industrial Development Authority of Louisa County",
       "projectDesigner": "Talbert and Bright",
       "generalContractor": "Chemung Contracting Corporation",
-      "contact": {
-        "name": "Billy Myers",
-        "phone": "703-395-6223",
-        "email": "bmyers@dalholding.com"
-      },
       "completionDate": "Ongoing",
       "taskBudget": 40000,
       "projectCost": 600000,
@@ -42,8 +37,6 @@
         "Provided detailed documentation for project records, useful for FAA review and future maintenance planning."
       ]
     },
-        
-
     {
       "projectNumber": "2",
       "title": "Walmart Distribution Center – Gordonsville, Louisa County, VA",
@@ -61,11 +54,6 @@
       "projectOwner": "Walmart, Inc.",
       "projectDesigner": "Galloway & Company, Inc.",
       "generalContractor": "Graycor Construction",
-      "contact": {
-        "name": "Hannah Wallace",
-        "phone": "980-451-1695",
-        "email": "hwallace@keeleyconstruction.com"
-      },
       "completionDate": "Ongoing",
       "taskBudget": 42000,
       "projectCost": 150000000,
@@ -84,7 +72,6 @@
         "Support for phased expansion planning by establishing a verified baseline for soil conditions and structural compliance."
       ]
     },
-
     {
       "projectNumber": "3",
       "title": "Potomac Yard Station",
@@ -109,11 +96,6 @@
       "projectOwner": "WMATA",
       "projectDesigner": "ARUP",
       "generalContractor": "Potomac Yards Constructors",
-      "contact": {
-        "name": "Matt Prpich",
-        "phone": "201-713-6429",
-        "email": "mprpich@schiavone.net"
-      },
       "completionDate": "2023",
       "taskBudget": 1200000,
       "projectCost": 37000000,
@@ -156,11 +138,6 @@
       "projectOwner": "Fairfax County",
       "projectDesigner": "Samaha",
       "generalContractor": "Carlson Construction",
-      "contact": {
-        "name": "Ross Gourley",
-        "phone": "815-693-8708",
-        "email": "mprpich@schiavone.net"
-      },
       "completionDate": "2022",
       "taskBudget": 36000,
       "projectCost": 12000000,
@@ -192,11 +169,6 @@
       "projectOwner": "Fairfax County",
       "projectDesigner": null,
       "generalContractor": "HESS Construction",
-      "contact": {
-        "name": "Ken Thompson",
-        "phone": "301-509-4027",
-        "email": "kthompson@hessconstruction.com"
-      },
       "completionDate": "Ongoing",
       "taskBudget": 55000,
       "projectCost": 37500000,
@@ -225,11 +197,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Thomas P. Reilly, P.E.",
-        "phone": null,
-        "email": "tom@salemengineering.com"
-      },
       "completionDate": "2023",
       "taskBudget": 2500000,
       "projectCost": null,
@@ -257,11 +224,6 @@
       "projectOwner": "One Loudoun Holdings, LLC",
       "projectDesigner": null,
       "generalContractor": "Miller & Smith",
-      "contact": {
-        "name": null,
-        "phone": null,
-        "email": "arrenRobertsonHomes@gmail.com"
-      },
       "completionDate": null,
       "taskBudget": null,
       "projectCost": null,
@@ -293,11 +255,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Aaron Shirza",
-        "phone": "817-841-4439",
-        "email": "aaron.shirza@volkert.com"
-      },
       "completionDate": "Ongoing",
       "taskBudget": null,
       "projectCost": 600000000,
@@ -334,11 +291,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "David Stein",
-        "phone": null,
-        "email": "david.stein@intertek.com"
-      },
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 375000,
@@ -370,11 +322,6 @@
       "projectOwner": "VDOT",
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Nick Carswell",
-        "phone": "703-606-6686",
-        "email": "NCarswell@Dewberry.com"
-      },
       "completionDate": "2023",
       "taskBudget": null,
       "projectCost": 314000000,
@@ -407,11 +354,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Steve Kuntz, PE",
-        "phone": "703-289-4796",
-        "email": "skuntz@dewberry.com"
-      },
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 12000000,
@@ -427,7 +369,9 @@
       "projectNumber": "12",
       "title": "Brown Mazda Car Dealership",
       "client": null,
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [
+        "/src/assets/projects/project1_1.png"
+      ],
       "location": "Fairfax, VA",
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -439,11 +383,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Dan Brenner",
-        "phone": "410-526-7797",
-        "email": "dbrenner@ccgmd.com"
-      },
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 5000000,
@@ -459,7 +398,9 @@
       "projectNumber": "13",
       "title": "City Hall Redevelopment for the City of College Park and the University of Maryland",
       "client": null,
-      "images": [        "/src/assets/projects/project13_1.png"      ],
+      "images": [
+        "/src/assets/projects/project13_1.png"
+      ],
       "location": "College Park, Maryland",
       "servicesProvided": [
         "Inspection",
@@ -470,11 +411,6 @@
       "projectOwner": "University of Maryland and City of College Park",
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "William Rowland",
-        "phone": "201-713-6429",
-        "email": "mprpich@schiavone.net"
-      },
       "completionDate": "2021",
       "taskBudget": 210000,
       "projectCost": 20500000,
@@ -492,7 +428,9 @@
       "projectNumber": "14",
       "title": "Bladensburg Library",
       "client": "Rich Moe Enterprises, LLC",
-      "images": [        "/src/assets/projects/project1_1.png"      ],
+      "images": [
+        "/src/assets/projects/project1_1.png"
+      ],
       "location": "4820 Annapolis Road, Bladensburg, MD 20710",
       "servicesProvided": [
         "Inspection",
@@ -502,11 +440,6 @@
       "projectOwner": "Prince George's County",
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Jules Reese, PE",
-        "phone": "301-272-8117",
-        "email": "jules@drdirt-ice.com"
-      },
       "completionDate": "2025",
       "taskBudget": 3000,
       "projectCost": 13000000,
@@ -521,7 +454,9 @@
       "projectNumber": "15",
       "title": "Safe Routes to School (SRTS) – Countryside Elementary School",
       "client": "F.H. Paschen, S.N. Nielsen & Associates LLC",
-      "images": [        "/src/assets/projects/project15_1.png"      ],
+      "images": [
+        "/src/assets/projects/project15_1.png"
+      ],
       "location": "Triple seven Road, Loudoun County, VA",
       "servicesProvided": [
         "Inspection",
@@ -532,11 +467,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": null,
-        "phone": "703-712-6816",
-        "email": "wcampbell@fhpaschen.com"
-      },
       "completionDate": "Summer 2025",
       "taskBudget": 23000,
       "projectCost": 500000,
@@ -553,7 +483,9 @@
       "projectNumber": "16",
       "title": "Maury Elementary School Modernization",
       "client": null,
-      "images": [        "/src/assets/projects/project16_1.png"      ],
+      "images": [
+        "/src/assets/projects/project16_1.png"
+      ],
       "location": "1250 Constitution Ave NE, Washington, DC 20002",
       "servicesProvided": [
         "Engineering Analysis and Design",
@@ -566,11 +498,6 @@
       "projectOwner": "District of Columbia Public Schools (DCPS)",
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Jeff Fusick",
-        "phone": null,
-        "email": null
-      },
       "completionDate": "July 2019",
       "taskBudget": null,
       "projectCost": 52000000,
@@ -587,7 +514,9 @@
       "projectNumber": "17",
       "title": "River Renew Tunnel System Project",
       "client": null,
-      "images": [        "/src/assets/projects/project17_1.png"      ],
+      "images": [
+        "/src/assets/projects/project17_1.png"
+      ],
       "location": "851 Holland Lane, Alexandria, VA",
       "servicesProvided": [
         "Inspection",
@@ -598,11 +527,6 @@
       "projectOwner": "Alexandria Renew Enterprises (AlexRenew)",
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Caitlin Feehan, PE, LEED AP",
-        "phone": "703-549-3381",
-        "email": null
-      },
       "completionDate": "In Progress – Est. July 2026",
       "taskBudget": null,
       "projectCost": 615000000,
@@ -619,7 +543,9 @@
       "projectNumber": "18",
       "title": "Leesburg Executive Airport Apron Paving",
       "client": "Chemung Contracting Corporation",
-      "images": [        "/src/assets/projects/project18_1.png"      ],
+      "images": [
+        "/src/assets/projects/project18_1.png"
+      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
         "Laboratory Testing",
@@ -628,11 +554,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Billy Myers, DBIA",
-        "phone": "703-395-6223",
-        "email": "bmyers@dalholding.com"
-      },
       "completionDate": "Fall 2024",
       "taskBudget": null,
       "projectCost": 3990000,
@@ -678,11 +599,6 @@
       "projectOwner": null,
       "projectDesigner": null,
       "generalContractor": null,
-      "contact": {
-        "name": "Siddharth Jain",
-        "phone": "703-288-3250",
-        "email": "sid@ardentcompany.com"
-      },
       "completionDate": "In progress",
       "taskBudget": null,
       "projectCost": 6300000,
@@ -715,7 +631,9 @@
       "projectNumber": "21",
       "title": "Safford Brown Hyundai Dealership",
       "client": "Chemung Contracting Corporation",
-      "images": [        "/src/assets/projects/project21_1.png"      ],
+      "images": [
+        "/src/assets/projects/project21_1.png"
+      ],
       "location": "Leesburg, VA",
       "servicesProvided": [
         "Inspection",
@@ -725,11 +643,6 @@
       "projectOwner": null,
       "projectDesigner": "Flanagan Architects",
       "generalContractor": "Chesapeake Contracting Group",
-      "contact": {
-        "name": "David D. Bradeson, P.E",
-        "phone": "703-395-6216",
-        "email": "dbradeson@dalholding.com"
-      },
       "completionDate": "In progress",
       "taskBudget": null,
       "projectCost": 10000000,
@@ -754,72 +667,133 @@
         {
           "role": "Field Technician",
           "name": "MD Mobarak Hussain"
-        }] 
+        }
+      ]
     },
     {
       "projectNumber": "22",
       "title": "ANC Yellow Line - Instrumentation, Alington Virginia",
       "client": "Metro Paving Corporation",
       "location": "Arlington National Cemetery, Arlington Virginia",
-      "images": ["/src/assets/instrumentation/project1_1.png","/src/assets/instrumentation/project1_2.png","/src/assets/instrumentation/project1_3.png"],
-      "servicesProvided": ["Pre and Post Construction Survey", "Vibration Monitoring", "Slope settlement Monitoring"],
+      "images": [
+        "/src/assets/instrumentation/project1_1.png",
+        "/src/assets/instrumentation/project1_2.png",
+        "/src/assets/instrumentation/project1_3.png"
+      ],
+      "servicesProvided": [
+        "Pre and Post Construction Survey",
+        "Vibration Monitoring",
+        "Slope settlement Monitoring"
+      ],
       "projectOwner": "USACE",
       "generalContractor": "Metro Paving Corporation",
       "completionDate": "On going",
       "description": "In September 2019, the Army Corps of Engineers released the Draft Finding of No Significant Impact for the Southern Expansion and Associated Roadway Realignment Final Environmental Assessment. The Final Environmental Assessment evaluated potential impacts resulting from the proposed increase of the cemetery's contiguous acreage and roadway realignment by utilizing the adjacent, former Navy Annex site located just south of the existing cemetery in Arlington, Virginia. It also described the potential historical effects of integrating the Air Force Memorial with the cemetery as part of the expansion.",
-      "scopeOfServices": ["Pre and Post Construction Survey", "Vibration Monitoring", "Slope settlement Monitoring"]
+      "scopeOfServices": [
+        "Pre and Post Construction Survey",
+        "Vibration Monitoring",
+        "Slope settlement Monitoring"
+      ]
     },
     {
       "projectNumber": "23",
       "title": "Summit School Road - Geotechnical Instrumentation and Monitoring",
       "client": "Sagres Construction Corporation",
       "location": "Summit School Road, Woodbridge, Virginia",
-      "images": ["/src/assets/instrumentation/project2_1.png","/src/assets/instrumentation/project2_2.png","/src/assets/instrumentation/project2_3.png"],
-      "servicesProvided": ["Settlement Monitoring of the Concrete Retaining Walls"],
+      "images": [
+        "/src/assets/instrumentation/project2_1.png",
+        "/src/assets/instrumentation/project2_2.png",
+        "/src/assets/instrumentation/project2_3.png"
+      ],
+      "servicesProvided": [
+        "Settlement Monitoring of the Concrete Retaining Walls"
+      ],
       "projectOwner": "",
       "generalContractor": "Sagres Construction Corporation",
       "completionDate": "On going",
       "description": "Following a groundbreaking ceremony, Lake Ridge's Summit School Road project is now underway and marks the county's infrastructure development. This 1.2-mile extension stretches from Kinnicutt Drive to Telegraph Road and will be transformed into a four-lane divided roadway. The project will widen Telegraph Road from Caton Hill Road to Prince William Parkway, increasing it from two to four lanes. Enhancements include a raised grass median, a five-foot sidewalk, and a ten-foot shared-use path to accommodate additional pedestrian traffic.",
-      "scopeOfServices": ["Settlement Monitoring of the Concrete Retaining Walls"]
+      "scopeOfServices": [
+        "Settlement Monitoring of the Concrete Retaining Walls"
+      ]
     },
     {
       "projectNumber": "24",
       "title": "ANC DAR-B/C Vibration Monitoring - Geotechnical Instrumentation and Monitoring",
       "client": "Kokosing Construction Company Inc.",
       "location": "Columbia Pike, Arlington, Virginia",
-      "images": ["/src/assets/instrumentation/project3_1.png","/src/assets/instrumentation/project3_2.png"],
-      "servicesProvided": ["Pre and Post Construction Survey", "Vibration and Noise Monitoring", "Tilt Monitoring"],
+      "images": [
+        "/src/assets/instrumentation/project3_1.png",
+        "/src/assets/instrumentation/project3_2.png"
+      ],
+      "servicesProvided": [
+        "Pre and Post Construction Survey",
+        "Vibration and Noise Monitoring",
+        "Tilt Monitoring"
+      ],
       "projectOwner": "USACE",
       "generalContractor": "Kokosing Construction Company Inc.",
       "completionDate": "On going",
       "description": "The Federal Highway Administration (FHWA) Eastern Federal Lands Highway Division is designing the roadways that would be relocated as a result of Cemetery expansion. This project will realign Columbia Pike from east of South Oak Street to Washington Boulevard, modify the South Joyce Street intersection and the Columbia Pike/Washington Boulevard (Route 27) interchange, and removes a segment of Southgate Road and builds a new South Nash Street.\\nThe project also includes a new multi-use trail adjacent to the cemetery, pedestrian and bicycle facilities, and a new tunnel between the cemetery and its new maintenance compound.",
-      "scopeOfServices": ["Pre and Post Construction Survey", "Vibration and Noise Monitoring", "Tilt Monitoring"]
+      "scopeOfServices": [
+        "Pre and Post Construction Survey",
+        "Vibration and Noise Monitoring",
+        "Tilt Monitoring"
+      ]
     },
     {
       "projectNumber": "25",
       "title": "VPRA Long Bridge North: Phase 1 Instrumentation and Monitoring",
       "client": "SKANSKA USA Civil",
       "location": "900 Ohio Drive SW, Washington DC",
-      "images": ["/src/assets/instrumentation/project4_1.png","/src/assets/instrumentation/project4_2.png", "/src/assets/instrumentation/project4_3.png"],
-      "servicesProvided": ["Instrumentation", "Geotechnical Instrumentation", "Track monitoring", "Structures monitoring", "AMTS", "Seismographs", "Tiltmeters"],
+      "images": [
+        "/src/assets/instrumentation/project4_1.png",
+        "/src/assets/instrumentation/project4_2.png",
+        "/src/assets/instrumentation/project4_3.png"
+      ],
+      "servicesProvided": [
+        "Instrumentation",
+        "Geotechnical Instrumentation",
+        "Track monitoring",
+        "Structures monitoring",
+        "AMTS",
+        "Seismographs",
+        "Tiltmeters"
+      ],
       "projectOwner": "CSX",
       "generalContractor": "SKANSKA USA Civil",
       "completionDate": "On going",
       "description": "The Long Bridge Project includes the construction of a new two-track rail bridge over the Potomac River ( \" Potomac River Undergrade Bridge \" ). This new bridge will be constructed adjacent to the existing CSXT owned George Washington Memorial Parkway (GWMP) Bridge and Long Bridge. The overall proposed construction involves building a new bridge alongside the Long Bridge. Dulles Geotechnical and Material Testing Services, Inc. (DGMTS) is retained by Skanska to develop an Instrumentation and Monitoring (I&M) program in support of the Early Work Program #3 (EWP#3) for Long Bridge North Package. Instrumentation included Track monitoring and the structures monitoring by using AMTS, Seismographs and Tiltmeters.",
-      "scopeOfServices": ["Instrumentation and Monitoring (I&M) program", "Track monitoring", "Structures monitoring", "AMTS", "Seismographs", "Tiltmeters"]
+      "scopeOfServices": [
+        "Instrumentation and Monitoring (I&M) program",
+        "Track monitoring",
+        "Structures monitoring",
+        "AMTS",
+        "Seismographs",
+        "Tiltmeters"
+      ]
     },
     {
       "projectNumber": "26",
       "title": "Sheridan, Wilson, McClellan Road, Repairs Arlington National Cemetery, Arlington, Virginia – Geotechnical Engineering Services",
       "client": "Metro Paving Corporation",
       "location": "Arlington National Cemetery, Arlington Virginia",
-      "images": ["/src/assets/instrumentation/project5_1.png","/src/assets/instrumentation/project5_2.png","/src/assets/instrumentation/project5_3.png"],
-      "servicesProvided": ["Pre and Post Construction Condition Survey", "Vibration Monitoring"],
+      "images": [
+        "/src/assets/instrumentation/project5_1.png",
+        "/src/assets/instrumentation/project5_2.png",
+        "/src/assets/instrumentation/project5_3.png"
+      ],
+      "servicesProvided": [
+        "Pre and Post Construction Condition Survey",
+        "Vibration Monitoring"
+      ],
       "projectOwner": "USACE",
       "generalContractor": "Metro Paving Corporation",
       "completionDate": "Completed May 2025",
       "description": "This project at the historic Arlington National Cemetery involved replacement / rehabilitation of several roadways including Sheridan, Wilson, McClellan, and Weeks / Grant Loop drives, along with drainage improvements. The scope also covered rehabilitating Crooks Walk, its bridge, Red Spring areas, and improving the Kennedy Memorial Tram Stop. Key elements included addressing site conditions, surveying, evaluating environmental needs, enhancing pedestrian access and drainage systems, protecting historic structures / trees, and providing phased construction plans. Design work focused on safety, curb / underdrain installations, utility adjustments, tree preservation, erosion control plans, and pedestrian area enhancements like step/handrail replacements and sidewalk improvements.",
-      "scopeOfServices": ["Pre and Post Construction Condition Survey", "Vibration Monitoring"]
+      "scopeOfServices": [
+        "Pre and Post Construction Condition Survey",
+        "Vibration Monitoring"
+      ]
     }
   ],
   "metadata": {

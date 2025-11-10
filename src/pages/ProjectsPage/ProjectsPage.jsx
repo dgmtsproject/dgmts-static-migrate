@@ -149,11 +149,11 @@ const ProjectsPage = () => {
                       </div>
                     )}
                     
-                    {project.projectCost && (
+                    {/* {project.projectCost && (
                       <div className="detail-item">
                         <strong>Project Cost:</strong> {formatCurrency(project.projectCost)}
                       </div>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="project-services">
