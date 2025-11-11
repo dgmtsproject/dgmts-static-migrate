@@ -18,6 +18,8 @@ import schnabel_foundations_logo from '../../assets/logos/schnabel.png';
 import fay_logo from '../../assets/logos/fay.png';
 import kings_masons_logo from '../../assets/logos/kings_mason.png';
 import mimar_logo from '../../assets/logos/mimar.png';
+import o_berry_logo from '../../assets/logos/o_berry.png';
+import wright_angle_logo from '../../assets/logos/wright_angle.png';
 
 
 const ClientsPage = () => {
@@ -88,7 +90,7 @@ const ClientsPage = () => {
     { "name": "MFO Homes", "website": "https://www.mfocore.com/" , logo_url:"https://img1.wsimg.com/isteam/ip/fcc3241e-4b8f-4fb6-b4b5-e476a4af9f6a/grayscale_transparent_nobuffer.png/:/rs=w:138,h:100,cg:true,m/cr=w:138,h:100/qt=q:95","bgColor": getRandomColor()},
     { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:mimar_logo,"bgColor": getRandomColor()},
     { "name": "Murphy-Puris Corporation", "website": "https://puriscorp.com/" , logo_url:"https://puriscorp.com/wp-content/uploads/2022/11/MPC-Blue-a-PURIS-Company.png","bgColor": getRandomColor()},
-    { "name": "O'Berry Engineering, Inc.", "website": null ,"bgColor": getRandomColor()},
+    { "name": "O'Berry Engineering, Inc.", "website": null ,"bgColor": getRandomColor(), logo_url: o_berry_logo},
     { "name": "PGH Wong", "website": "https://pghwong.com/" ,"bgColor": getRandomColor()},
     { "name": "PSI Intertek Inc.", "website": "https://www.intertek.com/building/psi/" , logo_url:"https://www.intertek.com/globalassets/_media/co-branded-logos/psi.svg","bgColor": getRandomColor()},
     { "name": "Puris Corp", "website": "https://puriscorp.com/" ,logo_url: puris_logo,"bgColor": getRandomColor()},
@@ -110,7 +112,7 @@ const ClientsPage = () => {
     { "name": "Wengell, McDonnell & Costello, Inc.", "website": "https://wmcengineers.com/", logo_url:"https://wmcengineers.com/new/wp-content/uploads/2021/04/logo_transparent.png" ,"bgColor": getRandomColor()},
     { "name": "Whitman, Requardt and Associates, LLP", "website": "https://wrallp.com/" ,"bgColor": getRandomColor()},
     { "name": "WMATA", "website": "https://www.wmata.com/" ,"bgColor": getRandomColor()},
-    { "name": "Wright Angle Consulting, PLLC", "website": "https://wrightanglepllc.com/" ,"bgColor": getRandomColor()},
+    { "name": "Wright Angle Consulting, PLLC", "website": "https://wrightanglepllc.com/" ,"bgColor": getRandomColor(), logo_url: wright_angle_logo},
     { "name": "WSP", "website": "https://www.wsp.com/" , logo_url:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/WSP_logo.svg/102px-WSP_logo.svg.png","bgColor": getRandomColor()},
     { "name": "WSSC", "website": "https://www.wsscwater.com/" ,"bgColor": getRandomColor()}
   ];
