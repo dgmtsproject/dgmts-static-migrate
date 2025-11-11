@@ -44,84 +44,81 @@
   margin: 0 auto 0;
 }
 
-/* Concentric Semi-Circles Container */
-.partners-section .partners-concentric-container {
+/* Grid Container */
+.partners-section .partners-grid-container {
   position: relative;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto 0;
-  padding: 0 1rem 0;
-  min-height: 620px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
 }
 
-.partners-section .partners-svg {
-  width: 100%;
-  height: auto;
-  display: block;
+.partners-section .partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 2rem 1.5rem;
+  place-items: center;
 }
 
-.partners-section .arc-path {
+/* Partner Grid Item */
+.partners-section .partner-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: grid-item-fade-in 0.6s ease-out forwards;
   opacity: 0;
-  animation: arc-fade-in 1s ease forwards;
+  transition: transform 0.3s ease;
 }
 
-@keyframes arc-fade-in {
-  to { opacity: 1; }
+.partners-section .partner-grid-item:hover {
+  transform: translateY(-8px);
 }
 
-/* Partner logos overlay */
-.partners-section .partners-logos-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.partners-section .partner-item {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  pointer-events: all;
-  animation: none;
-}
-
-.partners-section.in-view .partner-item {
-  animation: partner-pop-in 500ms ease backwards;
-}
-
-@keyframes partner-pop-in {
-  0% { 
-    transform: translate(-50%, -50%) scale(0.5); 
-    opacity: 0; 
+@keyframes grid-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  100% { 
-    transform: translate(-50%, -50%) scale(1); 
-    opacity: 1; 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.partners-section .partner-logo-circle {
+/* Client Logo Container */
+.partners-section .client-logo-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
   background: white;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   transition: all 0.3s ease;
-  padding: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.8);
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
 }
 
-.partners-section .partner-item:hover .partner-logo-circle {
-  transform: scale(1.15);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+.partners-section .partner-grid-item:hover .client-logo-container {
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   border-color: var(--primary-color);
 }
 
-.partners-section .partner-logo-img {
+/* Logo Wrapper */
+.partners-section .logo-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partners-section .client-logo {
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -130,60 +127,104 @@
   filter: grayscale(0%);
 }
 
-.partners-section .partner-initials {
-  font-size: 18px;
+/* Initials Container */
+.partners-section .initials-container {
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(39, 149, 208, 0.1), rgba(40, 167, 69, 0.1));
+  border-radius: 12px;
+}
+
+.partners-section .initials-text {
+  font-size: 20px;
   font-weight: 700;
   color: var(--primary-color);
   text-align: center;
 }
 
-/* Remove different sizes - all logos are now the same size */
+/* Partner Name */
+.partners-section .partner-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  text-align: center;
+  line-height: 1.3;
+  max-width: 140px;
+  transition: color 0.3s ease;
+}
 
-/* Responsive adjustments */
-@media (max-width: 1023px) {
-  .partners-section .partners-concentric-container {
-    min-height: 550px;
-    max-width: 1000px;
+.partners-section .partner-grid-item:hover .partner-name {
+  color: var(--primary-color);
+}
+
+/* Responsive Grid */
+@media (max-width: 1200px) {
+  .partners-section .partners-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1.8rem 1.3rem;
   }
-
-  .partners-section .partner-logo-circle {
-    width: 65px;
-    height: 65px;
+  
+  .partners-section .client-logo-container {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .partners-section .initials-text {
+    font-size: 18px;
+  }
+  
+  .partners-section .partner-name {
+    font-size: 0.85rem;
   }
 }
 
-@media (max-width: 767px) {
-  .partners-section .partners-concentric-container {
-    min-height: 450px;
-    padding: 1rem 0.5rem 0;
-    max-width: 900px;
+@media (max-width: 768px) {
+  .partners-section .partners-grid {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1.5rem 1rem;
   }
-
-  .partners-section .partner-logo-circle {
-    width: 55px;
-    height: 55px;
-    padding: 8px;
+  
+  .partners-section .client-logo-container {
+    width: 80px;
+    height: 80px;
   }
-
-  .partners-section .partner-initials {
-    font-size: 14px;
+  
+  .partners-section .initials-text {
+    font-size: 16px;
+  }
+  
+  .partners-section .partner-name {
+    font-size: 0.8rem;
+    max-width: 110px;
+  }
+  
+  .partners-section .partner-grid-item:hover {
+    transform: translateY(-4px);
   }
 }
 
 @media (max-width: 480px) {
-  .partners-section .partners-concentric-container {
-    min-height: 380px;
-    max-width: 100%;
+  .partners-section .partners-grid {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 1rem 0.8rem;
   }
-
-  .partners-section .partner-logo-circle {
-    width: 45px;
-    height: 45px;
-    padding: 6px;
+  
+  .partners-section .client-logo-container {
+    width: 70px;
+    height: 70px;
+    padding: 10px;
   }
-
-  .partners-section .partner-initials {
-    font-size: 12px;
+  
+  .partners-section .initials-text {
+    font-size: 14px;
+  }
+  
+  .partners-section .partner-name {
+    font-size: 0.75rem;
+    max-width: 90px;
   }
 }
 
