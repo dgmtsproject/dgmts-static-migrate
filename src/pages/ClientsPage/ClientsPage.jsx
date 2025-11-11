@@ -15,6 +15,10 @@ import thomson_and_cooke_logo from '../../assets/logos/thompson_and_cooke.jpeg';
 import hico_america_logo from '../../assets/logos/hico_america.png';
 import kokosing_logo from '../../assets/logos/kokosing.jpeg';
 import schnabel_foundations_logo from '../../assets/logos/schnabel.png';
+import fay_logo from '../../assets/logos/fay.png';
+import kings_masons_logo from '../../assets/logos/kings_mason.png';
+import mimar_logo from '../../assets/logos/mimar.png';
+
 
 const ClientsPage = () => {
   // Function to generate random solid color
@@ -65,7 +69,7 @@ const ClientsPage = () => {
     { "name": "ETC", "website": "https://etc-web.com/" , logo_url:"https://www.etc-web.com/wp-content/uploads/logo_etc.png","bgColor": getRandomColor()},
     { "name": "F & R", "website": "https://www.fandr.com/" , logo_url:"https://www.fandr.com/wp-content/uploads/2025/05/Froehling-Robertson-Logo-2-2048x536.png","bgColor": getRandomColor()},
     { "name": "F.H. Paschen", "website": "https://www.fhpaschen.com/" ,"bgColor": getRandomColor()},
-    { "name": "FAY", "website": "https://www.shikunusa.com/" ,"bgColor": getRandomColor()},
+    { "name": "FAY", "website": "https://www.shikunusa.com/" ,"bgColor": getRandomColor(), logo_url: fay_logo},
     { "name": "Flippo Construction Company, Inc.", "website": "https://flippo.com/" ,"bgColor": getRandomColor()},
     { "name": "Fort Myer Construction Corp.", "website": "https://fortmyer.us/" , logo_url:"https://media.licdn.com/dms/image/v2/C4E0BAQGDd2F8xUi9Ww/company-logo_200_200/company-logo_200_200/0/1631361377624/fmcc_logo?e=2147483647&v=beta&t=_Aau1vjrnxKWa1hyWTILh_BoHgsnOLycT5zud_CUsWg","bgColor": getRandomColor()},
     { "name": "Greeley and Hansen", "website": "https://www.greeley-hansen.com/" ,"bgColor": getRandomColor()},
@@ -82,7 +86,7 @@ const ClientsPage = () => {
     { "name": "LANGAN", "website": "https://www.langan.com/" ,"bgColor": getRandomColor()},
     { "name": "Metro Paving Corporation", "website": "https://www.metropaving.net/" , logo_url:"https://www.metropaving.net/mt-content/uploads/2020/02/logo-2_5e4ad126db3fb.png","bgColor": getRandomColor()},
     { "name": "MFO Homes", "website": "https://www.mfocore.com/" , logo_url:"https://img1.wsimg.com/isteam/ip/fcc3241e-4b8f-4fb6-b4b5-e476a4af9f6a/grayscale_transparent_nobuffer.png/:/rs=w:138,h:100,cg:true,m/cr=w:138,h:100/qt=q:95","bgColor": getRandomColor()},
-    { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:"https://mimararchitecture.com/wp-content/uploads/2023/04/Mimar-Group-Logo-WIde-Navy-2048x634.png","bgColor": getRandomColor()},
+    { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:mimar_logo,"bgColor": getRandomColor()},
     { "name": "Murphy-Puris Corporation", "website": "https://puriscorp.com/" , logo_url:"https://puriscorp.com/wp-content/uploads/2022/11/MPC-Blue-a-PURIS-Company.png","bgColor": getRandomColor()},
     { "name": "O'Berry Engineering, Inc.", "website": null ,"bgColor": getRandomColor()},
     { "name": "PGH Wong", "website": "https://pghwong.com/" ,"bgColor": getRandomColor()},
@@ -98,7 +102,7 @@ const ClientsPage = () => {
     { "name": "Terra Site Constructors", "website": "https://terraconstructs.com/" ,"bgColor": getRandomColor()},
     { "name": "Terracon", "website": "https://www.terracon.com/" ,"bgColor": getRandomColor()},
     { "name": "TGM Construction", "website": "https://www.tgmconstruction.co/", logo_url: tgm_logo ,"bgColor": getRandomColor()},
-    { "name": "The King's Masons", "website": "https://kingsmasons.com/" ,"bgColor": getRandomColor()},
+    { "name": "The King's Masons", "website": "https://kingsmasons.com/" ,"bgColor": getRandomColor(), logo_url: kings_masons_logo},
     { "name": "The Plan Source", "website": "http://www.plan-source.com/" , logo_url: plan_source_logo ,"bgColor": getRandomColor()},
     { "name": "Thomson & Cooke Architects", "website": "https://www.thomsoncooke.com/", logo_url: thomson_and_cooke_logo ,"bgColor": getRandomColor()},
     { "name": "VDOT", "website": "https://www.vdot.virginia.gov/" , logo_url:"https://www.vdot.virginia.gov/media/vdotvirginiagov/website-developers-only/site-assets/images/vdot-logo.png","bgColor": getRandomColor()},

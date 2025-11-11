@@ -1,10 +1,11 @@
 import { Container, Header, MessageList, Composer, useWebchat } from '@botpress/webchat'
 import { useState, useMemo, useEffect } from 'react'
 import { MessageCircle, X } from 'lucide-react' // ✅ react-lucide icons
+import logo from '../../assets/logos/cropped-logo.png'
 
 const headerConfig = {
   botName: 'DGMTS Assistant',
-  botAvatar: 'https://cdn.botpress.cloud/bot-avatar.png',
+  botAvatar: logo,
   botDescription: 'Your geotechnical engineering support assistant.',
   phone: {
     title: 'Call Us',
@@ -38,7 +39,7 @@ function ChatBot() {
 
   const config = {
     botName: 'DGMTS Assistant',
-    botAvatar: 'https://picsum.photos/id/80/400',
+    botAvatar: logo,
     botDescription: 'Your geotechnical engineering support assistant.',
   }
 
