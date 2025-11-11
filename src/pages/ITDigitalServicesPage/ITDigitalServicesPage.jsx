@@ -19,7 +19,7 @@ import HTMLFlipBook from 'react-pageflip';
 import './ITDigitalServicesPage.css';
 import HeroSection from '../../components/HeroSection';
 import dataManagementSoftwarePicture from '../../assets/applications/dgmts-management-software.png';
-import monitoringSoftwarePicture from '../../assets/applications/dgmts-monitoring-software.png';
+// import monitoringSoftwarePicture from '../../assets/applications/dgmts-monitoring-software.png';
 
 import app1 from '../../assets/applications/Pic1.png';
 import app2 from '../../assets/applications/Pic2.png';
@@ -33,7 +33,7 @@ import app8 from '../../assets/applications/1.png';
 import app9 from '../../assets/applications/2.png';
 import app10 from '../../assets/applications/3.png';
 import app11 from '../../assets/applications/4.png';
-import app12 from '../../assets/applications/5.png';
+// import app12 from '../../assets/applications/5.png';
 import app13 from '../../assets/applications/6.png';
 import app14 from '../../assets/applications/7.png';
 import app15 from '../../assets/applications/8.png';
@@ -203,7 +203,7 @@ const ITDigitalServicesPage = () => {
       technologies: ["React", "Node.js","Express.js", "MongoDB", "AWS"]
     },
     {
-      image: monitoringSoftwarePicture,
+      image: app13,
       title: "DGMTS Monitoring Software",
       category: "Data Monitoring Platform",
       description: "DGMTS Monitoring System is a powerful platform for real-time project monitoring, data visualization, and system alerts. It allows teams to manage projects, analyze data through interactive graphs, track alarms, and streamline file management—all from a centralized dashboard.",
@@ -401,9 +401,9 @@ const ITDigitalServicesPage = () => {
               <div className="itds-page">
                 <img src={app11} alt="Application 11" className="itds-page-image" />
               </div>
-              <div className="itds-page">
+              {/* <div className="itds-page">
                 <img src={app12} alt="Application 12" className="itds-page-image" />
-              </div>
+              </div> */}
               <div className="itds-page">
                 <img src={app13} alt="Application 13" className="itds-page-image" />
               </div>
@@ -422,9 +422,9 @@ const ITDigitalServicesPage = () => {
               <div className="itds-page">
                 <img src={dataManagementSoftwarePicture} alt="DGMTS Management Software" className="itds-page-image" />
               </div>
-              <div className="itds-page">
-                <img src={monitoringSoftwarePicture} alt="DGMTS Monitoring Software" className="itds-page-image" />
-              </div>
+              {/* <div className="itds-page">
+                <img src={app13} alt="DGMTS Monitoring Software" className="itds-page-image" />
+              </div> */}
               <div className="itds-page itds-page-back-cover">
                 <div className="itds-cover-content">
                   <div className="itds-cover-icon">
