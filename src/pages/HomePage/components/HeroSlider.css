@@ -1,6 +1,6 @@
 .hero-slider {
   position: relative;
-  height: 600px;
+  height: 700px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -26,6 +26,7 @@
   border: none;
   max-width: 100%;
   width: 100% !important;
+  height: 100%;
   margin: 0;
 }
 
@@ -40,6 +41,7 @@
   border-radius: 0;
   overflow: hidden;
   width: 100% !important;
+  height: 100%;
 }
 
 /* Background image for hero pages */
@@ -180,7 +182,7 @@
 /* Responsive Design */
 @media (max-width: 1023px) {
   .hero-slider {
-    height: 500px;
+    height: 600px;
     padding: 0;
   }
   
@@ -217,7 +219,7 @@
 
 @media (max-width: 767px) {
   .hero-slider {
-    height: 450px;
+    height: 550px;
     padding: 0;
   }
   
@@ -263,7 +265,7 @@
 
 @media (max-width: 480px) {
   .hero-slider {
-    height: 400px;
+    height: 500px;
     padding: 0;
   }
   

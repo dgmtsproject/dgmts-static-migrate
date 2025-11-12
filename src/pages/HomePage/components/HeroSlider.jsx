@@ -145,12 +145,12 @@ const HeroSlider = () => {
         <HTMLFlipBook
           ref={flipBookRef}
           width={windowWidth}
-          height={windowWidth < 480 ? 400 : windowWidth < 768 ? 450 : windowWidth < 1024 ? 500 : 600}
+          height={windowWidth < 480 ? 500 : windowWidth < 768 ? 550 : windowWidth < 1024 ? 600 : 700}
           size="stretch"
           minWidth={windowWidth}
           maxWidth={windowWidth}
-          minHeight={windowWidth < 480 ? 350 : windowWidth < 768 ? 400 : 500}
-          maxHeight={windowWidth < 768 ? 500 : 700}
+          minHeight={windowWidth < 480 ? 450 : windowWidth < 768 ? 500 : 600}
+          maxHeight={windowWidth < 768 ? 600 : 800}
           maxShadowOpacity={0}
           showCover={false}
           mobileScrollSupport={true}
