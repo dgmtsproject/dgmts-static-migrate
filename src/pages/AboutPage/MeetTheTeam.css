@@ -37,7 +37,7 @@
 
 .team-carousel-wrapper {
   position: relative;
-  height: 550px;
+  height: 630px;
   overflow: hidden;
   border-radius: 16px;
 }
@@ -64,7 +64,7 @@
 
 .team-card {
   overflow: hidden;
-  height: 500px;
+  height: 580px;
   border: 1px solid #334155;
   box-shadow: var(--shadow-sm);
   border-radius: 16px;
@@ -81,7 +81,7 @@
 .team-card-image {
   position: relative;
   background: var(--grey-100);
-  height: 280px;
+  height: 360px;
   overflow: hidden;
   border-radius: 16px 16px 0 0;
 }
@@ -276,11 +276,11 @@
   }
   
   .team-carousel-wrapper {
-    height: 500px;
+    height: 580px;
   }
   
   .team-card {
-    height: 450px;
+    height: 530px;
   }
   
   .team-card-wrapper {
@@ -304,10 +304,134 @@
   }
   
   .team-card {
-    height: 400px;
+    height: 480px;
   }
   
   .team-carousel-wrapper {
-    height: 450px;
+    height: 530px;
   }
+}
+
+.president-card-wrapper {
+  margin-bottom: 3rem;
+  max-width: 100%;
+}
+
+.president-card {
+  display: flex;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 300ms ease;
+  max-width: 100%;
+  height: 300px;
+}
+
+.president-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.president-image {
+  width: 30%;
+  background-size: cover;
+  background-position: center;
+}
+
+.president-content {
+  width: 60%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.president-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 0.5rem;
+}
+
+.president-role {
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.president-bio {
+  color: #cbd5e1;
+  margin-bottom: 1rem;
+}
+
+.president-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.president-tag {
+  padding: 0.25rem 0.5rem;
+  background: #1e293b;
+  color: #94a3b8;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Responsive design for president card */
+@media (max-width: 768px) {
+  .president-card {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .president-image {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .president-content {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  
+  .president-name {
+    font-size: 1.25rem;
+  }
+}
+
+.visit-profile-btn {
+  background: transparent;
+  border: 1px solid #94a3b8;
+  color: #94a3b8;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.visit-profile-btn:hover {
+  background: #94a3b8;
+  color: #0f172a;
+}
+
+.visit-profile-link {
+  color: #3b82f6;
+  text-decoration: none;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.visit-profile-link:hover {
+  text-decoration: underline;
 }

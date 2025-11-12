@@ -12,12 +12,15 @@ const MeetTheTeam = () => {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
+  const president = teamMembers.find(member => member.role === 'President');
+  const team = teamMembers.filter(member => member.id !== president.id);
+
   const minSwipeDistance = 50;
 
   useEffect(() => {
     if (isInView && !isHovering) {
       const interval = setInterval(() => {
-        setActiveTeamMember(prev => (prev + 1) % teamMembers.length);
+        setActiveTeamMember(prev => (prev + 1) % team.length);
       }, 4000);
       return () => clearInterval(interval);
     }
@@ -58,22 +61,68 @@ const MeetTheTeam = () => {
     const isRightSwipe = distance < -minSwipeDistance;
     
     if (isLeftSwipe) {
-      setActiveTeamMember(prev => (prev + 1) % teamMembers.length);
+      setActiveTeamMember(prev => (prev + 1) % team.length);
     } else if (isRightSwipe) {
-      setActiveTeamMember(prev => (prev - 1 + teamMembers.length) % teamMembers.length);
+      setActiveTeamMember(prev => (prev - 1 + team.length) % team.length);
     }
   };
 
   const getCardAnimationClass = (index) => {
     if (index === activeTeamMember) return "scale-100 opacity-100 z-20";
-    if (index === (activeTeamMember + 1) % teamMembers.length) return "translate-x-[60%] scale-95 opacity-60 z-10";
-    if (index === (activeTeamMember - 1 + teamMembers.length) % teamMembers.length) return "translate-x-[-60%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember + 1) % team.length) return "translate-x-[60%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember - 1 + team.length) % team.length) return "translate-x-[-60%] scale-95 opacity-60 z-10";
     return "scale-90 opacity-0";
   };
   
   return (
     <section ref={teamRef} className="team-carousel-section">
       <div className="team-carousel-container">
+        <div className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="team-carousel-title">
+            Meet the President
+          </h2>
+          <p className="team-carousel-subtitle">
+            Introducing our esteemed leader who founded Dulles Geotechnical and Materials Testing Services.
+          </p>
+        </div>
+        
+        <div className="president-card-wrapper">
+          <Link to={`/team/${president.id}`} className="president-card">
+            <div 
+              className="president-image"
+              style={{
+                backgroundImage: `url(${president.imageUrl})`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            >
+            </div>
+            
+            <div className="president-content">
+              <h3 className="president-name">
+                {president.name}
+              </h3>
+              <p className="president-role">{president.role}</p>
+              
+              <p className="president-bio">{president.bio}</p>
+              
+              <div className="president-tags">
+                {president.tags.map((tag, idx) => (
+                  <span 
+                    key={idx} 
+                    className="president-tag"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              
+              <span className="visit-profile-link">Visit Profile &rarr;</span>
+            </div>
+          </Link>
+        </div>
+        
         <div className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="team-carousel-title">
             Meet the Team
@@ -93,7 +142,7 @@ const MeetTheTeam = () => {
           ref={carouselRef}
         >
           <div className="team-carousel-inner">
-            {teamMembers.map((member, index) => (
+            {team.map((member, index) => (
               <Link to={`/team/${member.id}`} key={member.id} className={`team-card-wrapper ${getCardAnimationClass(index)}`} style={{ transitionDelay: `${index * 50}ms` }}>
                 <div className="team-card">
                   <div 
@@ -129,6 +178,8 @@ const MeetTheTeam = () => {
                         ))}
                       </div>
                     </div>
+                    
+                    <span className="visit-profile-link">Visit Profile &rarr;</span>
                   </div>
                 </div>
               </Link>
@@ -136,12 +187,12 @@ const MeetTheTeam = () => {
           </div>
           
           <div className="team-dots">
-            {teamMembers.map((_, idx) => (
+            {team.map((_, idx) => (
               <button 
                 key={idx} 
                 className={`team-dot ${activeTeamMember === idx ? 'active' : ''}`} 
                 onClick={() => setActiveTeamMember(idx)}
-                aria-label={`Go to ${teamMembers[idx].name}`}
+                aria-label={`Go to ${team[idx].name}`}
               />
             ))}
           </div>

@@ -160,7 +160,7 @@ const ClientsPage = () => {
         <div className="">
           <div className="clients-hero-content">
             <h1 className="clients-hero-title">
-              Building Tomorrow&apos;s Infrastructure
+              Building Tomorrow&apos;s Word
               <span className="highlight-text"> Together</span>
             </h1>
             <p className="clients-hero-subtitle">

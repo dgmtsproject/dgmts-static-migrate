@@ -681,6 +681,7 @@
         "/src/assets/instrumentation/project1_3.png"
       ],
       "servicesProvided": [
+        "Instrumentation",
         "Pre and Post Construction Survey",
         "Vibration Monitoring",
         "Slope settlement Monitoring"
@@ -706,6 +707,7 @@
         "/src/assets/instrumentation/project2_3.png"
       ],
       "servicesProvided": [
+        "Instrumentation",
         "Settlement Monitoring of the Concrete Retaining Walls"
       ],
       "projectOwner": "",
@@ -726,6 +728,7 @@
         "/src/assets/instrumentation/project3_2.png"
       ],
       "servicesProvided": [
+        "Instrumentation",
         "Pre and Post Construction Survey",
         "Vibration and Noise Monitoring",
         "Tilt Monitoring"
@@ -783,6 +786,7 @@
         "/src/assets/instrumentation/project5_3.png"
       ],
       "servicesProvided": [
+        "Instrumentation",
         "Pre and Post Construction Condition Survey",
         "Vibration Monitoring"
       ],
