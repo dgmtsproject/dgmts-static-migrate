@@ -12,7 +12,7 @@ import {
 import './GeotechnicalEngineeringPage.css';
 import HeroSection from '../../components/HeroSection';
 import ProjectsList from '../../components/ProjectsList';
-import photo44 from '../../assets/gallery/photo-44.jpg';
+import photo53 from '../../assets/gallery/photo-53.jpg';
 import photo35 from '../../assets/gallery/photo-35.jpg';
 import photo87 from '../../assets/gallery/photo-87.jpg';
 import photo91 from '../../assets/gallery/photo-91.jpg';
@@ -89,7 +89,7 @@ const GeotechnicalEngineeringPage = () => {
         subtitle="DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation. From site investigation to foundation design, we ensure your projects stand on solid ground."
         primaryButtonText="Get Started"
         onPrimaryClick={handleGetStartedClick}
-        image2={photo44}
+        image2={photo53}
         image1={photo87}
         imageAlt="Geotechnical Engineering"
       />
