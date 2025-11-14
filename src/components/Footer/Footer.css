@@ -45,17 +45,17 @@
 
 .footer-brand {
   font-family: 'Limelight', var(--font-family-heading) !important;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   letter-spacing: 1px;
-  color: var(--white);
+  color: #497cba;
   /* remove bottom margin so vertical centering next to logo works */
   margin: 0;
 }
 
 /* Logo next to the brand name */
 .footer-logo {
-  margin:0 0 15px 10px;
-  width: 80px;
+  margin:0;
+  width: 135px;
   height: auto;
   display: inline-block;
   object-fit: contain;
