@@ -66,12 +66,13 @@
 @media (min-width: 1024px) {
   .desktop-nav {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 2rem; /* space-x-8 */
   }
 }
 
 .desktop-nav-link {
+  text-align: center;
   color: white;
   font-weight: 600;
   transition: color 0.2s;

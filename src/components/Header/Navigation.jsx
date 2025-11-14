@@ -26,7 +26,6 @@ const Navigation = () => {
           items: [
             { name: 'Contact Us', path: '/contact', icon: Mail, description: 'Get in touch with our team' },
             { name: 'Our Location', path: '/location', icon: Map, description: 'Find our office location' },
-            { name: 'Payment Portal', path: '/payment', icon: CreditCard, description: 'Secure online payment system' },
           ]
         }
       ]
@@ -159,6 +158,7 @@ const Navigation = () => {
             <Link to="/geo5-software" className="desktop-nav-link">GEO5 Software</Link>
             <Link to="/it-services" className="desktop-nav-link">IT & Digital Services</Link>
             <Link to="/contact" className="desktop-nav-link">Contact</Link>
+            <Link to="/payment" className="desktop-nav-link">Payment </Link>
           </div>
 
           {/* Mobile Menu Button */}
