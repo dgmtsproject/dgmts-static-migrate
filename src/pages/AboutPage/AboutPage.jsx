@@ -1,4 +1,4 @@
-import MeetTheTeam from './MeetTheTeam';
+import TeamGrid from './TeamGrid';
 import ServiceMap from './components/ServiceMap';
 import ServicesSection from './components/ServicesSection';
 import CertificationsSection from '../HomePage/components/CertificationsSection';
@@ -51,7 +51,7 @@ const AboutPage = () => {
     
     <ServicesSection />
     
-    <MeetTheTeam />
+    <TeamGrid />
     <CertificationsSection data={aboutPageCertificationsData} />
 
 

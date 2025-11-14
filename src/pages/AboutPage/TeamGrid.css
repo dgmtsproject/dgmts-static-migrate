@@ -1,0 +1,491 @@
+/* Team Grid Section */
+.team-grid-section {
+  background: #0f172a;
+  padding: 4rem 0;
+  width: 100%;
+  margin: 3rem 0;
+}
+
+.team-grid-container {
+  width: 90%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+
+
+/* President Section (inside team grid) */
+.president-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.president-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: whitesmoke;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.president-subtitle {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.president-card {
+  display: flex;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
+  text-decoration: none;
+  color: inherit;
+  max-width: 100%;
+  height: 400px;
+  margin-bottom: 4rem;
+}
+
+.president-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  border-color: var(--primary-color, #3b82f6);
+}
+
+.president-image {
+  height: 100%;
+  aspect-ratio: 3/4;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.president-content {
+  width: 65%;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.president-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin-bottom: 0.5rem;
+}
+
+.president-role {
+  color: var(--primary-color, #3b82f6);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.president-degree {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.president-bio {
+  color: #cbd5e1;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.president-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.president-tag {
+  padding: 0.4rem 0.9rem;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  color: #94a3b8;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #475569;
+  transition: all 0.3s ease;
+}
+
+.president-card:hover .president-tag {
+  background: linear-gradient(135deg, #334155 0%, #475569 100%);
+  color: #cbd5e1;
+  border-color: #64748b;
+}
+
+.visit-profile-link {
+  color: var(--primary-color, #3b82f6);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.president-card:hover .visit-profile-link {
+  color: #60a5fa;
+  transform: translateX(5px);
+}
+
+/* Responsive design for president section */
+@media (max-width: 1024px) {
+  .president-card {
+    height: 380px;
+  }
+  
+  .president-name {
+    font-size: 1.75rem;
+  }
+  
+  .president-content {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .president-title {
+    font-size: 2rem;
+  }
+  
+  .president-card {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .president-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+  }
+  
+  .president-content {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  
+  .president-name {
+    font-size: 1.5rem;
+  }
+  
+  .president-role {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .president-image {
+    height: auto;
+    aspect-ratio: 3/4;
+  }
+  
+  .president-name {
+    font-size: 1.35rem;
+  }
+  
+  .president-tags {
+    gap: 0.5rem;
+  }
+  
+  .president-tag {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Team Grid Specific Styles */
+.team-grid-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.team-grid-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: whitesmoke;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.team-grid-subtitle {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.department-filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.5rem;
+  background: #1e293b;
+  color: #cbd5e1;
+  border: 2px solid #334155;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-btn:hover {
+  background: #334155;
+  border-color: #475569;
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: var(--primary-color, #3b82f6);
+  color: white;
+  border-color: var(--primary-color, #3b82f6);
+}
+
+.filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.filter-btn.active .filter-count {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.employees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.employee-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #1e293b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  cursor: pointer;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.employee-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.employee-image {
+  width: 100%;
+  height: 320px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.employee-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.85) 60%, transparent 100%);
+  padding: 2rem 1.5rem 1.5rem;
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.employee-card:hover .employee-overlay {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.92) 70%, transparent 100%);
+  padding-bottom: 2rem;
+}
+
+.employee-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.employee-department {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.no-employees {
+  text-align: center;
+  padding: 3rem;
+  color: #cbd5e1;
+  font-size: 1.1rem;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #cbd5e1;
+}
+
+.loading-state p {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.spinner {
+  border: 4px solid #334155;
+  border-top: 4px solid var(--primary-color, #3b82f6);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 1400px) {
+  .team-grid-container {
+    width: 92%;
+  }
+  
+  .employees-grid {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .team-grid-container {
+    width: 95%;
+  }
+  
+  .employees-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .employee-image {
+    height: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-grid-section {
+    padding: 3rem 0;
+  }
+  
+  .team-grid-title {
+    font-size: 2rem;
+  }
+  
+  .employees-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+  
+  .employee-image {
+    height: 260px;
+  }
+  
+  .employee-name {
+    font-size: 1.1rem;
+  }
+  
+  .department-filter {
+    gap: 0.75rem;
+  }
+  
+  .filter-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-grid-container {
+    width: 95%;
+    padding: 0 0.5rem;
+  }
+  
+  .employees-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .employee-image {
+    height: 220px;
+  }
+  
+  .employee-overlay {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .employee-name {
+    font-size: 1rem;
+  }
+  
+  .employee-department {
+    font-size: 0.8rem;
+  }
+  
+  .team-grid-title {
+    font-size: 1.75rem;
+  }
+  
+  .team-grid-subtitle {
+    font-size: 1rem;
+  }
+  
+  .department-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-btn {
+    justify-content: center;
+  }
+}

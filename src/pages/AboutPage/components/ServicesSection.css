@@ -5,7 +5,7 @@
 }
 
 .about-page .services-section .services-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
@@ -40,104 +40,49 @@
 /* ===== Services Grid ===== */
 .about-page .services-section .services-grid {
   display: grid;
-  gap: 2.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 0 var(--spacing-lg);
 }
 
 /* ===== Service Cards - Modern Design ===== */
 .about-page .services-section .service-card {
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  border: 2px solid;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.about-page .services-section .service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, currentColor, transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 10;
-}
-
 .about-page .services-section .service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-.about-page .services-section .service-card:hover::before {
-  opacity: 1;
-}
-
-/* Make the last service card span 2 columns */
+/* Make the last service card span 2 columns and center it */
 .about-page .services-section .service-card:last-child {
-  grid-column: span 2;
+  grid-column: 1 / 4;
 }
 
-/* Color-specific borders */
-.about-page .services-section .service-card.blue {
-  border-color: #dbeafe;
+/* Make the last card's content have 2 inner columns */
+.about-page .services-section .service-card:last-child .service-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
 
-.about-page .services-section .service-card.blue::before {
-  color: #2563eb;
-}
 
-.about-page .services-section .service-card.green {
-  border-color: #d1fae5;
-}
 
-.about-page .services-section .service-card.green::before {
-  color: #10b981;
-}
 
-.about-page .services-section .service-card.purple {
-  border-color: #e9d5ff;
-}
-
-.about-page .services-section .service-card.purple::before {
-  color: #9333ea;
-}
-
-.about-page .services-section .service-card.orange {
-  border-color: #fed7aa;
-}
-
-.about-page .services-section .service-card.orange::before {
-  color: #f97316;
-}
-
-.about-page .services-section .service-card.teal {
-  border-color: #ccfbf1;
-}
-
-.about-page .services-section .service-card.teal::before {
-  color: #14b8a6;
-}
-
-.about-page .services-section .service-card.red {
-  border-color: #fee2e2;
-}
-
-.about-page .services-section .service-card.red::before {
-  color: #dc2626;
-}
 
 /* ===== Card Header ===== */
 .about-page .services-section .service-header {
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 1.5rem 2rem 1rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(249, 250, 251, 0.9));
   border-bottom: 1px solid #f1f5f9;
   display: flex;
@@ -146,21 +91,21 @@
 }
 
 .about-page .services-section .icon-container {
-  width: 70px;
-  height: 70px;
-  border-radius: 18px;
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
   position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .about-page .services-section .service-card:hover .icon-container {
-  transform: rotate(-5deg) scale(1.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .about-page .services-section .icon-container.blue {
@@ -210,7 +155,7 @@
 
 /* ===== Service Content ===== */
 .about-page .services-section .service-content {
-  padding: 2rem 2.5rem 2.5rem;
+  padding: 1.5rem 2rem 2rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -266,47 +211,23 @@
   transform: translateY(-1px);
 }
 
-/* Color-specific hover effects */
-.about-page .services-section .service-card.blue .service-tag:hover {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #1e40af;
-}
-
-.about-page .services-section .service-card.green .service-tag:hover {
-  background: #f0fdf4;
-  border-color: #10b981;
-  color: #065f46;
-}
-
-.about-page .services-section .service-card.purple .service-tag:hover {
-  background: #faf5ff;
-  border-color: #a855f7;
-  color: #6b21a8;
-}
-
-.about-page .services-section .service-card.orange .service-tag:hover {
-  background: #fff7ed;
-  border-color: #f97316;
-  color: #9a3412;
-}
-
-.about-page .services-section .service-card.teal .service-tag:hover {
-  background: #f0fdfa;
-  border-color: #14b8a6;
-  color: #115e59;
-}
-
-.about-page .services-section .service-card.red .service-tag:hover {
-  background: #fef2f2;
-  border-color: #ef4444;
-  color: #991b1b;
-}
-
 /* ===== Responsive Design ===== */
 @media (max-width: 1024px) {
   .about-page .services-section .services-grid {
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    padding: 0 var(--spacing-md);
+  }
+
+  /* Last card spans both columns in 2-column layout */
+  .about-page .services-section .service-card:last-child {
+    grid-column: 1 / 3;
+  }
+
+  /* Reset inner columns to single column on smaller screens */
+  .about-page .services-section .service-card:last-child .service-content {
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
   }
 }
@@ -331,7 +252,13 @@
 
   .about-page .services-section .services-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* Last card spans full width in single column layout */
+  .about-page .services-section .service-card:last-child {
+    grid-column: 1 / 2;
   }
 
   .about-page .services-section .service-header {

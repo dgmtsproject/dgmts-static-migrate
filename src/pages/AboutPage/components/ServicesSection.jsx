@@ -128,6 +128,26 @@ const ServicesSection = () => {
       icon: <FlaskConical className="service-icon" />,
       title: "Laboratory Testing",
       categories: [
+        
+        {
+          name: 'Asphalt',
+          items: [
+            'Density of Asphalt Cores',
+            'Extraction and Gradation',
+            'Marshal Stability',
+            'Unit Weight'
+          ]
+        },
+        
+        {
+          name: 'Concrete',
+          items: [
+            'Compressive Strength Testing',
+            'Tensile Strength Testing',
+            'Concrete Mix-Design',
+            'Concrete Permeability'
+          ]
+        },
         {
           name: 'Soils & Aggregates',
           items: [
@@ -146,24 +166,6 @@ const ServicesSection = () => {
             'Soil Corrosion Testing'
           ]
         },
-        {
-          name: 'Asphalt',
-          items: [
-            'Density of Asphalt Cores',
-            'Extraction and Gradation',
-            'Marshal Stability',
-            'Unit Weight'
-          ]
-        },
-        {
-          name: 'Concrete',
-          items: [
-            'Compressive Strength Testing',
-            'Tensile Strength Testing',
-            'Concrete Mix-Design',
-            'Concrete Permeability'
-          ]
-        }
       ],
       color: "green"
     },
