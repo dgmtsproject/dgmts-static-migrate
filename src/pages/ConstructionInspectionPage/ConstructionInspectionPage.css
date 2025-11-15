@@ -6,7 +6,7 @@
 }
 
 .construction-container {
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -287,6 +287,7 @@
 }
 
 .construction-feature-desc {
+  font-size: 1.2rem;
   text-align: justify;
   color: #4b5563;
 }
@@ -405,7 +406,7 @@
 .construction-inspection-desc {
   color: #4b5563;
   line-height: 1.7;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-bottom: 1.5rem;
 }
 
@@ -423,7 +424,8 @@
   align-items: center;
   gap: 0.75rem;
   color: #374151;
-  font-size: 0.95rem;
+  font-size: 1.2rem;
+  font-family: 'Red Hat Display', sans-serif;
 }
 
 .construction-feature-check-icon {
@@ -526,7 +528,7 @@
 
 .construction-material-list li {
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: 1rem;
   padding-left: 1.25rem;
   position: relative;
 }

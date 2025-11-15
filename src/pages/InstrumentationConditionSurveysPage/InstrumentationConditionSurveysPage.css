@@ -6,7 +6,7 @@
 }
 
 .inst-container {
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -610,7 +610,7 @@
 
 .inst-dual-image {
   width: 100%;
-  height: 300px;
+  height: 400px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }

@@ -64,7 +64,7 @@ function BlogsSection() {
     <section className="blogs-section bg-texture">
       <div className="container">
         <div className="section-header">
-          <h2 className="section-title">Latest Blog Posts</h2>
+          <h2 className="section-title">Engineering Updates</h2>
           <p className="section-subtitle">
             Stay updated with our latest insights, news, and technical articles
           </p>

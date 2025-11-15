@@ -6,7 +6,7 @@
 }
 
 .lab-container {
-  max-width: 1280px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -213,6 +213,7 @@
 .lab-service-desc {
   color: #4b5563;
   line-height: 1.6;
+  font-size: 1.2rem;
 }
 
 /* ===== Accreditation Cards ===== */
@@ -324,7 +325,7 @@
 .lab-accreditation-desc {
   color: #4b5563;
   line-height: 1.7;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 
@@ -406,7 +407,7 @@
 
 .lab-feature-desc {
   color: #4b5563;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 /* ===== Image Card ===== */

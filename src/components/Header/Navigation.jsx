@@ -8,24 +8,22 @@ const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const megaMenuData = {
-    company: {
-      title: 'Company',
+    aboutUs: {
+      title: 'About Us',
       sections: [
         {
           title: 'About Us',
           items: [
-            { name: 'About DGMTS', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
-            { name: 'Our Clients', path: '/clients', icon: UserCircle, description: 'Meet our trusted partners and clients' },
-            // { name: 'Projects', path: '/projects', icon: FolderOpen, description: 'Explore our portfolio of successful projects' },
-            { name: 'Careers', path: '/careers', icon: Briefcase, description: 'Join our team of professionals' },
+            { name: 'Company History and Mission', path: '/about', icon: Users, description: 'Learn about our company history and mission' },
             { name: 'Gallery', path: '/gallery', icon: GalleryVertical, description: 'View our project gallery' },
+            { name: 'Our Offices', path: '/location', icon: Map, description: 'Find our office location' },
           ]
         },
         {
-          title: 'Contact & Location',
+          title: 'Knowledge Center',
           items: [
-            { name: 'Contact Us', path: '/contact', icon: Mail, description: 'Get in touch with our team' },
-            { name: 'Our Location', path: '/location', icon: Map, description: 'Find our office location' },
+            { name: 'Engineering Updates', path: '/blog', icon: Newspaper, description: 'Technical insights and guides' },
+            { name: 'Published Papers', path: '/published-papers', icon: Library, description: 'Contributions to the research community' },
           ]
         }
       ]
@@ -49,20 +47,7 @@ const Navigation = () => {
           ]
         }
       ]
-    },
-  
-      knowledgeCenter: {
-        title: 'Knowledge Center',
-        sections: [
-            {
-                title: 'Resources',
-                items: [
-                    { name: 'Blog', path: '/blog', icon: Newspaper, description: 'Technical insights and guides' },
-                    { name: 'Published Paper', path: '/published-papers', icon: Library, description: 'Contributions to the research community' },
-                ]
-            }
-        ]
-      }
+    }
   };
 
   const handleMegaMenuEnter = (menuKey) => {
@@ -100,7 +85,6 @@ const Navigation = () => {
             {/* Desktop Navigation */}
           <div className="desktop-nav">
             <Link to="/" className="desktop-nav-link">Home</Link>
-            <Link to="/projects" className="desktop-nav-link">Projects</Link>
             {Object.entries(megaMenuData).map(([key, menu]) => (
               <div
                 key={key}
@@ -155,10 +139,13 @@ const Navigation = () => {
                 )}
               </div>
             ))}
-            <Link to="/geo5-software" className="desktop-nav-link">GEO5 Software</Link>
             <Link to="/it-services" className="desktop-nav-link">IT & Digital Services</Link>
-            <Link to="/contact" className="desktop-nav-link">Contact</Link>
-            <Link to="/payment" className="desktop-nav-link">Payment </Link>
+            <Link to="/geo5-software" className="desktop-nav-link">GEO5 Software</Link>
+            <Link to="/clients" className="desktop-nav-link">Our Clients</Link>
+            <Link to="/projects" className="desktop-nav-link">Our Projects</Link>
+            <Link to="/contact" className="desktop-nav-link">Contact Us</Link>
+            <Link to="/careers" className="desktop-nav-link">Careers</Link>
+            <Link to="/payment" className="desktop-nav-link">Payment</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -176,7 +163,6 @@ const Navigation = () => {
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-content">
           <Link to="/" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-          <Link to="/projects" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Projects</Link>
           
           {Object.entries(megaMenuData).map(([key, menu]) => (
             <div key={key} className="mobile-menu-section">
@@ -199,7 +185,13 @@ const Navigation = () => {
               </div>
             </div>
           ))}
-          <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+          <Link to="/it-services" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>IT & Digital Services</Link>
+          <Link to="/geo5-software" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>GEO5 Software</Link>
+          <Link to="/clients" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Our Clients</Link>
+          <Link to="/projects" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Our Projects</Link>
+          <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
+          <Link to="/careers" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Careers</Link>
+          <Link to="/payment" className="mobile-nav-link" onClick={() => setIsMobileMenuOpen(false)}>Payment</Link>
         </div>
       </div>
     </nav>

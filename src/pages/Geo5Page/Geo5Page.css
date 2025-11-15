@@ -7,9 +7,9 @@
 }
 
 .geo5-page .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem 1rem 2rem;
+  padding: 0 0 1rem 0;
 }
 
 /* Hero Section */
@@ -174,11 +174,11 @@
 .geo5-page .video-container {
   position: relative;
   width: 100%;
-  max-width: 1200px; /* Increased from 560px */
+  max-width: 1400px; /* Increased from 560px */
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 15px 25px -5px rgba(0, 0, 0, 0.1);
-  height: 640px; /* 16:9 ratio for 900px width */
+  height: 770px; /* 16:9 ratio for 900px width */
   background: #000;
 }
 
@@ -210,7 +210,7 @@
 }
 
 .geo5-page .distributor-left .section-header h2 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #0f172a;
   margin: 0 0 1rem 0;
@@ -226,7 +226,7 @@
 }
 
 .geo5-page .geo5-description p {
-  font-size: 15px;
+  font-size: 18px;
   color: #4b5563;
   margin-bottom: 1.5rem;
   line-height: 1.7;
@@ -241,14 +241,14 @@
 .geo5-page .features-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
 }
 
 .geo5-page .feature-item {
   text-align: center;
-  padding: 1.5rem 1rem;
+  padding: 2rem 1.5rem;
   background: #f8fafc;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
@@ -262,13 +262,13 @@
 }
 
 .geo5-page .feature-icon {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 0.75rem;
   display: block;
 }
 
 .geo5-page .feature-item h4 {
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
   margin: 0 0 0.5rem 0;
@@ -276,7 +276,7 @@
 }
 
 .geo5-page .feature-item p {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #64748b;
   margin: 0;
   line-height: 1.4;
@@ -309,7 +309,7 @@
 
 .geo5-page .geo5-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 2rem;
 }
@@ -570,7 +570,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .geo5-page .container {
-    padding: 0 1rem;
+    padding: 0 0;
   }
   
   .geo5-page .geo5-hero-content {
@@ -627,7 +627,7 @@
 
 @media (max-width: 768px) {
   .geo5-page .container {
-    padding: 0 1rem;
+    padding: 0 0;
   }
   
   .geo5-page .geo5-hero {
@@ -708,8 +708,8 @@
   
   .geo5-page .features-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
-    max-width: 400px;
+    gap: 1.5rem;
+    max-width: 500px;
   }
   
   .geo5-page .geo5-cards {
