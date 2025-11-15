@@ -127,6 +127,9 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
 }
 
 .resource-item {
@@ -191,6 +194,13 @@
     padding-bottom: var(--spacing-xs);
   }
   
+  .resource-list {
+    font-size: 0.95rem;
+    padding: var(--spacing-xs) 0;
+    padding-left: var(--spacing-md);
+    grid-template-columns: 1fr;
+  }
+
   .resource-item {
     font-size: 0.95rem;
     padding: var(--spacing-xs) 0;

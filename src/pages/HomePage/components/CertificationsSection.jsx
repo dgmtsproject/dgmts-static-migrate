@@ -23,7 +23,8 @@ const CertificationsSection = ({ data }) => {
             'Project Managers / QAM',
             'QC Inspectors & Field Technicians',
             'Drillers',
-            'Lab Director / Managers / Technicians'
+            'Lab / Managers / Technicians',
+            'Software Developers & IT Specialists'
           ]
         },
         {
@@ -31,7 +32,8 @@ const CertificationsSection = ({ data }) => {
           items: [
             'OSHA-10',
             'Nuclear Gauge Safety',
-            'E&S'
+            'E&S',
+            'Work Zone Safety',
           ]
         },
         {
@@ -40,7 +42,10 @@ const CertificationsSection = ({ data }) => {
             'VDOT',
             'WACEL',
             'MDOT',
-            'ACI'
+            'ACI',
+            'MARTCP',
+            'CWI',
+            'NICET'
           ]
         }
       ]
