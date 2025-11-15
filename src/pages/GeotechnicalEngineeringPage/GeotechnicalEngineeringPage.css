@@ -6,7 +6,7 @@
 }
 
 .geotech-container {
-  max-width: 1280px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -131,6 +131,7 @@
 
 .geotech-section:nth-child(3) {
   padding: 0;
+  padding-top: 1rem;
   padding-bottom: 1rem;
 }
 

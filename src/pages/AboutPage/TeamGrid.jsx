@@ -2,10 +2,10 @@ import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './TeamGrid.css';
 import { teamMembers } from '../TeamMemberPage/teamData.js';
+import MeetTheTeam from './MeetTheTeam';
 
 const TeamGrid = () => {
   const president = teamMembers.find(member => member.role === 'President');
-  const [selectedDepartment, setSelectedDepartment] = useState('all');
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -57,20 +57,19 @@ const TeamGrid = () => {
     loadImages();
   }, []);
 
-  // Filter employees based on selected department
-  const filteredEmployees = useMemo(() => {
-    if (selectedDepartment === 'all') {
-      return employees;
-    }
-    return employees.filter(emp => emp.department === selectedDepartment);
-  }, [employees, selectedDepartment]);
+  // Group employees by department
+  const groupedEmployees = useMemo(() => {
+    const groups = {};
+    employees.forEach(emp => {
+      if (!groups[emp.department]) {
+        groups[emp.department] = [];
+      }
+      groups[emp.department].push(emp);
+    });
+    return groups;
+  }, [employees]);
 
-  const departments = [
-    { id: 'all', label: 'All Team Members' },
-    { id: 'Admin', label: 'Admin' },
-    { id: 'Project Manager', label: 'Project Managers' },
-    { id: 'Inspectors and Technicians', label: 'Inspectors & Technicians' }
-  ];
+  const departmentOrder = ['Admin', 'Project Manager', 'Inspectors and Technicians'];
 
   return (
     <section className="team-grid-section">
@@ -110,29 +109,15 @@ const TeamGrid = () => {
           </div>
         </Link>
 
+        {/* Team Carousel Section */}
+        <MeetTheTeam />
+
         {/* Team Members Section */}
         <div className="team-grid-header">
           <h2 className="team-grid-title">Our Team Members</h2>
           <p className="team-grid-subtitle">
             Meet the dedicated professionals who make our success possible
           </p>
-        </div>
-
-        <div className="department-filter">
-          {departments.map(dept => (
-            <button
-              key={dept.id}
-              className={`filter-btn ${selectedDepartment === dept.id ? 'active' : ''}`}
-              onClick={() => setSelectedDepartment(dept.id)}
-            >
-              {dept.label}
-              <span className="filter-count">
-                {dept.id === 'all' 
-                  ? employees.length 
-                  : employees.filter(e => e.department === dept.id).length}
-              </span>
-            </button>
-          ))}
         </div>
 
         {loading ? (
@@ -142,33 +127,39 @@ const TeamGrid = () => {
           </div>
         ) : (
           <>
-            <div className="employees-grid">
-              {filteredEmployees.map((employee, index) => (
-                <div 
-                  key={index} 
-                  className="employee-card"
-                  style={{ animationDelay: `${(index % 20) * 50}ms` }}
-                >
-                  <div 
-                    className="employee-image"
-                    style={{
-                      backgroundImage: `url(${employee.image})`,
-                    }}
-                  >
-                    <div className="employee-overlay">
-                      <h3 className="employee-name">{employee.name}</h3>
-                      <p className="employee-department">{employee.department}</p>
-                    </div>
+            {departmentOrder.map(dept => (
+              groupedEmployees[dept] && groupedEmployees[dept].length > 0 && (
+                <div key={dept} className="department-section">
+                  {(dept === 'Admin') ? (
+                    <h3 className="department-heading">Administration Team</h3>
+                  ) : (dept === 'Project Manager') ? (
+                    <h3 className="department-heading">Project Management Team</h3>
+                  ) : (
+                    <h3 className="department-heading">Inspectors & Technicians</h3>
+                  )}
+                  <div className="employees-grid">
+                    {groupedEmployees[dept].map((employee, index) => (
+                      <div 
+                        key={index} 
+                        className="employee-card"
+                        style={{ animationDelay: `${(index % 20) * 50}ms` }}
+                      >
+                        <div 
+                          className="employee-image"
+                          style={{
+                            backgroundImage: `url(${employee.image})`,
+                          }}
+                        >
+                          <div className="employee-overlay">
+                            <h3 className="employee-name">{employee.name}</h3>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-
-            {filteredEmployees.length === 0 && (
-              <div className="no-employees">
-                <p>No team members found in this department.</p>
-              </div>
-            )}
+              )
+            ))}
           </>
         )}
       </div>

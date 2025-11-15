@@ -69,70 +69,26 @@ const MeetTheTeam = () => {
 
   const getCardAnimationClass = (index) => {
     if (index === activeTeamMember) return "scale-100 opacity-100 z-20";
-    if (index === (activeTeamMember + 1) % team.length) return "translate-x-[60%] scale-95 opacity-60 z-10";
-    if (index === (activeTeamMember - 1 + team.length) % team.length) return "translate-x-[-60%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember + 1) % team.length) return "translate-x-[80%] scale-95 opacity-60 z-10";
+    if (index === (activeTeamMember - 1 + team.length) % team.length) return "translate-x-[-80%] scale-95 opacity-60 z-10";
     return "scale-90 opacity-0";
   };
   
   return (
-    <section ref={teamRef} className="team-carousel-section">
-      <div className="team-carousel-container">
-        <div className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="team-carousel-title">
-            Meet the President
-          </h2>
-          <p className="team-carousel-subtitle">
-            Introducing our esteemed leader who founded Dulles Geotechnical and Materials Testing Services.
-          </p>
-        </div>
-        
-        <div className="president-card-wrapper">
-          <Link to={`/team/${president.id}`} className="president-card">
-            <div 
-              className="president-image"
-              style={{
-                backgroundImage: `url(${president.imageUrl})`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-              }}
-            >
-            </div>
-            
-            <div className="president-content">
-              <h3 className="president-name">
-                {president.name}
-              </h3>
-              <p className="president-role">{president.role}</p>
-              
-              <p className="president-bio">{president.bio}</p>
-              
-              <div className="president-tags">
-                {president.tags.map((tag, idx) => (
-                  <span 
-                    key={idx} 
-                    className="president-tag"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              
-              <span className="visit-profile-link">Visit Profile &rarr;</span>
-            </div>
-          </Link>
-        </div>
-        
-        <div className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="team-carousel-title">
-            Meet the Team
-          </h2>
-          <p className="team-carousel-subtitle">
-            Our diverse team of certified engineers, technicians, and specialists brings decades of combined experience to every project.
-          </p>
-        </div>
-        
-        <div 
+    <>
+      <div 
+          ref={teamRef}
+          className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        >
+        <h2 className="team-carousel-title">
+          Meet Our Department Heads
+        </h2>
+        <p className="team-carousel-subtitle">
+          Our department heads bring extensive expertise and leadership to drive innovation and excellence in geotechnical engineering and related services.
+        </p>
+      </div>
+      
+      <div 
           className="team-carousel-wrapper" 
           onMouseEnter={() => setIsHovering(true)} 
           onMouseLeave={() => setIsHovering(false)}
@@ -149,7 +105,8 @@ const MeetTheTeam = () => {
                     className="team-card-image"
                     style={{
                       backgroundImage: `url(${member.imageUrl})`,
-                      backgroundSize: 'cover',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
                       backgroundPosition: 'center'
                     }}
                   >
@@ -197,8 +154,7 @@ const MeetTheTeam = () => {
             ))}
           </div>
         </div>
-      </div>
-    </section>
+    </>
   );
 };
 

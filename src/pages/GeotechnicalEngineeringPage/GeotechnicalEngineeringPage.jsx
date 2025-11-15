@@ -14,8 +14,8 @@ import HeroSection from '../../components/HeroSection';
 import ProjectsList from '../../components/ProjectsList';
 import photo53 from '../../assets/gallery/photo-53.jpg';
 import photo35 from '../../assets/gallery/photo-35.jpg';
-import photo87 from '../../assets/gallery/photo-87.jpg';
 import photo91 from '../../assets/gallery/photo-91.jpg';
+import photo76 from '../../assets/gallery/photo-76.jpg';
 
 import teamMember1 from '../../assets/team-members/team-member-1.jpg';
 
@@ -90,7 +90,7 @@ const GeotechnicalEngineeringPage = () => {
         primaryButtonText="Get Started"
         onPrimaryClick={handleGetStartedClick}
         image2={photo53}
-        image1={photo87}
+        image1={photo76}
         imageAlt="Geotechnical Engineering"
       />
       <div className='bg-texture'>
@@ -211,7 +211,7 @@ const GeotechnicalEngineeringPage = () => {
             
             <div className="geotech-image-card">
               <img 
-                src={photo87}
+                src={photo76}
                 id="geotech-overview-image"
 
                 alt="Engineering team"

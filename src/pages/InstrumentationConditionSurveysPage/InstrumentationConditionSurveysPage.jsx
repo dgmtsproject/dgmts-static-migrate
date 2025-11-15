@@ -13,7 +13,6 @@ import './InstrumentationConditionSurveysPage.css';
 import HeroSection from '../../components/HeroSection';
 import ProjectsList from '../../components/ProjectsList';
 import photo54 from '../../assets/gallery/photo-54.jpg';
-import photo52 from '../../assets/gallery/photo-52.jpg';
 import photo48 from '../../assets/gallery/photo-48.jpg';
 import photo117 from '../../assets/gallery/photo-117.jpg';
 
@@ -147,7 +146,7 @@ const InstrumentationConditionSurveysPage = () => {
         primaryButtonText="Learn More"
         onPrimaryClick={handleLearnMoreClick}
         image1={photo54}
-        image2={photo52}
+        image2={photo117}
         imageAlt="Instrumentation and Condition Surveys"
       />
       <div className='bg-texture'>

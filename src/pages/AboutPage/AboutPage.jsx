@@ -3,7 +3,6 @@ import ServiceMap from './components/ServiceMap';
 import ServicesSection from './components/ServicesSection';
 import CertificationsSection from '../HomePage/components/CertificationsSection';
 import './AboutPage.css';
-import teamPhoto from '../../assets/gallery/photo-94.jpg';
 
 const AboutPage = () => {
   const aboutPageCertificationsData = {
@@ -36,9 +35,6 @@ const AboutPage = () => {
 
   return (
   <main className="about-page bg-texture">
-    <div className="team-photo-container">
-      <img src={teamPhoto} alt="DGMTS Team" className="team-photo-header" />
-    </div>
     <section className="about-section who-we-are">
       <h1 className="about-heading">Who We Are?</h1>
       <div className="about-content">
@@ -49,9 +45,10 @@ const AboutPage = () => {
       </div>
     </section>
     
+    <TeamGrid />
+    
     <ServicesSection />
     
-    <TeamGrid />
     <CertificationsSection data={aboutPageCertificationsData} />
 
 
