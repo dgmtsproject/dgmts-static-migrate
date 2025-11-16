@@ -6,7 +6,7 @@
 
 /* Hero Section */
 .projects-hero {
-  background-color: #f9fafb;
+  background-color: #e3edff;
   color: black;
   padding: var(--spacing-4xl) 0 var(--spacing-3xl);
   text-align: center;
@@ -46,7 +46,7 @@
 
 /* Filters Section */
 .projects-filters {
-  background-color: var(--grey-50);
+  background-color: #e3edff;
   padding: 0 0 2rem 0;
   border-bottom: 1px solid var(--grey-200);
 }

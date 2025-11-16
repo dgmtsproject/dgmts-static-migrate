@@ -88,7 +88,7 @@ const Footer = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services/geotechnical' },
-    { name: 'Blog', path: '/blog' },
+    { name: 'Engineering Updates', path: '/blog' },
     { name: 'Careers', path: '/careers' },
     { name: 'Contact', path: '/contact' }
   ];

@@ -69,7 +69,7 @@ const TeamGrid = () => {
     return groups;
   }, [employees]);
 
-  const departmentOrder = ['Admin', 'Project Manager', 'Inspectors and Technicians'];
+  const departmentOrder = ['Project Manager', 'Inspectors and Technicians', 'Admin'];
 
   return (
     <section className="team-grid-section">
@@ -97,13 +97,13 @@ const TeamGrid = () => {
             
             <p className="president-bio">{president.bio}</p>
             
-            <div className="president-tags">
+            {/* <div className="president-tags">
               {president.tags.map((tag, idx) => (
                 <span key={idx} className="president-tag">
                   {tag}
                 </span>
               ))}
-            </div>
+            </div> */}
             
             <span className="visit-profile-link">View Full Profile &rarr;</span>
           </div>
@@ -131,7 +131,7 @@ const TeamGrid = () => {
               groupedEmployees[dept] && groupedEmployees[dept].length > 0 && (
                 <div key={dept} className="department-section">
                   {(dept === 'Admin') ? (
-                    <h3 className="department-heading">Administration Team</h3>
+                    <h3 className="department-heading">Admin & Support Team</h3>
                   ) : (dept === 'Project Manager') ? (
                     <h3 className="department-heading">Project Management Team</h3>
                   ) : (

@@ -278,10 +278,10 @@ a:hover {
 
 
 .bg-texture{
-  background: url("https://www.toptal.com/designers/subtlepatterns/uploads/papyrus.png");
+  /* background: url("https://www.toptal.com/designers/subtlepatterns/uploads/papyrus.png");
   background-repeat: repeat;
-  z-index: 2;
-  /* color: #497cba; */
+  z-index: 2; */
+  background-color: #e3edff;
 }
 .bg-white {
   background-color: var(--white);

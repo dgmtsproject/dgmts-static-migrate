@@ -6,7 +6,7 @@
 }
 
 .blog-page {
-  background: linear-gradient(135deg, var(--grey-50) 0%, rgba(39, 149, 208, 0.05) 100%);
+  /* background: linear-gradient(135deg, var(--grey-50) 0%, rgba(39, 149, 208, 0.05) 100%); */
   min-height: 100vh;
 }
 

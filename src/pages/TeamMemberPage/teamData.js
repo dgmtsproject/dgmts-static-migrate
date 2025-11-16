@@ -34,7 +34,7 @@ export const teamMembers = [
   {
     id: 3,
     name: 'Zichang Zhang',
-    role: 'CMT Department Manager',
+    role: 'Director Operations',
     degree: 'M.S. in Structural Engineering',
     bio: 'Project engineer specializing in construction inspection, drilling supervision, and project management.',
     imageUrl: teamMember3,

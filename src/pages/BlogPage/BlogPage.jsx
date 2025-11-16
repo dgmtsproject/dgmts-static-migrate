@@ -252,7 +252,7 @@ function BlogPage() {
     <div className="blog-page bg-texture">
       <div className="container">
         <header className="blog-header">
-          <h1>Our Blog</h1>
+          <h1>Engineering Updates</h1>
           <p>Stay updated with the latest news, insights, and technical articles from our team.</p>
         </header>
 

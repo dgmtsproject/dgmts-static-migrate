@@ -1,12 +1,12 @@
 /* General Styling */
 .location-page-container {
   min-height: 100vh;
-  background-color: #f9fafb; /* bg-gray-50 */
+  background-color: #e3edff; /* bg-gray-50 */
 }
 
 /* Header */
 .location-page-header {
-  background-color: white;
+  background-color: #e3edff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
 }
 

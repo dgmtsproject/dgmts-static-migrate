@@ -34,7 +34,7 @@ const MeetTheTeam = () => {
         setIsInView(false);
       }
     }, {
-      threshold: 0.2
+        threshold: 0.5 // Now animation triggers at 50% visibility
     });
     
     if (teamRef.current) {

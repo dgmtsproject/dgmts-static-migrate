@@ -1,7 +1,7 @@
 /* === Company Intro Revamp === */
 .company-intro {
   position: relative;
-  background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 100%);
+  /* background: linear-gradient(180deg, var(--white) 0%, var(--grey-50) 100%); */
   overflow: hidden;
   padding: var(--spacing-3xl) 0 ;
 
@@ -86,7 +86,7 @@
 /* Animated counter card */
 .team-strength-card {
   --card-pad: var(--spacing-md);
-  background: var(--white);
+  /* background: var(--white); */
   padding: var(--card-pad);
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  /* background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); */
   opacity: .07;
   mix-blend-mode: multiply;
   pointer-events: none;
