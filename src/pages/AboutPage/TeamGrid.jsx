@@ -93,8 +93,8 @@ const TeamGrid = () => {
           <div className="president-content">
             <h3 className="president-name">{president.name}</h3>
             <p className="president-role">{president.role}</p>
-            <p className="president-degree">{president.degree}</p>
-            
+            {/*<p className="president-degree">{president.degree}</p>
+            */ }
             <p className="president-bio">{president.bio}</p>
             
             {/* <div className="president-tags">
