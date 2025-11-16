@@ -276,7 +276,7 @@ a:hover {
   background-color: var(--primary-color);
 }
 
-
+/* texture background was replaced with a solid color for simplicity */
 .bg-texture{
   /* background: url("https://www.toptal.com/designers/subtlepatterns/uploads/papyrus.png");
   background-repeat: repeat;
