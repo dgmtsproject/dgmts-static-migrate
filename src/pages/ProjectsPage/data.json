@@ -798,6 +798,108 @@
         "Pre and Post Construction Condition Survey",
         "Vibration Monitoring"
       ]
+    },
+    {
+      "projectNumber": "27",
+      "title": "Arlington National Cemetery Southern Expansion, Arlington, Virginia – Geotechnical Instrumentation (DGMTS project No. 21261)",
+      "client": "Kokosing Construction Company Inc.",
+      "location": "South Nash Street and Columbia Pike",
+      "images": [
+        "/src/assets/instrumentation/project6_1.jpg",
+        "/src/assets/instrumentation/project6_2.png",
+        "/src/assets/instrumentation/project6_3.png"
+      ],
+      "servicesProvided": [
+        "Instrumentation",
+        "Pre and Post Construction Condition Survey",
+        "Vibration Monitoring",
+        "Survey Targets",
+        "Tiltmeters",
+        "Settlement Monitoring Points",
+        "Crack Gauges"
+      ],
+      "projectOwner": "USACE",
+      "projectDesigner": null,
+      "generalContractor": "Kokosing Construction Company Inc.",
+      "completionDate": "Completed – Nov 2021-Sept 2022",
+      "taskBudget": null,
+      "projectCost": null,
+      "description": "The Southern Expansion construction project began with a groundbreaking ceremony for Phase I on September 14, 2021. The 50-acre Southern Expansion area is bound by Washington Boulevard (Route 27), I-395, the Virginia Department of Transportation (VDOT) Maintenance Complex, the Foxcroft Heights neighborhood and Arlington National Cemetery. Construction of Phase II and Phase III of the Southern Expansion project is anticipated to occur over the next five years (spring 2023 through winter 2027) and will add more than 80,000 new interment opportunities. Additionally, the project will significantly enhance the experience of visitors to ANC, while preserving the iconic look and feel of this national shrine. Benefits to visitors include a new entrance on Columbia Pike; employee parking and controlled public parking for cemetery and Air Force Memorial visitors; and seamless access to the Air Force Memorial. Finally, Southern Expansion will facilitate ANC operations by replacing an office building and a warehouse, and adding green-roof maintenance bays for cemetery vehicles",
+      "scopeOfServices": [
+        "Instrumentation",
+        "Pre and Post Construction Condition Survey",
+        "Vibration Monitoring",
+        "Survey Targets",
+        "Tiltmeters",
+        "Settlement Monitoring Points",
+        "Crack Gauges"
+      ],
+      "results": []
+    },
+    {
+      "projectNumber": "28",
+      "title": "Washington Union Station, Amtrak Track 22 Rehabilitation, Washington DC (DGMTS 20078)",
+      "client": "Skanska",
+      "location": "Washington, DC",
+      "images": [
+        "/src/assets/instrumentation/project7_1.png",
+        "/src/assets/instrumentation/project7_2.png",
+        "/src/assets/instrumentation/project7_3.png",
+        "/src/assets/instrumentation/project7_4.png"
+      ],
+      "servicesProvided": [
+        "Instrumentation",
+        "Track Monitoring and QC"
+      ],
+      "projectOwner": "Amtrak",
+      "projectDesigner": null,
+      "generalContractor": "Skanska",
+      "completionDate": "Completed – 08/2020 to 03/2023",
+      "taskBudget": null,
+      "projectCost": null,
+      "description": "The rehabilitation of Track 22 at Washington Union Station is a significant upgrade aimed at enhancing the station's capacity and service reliability. The project involved the installation of new tracks, rebuilding the platform, and rehabilitating the historic columns at the 118-year-old station. The new platform is fully accessible and features a new passageway with an elevator, escalator, and stairs, ensuring convenient access to and from trains. Track 22 primarily serves Virginia Railway Express (VRE) trains, as well as Amtrak Long Distance and Amtrak Virginia services, connecting the Northeast Corridor with destinations across the Southeast. This investment is crucial for easing rail congestion and improving service reliability at Amtrak's second busiest station in Washington, D.C.",
+      "scopeOfServices": [
+        "Instrumentation",
+        "Track Monitoring and QC"
+      ],
+      "results": []
+    },
+    {
+      "projectNumber": "29",
+      "title": "Potomac Yards Metrorail Station",
+      "client": "Potomac Yard Constructors, A JV",
+      "location": "City of Alexandria",
+      "images": [
+        "/src/assets/instrumentation/project8_1.png",
+        "/src/assets/instrumentation/project8_2.png",
+        "/src/assets/instrumentation/project8_3.png"
+      ],
+      "servicesProvided": [
+        "Instrumentation",
+        "Special Inspection",
+        "QC testing",
+        "Drilling",
+        "Lab Testing",
+        "SOE design",
+        "Slope Stability Analysis"
+      ],
+      "projectOwner": "WMATA",
+      "projectDesigner": null,
+      "generalContractor": "Halmar-Shea",
+      "completionDate": "Completed – 09/2019 to 09/2024",
+      "taskBudget": null,
+      "projectCost": null,
+      "description": "The project is the Potomac Yard Metrorail Station located in Alexandria, Virginia. The station will be built on Metrorail's Yellow and Blue Lines between the existing Braddock Road and Ronald Reagan Washington National Airport stations. The station is at-grade with side platforms between the George Washington Parkways and the CSX tracks, north of Potomac Greens and east of the existing Potomac Yard Retail Center and CSX right-of-way. The project includes a new switchgear building, a pedestrian bridge over CSX tracks to the pavilion, and a pavilion.",
+      "scopeOfServices": [
+        "Instrumentation",
+        "Special Inspection",
+        "QC testing",
+        "Drilling",
+        "Lab Testing",
+        "SOE design",
+        "Slope Stability Analysis"
+      ],
+      "results": []
     }
   ],
   "metadata": {
@@ -805,7 +907,7 @@
     "rfpTitle": "Geotechnical Engineering, Construction Inspection and Testing Services",
     "companyName": "Dulles Geotechnical and Material Testing Services, Inc. (DGMTS)",
     "extractionDate": "2025-10-12",
-    "totalProjects": 26,
+    "totalProjects": 29,
     "documentPages": 19
   }
 }

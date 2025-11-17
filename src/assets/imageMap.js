@@ -43,6 +43,16 @@ import inst_project4_3 from '../assets/instrumentation/project4_3.png';
 import inst_project5_1 from '../assets/instrumentation/project5_1.png';
 import inst_project5_2 from '../assets/instrumentation/project5_2.png';
 import inst_project5_3 from '../assets/instrumentation/project5_3.png';
+import inst_project6_1 from '../assets/instrumentation/project6_1.jpg';
+import inst_project6_2 from '../assets/instrumentation/project6_2.png';
+import inst_project6_3 from '../assets/instrumentation/project6_3.png';
+import inst_project7_1 from '../assets/instrumentation/project7_1.png';
+import inst_project7_2 from '../assets/instrumentation/project7_2.png';
+import inst_project7_3 from '../assets/instrumentation/project7_3.png';
+import inst_project7_4 from '../assets/instrumentation/project7_4.png';
+import inst_project8_1 from '../assets/instrumentation/project8_1.png';
+import inst_project8_2 from '../assets/instrumentation/project8_2.png';
+import inst_project8_3 from '../assets/instrumentation/project8_3.png';
 
 // Image mapping
 export const imageMap = {
@@ -89,6 +99,16 @@ export const imageMap = {
   '/src/assets/instrumentation/project5_1.png': inst_project5_1,
   '/src/assets/instrumentation/project5_2.png': inst_project5_2,
   '/src/assets/instrumentation/project5_3.png': inst_project5_3,
+  '/src/assets/instrumentation/project6_1.jpg': inst_project6_1,
+  '/src/assets/instrumentation/project6_2.png': inst_project6_2,
+  '/src/assets/instrumentation/project6_3.png': inst_project6_3,
+  '/src/assets/instrumentation/project7_1.png': inst_project7_1,
+  '/src/assets/instrumentation/project7_2.png': inst_project7_2,
+  '/src/assets/instrumentation/project7_3.png': inst_project7_3,
+  '/src/assets/instrumentation/project7_4.png': inst_project7_4,
+  '/src/assets/instrumentation/project8_1.png': inst_project8_1,
+  '/src/assets/instrumentation/project8_2.png': inst_project8_2,
+  '/src/assets/instrumentation/project8_3.png': inst_project8_3,
 };
 
 export { project1_1 as defaultImage };

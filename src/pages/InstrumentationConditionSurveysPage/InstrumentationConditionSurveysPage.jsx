@@ -120,19 +120,24 @@ const InstrumentationConditionSurveysPage = () => {
       location: "Arlington Virginia"
     },
     {
-      title: "Potomac Yards - Instrumentation",
-      displayTitle: "Potomac Yards - Instrumentation",
-      location: "Potomac Yards"
-    },
-    {
-      title: "Amtrack-Track 22 Track Monitoring",
-      displayTitle: "Amtrack-Track 22 Track Monitoring",
-      location: "Amtrack Track 22"
-    },
-    {
       title: "Instrumentation - MDOT Tennyson Wetland Mitigation",
       displayTitle: "Instrumentation - MDOT Tennyson Wetland Mitigation",
       location: "St Mary's County MD"
+    },
+    {
+      title: "Arlington National Cemetery Southern Expansion, Arlington, Virginia – Geotechnical Instrumentation (DGMTS project No. 21261)",
+      displayTitle: "Arlington National Cemetery Southern Expansion",
+      location: "Arlington, Virginia"
+    },
+    {
+      title: "Washington Union Station, Amtrak Track 22 Rehabilitation, Washington DC (DGMTS 20078)",
+      displayTitle: "Washington Union Station Track 22 Rehabilitation",
+      location: "Washington, DC"
+    },
+    {
+      title: "Potomac Yards Metrorail Station",
+      displayTitle: "Potomac Yards Metrorail Station",
+      location: "City of Alexandria"
     }
   ];
 

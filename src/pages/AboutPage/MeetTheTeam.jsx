@@ -1,14 +1,10 @@
-import { useState, useRef, useEffect } from 'react'; // referenced for environments not using automatic runtime
+import { useState, useEffect } from 'react'; // referenced for environments not using automatic runtime
 import './MeetTheTeam.css';
 import { Link } from 'react-router-dom';
 import { teamMembers } from '../../pages/TeamMemberPage/teamData.js';
 
 const MeetTheTeam = () => {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
-  const teamRef = useRef(null);
-  const carouselRef = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
@@ -18,30 +14,10 @@ const MeetTheTeam = () => {
   const minSwipeDistance = 50;
 
   useEffect(() => {
-    if (isInView && !isHovering) {
-      const interval = setInterval(() => {
-        setActiveTeamMember(prev => (prev + 1) % team.length);
-      }, 4000);
-      return () => clearInterval(interval);
-    }
-  }, [isInView, isHovering]);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        setIsInView(true);
-      } else {
-        setIsInView(false);
-      }
-    }, {
-        threshold: 0.5 // Now animation triggers at 50% visibility
-    });
-    
-    if (teamRef.current) {
-      observer.observe(teamRef.current);
-    }
-    
-    return () => observer.disconnect();
+    const interval = setInterval(() => {
+      setActiveTeamMember(prev => (prev + 1) % team.length);
+    }, 2700);
+    return () => clearInterval(interval);
   }, []);
 
   const onTouchStart = (e) => {
@@ -77,8 +53,7 @@ const MeetTheTeam = () => {
   return (
     <>
       <div 
-          ref={teamRef}
-          className={`team-header ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+          className="team-header opacity-100 translate-y-0"
         >
         <h2 className="team-carousel-title">
           Meet Our Department Heads
@@ -90,12 +65,9 @@ const MeetTheTeam = () => {
       
       <div 
           className="team-carousel-wrapper" 
-          onMouseEnter={() => setIsHovering(true)} 
-          onMouseLeave={() => setIsHovering(false)}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
-          ref={carouselRef}
         >
           <div className="team-carousel-inner">
             {team.map((member, index) => (
@@ -121,20 +93,6 @@ const MeetTheTeam = () => {
                     </div>
                     
                     <p className="team-member-bio">{member.bio}</p>
-                    
-                    <div className="team-card-footer">
-                      <div className="team-tags-wrapper">
-                        {member.tags.map((tag, idx) => (
-                          <span 
-                            key={idx} 
-                            className="team-tag" 
-                            style={{ animationDelay: `${idx * 300}ms` }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
                     
                     <span className="visit-profile-link">Visit Profile &rarr;</span>
                   </div>

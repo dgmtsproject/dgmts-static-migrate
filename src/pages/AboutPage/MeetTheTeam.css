@@ -64,7 +64,7 @@
 
 .team-card {
   overflow: hidden;
-  height: 680px;
+  height: 630px;
   border: 1px solid #334155;
   box-shadow: var(--shadow-sm);
   border-radius: 16px;
