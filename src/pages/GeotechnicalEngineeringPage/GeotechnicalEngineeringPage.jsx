@@ -12,9 +12,9 @@ import {
 import './GeotechnicalEngineeringPage.css';
 import HeroSection from '../../components/HeroSection';
 import ProjectsList from '../../components/ProjectsList';
-import photo53 from '../../assets/gallery/photo-53.jpg';
-import photo35 from '../../assets/gallery/photo-35.jpg';
-import photo91 from '../../assets/gallery/photo-91.jpg';
+import photo67 from '../../assets/gallery/photo-67.jpg';
+import photo119 from '../../assets/gallery/photo-119.jpg';
+import photo39 from '../../assets/gallery/photo-39.jpg';
 import photo76 from '../../assets/gallery/photo-76.jpg';
 
 import teamMember1 from '../../assets/team-members/team-member-1.jpg';
@@ -89,7 +89,7 @@ const GeotechnicalEngineeringPage = () => {
         subtitle="DGMTS delivers comprehensive geotechnical engineering services with precision, safety, and innovation. From site investigation to foundation design, we ensure your projects stand on solid ground."
         primaryButtonText="Get Started"
         onPrimaryClick={handleGetStartedClick}
-        image2={photo53}
+        image2={photo67}
         image1={photo76}
         imageAlt="Geotechnical Engineering"
       />
@@ -124,7 +124,7 @@ const GeotechnicalEngineeringPage = () => {
           <div className="geotech-featured-card">
             <div className="geotech-featured-image">
               <img 
-                src={photo91}
+                src={photo39}
                 alt="Geotechnical Services"
                 loading="lazy"
               />
@@ -155,7 +155,7 @@ const GeotechnicalEngineeringPage = () => {
 
             <div className="geotech-featured-image">
               <img 
-                src={photo35}
+                src={photo119}
                 alt="Engineering Excellence"
                 loading="lazy"
               />
