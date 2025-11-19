@@ -66,10 +66,16 @@ const TeamGrid = () => {
       }
       groups[emp.department].push(emp);
     });
+
+    // Combine Project Manager and Admin into Management Team
+    groups['Management Team'] = [...(groups['Project Manager'] || []), ...(groups['Admin'] || [])].sort((a, b) => a.name.localeCompare(b.name));
+    delete groups['Project Manager'];
+    delete groups['Admin'];
+
     return groups;
   }, [employees]);
 
-  const departmentOrder = ['Project Manager', 'Inspectors and Technicians', 'Admin'];
+  const departmentOrder = ['Management Team', 'Inspectors and Technicians'];
 
   return (
     <section className="team-grid-section">
@@ -130,10 +136,8 @@ const TeamGrid = () => {
             {departmentOrder.map(dept => (
               groupedEmployees[dept] && groupedEmployees[dept].length > 0 && (
                 <div key={dept} className="department-section">
-                  {(dept === 'Admin') ? (
-                    <h3 className="department-heading">Admin & Support Team</h3>
-                  ) : (dept === 'Project Manager') ? (
-                    <h3 className="department-heading">Project Management Team</h3>
+                  {(dept === 'Management Team') ? (
+                    <h3 className="department-heading">Management Team</h3>
                   ) : (
                     <h3 className="department-heading">Inspectors & Technicians</h3>
                   )}

@@ -172,7 +172,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="services-section">
+    <section className="global-services-section">
       <div className="services-container">
         <div className="services-header">
           <h2 className="services-title">Our Services</h2>

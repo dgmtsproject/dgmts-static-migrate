@@ -1,6 +1,6 @@
 import TeamGrid from './TeamGrid';
 import ServiceMap from './components/ServiceMap';
-import ServicesSection from './components/ServicesSection';
+import ServicesSection from '../../components/ServicesSection/ServicesSection';
 import CertificationsSection from '../HomePage/components/CertificationsSection';
 import './AboutPage.css';
 
