@@ -17,7 +17,6 @@ import photo48 from '../../assets/gallery/photo-48.jpg';
 import photo117 from '../../assets/gallery/photo-117.jpg';
 
 import preConstructionImage from '../../assets/instrumentation/picture_1.jpg';
-import postConstructionImage from '../../assets/instrumentation/picture_2.jpg';
 
 const InstrumentationConditionSurveysPage = () => {
   const handleLearnMoreClick = () => {
@@ -37,38 +36,31 @@ const InstrumentationConditionSurveysPage = () => {
   const services = [
     {
       icon: <Monitor className="inst-icon-lg" />,
-      title: "Automated Monitoring Systems",
-      description: "Monitoring safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges."
+      title: "Structural Health & Vibration",
+      description: "We ensure asset integrity through Concrete Temperature Loggers and Crack Monitoring, alongside compliant Vibration & Noise Recording."
     },
     {
-      icon: <Siren className="inst-icon-lg" />,
-      title: "Risk Detection & Alleviation",
-      description: "Assisting clients in detecting and alleviating risk, optimizing designs and methods."
+      icon: <Building2 className="inst-icon-lg" />,
+      title: "Geotechnical & Ground Stability",
+      description: "Our subsurface solutions include Piezometers and Inclinometers, utilizing Settlement Plates and Slopes Monitoring for stability."
     },
     {
-      icon: <ClipboardCheck className="inst-icon-lg" />,
-      title: "Regulatory Compliance",
-      description: "Documenting regulatory compliance for various projects."
+      icon: <ScanEyeIcon className="inst-icon-lg" />,
+      title: "Automated Surveying & Movement",
+      description: "We deploy Automated Total Stations (AMTS) for Track Monitoring, Remote Monitoring, and Horizontal & Vertical Movement checks."
     },
     {
-      icon: <Lightbulb className="inst-icon-lg" />,
-      title: "Innovative Solutions",
-      description: "Implementing innovative solutions for challenging projects with advanced sensing technologies."
+      icon: <FileSearch className="inst-icon-lg" />,
+      title: "Data & Advanced Sensing",
+      description: "We integrate Traditional & Advanced Sensing Technologies with centralized Software, Cloud, and Data Solutions for actionable insights."
     }
   ];
 
-  const surveyTypes = [
-    {
-      image: preConstructionImage,
-      title: "Pre-Construction Condition Survey",
-      description: "Comprehensive assessment of structures and properties before construction activities begin. We utilize standardized forms, photographs, videotaping, visual observations, and crack monitoring gauges to document existing conditions."
-    },
-    {
-      image: postConstructionImage,
-      title: "Post-Construction Condition Survey",
-      description: "Thorough evaluation of structures after construction completion to document any changes, ensure structural integrity, and provide comparison with pre-construction conditions using our proprietary reporting system."
-    }
-  ];
+  const surveyInfo = {
+    image: preConstructionImage,
+    title: "Structural Condition Surveys",
+    description: "DGMTS provides comprehensive pre-construction and post-construction condition surveys for various structures and properties. Our pre-construction assessments document existing conditions using standardized forms, photographs, videotaping, visual observations, and crack monitoring gauges. Following construction completion, we conduct thorough post-construction evaluations to document any changes, ensure structural integrity, and provide detailed comparison with pre-construction conditions using our proprietary reporting system."
+  };
 
   const instruments = [
     "Piezometers",
@@ -155,38 +147,13 @@ const InstrumentationConditionSurveysPage = () => {
         imageAlt="Instrumentation and Condition Surveys"
       />
       <div className='bg-texture'>
-        <section className="inst-section inst-survey-section" id="structural-condition-surveys">
-          <div className="inst-container">
-            <div className="inst-section-header">
-              <h2 className="inst-section-title">Structural Condition Surveys</h2>
-              <p className="inst-section-subtitle">
-                DGMTS has resources and necessary expertise to perform comprehensive pre-construction and post-construction condition surveys for various structures and properties.
-              </p>
-            </div>
-
-            <div className="inst-survey-grid">
-              {surveyTypes.map((survey, index) => (
-                <div key={index} className="inst-survey-card">
-                  <div className="inst-survey-image-container">
-                    <img src={survey.image} alt={survey.title} className="inst-survey-image" loading="lazy" />
-                  </div>
-                  <div className="inst-survey-content">
-                    <h3 className="inst-survey-title">{survey.title}</h3>
-                    <p className="inst-survey-desc">{survey.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Our Expertise Section */}
+        {/* Our Instrumentation Services Section */}
         <section className="inst-section">
           <div className="inst-container">
             <div className="inst-section-header">
-              <h2 className="inst-section-title">Our Expertise</h2>
+              <h2 className="inst-section-title">Our Instrumentation Services</h2>
               <p className="inst-section-subtitle">
-                We have assisted our clients, infrastructure operators and contractors, and construction engineers in detecting and alleviating risk, optimizing designs and methods, and documenting regulatory compliance.
+                Advanced monitoring technologies for structural health, geotechnical stability, and automated surveying solutions.
               </p>
             </div>
 
@@ -200,6 +167,27 @@ const InstrumentationConditionSurveysPage = () => {
                   <p className="inst-service-desc">{service.description}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="inst-section inst-survey-section" id="structural-condition-surveys">
+          <div className="inst-container">
+            <div className="inst-two-column-layout">
+              {/* Left Column: Content */}
+              <div className="inst-right-column">
+                <div className="inst-text-content">
+                  <h2 className="inst-column-heading">{surveyInfo.title}</h2>
+                  <p className="inst-column-subheading">
+                    {surveyInfo.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Column: Image */}
+              <div className="inst-left-column">
+                <img src={surveyInfo.image} alt={surveyInfo.title} className="inst-large-image" loading="lazy" />
+              </div>
             </div>
           </div>
         </section>

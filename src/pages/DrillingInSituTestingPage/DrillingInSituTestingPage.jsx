@@ -39,28 +39,23 @@ const DrillingInSituTestingPage = () => {
   const services = [
     {
       icon: <Drill className="drilling-icon-lg" />,
-      title: "Supervision of Drilling",
-      description: "Professional oversight and management of drilling operations."
-    },
-    {
-      icon: <Layers className="drilling-icon-lg" />,
-      title: "Logger Services",
-      description: "Comprehensive logging and documentation services."
+      title: "Drilling & Subsurface Exploration",
+      description: "We perform Mud Rotary and Hollow Stem Auger drilling, Standard Penetration Tests, and collect Undisturbed and Environmental Samples for accurate subsurface evaluation."
     },
     {
       icon: <Compass className="drilling-icon-lg" />,
-      title: "Drilling for Soil Investigation",
-      description: "Detailed subsurface exploration and soil analysis."
+      title: "Rock, Groundwater & In-Situ Instrumentation",
+      description: "Our team provides Rock Coring, Piezometer Installation, Inclinometer Installation, Groundwater Monitoring Well installation, development, and safe Well Abandonment."
     },
     {
-      icon: <Truck className="drilling-icon-lg" />,
-      title: "Water Well Drilling",
-      description: "Specialized water well drilling services."
+      icon: <Wrench className="drilling-icon-lg" />,
+      title: "Coring, Grouting & Infiltration Services",
+      description: "We offer precise Concrete/Asphalt Coring, efficient Grouting solutions, and reliable Infiltration Testing to support construction quality and site characterization."
     },
     {
-      icon: <CheckCircle className="drilling-icon-lg" />,
-      title: "Rock and Asphalt Coring",
-      description: "Precision coring services for rock and asphalt materials."
+      icon: <Settings className="drilling-icon-lg" />,
+      title: "Field Testing & Foundation Performance Analysis",
+      description: "We deliver DCP Testing, PDA Testing with CAPWAP and WEAP Analysis, plus Windsor Probe and Schmidt Hammer testing for comprehensive material and foundation performance assessment."
     }
   ];
 

@@ -84,7 +84,6 @@
       "servicesProvided": [
         "Engineering Analysis and Design",
         "Geotechnical Engineering",
-        "Instrumentation",
         "Geotechnical Instrumentation",
         "PDA, Piezometers, Inclinometers",
         "Inspection",
@@ -521,7 +520,6 @@
       "servicesProvided": [
         "Inspection",
         "Special Inspection",
-        "Instrumentation",
         "Vibration, Noise & Crack Monitoring"
       ],
       "projectOwner": "Alexandria Renew Enterprises (AlexRenew)",

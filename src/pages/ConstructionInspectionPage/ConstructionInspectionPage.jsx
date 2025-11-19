@@ -34,23 +34,23 @@ const ConstructionInspectionPage = () => {
   const services = [
     {
       icon: <HardHat className="construction-icon-lg" />,
-      title: "Third-Party Inspection Program (TPIP)",
-      description: "Comprehensive inspections for single/multi-family dwellings and all building modifications/renovations focusing on structural safety, documentation review, and MEP systems."
+      title: "Construction Inspection & Testing",
+      description: "We provide comprehensive Inspection & Testing services covering Soil & Aggregate, Concrete, Asphalt, Fireproofing, and more to ensure project compliance and quality."
     },
     {
       icon: <Shield className="construction-icon-lg" />,
-      title: "Special Inspection Program (SPI)",
-      description: "Monitoring of critical structural materials including steel construction, concrete, fireproofing, and foundation systems to ensure code compliance."
+      title: "Structural Materials Verification",
+      description: "Our team specializes in testing and inspecting Structural Masonry, Structural Steel, and performing all required Special Inspection services as per DCRA standards."
     },
     {
       icon: <ClipboardList className="construction-icon-lg" />,
-      title: "Construction Materials Testing",
-      description: "Quality assurance and testing of earthwork, concrete, asphalt, and steel for roads, airports, buildings, and civil infrastructure."
+      title: "Industry-Focused Quality Assurance",
+      description: "We offer tailored inspection solutions for Industry Specialization needs, including FAA-related projects and advanced Building Envelope evaluations."
     },
     {
       icon: <Building className="construction-icon-lg" />,
-      title: "Structural Element Inspection",
-      description: "Inspection services for structural masonry, steel, fireproofing, EIFS, and evaluation of shallow and deep foundations."
+      title: "Precast & Specialized Plant Services",
+      description: "We deliver reliable Pre-cast Plant Inspection and material testing to verify performance, durability, and adherence to project specifications."
     }
   ];
 

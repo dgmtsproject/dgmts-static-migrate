@@ -36,24 +36,24 @@ const GeotechnicalEngineeringPage = () => {
 
   const services = [
     {
-      icon: <Layers className="geotech-icon-lg" />,
-      title: "Site Investigation",
-      description: "Comprehensive subsurface exploration and soil analysis"
+      icon: <Settings className="geotech-icon-lg" />,
+      title: "Foundation Engineering",
+      description: "We deliver expert Analysis and Design of Foundation solutions, including Shallow Foundation systems, Micropiles, ACP, H-Piles, and Driven Piles tailored for reliable performance."
     },
     {
-      icon: <Settings className="geotech-icon-lg" />,
-      title: "Foundation Design",
-      description: "Expert foundation recommendations and structural support"
+      icon: <Layers className="geotech-icon-lg" />,
+      title: "Deep Foundation Solutions",
+      description: "Our team specializes in Drill Shaft design and advanced Analysis and Design of Foundation services to ensure strength, stability, and long-term safety."
     },
     {
       icon: <Shield className="geotech-icon-lg" />,
-      title: "Risk Assessment",
-      description: "Proactive identification and mitigation of geotechnical risks"
+      title: "Earth Retention & Stability",
+      description: "We provide Retaining Wall Design, Slope Stability Analysis, and SOE Design services that protect your site and enhance structural resilience."
     },
     {
       icon: <TrendingUp className="geotech-icon-lg" />,
-      title: "Material Testing",
-      description: "Advanced laboratory testing and material analysis"
+      title: "Pavement & Site Engineering",
+      description: "Our Pavement Design services deliver durable, efficient, and cost-effective solutions for long-lasting site and roadway performance."
     }
   ];
 
@@ -98,7 +98,7 @@ const GeotechnicalEngineeringPage = () => {
       <section className="geotech-section" id="core-services">
         <div className="geotech-container">
           <div className="geotech-section-header">
-            <h2 className="geotech-section-title">Our Core Services</h2>
+            <h2 className="geotech-section-title">Our Core Geotechnical Services</h2>
             <p className="geotech-section-subtitle">
               Comprehensive geotechnical solutions tailored to your project's unique requirements
             </p>

@@ -34,29 +34,34 @@ const LaboratoryTestingPage = () => {
 
   const services = [
     {
+      icon: <ClipboardCheck className="lab-icon-lg" />,
+      title: "Asphalt Pavement Analysis",
+      description: "We test bituminous materials including Density of Asphalt Cores, Extraction and Gradation, Marshal Stability, and Unit Weight verification."
+    },
+    {
+      icon: <FlaskConical className="lab-icon-lg" />,
+      title: "Concrete Structure & Design",
+      description: "Our services cover Compressive and Tensile Strength Testing, precise Concrete Mix-Design, and Concrete Permeability analysis."
+    },
+    {
       icon: <Microscope className="lab-icon-lg" />,
-      title: "Direct Shear Testing",
-      description: "Peak and residual direct shear testing for soil analysis."
-    },
-    {
-      icon: <FlaskConical className="lab-icon-lg" />,
-      title: "Consolidation Testing",
-      description: "Comprehensive consolidation and permeability testing."
-    },
-    {
-      icon: <CheckCircle className="lab-icon-lg" />,
-      title: "Soil Index Testing",
-      description: "Moisture/density testing and complete soil classification."
-    },
-    {
-      icon: <FlaskConical className="lab-icon-lg" />,
-      title: "Material Testing",
-      description: "Testing for concrete, asphalt, aggregate, and water analysis."
+      title: "Soil Classification & Properties",
+      description: "We determine physical characteristics via Particle Size Analysis, Gradation, Specific Gravity, and Natural Moisture Content."
     },
     {
       icon: <Settings className="lab-icon-lg" />,
-      title: "Corrosivity Testing",
-      description: "Water analysis and corrosivity testing services."
+      title: "Geotechnical Shear & Load Assessments",
+      description: "include One-Dimensional Consolidation, Direct and Residual Shear Tests, and Unconfined / Triaxial Compression Testing."
+    },
+    {
+      icon: <Building2 className="lab-icon-lg" />,
+      title: "Soil Stability & Compaction",
+      description: "We evaluate soil behavior through Atterberg Limits, Shrink Swell Testing, and Moisture Density Relationships."
+    },
+    {
+      icon: <Award className="lab-icon-lg" />,
+      title: "Soil Chemistry & Corrosion",
+      description: "Our chemical analysis covers pH levels, Organic Content, and Soil Corrosion Testing for subsurface assessment."
     }
   ];
 

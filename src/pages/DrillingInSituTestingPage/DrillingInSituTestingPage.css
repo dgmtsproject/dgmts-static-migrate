@@ -168,7 +168,7 @@
 
 @media (min-width: 1024px) {
   .drilling-service-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -213,6 +213,7 @@
 .drilling-service-desc {
   color: #4b5563;
   line-height: 1.6;
+  margin:0;
 }
 
 /* ===== Equipment Cards ===== */
