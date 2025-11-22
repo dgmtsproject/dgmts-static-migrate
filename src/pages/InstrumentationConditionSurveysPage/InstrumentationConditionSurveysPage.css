@@ -728,3 +728,9 @@
     font-size: 0.95rem;
   }
 }
+
+
+.hero-image-secondary-img{
+  max-width: 80%;
+  object-position: left;
+}

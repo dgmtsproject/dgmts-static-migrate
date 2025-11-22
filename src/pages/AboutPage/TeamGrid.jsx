@@ -16,9 +16,9 @@ const TeamGrid = () => {
   };
 
   // Import all images from the three folders (lazy loading)
-  const adminImages = import.meta.glob('../../assets/employees-pictures/Admin/*');
-  const inspectorImages = import.meta.glob('../../assets/employees-pictures/Inspectors and Technicians/*');
-  const projectManagerImages = import.meta.glob('../../assets/employees-pictures/Project Manager/*');
+  const managementImages = import.meta.glob('../../assets/employees-pictures/Management & Support Team/*');
+  const engineersImages = import.meta.glob('../../assets/employees-pictures/Engineers, Inspectors and Techicians Team/*');
+  const itImages = import.meta.glob('../../assets/employees-pictures/IT & Digital Solution Team/*');
 
   // Load images lazily
   useEffect(() => {
@@ -38,16 +38,16 @@ const TeamGrid = () => {
         return Promise.all(imagePromises);
       };
 
-      const [adminEmployees, inspectorEmployees, pmEmployees] = await Promise.all([
-        processImages(adminImages, 'Admin'),
-        processImages(inspectorImages, 'Inspectors and Technicians'),
-        processImages(projectManagerImages, 'Project Manager')
+      const [managementEmployees, engineersEmployees, itEmployees] = await Promise.all([
+        processImages(managementImages, 'Management & Support Team'),
+        processImages(engineersImages, 'Engineers, Inspectors and Technicians Team'),
+        processImages(itImages, 'IT & Digital Solution Team')
       ]);
 
       const allEmployees = [
-        ...adminEmployees,
-        ...inspectorEmployees,
-        ...pmEmployees
+        ...managementEmployees,
+        ...engineersEmployees,
+        ...itEmployees
       ].sort((a, b) => a.name.localeCompare(b.name));
 
       setEmployees(allEmployees);
@@ -67,15 +67,14 @@ const TeamGrid = () => {
       groups[emp.department].push(emp);
     });
 
-    // Combine Project Manager and Admin into Management Team
-    groups['Management Team'] = [...(groups['Project Manager'] || []), ...(groups['Admin'] || [])].sort((a, b) => a.name.localeCompare(b.name));
-    delete groups['Project Manager'];
-    delete groups['Admin'];
-
     return groups;
   }, [employees]);
 
-  const departmentOrder = ['Management Team', 'Inspectors and Technicians'];
+  const departmentOrder = [
+    'Management & Support Team', 
+    'Engineers, Inspectors and Technicians Team', 
+    'IT & Digital Solution Team'
+  ];
 
   return (
     <section className="team-grid-section">
@@ -136,11 +135,7 @@ const TeamGrid = () => {
             {departmentOrder.map(dept => (
               groupedEmployees[dept] && groupedEmployees[dept].length > 0 && (
                 <div key={dept} className="department-section">
-                  {(dept === 'Management Team') ? (
-                    <h3 className="department-heading">Management Team</h3>
-                  ) : (
-                    <h3 className="department-heading">Inspectors & Technicians</h3>
-                  )}
+                  <h3 className="department-heading">{dept}</h3>
                   <div className="employees-grid">
                     {groupedEmployees[dept].map((employee, index) => (
                       <div 

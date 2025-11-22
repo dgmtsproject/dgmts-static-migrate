@@ -12,9 +12,10 @@ import {
 import './InstrumentationConditionSurveysPage.css';
 import HeroSection from '../../components/HeroSection';
 import ProjectsList from '../../components/ProjectsList';
-import photo54 from '../../assets/gallery/photo-54.jpg';
 import photo48 from '../../assets/gallery/photo-48.jpg';
-import photo117 from '../../assets/gallery/photo-117.jpg';
+import instrumentationHeroImage1 from '../../assets/instrumentation/project7_1.png';
+import instrumentationHeroImage2 from '../../assets/instrumentation/project7_2.png';
+import instrumentationImage3 from '../../assets/instrumentation/project7_4.png';
 
 import preConstructionImage from '../../assets/instrumentation/picture_1.jpg';
 
@@ -142,8 +143,8 @@ const InstrumentationConditionSurveysPage = () => {
         subtitle="DGMTS provides automated systems for monitoring the safety and stability of buildings, excavations, retaining walls, tunnels, railways, and bridges."
         primaryButtonText="Learn More"
         onPrimaryClick={handleLearnMoreClick}
-        image1={photo54}
-        image2={photo117}
+        image1={instrumentationHeroImage2}
+        image2={instrumentationHeroImage1}
         imageAlt="Instrumentation and Condition Surveys"
       />
       <div className='bg-texture'>
@@ -249,7 +250,7 @@ const InstrumentationConditionSurveysPage = () => {
             <div className="inst-two-column-layout">
               {/* Left Column: Large Image */}
               <div className="inst-left-column">
-                <img src={photo54} alt="Instrumentation Equipment" className="inst-large-image" loading="lazy" />
+                <img src={instrumentationHeroImage1} alt="Instrumentation Equipment" className="inst-large-image" loading="lazy" />
               </div>
 
               {/* Right Column: Text Content */}
@@ -282,7 +283,7 @@ const InstrumentationConditionSurveysPage = () => {
                 <img src={photo48} alt="Field Instrumentation" className="inst-dual-image" loading="lazy" />
               </div>
               <div className="inst-image-wrapper">
-                <img src={photo117} alt="Monitoring Systems" className="inst-dual-image" loading="lazy" />
+                <img src={instrumentationImage3} alt="Monitoring Systems" className="inst-dual-image" loading="lazy" />
               </div>
             </div>
           </div>
