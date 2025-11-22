@@ -9,7 +9,7 @@ import { Wrench } from 'lucide-react';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const UNDER_MAINTENANCE = true;
+const UNDER_MAINTENANCE = true; // Toggle maintenance modes
 
 const PaymentPage = () => {
   const navigate = useNavigate();
