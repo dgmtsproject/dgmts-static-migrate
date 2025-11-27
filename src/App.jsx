@@ -40,28 +40,80 @@ function App() {
       <div className="App">
         <Header />
         <main>
-          <Routes>
+          <Routes> {/* Added Fallback routes for old php routes*/}
             <Route path="/" element={<HomePage />} />
+
+
             <Route path="/services/geotechnical" element={<GeotechnicalEngineeringPage />} />
+            <Route path="/page/geotechnical-engineering" element={<GeotechnicalEngineeringPage />} />
+
+
             <Route path="/services/construction-inspection-testing" element={<ConstructionInspectionPage />} />
+            <Route path="/page/construction-materials-testing" element={<ConstructionInspectionPage />} /> {/* Fallback route for old construction materials testing page */}
+
+
             <Route path="/services/drilling-in-situ-testing" element={<DrillingInSituTestingPage />} />
+            <Route path="/page/drilling" element={<DrillingInSituTestingPage />} /> {/* Fallback route for old drilling page */}
+
+
+
+
             <Route path="/services/laboratory-testing" element={<LaboratoryTestingPage />} />
+            <Route path="/page/laboratory-testing" element={<LaboratoryTestingPage />} /> {/* Fallback route for old laboratory testing page */}
+
+
             <Route path="/services/instrumentation-condition-surveys" element={<InstrumentationConditionSurveysPage />} />
+            <Route path="/page/instrumentation" element={<InstrumentationConditionSurveysPage />} /> {/* Fallback route for old instrumentation page */}
+            
+            
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/page/meet-the-team" element={<AboutPage />} /> {/* Fallback route for old meet-the-team page */}
+            <Route path="/page/who-we-are" element={<AboutPage />} /> {/* Fallback route for old who-we-are page */}
+
+
+
             <Route path="/careers" element={<CareerPage />} />
+            <Route path="/page/careers" element={<CareerPage />} /> {/* Fallback route for old careers page */}
+
+
+
+
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/page/contact" element={<ContactPage />} /> {/* Fallback route for old contact page */}
+
+
+
             <Route path="/geo5-software" element={<Geo5Page />} />
+            <Route path="/page/geo5" element={<Geo5Page />} /> {/* Fallback route for old geo5 page */}
+
+
+
             <Route path="/it-services" element={<ITDigitalServicesPage />} />
+            <Route path="/page/it-digital-services" element={<ITDigitalServicesPage />} /> {/* Fallback route for old it-digital-services page */}
+
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/page/blog" element={<BlogPage />} /> {/* Fallback route for old blog page */}
+
             <Route path="/blog/:id" element={<BlogPostPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
+            <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}
+
+
             <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
+            <Route path="/privacy-policy.php" element={<PrivacyPolicyPage/>}/> {/* Fallback route for old privacy policy page */}
+
             <Route path="/terms-and-conditions" element={<TermsAndConditionsPage/>}/>
+            <Route path="/terms-and-conditions.php" element={<TermsAndConditionsPage/>}/> {/* Fallback route for old terms and conditions page */}
+
+
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/page/gallery" element={<GalleryPage />} /> {/* Fallback route for old gallery page */}
+
             <Route path="/team/:id" element={<TeamMemberPage />} />
             <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/pay" element={<PaymentPage />} />
             <Route path="/success" element={<SuccessPage />} />
             <Route path="/cancel" element={<CancelPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
