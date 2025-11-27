@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import './NewsletterModal.css'; // Make sure this path is correct
 import logo from "../../assets/logos/cropped-logo.png";
@@ -9,8 +10,16 @@ const NewsletterModal = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
+        // Only show modal on homepage
+        const isHomepage = location.pathname === '/' || location.pathname === '/home';
+        
+        if (!isHomepage) {
+            return; // Don't show modal if not on homepage
+        }
+
         // if dev mode is on always show the modal
         if (devMode) {
             setIsVisible(true);
@@ -23,7 +32,7 @@ const NewsletterModal = () => {
             }, 7000);
             return () => clearTimeout(timer);
         }
-    }, []);
+    }, [location.pathname]);
 
     const closeModal = () => {
         setIsVisible(false);
