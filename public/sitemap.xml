@@ -4,96 +4,140 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Gemini -->
+<!-- Generated for dullesgeotechnical.com -->
 
+<!-- Homepage -->
 <url>
-  <loc>https://www.dgmts.com/</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
+  <loc>https://dullesgeotechnical.com/</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>weekly</changefreq>
   <priority>1.00</priority>
 </url>
+
+<!-- Services -->
 <url>
-  <loc>https://www.dgmts.com/services/geotechnical</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
+  <loc>https://dullesgeotechnical.com/services/geotechnical</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/services/construction-inspection-testing</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/services/drilling-in-situ-testing</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/services/laboratory-testing</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/services/instrumentation-condition-surveys</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+
+<!-- Company Pages -->
+<url>
+  <loc>https://dullesgeotechnical.com/about</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/careers</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>weekly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/services/construction-inspection-testing</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
+  <loc>https://dullesgeotechnical.com/contact</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+<url>
+  <loc>https://dullesgeotechnical.com/location</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
+</url>
+
+<!-- Products & Services -->
+<url>
+  <loc>https://dullesgeotechnical.com/geo5-software</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/services/drilling-in-situ-testing</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
+  <loc>https://dullesgeotechnical.com/it-services</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+
+<!-- Content Pages -->
+<url>
+  <loc>https://dullesgeotechnical.com/blog</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>weekly</changefreq>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/services/laboratory-testing</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://dullesgeotechnical.com/published-papers</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.75</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/services/instrumentation-condition-surveys</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://dullesgeotechnical.com/gallery</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/about</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://dullesgeotechnical.com/projects</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.85</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/careers</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
+  <loc>https://dullesgeotechnical.com/clients</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>monthly</changefreq>
   <priority>0.80</priority>
+</url>
+
+<!-- Payment -->
+<url>
+  <loc>https://dullesgeotechnical.com/payment</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.60</priority>
+</url>
+
+<!-- Legal Pages -->
+<url>
+  <loc>https://dullesgeotechnical.com/privacy-policy</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
 </url>
 <url>
-  <loc>https://www.dgmts.com/contact</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://dullesgeotechnical.com/terms-and-conditions</loc>
+  <lastmod>2025-11-28T00:00:00+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.50</priority>
 </url>
-<url>
-  <loc>https://www.dgmts.com/geo5-software</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/it-services</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/blog</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/published-papers</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/location</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/privacy-policy</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/terms-and-conditions</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/gallery</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://www.dgmts.com/payment</loc>
-  <lastmod>2025-08-27T00:00:00+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
+
 </urlset>

@@ -44,12 +44,16 @@ function App() {
             <Route path="/" element={<HomePage />} />
 
 
+            <Route path="/page/our-services" element={<HomePage />} /> {/* Fallback route for old our-services page */}
+
+
             <Route path="/services/geotechnical" element={<GeotechnicalEngineeringPage />} />
             <Route path="/page/geotechnical-engineering" element={<GeotechnicalEngineeringPage />} />
 
 
             <Route path="/services/construction-inspection-testing" element={<ConstructionInspectionPage />} />
             <Route path="/page/construction-materials-testing" element={<ConstructionInspectionPage />} /> {/* Fallback route for old construction materials testing page */}
+            <Route path="/service/construction-materials-testing" element={<ConstructionInspectionPage />} /> {/* Fallback route for old construction materials testing page */}
 
 
             <Route path="/services/drilling-in-situ-testing" element={<DrillingInSituTestingPage />} />
