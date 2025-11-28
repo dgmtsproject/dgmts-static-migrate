@@ -310,7 +310,7 @@
       "client": null,
       "location": "Fairfax, VA",
       "images": [
-        "/src/assets/projects/project12_1.png"
+        "/src/assets/projects/project10_1.png"
       ],
       "servicesProvided": [
         "Drilling",
@@ -369,7 +369,7 @@
       "title": "Brown Mazda Car Dealership",
       "client": null,
       "images": [
-        "/src/assets/projects/project1_1.png"
+        "/src/assets/projects/project12_1.png"
       ],
       "location": "Fairfax, VA",
       "servicesProvided": [
@@ -398,7 +398,7 @@
       "title": "City Hall Redevelopment for the City of College Park and the University of Maryland",
       "client": null,
       "images": [
-        "/src/assets/projects/project13_1.png"
+        "/src/assets/projects/project13_1.jpeg"
       ],
       "location": "College Park, Maryland",
       "servicesProvided": [
@@ -428,7 +428,7 @@
       "title": "Bladensburg Library",
       "client": "Rich Moe Enterprises, LLC",
       "images": [
-        "/src/assets/projects/project1_1.png"
+        "/src/assets/projects/project14_1.png"
       ],
       "location": "4820 Annapolis Road, Bladensburg, MD 20710",
       "servicesProvided": [
@@ -454,7 +454,7 @@
       "title": "Safe Routes to School (SRTS) – Countryside Elementary School",
       "client": "F.H. Paschen, S.N. Nielsen & Associates LLC",
       "images": [
-        "/src/assets/projects/project15_1.png"
+        "/src/assets/projects/project15_1.jpeg"
       ],
       "location": "Triple seven Road, Loudoun County, VA",
       "servicesProvided": [
@@ -510,11 +510,11 @@
       "results": []
     },
     {
-      "projectNumber": "17",
+      "projectNumber": "19",
       "title": "River Renew Tunnel System Project",
       "client": null,
       "images": [
-        "/src/assets/projects/project17_1.png"
+        "/src/assets/projects/project19_1.png"
       ],
       "location": "851 Holland Lane, Alexandria, VA",
       "servicesProvided": [
@@ -538,11 +538,12 @@
       "results": []
     },
     {
-      "projectNumber": "18",
+      "projectNumber": "20",
       "title": "Leesburg Executive Airport Apron Paving",
       "client": "Chemung Contracting Corporation",
       "images": [
-        "/src/assets/projects/project18_1.png"
+        "/src/assets/projects/project20_1.png",
+        "/src/assets/projects/project20_2.jpeg"
       ],
       "location": "Leesburg, VA",
       "servicesProvided": [
@@ -582,12 +583,12 @@
       "results": []
     },
     {
-      "projectNumber": "19",
+      "projectNumber": "21",
       "title": "Morven Park Road Sidewalk & Drainage Improvements",
       "client": "Ardent Company, LLC",
       "images": [
-        "/src/assets/projects/project19_1.png",
-        "/src/assets/projects/project19_2.png"
+        "/src/assets/projects/project21_1.png",
+        "/src/assets/projects/project21_2.jpeg"
       ],
       "location": "Leesburg, VA",
       "servicesProvided": [
@@ -626,11 +627,11 @@
       "results": []
     },
     {
-      "projectNumber": "21",
+      "projectNumber": "22",
       "title": "Safford Brown Hyundai Dealership",
       "client": "Chemung Contracting Corporation",
       "images": [
-        "/src/assets/projects/project21_1.png"
+        "/src/assets/projects/project22_1.png"
       ],
       "location": "Leesburg, VA",
       "servicesProvided": [
