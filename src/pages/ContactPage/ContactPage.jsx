@@ -100,10 +100,12 @@ const ContactPage = () => {
             <div className="contact-info-item">
               <MapPin size={32} className="contact-icon" stroke="url(#headingGradient)" />
               <h3 className="contact-info-title">Addresses</h3>
-              <p>14155 Sullyfield Circle, Suite H, Chantilly, VA 20151</p>
-              <p>100 M Street SE, Suite 600, Washington, DC 20003</p>
-              <p>1001 Prince Georges Blvd, Suite 800, Upper Marlboro, MD 20774</p>
-              <p>King Commerce Center, 2046 Exploration Way, Unit A, Hampton, VA 23666.</p>
+              <ul className="address-list">
+                <li>14155 Sullyfield Circle, Suite H, Chantilly, VA 20151</li>
+                <li>100 M Street SE, Suite 600, Washington, DC 20003</li>
+                <li>1001 Prince Georges Blvd, Suite 800, Upper Marlboro, MD 20774</li>
+                <li>King Commerce Center, 2046 Exploration Way, Unit A, Hampton, VA 23666.</li>
+              </ul>
             </div>
             <div className="contact-info-item">
               <Phone size={32} className="contact-icon" stroke="url(#headingGradient)" />
