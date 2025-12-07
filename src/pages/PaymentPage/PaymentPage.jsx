@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import './PaymentPage.css';
+import { Wrench } from 'lucide-react';
 
 const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
+
+const UNDER_MAINTENANCE = false; // Toggle maintenance mode: set to true to enable maintenance mode
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -12,6 +15,7 @@ const PaymentPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [transactionId, setTransactionId] = useState('');
+  const [countdown, setCountdown] = useState(12);
 
   // Billing Information (Step 1)
   const [billingData, setBillingData] = useState({
@@ -279,13 +283,41 @@ const PaymentPage = () => {
     setError('');
   };
 
+  useEffect(() => {
+    if (UNDER_MAINTENANCE) {
+      const timer = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            navigate('/');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [navigate]);
+
   return (
     <main className="payment-page bg-texture">
       <section className="payment-section">
-        <div className="payment-header">
-          <h1 className="payment-heading">Payment</h1>
-          <p>Please fill out the form below to complete your payment.</p>
-        </div>
+        {UNDER_MAINTENANCE ? (
+          <div className="maintenance-container" style={{ textAlign: 'center', padding: '50px 20px' }}>
+            <Wrench size={64} color="#666" style={{ marginBottom: '20px' }} />
+            <h1 style={{ color: '#333', marginBottom: '20px' }}>Payment Portal Under Maintenance</h1>
+            <p style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>
+              Currently this payment portal is under maintenance, for enquiries please contact accounts department
+            </p>
+            <p style={{ fontSize: '16px', color: '#999' }}>
+              Redirecting to homepage in {countdown} seconds...
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="payment-header">
+              <h1 className="payment-heading">Payment</h1>
+              <p>Please fill out the form below to complete your payment.</p>
+            </div>
 
         {/* Step Indicator */}
         <div style={{ 
@@ -580,6 +612,18 @@ const PaymentPage = () => {
                   </p>
                 </div>
 
+                <div style={{
+                  backgroundColor: '#fff3cd',
+                  padding: '12px',
+                  borderRadius: '4px',
+                  marginBottom: '20px',
+                  fontSize: '14px'
+                }}>
+                  <strong>Sandbox Mode:</strong> Use test card numbers:
+                  <br />• Visa: 4111111111111111
+                  <br />• Mastercard: 5424000000000015
+                  <br />Use any future expiration date (MM/YY) and any 3-digit CVV.
+                </div>
 
                 <div className="form-group">
                   <label htmlFor="cardNumber">Card Number*</label>
@@ -657,6 +701,8 @@ const PaymentPage = () => {
             )}
           </div>
         </div>
+        </>
+        )}
       </section>
     </main>
   );
