@@ -135,6 +135,21 @@ function BlogPage() {
 
           if (updateError) throw updateError;
 
+          // Send welcome email
+          try {
+            await supabase.functions.invoke('send-email', {
+              method: 'POST',
+              body: JSON.stringify({
+                type: 'newsletter',
+                name: newsletterData.name,
+                email: newsletterData.email
+              }),
+            });
+          } catch (emailError) {
+            console.error('Error sending welcome email:', emailError);
+            // Don't fail the subscription if email fails
+          }
+
           setNewsletterMessage('Welcome back! Your subscription has been reactivated.')
           setNewsletterData({ name: '', email: '' })
         }
@@ -154,6 +169,21 @@ function BlogPage() {
           ])
 
         if (error) throw error
+
+        // Send welcome email
+        try {
+          await supabase.functions.invoke('send-email', {
+            method: 'POST',
+            body: JSON.stringify({
+              type: 'newsletter',
+              name: newsletterData.name,
+              email: newsletterData.email
+            }),
+          });
+        } catch (emailError) {
+          console.error('Error sending welcome email:', emailError);
+          // Don't fail the subscription if email fails
+        }
 
         setNewsletterMessage('Thank you for subscribing!')
         setNewsletterData({ name: '', email: '' })

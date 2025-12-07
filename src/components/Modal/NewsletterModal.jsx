@@ -81,6 +81,21 @@ const NewsletterModal = () => {
 
                     if (updateError) throw updateError;
 
+                    // Send welcome email
+                    try {
+                        await supabase.functions.invoke('send-email', {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                type: 'newsletter',
+                                name: name,
+                                email: email
+                            }),
+                        });
+                    } catch (emailError) {
+                        console.error('Error sending welcome email:', emailError);
+                        // Don't fail the subscription if email fails
+                    }
+
                     alert('Welcome back! Your subscription has been reactivated.');
                     closeModal();
                 }
@@ -99,6 +114,21 @@ const NewsletterModal = () => {
                     ]);
 
                 if (insertError) throw insertError;
+
+                // Send welcome email
+                try {
+                    await supabase.functions.invoke('send-email', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            type: 'newsletter',
+                            name: name,
+                            email: email
+                        }),
+                    });
+                } catch (emailError) {
+                    console.error('Error sending welcome email:', emailError);
+                    // Don't fail the subscription if email fails
+                }
 
                 alert('Thank you for subscribing!');
                 closeModal();

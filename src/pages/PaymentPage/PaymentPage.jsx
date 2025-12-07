@@ -1,233 +1,494 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../supabaseClient';
 import './PaymentPage.css';
-import Modal from '../../components/Modal/Modal';
-import { supabase } from '../../supabaseClient'
-import { Wrench } from 'lucide-react';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-const UNDER_MAINTENANCE = true; // Toggle maintenance modes
+const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    customerName: '',
-    customerEmail: '',
-    customerAddress: '',
+  const [step, setStep] = useState(1); // 1: Billing Info, 2: Card Details
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [transactionId, setTransactionId] = useState('');
+
+  // Billing Information (Step 1)
+  const [billingData, setBillingData] = useState({
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    state: '',
+    zip: '',
+    country: 'USA',
+    email: '',
     invoiceNo: '',
     invoiceAmount: '',
     paymentNote: ''
   });
-  const [status, setStatus] = useState('');
-  const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(12);
 
-  useEffect(() => {
-    if (UNDER_MAINTENANCE) {
-      const timer = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            navigate('/');
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [navigate]);
+  // Card Details (Step 2)
+  const [cardData, setCardData] = useState({
+    cardNumber: '',
+    expirationDate: '',
+    cardCode: ''
+  });
 
-  const handleChange = (e) => {
+  const handleBillingChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
+    setBillingData(prev => ({ ...prev, [name]: value }));
     if (error) setError('');
   };
 
-  const validateForm = () => {
-    const errors = [];
-    
-    if (!formData.customerName.trim()) errors.push('Customer Name is required');
-    if (!formData.customerEmail.trim()) errors.push('Customer Email is required');
-    if (!formData.customerAddress.trim()) errors.push('Customer Address is required');
-    if (!formData.invoiceNo.trim()) errors.push('Invoice No. is required');
-    if (!formData.invoiceAmount || parseFloat(formData.invoiceAmount) <= 0) {
-      errors.push('Amount must be a valid positive number');
+  const handleCardChange = (e) => {
+    const { name, value } = e.target;
+    let formattedValue = value;
+
+    // Format card number
+    if (name === 'cardNumber') {
+      const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      const matches = v.match(/\d{4,16}/g);
+      const match = (matches && matches[0]) || '';
+      const parts = [];
+      for (let i = 0, len = match.length; i < len; i += 4) {
+        parts.push(match.substring(i, i + 4));
+      }
+      formattedValue = parts.length ? parts.join(' ') : v;
     }
 
-    // Email validation
+    // Format expiration date
+    if (name === 'expirationDate') {
+      const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      if (v.length >= 2) {
+        formattedValue = v.substring(0, 2) + '/' + v.substring(2, 4);
+      } else {
+        formattedValue = v;
+      }
+    }
+
+    // Format CVV
+    if (name === 'cardCode') {
+      formattedValue = value.replace(/[^0-9]/g, '').substring(0, 4);
+    }
+
+    setCardData(prev => ({ ...prev, [name]: formattedValue }));
+    if (error) setError('');
+  };
+
+  const calculateServiceCharge = (amount) => {
+    const numAmount = parseFloat(amount);
+    if (isNaN(numAmount) || numAmount <= 0) return 0;
+    return (numAmount * 0.029) + 0.30;
+  };
+
+  const calculateTotalAmount = (amount) => {
+    const numAmount = parseFloat(amount);
+    if (isNaN(numAmount) || numAmount <= 0) return 0;
+    const serviceCharge = calculateServiceCharge(amount);
+    return numAmount + serviceCharge;
+  };
+
+  const validateBillingInfo = () => {
+    const errors = [];
+    
+    if (!billingData.firstName.trim()) errors.push('First Name is required');
+    if (!billingData.lastName.trim()) errors.push('Last Name is required');
+    if (!billingData.address.trim()) errors.push('Address is required');
+    if (!billingData.city.trim()) errors.push('City is required');
+    if (!billingData.state.trim()) errors.push('State is required');
+    if (!billingData.zip.trim()) errors.push('ZIP Code is required');
+    if (!billingData.email.trim()) errors.push('Email is required');
+    if (!billingData.invoiceNo.trim()) errors.push('Invoice No. is required');
+    
+    const invoiceAmount = parseFloat(billingData.invoiceAmount);
+    if (!billingData.invoiceAmount || isNaN(invoiceAmount) || invoiceAmount <= 0) {
+      errors.push('Invoice Amount is required and must be a valid positive number');
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formData.customerEmail && !emailRegex.test(formData.customerEmail)) {
+    if (billingData.email && !emailRegex.test(billingData.email)) {
       errors.push('Please enter a valid email address');
     }
 
     return errors;
   };
 
-  const calculateServiceCharge = (amount) => {
-    const numAmount = parseFloat(amount);
-    return (numAmount * 0.029) + 0.30;
+  const validateCardDetails = () => {
+    const errors = [];
+    
+    if (!cardData.cardNumber || cardData.cardNumber.replace(/\s/g, '').length < 13) {
+      errors.push('Please enter a valid card number');
+    }
+    if (!cardData.expirationDate || !/^\d{2}\/\d{2}$/.test(cardData.expirationDate)) {
+      errors.push('Please enter expiration date in MM/YY format');
+    }
+    if (!cardData.cardCode || cardData.cardCode.length < 3) {
+      errors.push('Please enter a valid CVV');
+    }
+
+    return errors;
   };
 
-  const calculateTotalAmount = (amount) => {
-    const numAmount = parseFloat(amount);
-    const serviceCharge = calculateServiceCharge(amount);
-    return numAmount + serviceCharge;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleContinueToPayment = (e) => {
     e.preventDefault();
     setError('');
     
-    const validationErrors = validateForm();
+    const validationErrors = validateBillingInfo();
     if (validationErrors.length > 0) {
       setError(validationErrors.join(', '));
       return;
     }
 
-    setIsModalOpen(true);
+    setStep(2);
   };
 
-  const handleConfirm = async () => {
-    setIsModalOpen(false);
+  const handlePaymentSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess(false);
+    setTransactionId('');
+
+    const validationErrors = validateCardDetails();
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '));
+      return;
+    }
+
     setIsLoading(true);
-    setStatus('Processing...');
-    
+
     try {
-      // Calculate amounts
-      const invoiceAmount = parseFloat(formData.invoiceAmount);
-      const serviceCharge = calculateServiceCharge(invoiceAmount);
-      const totalAmount = calculateTotalAmount(invoiceAmount);
-      
-      // Create Stripe checkout session using Supabase Edge Function
-      const response = await fetch(`${supabaseUrl}/functions/v1/create-checkout-session`, {
+      const response = await fetch(`${API_BASE_URL}/api/process-payment`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`,
         },
         body: JSON.stringify({
-          amount: totalAmount, // Send total amount in dollars
-          originalAmount: invoiceAmount, // Send original amount for database
-          customerName: formData.customerName,
-          customerEmail: formData.customerEmail,
-          customerAddress: formData.customerAddress,
-          invoiceNo: formData.invoiceNo,
-          paymentNote: formData.paymentNote,
-        }),
+          amount: calculateTotalAmount(billingData.invoiceAmount).toFixed(2), // Send total amount including service charge
+          cardNumber: cardData.cardNumber.replace(/\s/g, ''),
+          expirationDate: cardData.expirationDate,
+          cardCode: cardData.cardCode,
+          firstName: billingData.firstName,
+          lastName: billingData.lastName,
+          address: billingData.address,
+          city: billingData.city,
+          state: billingData.state,
+          zip: billingData.zip,
+          country: billingData.country
+        })
       });
 
-      const session = await response.json();
+      const data = await response.json();
 
-      if (session.error) {
-        throw new Error(session.error);
+      if (!response.ok) {
+        setError(data.error || 'Payment processing failed');
+        setIsLoading(false);
+        return;
       }
 
-      // Redirect to Stripe Checkout
-      window.location.href = session.url;
+      if (data.status === 'success') {
+        setSuccess(true);
+        setTransactionId(data.transactionId || '');
+        
+        // Calculate amounts for database and redirect
+        const totalAmount = calculateTotalAmount(billingData.invoiceAmount);
+        const customerName = `${billingData.firstName} ${billingData.lastName}`;
+        
+        // Save payment data to Supabase
+        try {
+          const { error: dbError } = await supabase
+            .from('payments')
+            .insert({
+              customer_name: customerName,
+              customer_email: billingData.email,
+              customer_address: `${billingData.address}, ${billingData.city}, ${billingData.state} ${billingData.zip}`,
+              invoice_no: billingData.invoiceNo,
+              payment_note: billingData.paymentNote || null,
+              amount: totalAmount,
+              payment_method: 'authorize.net',
+              transaction_id: data.transactionId || null,
+              status: 'success',
+              response: JSON.stringify(data),
+              notes: `Auth Code: ${data.authCode || 'N/A'}, Account Type: ${data.accountType || 'N/A'}`
+            });
 
-    } catch (error) {
-      console.error('Payment error:', error);
-      setError('Payment processing failed: ' + error.message);
-      setStatus('');
+          if (dbError) {
+            console.error('Error saving payment to database:', dbError);
+            // Don't fail the payment if database save fails, just log it
+          }
+        } catch (dbErr) {
+          console.error('Error saving payment to database:', dbErr);
+          // Don't fail the payment if database save fails, just log it
+        }
+
+        // Redirect to success page after 2 seconds
+        setTimeout(() => {
+          try {
+            navigate('/success', { 
+              state: { 
+                transactionId: data.transactionId,
+                amount: totalAmount,
+                invoiceAmount: billingData.invoiceAmount,
+                serviceCharge: calculateServiceCharge(billingData.invoiceAmount),
+                invoiceNo: billingData.invoiceNo
+              },
+              replace: true
+            });
+          } catch (navError) {
+            console.error('Navigation error:', navError);
+            // Fallback: use window.location if navigate fails
+            window.location.href = '/success';
+          }
+        }, 2000);
+      } else {
+        setError(data.error || 'Payment processing failed');
+        
+        // Save failed payment attempt to Supabase
+        try {
+          const totalAmount = calculateTotalAmount(billingData.invoiceAmount);
+          const customerName = `${billingData.firstName} ${billingData.lastName}`;
+          
+          await supabase
+            .from('payments')
+            .insert({
+              customer_name: customerName,
+              customer_email: billingData.email,
+              customer_address: `${billingData.address}, ${billingData.city}, ${billingData.state} ${billingData.zip}`,
+              invoice_no: billingData.invoiceNo,
+              payment_note: billingData.paymentNote || null,
+              amount: totalAmount,
+              payment_method: 'authorize.net',
+              transaction_id: null,
+              status: 'failed',
+              response: JSON.stringify(data),
+              notes: `Error: ${data.error || 'Payment failed'}`
+            });
+        } catch (dbErr) {
+          console.error('Error saving failed payment to database:', dbErr);
+        }
+      }
+    } catch (err) {
+      setError(`Payment failed: ${err.message || 'Unknown error'}`);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const serviceCharge = formData.invoiceAmount ? calculateServiceCharge(formData.invoiceAmount) : 0;
-  const totalAmount = formData.invoiceAmount ? calculateTotalAmount(formData.invoiceAmount) : 0;
+  const handleBack = () => {
+    setStep(1);
+    setError('');
+  };
 
   return (
     <main className="payment-page bg-texture">
-    <section className="payment-section">
-      {UNDER_MAINTENANCE ? (
-        <div className="maintenance-container" style={{ textAlign: 'center', padding: '50px 20px' }}>
-          <Wrench size={64} color="#666" style={{ marginBottom: '20px' }} />
-          <h1 style={{ color: '#333', marginBottom: '20px' }}>Payment Portal Under Maintenance</h1>
-          <p style={{ fontSize: '18px', color: '#666', marginBottom: '20px' }}>Currently this payment portal is under maintenance, for enquiries please contact accounts department</p>
-          <p style={{ fontSize: '16px', color: '#999' }}>Redirecting to homepage in {countdown} seconds...</p>
+      <section className="payment-section">
+        <div className="payment-header">
+          <h1 className="payment-heading">Payment</h1>
+          <p>Please fill out the form below to complete your payment.</p>
         </div>
-      ) : (
-        <>
-          <div className="payment-header">
-            <h1 className="payment-heading">Payment</h1>
-            <p>Please fill out the form below to complete your payment.</p>
+
+        {/* Step Indicator */}
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          marginBottom: '30px',
+          gap: '20px'
+        }}>
+          <div style={{
+            padding: '10px 20px',
+            backgroundColor: step >= 1 ? '#007bff' : '#e9ecef',
+            color: step >= 1 ? 'white' : '#6c757d',
+            borderRadius: '20px',
+            fontWeight: 'bold'
+          }}>
+            Step 1: Billing Information
           </div>
-          
-          {error && (
-            <div className="error-message" style={{
-              backgroundColor: '#f8d7da',
-              color: '#721c24',
-              padding: '12px',
-              borderRadius: '4px',
-              margin: '20px 0',
-              border: '1px solid #f5c6cb'
-            }}>
-              {error}
+          <div style={{
+            padding: '10px 20px',
+            backgroundColor: step >= 2 ? '#007bff' : '#e9ecef',
+            color: step >= 2 ? 'white' : '#6c757d',
+            borderRadius: '20px',
+            fontWeight: 'bold'
+          }}>
+            Step 2: Card Details
+          </div>
+        </div>
+
+        {error && (
+          <div className="error-message" style={{
+            backgroundColor: '#f8d7da',
+            color: '#721c24',
+            padding: '12px',
+            borderRadius: '4px',
+            margin: '20px 0',
+            border: '1px solid #f5c6cb'
+          }}>
+            {error}
+          </div>
+        )}
+
+        {success && (
+          <div style={{
+            backgroundColor: '#d4edda',
+            color: '#155724',
+            padding: '15px',
+            borderRadius: '4px',
+            margin: '20px 0',
+            border: '1px solid #c3e6cb'
+          }}>
+            <h3 style={{ marginTop: 0 }}>Payment Processed Successfully!</h3>
+            {transactionId && (
+              <p><strong>Transaction ID:</strong> {transactionId}</p>
+            )}
+            <p>Redirecting to success page...</p>
+            <div style={{ marginTop: '10px' }}>
+              <div style={{ 
+                width: '100%', 
+                height: '4px', 
+                backgroundColor: '#c3e6cb', 
+                borderRadius: '2px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#28a745',
+                  animation: 'redirectProgress 2s linear forwards'
+                }}></div>
+              </div>
             </div>
-          )}
-          
-          <div className="payment-grid">
-            <div className="payment-form-container">
-              <form onSubmit={handleSubmit} className="payment-form">
+          </div>
+        )}
+
+        <div className="payment-grid">
+          <div className="payment-form-container">
+            {step === 1 ? (
+              // Step 1: Billing Information
+              <form onSubmit={handleContinueToPayment} className="payment-form">
+                <h2 style={{ marginBottom: '20px', color: '#333' }}>Billing Information</h2>
+                
                 <div className="form-group">
-                  <label htmlFor="customerName">Customer Name*</label>
+                  <label htmlFor="firstName">First Name*</label>
                   <input 
                     type="text" 
-                    id="customerName" 
-                    name="customerName" 
-                    value={formData.customerName} 
-                    onChange={handleChange} 
+                    id="firstName" 
+                    name="firstName" 
+                    value={billingData.firstName} 
+                    onChange={handleBillingChange} 
                     required 
                     disabled={isLoading}
                   />
                 </div>
-                
+
                 <div className="form-group">
-                  <label htmlFor="customerEmail">Customer Email*</label>
+                  <label htmlFor="lastName">Last Name*</label>
+                  <input 
+                    type="text" 
+                    id="lastName" 
+                    name="lastName" 
+                    value={billingData.lastName} 
+                    onChange={handleBillingChange} 
+                    required 
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="email">Email*</label>
                   <input 
                     type="email" 
-                    id="customerEmail" 
-                    name="customerEmail" 
-                    value={formData.customerEmail} 
-                    onChange={handleChange} 
+                    id="email" 
+                    name="email" 
+                    value={billingData.email} 
+                    onChange={handleBillingChange} 
                     required 
                     disabled={isLoading}
                   />
                 </div>
-                
+
                 <div className="form-group">
-                  <label htmlFor="customerAddress">Customer Address*</label>
+                  <label htmlFor="address">Address*</label>
                   <textarea 
-                    id="customerAddress" 
-                    name="customerAddress" 
+                    id="address" 
+                    name="address" 
                     rows="3" 
-                    value={formData.customerAddress} 
-                    onChange={handleChange} 
+                    value={billingData.address} 
+                    onChange={handleBillingChange} 
                     required 
                     disabled={isLoading}
                   />
                 </div>
-                
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                  <div className="form-group">
+                    <label htmlFor="city">City*</label>
+                    <input 
+                      type="text" 
+                      id="city" 
+                      name="city" 
+                      value={billingData.city} 
+                      onChange={handleBillingChange} 
+                      required 
+                      disabled={isLoading}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="state">State*</label>
+                    <input 
+                      type="text" 
+                      id="state" 
+                      name="state" 
+                      value={billingData.state} 
+                      onChange={handleBillingChange} 
+                      required 
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                  <div className="form-group">
+                    <label htmlFor="zip">ZIP Code*</label>
+                    <input 
+                      type="text" 
+                      id="zip" 
+                      name="zip" 
+                      value={billingData.zip} 
+                      onChange={handleBillingChange} 
+                      required 
+                      disabled={isLoading}
+                      maxLength="10"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="country">Country*</label>
+                    <input 
+                      type="text" 
+                      id="country" 
+                      name="country" 
+                      value={billingData.country} 
+                      onChange={handleBillingChange} 
+                      required 
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+
                 <div className="form-group">
                   <label htmlFor="invoiceNo">Invoice No.*</label>
                   <input 
                     type="text" 
                     id="invoiceNo" 
                     name="invoiceNo" 
-                    value={formData.invoiceNo} 
-                    onChange={handleChange} 
+                    value={billingData.invoiceNo} 
+                    onChange={handleBillingChange} 
                     required 
                     disabled={isLoading}
                   />
                 </div>
-                
+
                 <div className="form-group">
                   <label htmlFor="invoiceAmount">Invoice Amount ($)*</label>
                   <input 
@@ -236,14 +497,14 @@ const PaymentPage = () => {
                     min="0.01"
                     id="invoiceAmount" 
                     name="invoiceAmount" 
-                    value={formData.invoiceAmount} 
-                    onChange={handleChange} 
+                    value={billingData.invoiceAmount} 
+                    onChange={handleBillingChange} 
                     required 
                     disabled={isLoading}
                   />
                 </div>
 
-                {formData.invoiceAmount && parseFloat(formData.invoiceAmount) > 0 && (
+                {billingData.invoiceAmount && parseFloat(billingData.invoiceAmount) > 0 && (
                   <div className="amount-breakdown" style={{
                     backgroundColor: '#f8f9fa',
                     padding: '15px',
@@ -252,31 +513,31 @@ const PaymentPage = () => {
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <span>Invoice Amount:</span>
-                      <span>${parseFloat(formData.invoiceAmount).toFixed(2)}</span>
+                      <span>${parseFloat(billingData.invoiceAmount).toFixed(2)}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <span>Service Charge (2.9% + $0.30):</span>
-                      <span>${serviceCharge.toFixed(2)}</span>
+                      <span>${calculateServiceCharge(billingData.invoiceAmount).toFixed(2)}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', borderTop: '1px solid #dee2e6', paddingTop: '8px' }}>
                       <span>Total Payable:</span>
-                      <span>${totalAmount.toFixed(2)}</span>
+                      <span>${calculateTotalAmount(billingData.invoiceAmount).toFixed(2)}</span>
                     </div>
                   </div>
                 )}
-                
+
                 <div className="form-group">
                   <label htmlFor="paymentNote">Payment Note</label>
                   <textarea 
                     id="paymentNote" 
                     name="paymentNote" 
                     rows="4" 
-                    value={formData.paymentNote} 
-                    onChange={handleChange} 
+                    value={billingData.paymentNote} 
+                    onChange={handleBillingChange} 
                     disabled={isLoading}
                   />
                 </div>
-                
+
                 <button 
                   type="submit" 
                   className="submit-button" 
@@ -286,84 +547,117 @@ const PaymentPage = () => {
                     cursor: isLoading ? 'not-allowed' : 'pointer'
                   }}
                 >
-                  {isLoading ? 'Processing...' : 'Submit Payment'}
+                  Continue and Pay
                 </button>
               </form>
-              
-              {status && (
-                <p className="status-message" style={{
-                  backgroundColor: status.includes('success') ? '#d4edda' : '#fff3cd',
-                  color: status.includes('success') ? '#155724' : '#856404',
-                  padding: '12px',
+            ) : (
+              // Step 2: Card Details
+              <form onSubmit={handlePaymentSubmit} className="payment-form">
+                <h2 style={{ marginBottom: '20px', color: '#333' }}>Card Details</h2>
+
+                <div style={{
+                  backgroundColor: '#f8f9fa',
+                  padding: '15px',
                   borderRadius: '4px',
-                  margin: '15px 0'
+                  marginBottom: '20px'
                 }}>
-                  {status}
-                </p>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-    </section>      <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => !isLoading && setIsModalOpen(false)} 
-        onConfirm={handleConfirm} 
-        title="Confirm Payment Details"
-      >
-        <div style={{ textAlign: 'left' }}>
-          <p style={{ marginBottom: '15px' }}>Please confirm the details before proceeding:</p>
-          
-          <table style={{ width: '100%', borderSpacing: '0 8px' }}>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Name:</td>
-              <td>{formData.customerName}</td>
-            </tr>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Email:</td>
-              <td>{formData.customerEmail}</td>
-            </tr>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Customer Address:</td>
-              <td>{formData.customerAddress}</td>
-            </tr>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Invoice Number:</td>
-              <td>{formData.invoiceNo}</td>
-            </tr>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Invoice Amount:</td>
-              <td>${parseFloat(formData.invoiceAmount).toFixed(2)}</td>
-            </tr>
-            <tr>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Service Charge:</td>
-              <td>${serviceCharge.toFixed(2)}</td>
-            </tr>
-            <tr style={{ borderTop: '1px solid #dee2e6' }}>
-              <td style={{ fontWeight: 'bold', paddingRight: '20px', paddingTop: '8px' }}>Total Payable:</td>
-              <td style={{ fontWeight: 'bold', paddingTop: '8px' }}>${totalAmount.toFixed(2)}</td>
-            </tr>
-            {formData.paymentNote && (
-              <tr>
-                <td style={{ fontWeight: 'bold', paddingRight: '20px' }}>Payment Note:</td>
-                <td>{formData.paymentNote}</td>
-              </tr>
+                  <h3 style={{ marginTop: 0, marginBottom: '10px' }}>Payment Summary</h3>
+                  <p><strong>Invoice No:</strong> {billingData.invoiceNo}</p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span>Invoice Amount:</span>
+                    <span>${parseFloat(billingData.invoiceAmount || 0).toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <span>Service Charge (2.9% + $0.30):</span>
+                    <span>${calculateServiceCharge(billingData.invoiceAmount || 0).toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', borderTop: '1px solid #dee2e6', paddingTop: '8px', marginTop: '8px' }}>
+                    <span>Total Payable:</span>
+                    <span>${calculateTotalAmount(billingData.invoiceAmount || 0).toFixed(2)}</span>
+                  </div>
+                  <p style={{ marginTop: '15px', marginBottom: 0 }}>
+                    <strong>Billing Address:</strong> {billingData.address}, {billingData.city}, {billingData.state} {billingData.zip}
+                  </p>
+                </div>
+
+
+                <div className="form-group">
+                  <label htmlFor="cardNumber">Card Number*</label>
+                  <input 
+                    type="text" 
+                    id="cardNumber" 
+                    name="cardNumber" 
+                    value={cardData.cardNumber} 
+                    onChange={handleCardChange} 
+                    placeholder="1234 5678 9012 3456"
+                    required 
+                    disabled={isLoading}
+                    maxLength="19"
+                  />
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                  <div className="form-group">
+                    <label htmlFor="expirationDate">Expiration (MM/YY)*</label>
+                    <input 
+                      type="text" 
+                      id="expirationDate" 
+                      name="expirationDate" 
+                      value={cardData.expirationDate} 
+                      onChange={handleCardChange} 
+                      placeholder="MM/YY"
+                      required 
+                      disabled={isLoading}
+                      maxLength="5"
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="cardCode">CVV*</label>
+                    <input 
+                      type="password" 
+                      id="cardCode" 
+                      name="cardCode" 
+                      value={cardData.cardCode} 
+                      onChange={handleCardChange} 
+                      required 
+                      disabled={isLoading}
+                      maxLength="4"
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                  <button 
+                    type="button" 
+                    onClick={handleBack}
+                    className="submit-button" 
+                    disabled={isLoading}
+                    style={{ 
+                      backgroundColor: '#6c757d',
+                      flex: 1
+                    }}
+                  >
+                    Back
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="submit-button" 
+                    disabled={isLoading}
+                    style={{ 
+                      opacity: isLoading ? 0.6 : 1,
+                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      flex: 2
+                    }}
+                  >
+                    {isLoading ? 'Processing Payment...' : 'Pay $' + calculateTotalAmount(billingData.invoiceAmount || 0).toFixed(2)}
+                  </button>
+                </div>
+              </form>
             )}
-          </table>
-          
-          <div style={{ 
-            backgroundColor: '#f8f9fa', 
-            padding: '15px', 
-            borderRadius: '4px', 
-            marginTop: '20px',
-            fontSize: '14px'
-          }}>
-            <p style={{ margin: '0', textAlign: 'justify' }}>
-              <strong>Disclaimer:</strong> By selecting "Confirm & Pay", you will be redirected to a third-party payment processor's website to complete your transaction. Please note that your payment will be processed according to the terms, conditions, and privacy policies of the payment processor. DGMTS does not own or control the website to which you are being redirected.
-            </p>
           </div>
         </div>
-      </Modal>
+      </section>
     </main>
   );
 };

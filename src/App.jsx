@@ -33,6 +33,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
 import ClientsPage from './pages/ClientsPage/ClientsPage';
+import NewsletterSubscribersList from './pages/NewsletterSubscribersList/NewsletterSubscribersList';
 function App() {
   return (
     <Router>
@@ -123,6 +124,7 @@ function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
             <Route path="/clients" element={<ClientsPage />} />
+            <Route path="/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
 
             {/* Catch-all route for 404 errors - must be last */}
             <Route path="*" element={<NotFoundPage />} />
