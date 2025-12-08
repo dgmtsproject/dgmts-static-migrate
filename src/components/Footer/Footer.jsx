@@ -143,7 +143,7 @@ const Footer = () => {
                   If you need more information or special assistance for persons with disabilities or limited English proficiency,
                   contact the Human Resources Department at{' '}
                   <a href="tel:7034889953" className="footer-link">703.488.9953</a> or{' '}
-                  <a href="mailto:HR@dullesgeotechnical.com" className="footer-link">HR@dullesgeotechnical.com</a>.
+                  <a href="mailto:info@dullesgeotechnical.com" className="footer-link">info@dullesgeotechnical.com</a>.
                 </p>
 
                 {/* Social Media */}

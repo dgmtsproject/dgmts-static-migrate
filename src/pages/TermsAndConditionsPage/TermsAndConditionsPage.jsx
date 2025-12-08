@@ -1,11 +1,113 @@
-import React from "react";
+import React, { useRef } from "react";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import "./TermsAndConditionsPage.css";
 
 const TermsAndConditionsPage = () => {
+  const termsRef = useRef(null);
+
+  const handleDownloadPDF = async () => {
+    if (!termsRef.current) return;
+
+    try {
+      // Show loading state
+      const loadingElement = document.createElement('div');
+      loadingElement.textContent = 'Generating PDF...';
+      loadingElement.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.1);z-index:10000;font-family:Inter,sans-serif;';
+      document.body.appendChild(loadingElement);
+
+      // Clone the content and remove the download section
+      const contentClone = termsRef.current.cloneNode(true);
+      
+      // Remove the download section (h2 with "Download Terms")
+      const allH2s = contentClone.querySelectorAll('h2');
+      allH2s.forEach(h2 => {
+        if (h2.textContent.includes('Download Terms') || h2.textContent.includes('Download Terms (PDF)')) {
+          // Remove the h2 and its following paragraph
+          const nextP = h2.nextElementSibling;
+          if (nextP && nextP.tagName === 'P') {
+            nextP.remove();
+          }
+          h2.remove();
+        }
+      });
+
+      // Create a temporary container with the terms content
+      const tempContainer = document.createElement('div');
+      tempContainer.style.cssText = 'position:absolute;left:-9999px;width:800px;padding:40px;background:#fff;font-family:Inter,ui-sans-serif,system-ui;line-height:1.65;color:#0f172a;';
+      
+      // Copy all styles from the original
+      const computedStyle = window.getComputedStyle(termsRef.current);
+      tempContainer.style.fontFamily = computedStyle.fontFamily || 'Inter, ui-sans-serif, system-ui';
+      tempContainer.style.fontSize = computedStyle.fontSize || '16px';
+      tempContainer.style.lineHeight = computedStyle.lineHeight || '1.65';
+      tempContainer.style.color = computedStyle.color || '#0f172a';
+      
+      tempContainer.innerHTML = contentClone.innerHTML;
+      document.body.appendChild(tempContainer);
+
+      // Wait a bit for styles to apply
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      // Convert to canvas with better quality
+      const canvas = await html2canvas(tempContainer, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        width: 800,
+        height: tempContainer.scrollHeight,
+        windowWidth: 800,
+        windowHeight: tempContainer.scrollHeight
+      });
+
+      // Remove temporary container and loading
+      document.body.removeChild(tempContainer);
+      document.body.removeChild(loadingElement);
+
+      // Calculate PDF dimensions
+      const imgWidth = 210; // A4 width in mm
+      const pageHeight = 297; // A4 height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Create PDF
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
+
+      // Add first page
+      pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // Add additional pages if needed
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(canvas.toDataURL('image/png', 1.0), 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      // Download PDF
+      pdf.save('DGMTS-Terms-and-Conditions.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+      // Clean up in case of error
+      const loadingElements = document.querySelectorAll('div[style*="Generating PDF"]');
+      loadingElements.forEach(el => el.remove());
+      const tempContainers = document.querySelectorAll('div[style*="position:absolute;left:-9999px"]');
+      tempContainers.forEach(el => el.remove());
+    }
+  };
+
   return (
     <div className="terms-and-conditions bg-texture">
       <div className="container">
-        <div className="terms-inner">
+        <div className="terms-inner" ref={termsRef}>
           <h1>Terms and Conditions</h1>
           <p><strong>Last Updated:</strong> August 1, 2025</p>
 
@@ -15,12 +117,16 @@ const TermsAndConditionsPage = () => {
             including access to our services, products, and payment features. Additional contracts or agreements may apply 
             depending on the specific services you engage. In the event of any conflict between these Terms and other 
             agreements, the terms of the additional contracts shall prevail.
+          </p>
           <p>
             This website and all content are provided &quot;as is&quot; and &quot;as available.&quot; We make no warranties, express or implied,
             about the website&apos;s accuracy, availability, or suitability for a particular purpose. We do not provide legal,
             engineering, or financial advice on this website. Professional guidance should be sought for such matters.
           </p>
-            these Terms and Conditions. In some cases, you may be asked to expressly consent. If you do not agree with any 
+
+          <h2>2. Acceptance of Terms</h2>
+          <p>
+            By accessing or using this website, you agree to be bound by these Terms and Conditions. In some cases, you may be asked to expressly consent. If you do not agree with any 
             part of these Terms, please do not use the website.
           </p>
 
@@ -188,7 +294,18 @@ const TermsAndConditionsPage = () => {
 
           <h2>25. Download Terms (PDF)</h2>
           <p>
-            You may download a PDF version of these Terms and Conditions for your records by clicking here.
+            You may download a PDF version of these Terms and Conditions for your records by{' '}
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                handleDownloadPDF();
+              }}
+              className="download-link"
+              title="Download Terms and Conditions as PDF"
+            >
+              clicking here
+            </a>.
           </p>
         </div>
       </div>

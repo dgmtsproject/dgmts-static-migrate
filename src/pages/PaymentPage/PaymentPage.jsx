@@ -39,6 +39,9 @@ const PaymentPage = () => {
     cardCode: ''
   });
 
+  // Terms acknowledgement
+  const [termsAcknowledged, setTermsAcknowledged] = useState(false);
+
   const handleBillingChange = (e) => {
     const { name, value } = e.target;
     setBillingData(prev => ({ ...prev, [name]: value }));
@@ -114,6 +117,9 @@ const PaymentPage = () => {
     if (billingData.email && !emailRegex.test(billingData.email)) {
       errors.push('Please enter a valid email address');
     }
+    if (!billingData.paymentNote.trim()) {
+      errors.push('Description of Services is required');
+    }
 
     return errors;
   };
@@ -129,6 +135,9 @@ const PaymentPage = () => {
     }
     if (!cardData.cardCode || cardData.cardCode.length < 3) {
       errors.push('Please enter a valid CVV');
+    }
+    if (!termsAcknowledged) {
+      errors.push('You must acknowledge the payment terms to proceed');
     }
 
     return errors;
@@ -281,6 +290,7 @@ const PaymentPage = () => {
   const handleBack = () => {
     setStep(1);
     setError('');
+    setTermsAcknowledged(false);
   };
 
   useEffect(() => {
@@ -559,13 +569,14 @@ const PaymentPage = () => {
                 )}
 
                 <div className="form-group">
-                  <label htmlFor="paymentNote">Payment Note</label>
+                  <label htmlFor="paymentNote">Description of Services*</label>
                   <textarea 
                     id="paymentNote" 
                     name="paymentNote" 
                     rows="4" 
                     value={billingData.paymentNote} 
                     onChange={handleBillingChange} 
+                    required
                     disabled={isLoading}
                   />
                 </div>
@@ -671,6 +682,91 @@ const PaymentPage = () => {
                   </div>
                 </div>
 
+                {/* Terms and Conditions Acknowledgement */}
+                <div style={{
+                  backgroundColor: '#f8f9fa',
+                  border: '1px solid #dee2e6',
+                  borderRadius: '8px',
+                  padding: '20px',
+                  marginTop: '20px',
+                  marginBottom: '20px'
+                }}>
+                  <h3 style={{ 
+                    marginTop: 0, 
+                    marginBottom: '15px', 
+                    fontSize: '1.1rem',
+                    color: '#333',
+                    fontWeight: '600'
+                  }}>
+                    Online Payment Terms
+                  </h3>
+                  <div style={{
+                    maxHeight: '300px',
+                    overflowY: 'auto',
+                    fontSize: '0.9rem',
+                    lineHeight: '1.6',
+                    color: '#555',
+                    marginBottom: '15px',
+                    paddingRight: '10px'
+                  }}>
+                    <p style={{ marginTop: 0, marginBottom: '12px' }}>
+                      Our website offers the option to make payments for services rendered, including geotechnical investigations, material testing, inspections, and related consulting work. By submitting a payment through this website, you agree to the following:
+                    </p>
+                    <ul style={{ 
+                      margin: '12px 0', 
+                      paddingLeft: '20px',
+                      listStyleType: 'disc'
+                    }}>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Third-Party Processing:</strong> DGMTS uses secure, third-party payment processors to handle all online transactions.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Processing Fees:</strong> A service fee charged by the third-party processor will be added to the total payment amount. This fee is not retained by DGMTS and is collected directly by the payment processor. The total amount shown during checkout will reflect this additional fee.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Authorized Use:</strong> You confirm that the payment method used is valid and that you are authorized to use it.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Verification:</strong> All transactions are subject to verification, fraud checks, and approval.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Taxes and Charges:</strong> Unless otherwise stated, service prices do not include applicable taxes, which may be added during the payment process.
+                      </li>
+                      <li style={{ marginBottom: '8px' }}>
+                        <strong>Refunds:</strong> Payments are non-refundable except as specified in your service agreement or with prior written approval. Any applicable refunds may be subject to administrative deductions or processing delays.
+                      </li>
+                    </ul>
+                    <p style={{ marginTop: '12px', marginBottom: 0 }}>
+                      While DGMTS takes all reasonable measures to safeguard your information, we are not liable for any errors, breaches, or failures on the part of third-party processors. By proceeding with payment, you agree to comply with the terms and privacy policies of the third-party provider.
+                    </p>
+                  </div>
+                  <label style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    cursor: 'pointer',
+                    fontSize: '0.95rem',
+                    fontWeight: '500'
+                  }}>
+                    <input
+                      type="checkbox"
+                      checked={termsAcknowledged}
+                      onChange={(e) => setTermsAcknowledged(e.target.checked)}
+                      disabled={isLoading}
+                      style={{
+                        marginRight: '10px',
+                        marginTop: '3px',
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                        width: '18px',
+                        height: '18px',
+                        flexShrink: 0
+                      }}
+                    />
+                    <span style={{ color: '#333' }}>
+                      I acknowledge that I have read and agree to the Online Payment Terms stated above.*
+                    </span>
+                  </label>
+                </div>
+
                 <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
                   <button 
                     type="button" 
@@ -687,10 +783,10 @@ const PaymentPage = () => {
                   <button 
                     type="submit" 
                     className="submit-button" 
-                    disabled={isLoading}
+                    disabled={isLoading || !termsAcknowledged}
                     style={{ 
-                      opacity: isLoading ? 0.6 : 1,
-                      cursor: isLoading ? 'not-allowed' : 'pointer',
+                      opacity: (isLoading || !termsAcknowledged) ? 0.6 : 1,
+                      cursor: (isLoading || !termsAcknowledged) ? 'not-allowed' : 'pointer',
                       flex: 2
                     }}
                   >

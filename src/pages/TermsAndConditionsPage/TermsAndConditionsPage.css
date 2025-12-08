@@ -84,13 +84,29 @@
 /* Make PDF link more visible */
 .terms-and-conditions .download-link{
   display: inline-block;
-  margin-top: 8px;
-  padding: 8px 12px;
-  background: linear-gradient(90deg, rgba(3,105,161,0.08), rgba(3,105,161,0.02));
+  padding: 6px 12px;
+  background: linear-gradient(90deg, rgba(3,105,161,0.1), rgba(3,105,161,0.05));
   border-radius: 6px;
-  border: 1px solid rgba(3,105,161,0.08);
+  border: 1px solid rgba(3,105,161,0.2);
   color: var(--accent-2);
   font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.terms-and-conditions .download-link:hover{
+  background: linear-gradient(90deg, rgba(3,105,161,0.2), rgba(3,105,161,0.1));
+  border-color: rgba(3,105,161,0.35);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(3,105,161,0.15);
+}
+
+.terms-and-conditions .download-link:active{
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(3,105,161,0.1);
 }
 
 /* Responsive tweaks */

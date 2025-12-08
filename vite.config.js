@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   assetsInclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.JPG', '**/*.JPEG', '**/*.PNG'],
+  optimizeDeps: {
+    include: ['jspdf', 'html2canvas'],
+  },
   server: {
     proxy: {
       '/api': {
