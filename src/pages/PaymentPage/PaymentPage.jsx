@@ -229,6 +229,34 @@ const PaymentPage = () => {
             console.error('Error saving payment to database:', dbError);
             // Don't fail the payment if database save fails, just log it
           }
+
+          // Send payment confirmation email
+          try {
+            const serviceCharge = calculateServiceCharge(billingData.invoiceAmount);
+            await supabase.functions.invoke('send-email', {
+              method: 'POST',
+              body: JSON.stringify({
+                type: 'payment',
+                email: billingData.email,
+                paymentData: {
+                  customerName: customerName,
+                  customerEmail: billingData.email,
+                  customerAddress: `${billingData.address}, ${billingData.city}, ${billingData.state} ${billingData.zip}`,
+                  invoiceNo: billingData.invoiceNo,
+                  paymentNote: billingData.paymentNote || '',
+                  transactionId: data.transactionId || '',
+                  amount: totalAmount,
+                  invoiceAmount: billingData.invoiceAmount,
+                  serviceCharge: serviceCharge,
+                  paymentMethod: 'Credit Card'
+                }
+              })
+            });
+            console.log('Payment confirmation email sent');
+          } catch (emailErr) {
+            console.error('Error sending payment confirmation email:', emailErr);
+            // Don't fail the payment if email fails, just log it
+          }
         } catch (dbErr) {
           console.error('Error saving payment to database:', dbErr);
           // Don't fail the payment if database save fails, just log it

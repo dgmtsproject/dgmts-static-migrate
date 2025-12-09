@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import nodemailer from "npm:nodemailer";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -13,21 +14,37 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, message, type } = await req.json();
+    const { name, email, message, type, fromEmail, fromName, password, paymentData } = await req.json();
 
     console.log('Email request received:', { type, name, email });
 
-    // Get SMTP credentials and admin email
-    const smtpHost = "smtp.gmail.com";
+    // Initialize Supabase client for database access
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const supabase = createClient(supabaseUrl || "", supabaseAnonKey || "");
+
+    // Get email configuration from database
+    const { data: emailConfig, error: dbError } = await supabase
+      .from('email_config')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (dbError || !emailConfig || !emailConfig.email_id || !emailConfig.email_password) {
+      throw new Error("Email configuration not found. Please configure email settings in the admin panel.");
+    }
+
+    // Use database credentials with Microsoft 365 SMTP
+    const smtpHost = "smtp.office365.com";
     const smtpPort = 587;
-    const smtpUser = Deno.env.get("SMTP_USERNAME");
-    const smtpPass = Deno.env.get("SMTP_PASSWORD");
+    const smtpUser = emailConfig.email_id.trim();
+    const smtpPass = emailConfig.email_password.trim();
+    const fromEmailName = (emailConfig.from_email_name || "DGMTS").trim();
+
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
     const bccEmails = ["iaziz@dullesgeotechnical.com", "info@dullesgeotechnical.com", "qhaider@dullesgeotechnical.com"];
-
-    if (!smtpUser || !smtpPass || !adminEmail) {
-      throw new Error("Missing SMTP_USERNAME, SMTP_PASSWORD, or ADMIN_EMAIL environment variables");
-    }
+    const paymentCcEmails = ["dgmts.project@gmail.com"];
 
     // Configure Nodemailer transport
     const transporter = nodemailer.createTransport({
@@ -43,11 +60,223 @@ serve(async (req) => {
     let mailOptions;
 
     // Handle different email types
-    if (type === 'newsletter') {
+    if (type === 'test') {
+      // Test email
+      if (!email) {
+        throw new Error("Missing required field: email");
+      }
+      mailOptions = {
+        from: `${fromEmailName} <${smtpUser}>`,
+        to: email,
+        subject: "Test Email from DGMTS Email Configuration",
+        text: `
+TEST EMAIL FROM DGMTS
+=====================
+
+This is a test email sent from the DGMTS email configuration system.
+
+If you received this email, your email configuration is working correctly!
+
+Best regards,
+DGMTS Email System
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; background: #f9f9f9; }
+        .success-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745; }
+        .footer { background: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+        .label { font-weight: bold; color: #4a90e2; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Test Email Successful!</h1>
+        <p>DGMTS Email Configuration</p>
+    </div>
+    
+    <div class="content">
+        <div class="success-box">
+            <h2 style="margin-top: 0; color: #28a745;">Email Configuration Working</h2>
+            <p>This is a test email sent from the DGMTS email configuration system.</p>
+            <p>If you received this email, your email configuration is working correctly!</p>
+        </div>
+        
+        <p>Best regards,<br><strong>DGMTS Email System</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated test email from the DGMTS email configuration system.</p>
+    </div>
+</body>
+</html>
+        `,
+      };
+    } else if (type === 'payment') {
+      // Payment confirmation email
+      if (!paymentData || !email) {
+        throw new Error("Missing required fields for payment email: paymentData and email");
+      }
+
+      const {
+        customerName,
+        customerEmail,
+        customerAddress,
+        invoiceNo,
+        paymentNote,
+        transactionId,
+        amount,
+        invoiceAmount,
+        serviceCharge,
+        paymentMethod
+      } = paymentData;
+
+      const formattedAmount = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(parseFloat(amount || 0));
+
+      const formattedInvoiceAmount = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(parseFloat(invoiceAmount || 0));
+
+      const formattedServiceCharge = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+      }).format(parseFloat(serviceCharge || 0));
+
+      mailOptions = {
+        from: `${fromEmailName} <${smtpUser}>`,
+        to: customerEmail || email,
+        cc: "info@dullesgeotechnical.com",
+        bcc: paymentCcEmails,
+        subject: `✅ Payment Confirmation - Invoice #${invoiceNo}`,
+        text: `
+PAYMENT CONFIRMATION
+====================
+
+Dear ${customerName || 'Valued Customer'},
+
+Thank you for your payment! Your transaction has been processed successfully.
+
+TRANSACTION DETAILS:
+- Transaction ID: ${transactionId || 'N/A'}
+- Invoice Number: ${invoiceNo || 'N/A'}
+- Payment Method: ${paymentMethod || 'Credit Card'}
+- Payment Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+PAYMENT SUMMARY:
+- Invoice Amount: ${formattedInvoiceAmount}
+- Service Charge: ${formattedServiceCharge}
+- Total Amount Paid: ${formattedAmount}
+
+${paymentNote ? `\nPAYMENT NOTE:\n${paymentNote}\n` : ''}
+
+BILLING INFORMATION:
+${customerName ? `Name: ${customerName}` : ''}
+${customerEmail ? `Email: ${customerEmail}` : ''}
+${customerAddress ? `Address: ${customerAddress}` : ''}
+
+This is a confirmation of your payment. Please keep this email for your records.
+
+If you have any questions about this payment, please contact us at info@dullesgeotechnical.com.
+
+Best regards,
+DGMTS Team
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; background: #f9f9f9; }
+        .success-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745; }
+        .details-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary-box { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #28a745; }
+        .billing-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2795d0; }
+        .footer { background: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+        .label { font-weight: bold; color: #2795d0; display: inline-block; min-width: 140px; }
+        .value { color: #333; }
+        .amount { font-size: 1.2em; font-weight: bold; color: #28a745; }
+        .note-box { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; }
+        h3 { margin-top: 0; color: #2795d0; }
+        .divider { border-top: 1px solid #dee2e6; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Payment Confirmation</h1>
+        <p>Thank You for Your Payment</p>
+    </div>
+    
+    <div class="content">
+        <p>Dear <strong>${customerName || 'Valued Customer'}</strong>,</p>
+        
+        <p>Thank you for your payment! Your transaction has been processed successfully.</p>
+        
+        <div class="success-box">
+            <h2 style="margin-top: 0; color: #28a745;">Payment Received</h2>
+            <p>Your payment has been confirmed and processed. Please keep this email for your records.</p>
+        </div>
+        
+        <div class="details-box">
+            <h3>Transaction Details</h3>
+            <p><span class="label">Transaction ID:</span> <span class="value"><strong>${transactionId || 'N/A'}</strong></span></p>
+            <p><span class="label">Invoice Number:</span> <span class="value">${invoiceNo || 'N/A'}</span></p>
+            <p><span class="label">Payment Method:</span> <span class="value">${paymentMethod || 'Credit Card'}</span></p>
+            <p><span class="label">Payment Date:</span> <span class="value">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span></p>
+        </div>
+        
+        <div class="summary-box">
+            <h3 style="color: #28a745; margin-top: 0;">Payment Summary</h3>
+            <div class="divider"></div>
+            <p><span class="label">Invoice Amount:</span> <span class="value">${formattedInvoiceAmount}</span></p>
+            <p><span class="label">Service Charge:</span> <span class="value">${formattedServiceCharge}</span></p>
+            <div class="divider"></div>
+            <p><span class="label">Total Amount Paid:</span> <span class="amount">${formattedAmount}</span></p>
+        </div>
+        
+        ${paymentNote ? `
+        <div class="note-box">
+            <h3 style="margin-top: 0; color: #856404;">Payment Note</h3>
+            <p style="margin: 0;">${paymentNote.replace(/\n/g, '<br>')}</p>
+        </div>
+        ` : ''}
+        
+        <div class="billing-box">
+            <h3>Billing Information</h3>
+            ${customerName ? `<p><span class="label">Name:</span> <span class="value">${customerName}</span></p>` : ''}
+            ${customerEmail ? `<p><span class="label">Email:</span> <span class="value">${customerEmail}</span></p>` : ''}
+            ${customerAddress ? `<p><span class="label">Address:</span> <span class="value">${customerAddress}</span></p>` : ''}
+        </div>
+        
+        <p>If you have any questions about this payment, please contact us at <a href="mailto:info@dullesgeotechnical.com">info@dullesgeotechnical.com</a>.</p>
+        
+        <p>Best regards,<br><strong>DGMTS Team</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated payment confirmation email from DGMTS.</p>
+        <p>Please do not reply to this email. For inquiries, contact info@dullesgeotechnical.com</p>
+    </div>
+</body>
+</html>
+        `,
+      };
+    } else if (type === 'newsletter') {
       // Newsletter subscription welcome email
       const subscriberName = name || email.split('@')[0];
       mailOptions = {
-        from: `DGMTS <${smtpUser}>`,
+        from: `${fromEmailName} <${smtpUser}>`,
         to: email,
         subject: `🎉 Welcome to DGMTS Newsletter!`,
         bcc: bccEmails,
@@ -134,7 +363,7 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
     } else {
       // Contact form submission (default behavior)
       mailOptions = {
-        from: `DGMTS Contact Form <${smtpUser}>`,
+        from: `${fromEmailName} Contact Form <${smtpUser}>`,
         to: adminEmail,
         bcc: bccEmails,
         subject: `🔔 New Contact Form Submission from ${name}`,
