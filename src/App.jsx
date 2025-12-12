@@ -103,6 +103,7 @@ function App() {
             <Route path="/blog/:id" element={<BlogPostPage />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/email_configuration" element={<EmailConfigurationPage />} />
+            <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}
@@ -126,7 +127,6 @@ function App() {
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
             <Route path="/clients" element={<ClientsPage />} />
-            <Route path="/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
 
             {/* Catch-all route for 404 errors - must be last */}
             <Route path="*" element={<NotFoundPage />} />
