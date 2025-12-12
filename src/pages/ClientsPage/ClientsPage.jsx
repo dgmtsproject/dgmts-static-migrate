@@ -44,7 +44,7 @@ const ClientsPage = () => {
     { "name": "AECOM", "website": "https://aecom.com/", "bgColor": 'green' },
     { "name": "AERO Systems Engineering", "website": "https://www.aerosys.net/", logo_url:"https://www.aerosys.net/wp-content/uploads/2022/09/ase-logo-larg.png", "bgColor": '#bf9b30'},
     { "name": "Aldridge Electric Inc", "website": "https://www.aldridgegroup.com/", "bgColor": 'red' },
-    { "name": "Allan Myers", "website": "https://www.allanmyers.com/", "bgColor": 'grey'},
+    { "name": "Allan Myers", "website": "https://www.allanmyers.com/", "bgColor": 'grey', logo_url:"https://www.ibuildamerica.com/wp-content/uploads/2018/07/Allan-Myers-Corporate-Logo.png"},
     { "name": "Alpha Corporation", "website": "https://www.alphacorporation.com/", logo_url:"https://www.alphacorporation.com/wp-content/uploads/2016/06/Alpha-Corporation-Logo-WEB-120-px.png", "bgColor": 'lightblue'},
     { "name": "Anchor Construction Corporation", "website": "https://anchorconst.com/", "bgColor": getRandomColor() },
     { "name": "Ardent Company LLC", "website": "https://ardentco.com/","bgColor": getRandomColor()},
@@ -52,17 +52,17 @@ const ClientsPage = () => {
     { "name": "AtkinsRéalis", "website": "https://www.atkinsrealis.com/" , logo_url: atkin_logo,"bgColor": getRandomColor()},
     { "name": "Black & Veatch", "website": "https://www.bv.com/" ,"bgColor": getRandomColor()},
     { "name": "Branscome Paving Co", "website": "https://branscome.com/" ,"bgColor": getRandomColor()},
-    { "name": "C.A. Murren & Sons Co., Inc", "website": "https://camurren.com/" ,"bgColor": getRandomColor()},
+    { "name": "C.A. Murren & Sons Co., Inc", "website": "https://camurren.com/" ,"bgColor": getRandomColor(), logo_url:"https://camurren.com/wp-content/uploads/2014/11/logo-90.png"},
     { "name": "Capitol Riverfront", "website": "https://www.capitolriverfront.org/" ,"bgColor": getRandomColor()},
     { "name": "Case Architects and Remodelers", "website": "https://www.casedesign.com/", logo_url:"https://www.casedesign.com/wp-content/themes/case-redesign/images/case-logo.svg" ,"bgColor": getRandomColor()},
-    { "name": "CES Consulting LLC", "website": "https://ces-consultingllc.com/" ,"bgColor": getRandomColor()},
+    { "name": "CES Consulting LLC", "website": "https://ces-consultingllc.com/" ,"bgColor": getRandomColor(), logo_url:"https://ces-consultingllc.com/wp-content/uploads/2023/05/logo.png"},
     { "name": "Chemung Contracting Corporation", "website": "https://www.chemungcontracting.com/" , logo_url:"https://www.chemungcontracting.com/wp-content/uploads/2017/10/Chemung-logo.png","bgColor": getRandomColor()},
     { "name": "Chesapeake Contracting Group", "website": "https://www.ccgmd.com/" ,"bgColor": getRandomColor()},
     { "name": "City of Baltimore", "website": "https://www.baltimorecity.gov/" ,"bgColor": getRandomColor()},
     { "name": "Clark Construction Group, LLC", "website": "https://www.clarkconstruction.com/" ,"bgColor": getRandomColor()},
-    { "name": "Concrete General, Inc.", "website": "https://www.concretegeneral.com/" ,"bgColor": getRandomColor()},
+    { "name": "Concrete General, Inc.", "website": "https://www.concretegeneral.com/" ,"bgColor": getRandomColor(), logo_url:"https://concretegeneral.com/wp-content/uploads/2019/06/home.png"},
     { "name": "County of Louisa", "website": "https://www.louisacounty.gov/", logo_url: county_of_lousia_logo ,"bgColor": getRandomColor()},
-    { "name": "CP&Y", "website": "https://www.cpyi.com/" ,"bgColor": getRandomColor()},
+    { "name": "CP&Y", "website": "https://www.linkedin.com/company/cp&y-inc" ,"bgColor": getRandomColor(), logo_url:"https://media.licdn.com/dms/image/v2/C560BAQHgbc0CkIG9mA/company-logo_200_200/company-logo_200_200/0/1633101516630/cpy_inc_logo?e=2147483647&v=beta&t=NcsiauSnc-RK2f6ICMftZhZ8I3n-3XEhFW1y_ppumc0"},
     { "name": "DC Water", "website": "https://www.dcwater.com/" ,"bgColor": getRandomColor()},
     { "name": "Delve Underground", "website": "https://delveunderground.com/" , logo_url:"https://delveunderground.com/uploads/fullscreen-landscape/_1200x630_crop_center-center_82_none/Delve-Logo-Placeholder.jpg?mtime=1690477955","bgColor": getRandomColor()},
     { "name": "Development Facilitators, Inc", "website": "https://www.dfiengineering.com/" ,"bgColor": getRandomColor()},
@@ -74,9 +74,9 @@ const ClientsPage = () => {
     { "name": "FAY", "website": "https://www.shikunusa.com/" ,"bgColor": getRandomColor(), logo_url: fay_logo},
     { "name": "Flippo Construction Company, Inc.", "website": "https://flippo.com/" ,"bgColor": getRandomColor()},
     { "name": "Fort Myer Construction Corp.", "website": "https://fortmyer.us/" , logo_url:"https://media.licdn.com/dms/image/v2/C4E0BAQGDd2F8xUi9Ww/company-logo_200_200/company-logo_200_200/0/1631361377624/fmcc_logo?e=2147483647&v=beta&t=_Aau1vjrnxKWa1hyWTILh_BoHgsnOLycT5zud_CUsWg","bgColor": getRandomColor()},
-    { "name": "Greeley and Hansen", "website": "https://www.greeley-hansen.com/" ,"bgColor": getRandomColor()},
+    { "name": "Greeley and Hansen", "website": "https://www.greeley-hansen.com/" ,"bgColor": getRandomColor(), logo_url:"https://mma.prnewswire.com/media/803678/Greeley_and_Hansen_Logo.jpg?p=facebook"},
     { "name": "Grunley Construction Company, Inc.", "website": "https://grunley.com/" ,"bgColor": getRandomColor()},
-    { "name": "Haley and Aldrich Inc", "website": "https://www.haleyaldrich.com/" ,"bgColor": getRandomColor()},
+    { "name": "Haley and Aldrich Inc", "website": "https://www.haleyaldrich.com/" ,"bgColor": getRandomColor(), logo_url:"https://www.haleyaldrich.com/wp-content/themes/_ws/logo.svg"},
     { "name": "Halo Development LLC", "website": "https://www.halo-development.com/", logo_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqrRbXbvaLl2zfLlPM3TDYZvsng5vn8cceFQ&s" ,"bgColor": getRandomColor()},
     { "name": "HDR Inc", "website": "https://www.hdrinc.com/", logo_url: hdr_logo ,"bgColor": getRandomColor()},
     { "name": "HICO America", "website": "https://www.hicoamerica.com/" , logo_url: hico_america_logo ,"bgColor": getRandomColor()},
@@ -91,7 +91,7 @@ const ClientsPage = () => {
     { "name": "Mimar Architect", "website": "https://mimararchitecture.com/" , logo_url:mimar_logo,"bgColor": getRandomColor()},
     { "name": "Murphy-Puris Corporation", "website": "https://puriscorp.com/" , logo_url:"https://puriscorp.com/wp-content/uploads/2022/11/MPC-Blue-a-PURIS-Company.png","bgColor": getRandomColor()},
     { "name": "O'Berry Engineering, Inc.", "website": null ,"bgColor": getRandomColor(), logo_url: o_berry_logo},
-    { "name": "PGH Wong", "website": "https://pghwong.com/" ,"bgColor": getRandomColor()},
+    { "name": "PGH Wong", "website": "https://pghwong.com/" ,"bgColor": getRandomColor(), logo_url:"https://pghwong.com/wp-content/uploads/2018/07/pgh-wong-engineering-standard-logo.png"},
     { "name": "PSI Intertek Inc.", "website": "https://www.intertek.com/building/psi/" , logo_url:"https://www.intertek.com/globalassets/_media/co-branded-logos/psi.svg","bgColor": getRandomColor()},
     { "name": "Puris Corp", "website": "https://puriscorp.com/" ,logo_url: puris_logo,"bgColor": getRandomColor()},
     { "name": "RS&H", "website": "https://www.rsandh.com/" ,"bgColor": getRandomColor()},
@@ -101,8 +101,8 @@ const ClientsPage = () => {
     { "name": "Shirley Contracting Company, LLC", "website": "https://shirleycontracting.com/" ,"bgColor": getRandomColor()},
     { "name": "Skanska", "website": "https://www.skanska.com/" , logo_url:"https://www.usa.skanska.com/4ae4c0/globalassets/common-items/skanska_logotype_posblue.svg","bgColor": getRandomColor()},
     { "name": "T.Y. Lin International", "website": "https://www.tylin.com/" ,"bgColor": getRandomColor()},
-    { "name": "Terra Site Constructors", "website": "https://terraconstructs.com/" ,"bgColor": getRandomColor()},
-    { "name": "Terracon", "website": "https://www.terracon.com/" ,"bgColor": getRandomColor()},
+    { "name": "Terra Site Constructors", "website": "https://terraconstructs.com/" ,"bgColor": getRandomColor(), logo_url:"https://terraconstructs.com/wp-content/uploads/Terra-Constructs-Logo-Retina-e1702596186859.png"},
+    { "name": "Terracon", "website": "https://www.terracon.com/" ,"bgColor": getRandomColor(), logo_url:"https://www.terracon.com/wp-content/uploads/2025/01/new-logo-png.webp"},
     { "name": "TGM Construction", "website": "https://www.tgmconstruction.co/", logo_url: tgm_logo ,"bgColor": getRandomColor()},
     { "name": "The King's Masons", "website": "https://kingsmasons.com/" ,"bgColor": getRandomColor(), logo_url: kings_masons_logo},
     { "name": "The Plan Source", "website": "http://www.plan-source.com/" , logo_url: plan_source_logo ,"bgColor": getRandomColor()},
@@ -117,18 +117,19 @@ const ClientsPage = () => {
     { "name": "WSSC", "website": "https://www.wsscwater.com/" ,"bgColor": getRandomColor()}
   ];
 
-  // Function to get logo URL - prefer logo_url, fallback to Clearbit API
+  // Function to get logo URL - prefer logo_url, fallback to Brandfetch API
   const getLogoUrl = (client) => {
     // First check if client has a direct logo_url
     if (client.logo_url) {
       return client.logo_url;
     }
     
-    // Fallback to Clearbit Logo API if website exists
+    // Fallback to Brandfetch CDN API if website exists
+    // Brandfetch provides high-quality logos similar to Clearbit
     if (!client.website) return null;
     try {
       const domain = new URL(client.website).hostname.replace('www.', '');
-      return `https://logo.clearbit.com/${domain}`;
+      return `https://cdn.brandfetch.io/${domain}?c=1idVUSjiMwc2sBReVsS`;
     } catch (e) {
       return null;
     }
