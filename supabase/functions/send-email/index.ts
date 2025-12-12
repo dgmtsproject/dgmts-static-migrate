@@ -154,8 +154,7 @@ DGMTS Email System
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
         to: customerEmail || email,
-        cc: ["accounting@dullesgeotechnical.com", "info@dullesgeotechnical.com"],
-        bcc: paymentCcEmails,
+        bcc: ["accounting@dullesgeotechnical.com", "info@dullesgeotechnical.com", ...paymentCcEmails],
         subject: `✅ Payment Confirmation - Invoice #${invoiceNo}`,
         text: `
 PAYMENT CONFIRMATION

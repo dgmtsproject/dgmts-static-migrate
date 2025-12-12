@@ -34,7 +34,7 @@ serve(async (req)=>{
       });
     }
     // Generate temporary transaction ID
-    const tempTransactionId = 's-dev' + Date.now() + Math.random().toString(36).substr(2, 9);
+    const tempTransactionId = 'txn-' + Date.now() + Math.random().toString(36).substr(2, 9);
     // Insert payment record into Supabase
     const { data: paymentRecord, error: dbError } = await supabaseClient.from('payments').insert([
       {

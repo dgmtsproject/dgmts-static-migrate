@@ -651,18 +651,6 @@ const PaymentPage = () => {
                   </p>
                 </div>
 
-                <div style={{
-                  backgroundColor: '#fff3cd',
-                  padding: '12px',
-                  borderRadius: '4px',
-                  marginBottom: '20px',
-                  fontSize: '14px'
-                }}>
-                  <strong>Sandbox Mode:</strong> Use test card numbers:
-                  <br />• Visa: 4111111111111111
-                  <br />• Mastercard: 5424000000000015
-                  <br />Use any future expiration date (MM/YY) and any 3-digit CVV.
-                </div>
 
                 <div className="form-group">
                   <label htmlFor="cardNumber">Card Number*</label>
