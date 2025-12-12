@@ -154,7 +154,7 @@ DGMTS Email System
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
         to: customerEmail || email,
-        cc: "info@dullesgeotechnical.com",
+        cc: ["accounting@dullesgeotechnical.com", "info@dullesgeotechnical.com"],
         bcc: paymentCcEmails,
         subject: `✅ Payment Confirmation - Invoice #${invoiceNo}`,
         text: `
@@ -360,11 +360,73 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
 </html>
         `,
       };
+    } else if (type === 'subscriber_notification') {
+      // Subscriber notification email (admin-sent updates)
+      if (!email || !message) {
+        throw new Error("Missing required fields for subscriber notification: email and message");
+      }
+      const subscriberName = name || email.split('@')[0];
+      mailOptions = {
+        from: `${fromEmailName} <${smtpUser}>`,
+        to: email,
+        subject: `📢 Important Update from DGMTS`,
+        text: `
+IMPORTANT UPDATE FROM DGMTS
+============================
+
+Dear ${subscriberName},
+
+${message.replace(/\n/g, '\n')}
+
+Best regards,
+The DGMTS Team
+
+---
+You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #2795d0 0%, #28a745 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; background: #f9f9f9; }
+        .message-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2795d0; }
+        .footer { background: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+        .highlight { background: #e3f2fd; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📢 Important Update from DGMTS</h1>
+        <p>Newsletter Notification</p>
+    </div>
+    
+    <div class="content">
+        <p>Dear <strong>${subscriberName}</strong>,</p>
+        
+        <div class="message-box">
+            ${message.replace(/\n/g, '<br>')}
+        </div>
+        
+        <p>Best regards,<br><strong>The DGMTS Team</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>This email was sent to ${email} because you are subscribed to our newsletter.</p>
+        <p>You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.</p>
+    </div>
+</body>
+</html>
+        `,
+      };
     } else {
       // Contact form submission (default behavior)
       mailOptions = {
         from: `${fromEmailName} Contact Form <${smtpUser}>`,
-        to: adminEmail,
+        to: "info@dullesgeotechnical.com",
         bcc: bccEmails,
         subject: `🔔 New Contact Form Submission from ${name}`,
         text: `
