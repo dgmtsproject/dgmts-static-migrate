@@ -154,7 +154,7 @@ DGMTS Email System
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
         to: customerEmail || email,
-        bcc: ["accounting@dullesgeotechnical.com", "info@dullesgeotechnical.com", ...paymentCcEmails],
+        bcc: paymentCcEmails,
         subject: `✅ Payment Confirmation - Invoice #${invoiceNo}`,
         text: `
 PAYMENT CONFIRMATION
@@ -162,7 +162,7 @@ PAYMENT CONFIRMATION
 
 Dear ${customerName || 'Valued Customer'},
 
-Thank you for your payment! Your transaction has been processed successfully.
+Thank you for your Payment. Your transaction has been processed successfully.
 
 TRANSACTION DETAILS:
 - Transaction ID: ${transactionId || 'N/A'}
@@ -180,7 +180,7 @@ ${paymentNote ? `\nPAYMENT NOTE:\n${paymentNote}\n` : ''}
 BILLING INFORMATION:
 ${customerName ? `Name: ${customerName}` : ''}
 ${customerEmail ? `Email: ${customerEmail}` : ''}
-${customerAddress ? `Address: ${customerAddress}` : ''}
+${customerAddress ? `Address: ${customerAddress.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()}` : ''}
 
 This is a confirmation of your payment. Please keep this email for your records.
 
@@ -195,7 +195,7 @@ DGMTS Team
 <head>
     <meta charset="utf-8">
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; background: #ffffff; }
         .header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; text-align: center; }
         .content { padding: 30px; background: #f9f9f9; }
         .success-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745; }
@@ -220,11 +220,11 @@ DGMTS Team
     <div class="content">
         <p>Dear <strong>${customerName || 'Valued Customer'}</strong>,</p>
         
-        <p>Thank you for your payment! Your transaction has been processed successfully.</p>
+        <p>Thank you for your Payment. Your transaction has been processed successfully.</p>
         
         <div class="success-box">
-            <h2 style="margin-top: 0; color: #28a745;">Payment Received</h2>
-            <p>Your payment has been confirmed and processed. Please keep this email for your records.</p>
+            <h2 style="margin-top: 0; color: #28a745;">Payment processed</h2>
+            <p>Your payment has been processed. Please keep this email for your records.</p>
         </div>
         
         <div class="details-box">
@@ -255,7 +255,7 @@ DGMTS Team
             <h3>Billing Information</h3>
             ${customerName ? `<p><span class="label">Name:</span> <span class="value">${customerName}</span></p>` : ''}
             ${customerEmail ? `<p><span class="label">Email:</span> <span class="value">${customerEmail}</span></p>` : ''}
-            ${customerAddress ? `<p><span class="label">Address:</span> <span class="value">${customerAddress}</span></p>` : ''}
+            ${customerAddress ? `<p><span class="label">Address:</span> <span class="value" style="display: inline-block; word-break: break-word; max-width: 100%;">${customerAddress.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()}</span></p>` : ''}
         </div>
         
         <p>If you have any questions about this payment, please contact us at <a href="mailto:info@dullesgeotechnical.com">info@dullesgeotechnical.com</a>.</p>
@@ -264,13 +264,149 @@ DGMTS Team
     </div>
     
     <div class="footer">
-        <p>This is an automated payment confirmation email from DGMTS.</p>
-        <p>Please do not reply to this email. For inquiries, contact info@dullesgeotechnical.com</p>
+        <p>This is an automated payment processing information from DGMTS. Please do not reply to this email.<br>For inquiries, contact info@dullesgeotechnical.com</p>
     </div>
 </body>
 </html>
         `,
       };
+
+      // Send second email to accounting and info with different template
+      const accountingMailOptions = {
+        from: `${fromEmailName} <${smtpUser}>`,
+        to: "accounting@dullesgeotechnical.com",
+        bcc: "info@dullesgeotechnical.com",
+        subject: `✅ Payment Processed - Invoice #${invoiceNo}`,
+        text: `
+PAYMENT PROCESSED
+==================
+
+Dear Team,
+
+A payment has been processed for invoice ${invoiceNo}.
+
+PAYMENT SUMMARY:
+- Invoice Amount: ${formattedInvoiceAmount}
+- Service Charge: ${formattedServiceCharge}
+- Total Amount Paid: ${formattedAmount}
+
+BILLING INFORMATION:
+${customerName ? `Name: ${customerName}` : ''}
+${customerEmail ? `Email: ${customerEmail}` : ''}
+${customerAddress ? `Address: ${customerAddress.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()}` : ''}
+
+${paymentNote ? `\nPAYMENT NOTE:\n${paymentNote}\n` : ''}
+
+TRANSACTION DETAILS:
+- Transaction ID: ${transactionId || 'N/A'}
+- Invoice Number: ${invoiceNo || 'N/A'}
+- Payment Method: ${paymentMethod || 'Credit Card'}
+- Payment Date: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
+If you have any questions regarding this payment, please contact the payee at ${customerEmail || email}.
+
+Best regards,
+DGMTS Team
+        `,
+        html: `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; background: #ffffff; }
+        .header { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 30px; text-align: center; }
+        .content { padding: 30px; background: #f9f9f9; }
+        .success-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #28a745; }
+        .details-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary-box { background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #28a745; }
+        .billing-box { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2795d0; }
+        .footer { background: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+        .label { font-weight: bold; color: #2795d0; display: inline-block; min-width: 140px; }
+        .value { color: #333; }
+        .amount { font-size: 1.2em; font-weight: bold; color: #28a745; }
+        .note-box { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; }
+        h3 { margin-top: 0; color: #2795d0; }
+        .divider { border-top: 1px solid #dee2e6; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Payment Processed</h1>
+        <p>Payment Notification</p>
+    </div>
+    
+    <div class="content">
+        <div class="success-box">
+            <h2 style="margin-top: 0; color: #28a745;">Payment processed</h2>
+            <p>A payment is processed; details are given below: </p>
+        </div>
+
+         <div class="billing-box">
+            <h3>Billing Information</h3>
+            ${customerName ? `<p><span class="label">Name:</span> <span class="value">${customerName}</span></p>` : ''}
+            ${customerEmail ? `<p><span class="label">Email:</span> <span class="value">${customerEmail}</span></p>` : ''}
+            ${customerAddress ? `<p><span class="label">Address:</span> <span class="value" style="display: inline-block; word-break: break-word; max-width: 100%;">${customerAddress.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim()}</span></p>` : ''}
+        </div>
+        
+        <div class="summary-box">
+            <h3 style="color: #28a745; margin-top: 0;">Payment Summary</h3>
+            <div class="divider"></div>
+            <p><span class="label">Invoice Amount:</span> <span class="value">${formattedInvoiceAmount}</span></p>
+            <p><span class="label">Service Charge:</span> <span class="value">${formattedServiceCharge}</span></p>
+            <div class="divider"></div>
+            <p><span class="label">Total Amount Paid:</span> <span class="amount">${formattedAmount}</span></p>
+        </div>
+        
+       
+        
+        ${paymentNote ? `
+        <div class="note-box">
+            <h3 style="margin-top: 0; color: #856404;">Payment Note</h3>
+            <p style="margin: 0;">${paymentNote.replace(/\n/g, '<br>')}</p>
+        </div>
+        ` : ''}
+        
+        <div class="details-box">
+            <h3>Transaction Details</h3>
+            <p><span class="label">Transaction ID:</span> <span class="value"><strong>${transactionId || 'N/A'}</strong></span></p>
+            <p><span class="label">Invoice Number:</span> <span class="value">${invoiceNo || 'N/A'}</span></p>
+            <p><span class="label">Payment Method:</span> <span class="value">${paymentMethod || 'Credit Card'}</span></p>
+            <p><span class="label">Payment Date:</span> <span class="value">${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span></p>
+        </div>
+        
+        <p>If you have any questions regarding this payment, please contact the payee at <a href="mailto:${customerEmail || email}">${customerEmail || email}</a>.</p>
+        
+        <p>Best regards,<br><strong>DGMTS Team</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>This is an automated payment processing information from DGMTS. Please do not reply to this email.</p>
+    </div>
+</body>
+</html>
+        `,
+      };
+
+      // Send customer email
+      const customerEmailInfo = await transporter.sendMail(mailOptions);
+      console.log(`Customer email sent successfully: ${customerEmailInfo.messageId}`);
+
+      // Send accounting/info email
+      const accountingEmailInfo = await transporter.sendMail(accountingMailOptions);
+      console.log(`Accounting email sent successfully: ${accountingEmailInfo.messageId}`);
+
+      return new Response(JSON.stringify({ 
+        message: "Payment emails sent successfully"
+      }), {
+        status: 200,
+        headers: { 
+          "Content-Type": "application/json", 
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "content-type, authorization, x-client-info, apikey",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        },
+      });
     } else if (type === 'newsletter') {
       // Newsletter subscription welcome email
       const subscriberName = name || email.split('@')[0];

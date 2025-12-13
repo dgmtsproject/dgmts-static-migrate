@@ -61,7 +61,7 @@
 .president-image {
   height: 100%;
   aspect-ratio: 3/4;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
@@ -282,7 +282,7 @@
 .employee-image {
   width: 100%;
   height: 180px;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
