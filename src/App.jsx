@@ -35,6 +35,7 @@ import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
 import ClientsPage from './pages/ClientsPage/ClientsPage';
 import NewsletterSubscribersList from './pages/NewsletterSubscribersList/NewsletterSubscribersList';
 import EmailConfigurationPage from './pages/EmailConfigurationPage/EmailConfigurationPage';
+import BlogAdminPage from './pages/BlogAdminPage/BlogAdminPage';
 function App() {
   return (
     <Router>
@@ -104,6 +105,7 @@ function App() {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/email_configuration" element={<EmailConfigurationPage />} />
             <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
+            <Route path="/admin/blog-management" element={<BlogAdminPage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}
