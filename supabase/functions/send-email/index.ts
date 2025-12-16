@@ -14,7 +14,7 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, message, type, fromEmail, fromName, password, paymentData } = await req.json();
+    const { name, email, message, type, fromEmail, fromName, password, paymentData, subject, htmlContent, pdfUrl, pdfFileName } = await req.json();
 
     console.log('Email request received:', { type, name, email });
 
@@ -496,22 +496,97 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
         `,
       };
     } else if (type === 'subscriber_notification') {
-      // Subscriber notification email (admin-sent updates)
+      // Subscriber notification email (admin-sent updates/newsletter)
       if (!email || !message) {
         throw new Error("Missing required fields for subscriber notification: email and message");
       }
       const subscriberName = name || email.split('@')[0];
+      const emailSubjectText = subject || '📢 Important Update from DGMTS';
+      
+      // Use HTML content if provided, otherwise use plain message
+      const htmlBody = htmlContent || `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; }
+        .email-container { background: white; margin: 20px auto; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); color: white; padding: 40px 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 28px; font-weight: 600; }
+        .header p { margin: 10px 0 0 0; font-size: 16px; opacity: 0.9; }
+        .content { padding: 40px 30px; background: #ffffff; }
+        .content p { margin: 0 0 15px 0; }
+        .newsletter-content { margin: 20px 0; }
+        .pdf-attachment { background: #f8f9fa; border: 2px dashed #4a90e2; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+        .pdf-attachment a { color: #4a90e2; text-decoration: none; font-weight: 600; }
+        .pdf-attachment a:hover { text-decoration: underline; }
+        .footer { background: #2c3e50; color: white; padding: 25px; text-align: center; font-size: 12px; line-height: 1.8; }
+        .footer a { color: #4a90e2; text-decoration: none; }
+        img { max-width: 100%; height: auto; display: block; margin: 1rem auto; border-radius: 4px; }
+        .newsletter-content img { max-width: 100% !important; height: auto !important; }
+        .newsletter-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .newsletter-content table td, .newsletter-content table th { border: 1px solid #ddd; padding: 8px; }
+        .newsletter-content table th { background-color: #f8f9fa; font-weight: 600; }
+        .newsletter-content blockquote { border-left: 4px solid #4a90e2; padding-left: 1rem; margin: 1rem 0; font-style: italic; background: #f8f9fa; padding: 1rem; }
+        .newsletter-content pre { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 4px; padding: 1rem; overflow-x: auto; }
+        .newsletter-content iframe { max-width: 100%; margin: 1rem 0; }
+        @media only screen and (max-width: 600px) {
+            .content { padding: 20px; }
+            .header { padding: 30px 20px; }
+            .header h1 { font-size: 24px; }
+            .newsletter-content img { max-width: 100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>📰 DGMTS Newsletter</h1>
+            <p>Engineering Updates & Insights</p>
+        </div>
+        
+        <div class="content">
+            <p>Dear <strong>${subscriberName}</strong>,</p>
+            
+            <div class="newsletter-content">
+                ${htmlContent || message.replace(/\n/g, '<br>')}
+            </div>
+            
+            ${pdfUrl ? `
+            <div class="pdf-attachment">
+                <p style="margin: 0 0 10px 0; font-weight: 600;">📄 Newsletter PDF Attachment</p>
+                <p style="margin: 0;"><a href="${pdfUrl}" target="_blank">Download Newsletter PDF</a></p>
+            </div>
+            ` : ''}
+            
+            <p style="margin-top: 30px;">Best regards,<br><strong>The DGMTS Team</strong></p>
+        </div>
+        
+        <div class="footer">
+            <p>This email was sent to ${email} because you are subscribed to our newsletter.</p>
+            <p>You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.</p>
+            <p style="margin-top: 15px; opacity: 0.8;">© ${new Date().getFullYear()} DGMTS. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
+      `;
+
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
         to: email,
-        subject: `📢 Important Update from DGMTS`,
+        subject: emailSubjectText,
         text: `
-IMPORTANT UPDATE FROM DGMTS
-============================
+${emailSubjectText}
+${'='.repeat(emailSubjectText.length)}
 
 Dear ${subscriberName},
 
-${message.replace(/\n/g, '\n')}
+${htmlContent ? htmlContent.replace(/<[^>]*>/g, '').replace(/\n/g, '\n') : message.replace(/\n/g, '\n')}
+
+${pdfUrl ? `\n📄 Newsletter PDF: ${pdfUrl}\n` : ''}
 
 Best regards,
 The DGMTS Team
@@ -519,44 +594,29 @@ The DGMTS Team
 ---
 You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.
         `,
-        html: `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; }
-        .header { background: linear-gradient(135deg, #2795d0 0%, #28a745 100%); color: white; padding: 30px; text-align: center; }
-        .content { padding: 30px; background: #f9f9f9; }
-        .message-box { background: white; padding: 25px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2795d0; }
-        .footer { background: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
-        .highlight { background: #e3f2fd; padding: 2px 6px; border-radius: 4px; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>📢 Important Update from DGMTS</h1>
-        <p>Newsletter Notification</p>
-    </div>
-    
-    <div class="content">
-        <p>Dear <strong>${subscriberName}</strong>,</p>
-        
-        <div class="message-box">
-            ${message.replace(/\n/g, '<br>')}
-        </div>
-        
-        <p>Best regards,<br><strong>The DGMTS Team</strong></p>
-    </div>
-    
-    <div class="footer">
-        <p>This email was sent to ${email} because you are subscribed to our newsletter.</p>
-        <p>You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.</p>
-    </div>
-</body>
-</html>
-        `,
+        html: htmlBody,
       };
+
+      // Add PDF attachment if provided
+      if (pdfUrl && pdfFileName) {
+        try {
+          // Fetch PDF from URL
+          const pdfResponse = await fetch(pdfUrl);
+          if (pdfResponse.ok) {
+            const pdfBuffer = await pdfResponse.arrayBuffer();
+            // Convert ArrayBuffer to Uint8Array for Deno
+            const pdfData = new Uint8Array(pdfBuffer);
+            mailOptions.attachments = [{
+              filename: pdfFileName,
+              content: pdfData,
+              contentType: 'application/pdf'
+            }];
+          }
+        } catch (err) {
+          console.error('Error attaching PDF:', err);
+          // Continue without attachment if fetch fails
+        }
+      }
     } else {
       // Contact form submission (default behavior)
       mailOptions = {

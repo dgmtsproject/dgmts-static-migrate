@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Eye, EyeOff, Upload, X, ExternalLink } from 'lucide-react'
+import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
 import './BlogAdminPage.css'
 
 function BlogAdminPage() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(true)
   
   const [blogs, setBlogs] = useState([])
   const [title, setTitle] = useState('')
@@ -20,13 +22,10 @@ function BlogAdminPage() {
   const [categories, setCategories] = useState([])
   const [editingId, setEditingId] = useState(null)
   const [view, setView] = useState('list') // 'list', 'add', 'edit'
-  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState({ type: '', text: '' })
   const [imagePreview, setImagePreview] = useState('')
-
-  const ADMIN_PASSWORD = 'admin@dgmts123'
 
   // ReactQuill modules configuration
   const quillModules = {
@@ -57,6 +56,15 @@ function BlogAdminPage() {
     'align',
     'link', 'image', 'video', 'blockquote', 'code-block'
   ]
+
+  useEffect(() => {
+    // Check if user is already logged in via session
+    const isAuthenticated = checkAdminSession()
+    if (isAuthenticated) {
+      setLoggedIn(true)
+    }
+    setLoading(false)
+  }, [])
 
   useEffect(() => {
     if (loggedIn) {
@@ -97,15 +105,20 @@ function BlogAdminPage() {
     }
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
+    setLoading(true)
+    setMessage({ type: '', text: '' })
+
+    const isValid = await verifyAdminPassword(password)
+    if (isValid) {
       setLoggedIn(true)
       setPassword('')
       setMessage({ type: '', text: '' })
     } else {
       setMessage({ type: 'error', text: 'Invalid password' })
     }
+    setLoading(false)
   }
 
   const handleImageUpload = async (e) => {
@@ -345,6 +358,17 @@ function BlogAdminPage() {
     })
   }
 
+  if (loading) {
+    return (
+      <div className="blog-admin-page">
+        <div className="blog-admin-login">
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!loggedIn) {
     return (
       <div className="blog-admin-page">
@@ -363,6 +387,7 @@ function BlogAdminPage() {
                   placeholder="Enter password"
                   required
                   autoFocus
+                  disabled={loading}
                 />
                 <button
                   type="button"
@@ -377,8 +402,8 @@ function BlogAdminPage() {
             {message.type === 'error' && (
               <div className="message message-error">{message.text}</div>
             )}
-            <button type="submit" className="btn btn-primary">
-              Login
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>

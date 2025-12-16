@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../supabaseClient';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Upload, FileText, X } from 'lucide-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth';
 import './NewsletterSubscribersList.css';
 
 const NewsletterSubscribersList = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [password, setPassword] = useState('');
+  const [checkingSession, setCheckingSession] = useState(true);
   const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,11 +18,142 @@ const NewsletterSubscribersList = () => {
   const [subscriberStatuses, setSubscriberStatuses] = useState({}); // Track checkbox states
   const [saving, setSaving] = useState(false);
   const [emailContent, setEmailContent] = useState('');
+  const [emailSubject, setEmailSubject] = useState('');
   const [sendingEmails, setSendingEmails] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [emailMode, setEmailMode] = useState('rich'); // 'rich' or 'plain'
+  const [pdfFile, setPdfFile] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState('');
+  const [uploadingPdf, setUploadingPdf] = useState(false);
+  const quillRef = useRef(null);
 
-  const ADMIN_PASSWORD = 'admin@dgmts123';
+  // Enhanced ReactQuill modules configuration for professional newsletters
+  const quillModules = useMemo(() => {
+    // Image handler function
+    const imageHandler = () => {
+      const input = document.createElement('input')
+      input.setAttribute('type', 'file')
+      input.setAttribute('accept', 'image/*')
+      input.click()
+
+      input.onchange = async () => {
+        const file = input.files?.[0]
+        if (!file) return
+
+        // Validate file size (max 5MB for email)
+        if (file.size > 5 * 1024 * 1024) {
+          setMessage({ type: 'error', text: 'Image size must be less than 5MB for email compatibility' })
+          return
+        }
+
+        try {
+          // Try to upload to Supabase Storage
+          const fileExt = file.name.split('.').pop()
+          const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
+          const filePath = `newsletter-images/${fileName}`
+
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('newsletter-images')
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: false
+            })
+
+          let imageUrl = ''
+
+          if (!uploadError && uploadData) {
+            const { data: urlData } = supabase.storage
+              .from('newsletter-images')
+              .getPublicUrl(filePath)
+
+            if (urlData?.publicUrl) {
+              imageUrl = urlData.publicUrl
+            }
+          }
+
+          // Fallback to data URL if storage fails
+          if (!imageUrl) {
+            const reader = new FileReader()
+            reader.onloadend = () => {
+              imageUrl = reader.result
+              insertImageToEditor(imageUrl)
+            }
+            reader.readAsDataURL(file)
+            return
+          }
+
+          insertImageToEditor(imageUrl)
+        } catch (err) {
+          console.error('Error uploading image:', err)
+          // Fallback to data URL
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            insertImageToEditor(reader.result)
+          }
+          reader.readAsDataURL(file)
+        }
+      }
+    }
+
+    // Insert image to editor helper function
+    const insertImageToEditor = (url) => {
+      // Get the Quill editor instance from the DOM
+      const editorElement = document.querySelector('.ql-editor')
+      if (editorElement) {
+        // Try to get Quill instance from the element
+        const quillInstance = editorElement.__quill || (window.Quill && window.Quill.find(editorElement))
+        if (quillInstance) {
+          const range = quillInstance.getSelection(true)
+          quillInstance.insertEmbed(range.index, 'image', url, 'user')
+          quillInstance.setSelection(range.index + 1)
+        }
+      }
+    }
+
+    return {
+      toolbar: {
+        container: [
+          [{ 'header': ['1', '2', '3', '4', '5', '6', false] }],
+          [{ 'font': [] }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'align': [] }],
+          ['link', 'image', 'video', 'blockquote', 'code-block'],
+          ['clean']
+        ],
+        handlers: {
+          image: imageHandler
+        }
+      },
+      clipboard: {
+        matchVisual: false,
+      }
+    }
+  }, [])
+
+  const quillFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'indent',
+    'direction', 'align',
+    'link', 'image', 'video', 'blockquote', 'code-block'
+  ]
+
+  useEffect(() => {
+    // Check if user is already logged in via session
+    const isAuthenticated = checkAdminSession()
+    if (isAuthenticated) {
+      setLoggedIn(true)
+    }
+    setCheckingSession(false)
+  }, [])
 
   useEffect(() => {
     if (loggedIn) {
@@ -65,15 +200,20 @@ const NewsletterSubscribersList = () => {
     }
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
+    setCheckingSession(true);
+    setMessage({ type: '', text: '' });
+
+    const isValid = await verifyAdminPassword(password);
+    if (isValid) {
       setLoggedIn(true);
       setPassword('');
       setMessage({ type: '', text: '' });
     } else {
       setMessage({ type: 'error', text: 'Invalid password' });
     }
+    setCheckingSession(false);
   };
 
   const handleStatusChange = (subscriberId, isActive) => {
@@ -128,9 +268,84 @@ const NewsletterSubscribersList = () => {
     }
   };
 
+  const handlePdfUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      setMessage({ type: 'error', text: 'Please select a PDF file' })
+      return
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'PDF size must be less than 10MB' })
+      return
+    }
+
+    setUploadingPdf(true)
+    setMessage({ type: '', text: '' })
+
+    try {
+      // Try to upload to Supabase Storage
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
+      const filePath = `newsletter-pdfs/${fileName}`
+
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('newsletter-pdfs')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        })
+
+      if (!uploadError && uploadData) {
+        const { data: urlData } = supabase.storage
+          .from('newsletter-pdfs')
+          .getPublicUrl(filePath)
+
+        if (urlData?.publicUrl) {
+          setPdfUrl(urlData.publicUrl)
+          setPdfFile(file)
+          setMessage({ type: 'success', text: 'PDF uploaded successfully!' })
+          setUploadingPdf(false)
+          return
+        }
+      }
+
+      // Fallback: Convert to base64
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64data = reader.result
+        setPdfUrl(base64data)
+        setPdfFile(file)
+        setMessage({ type: 'success', text: 'PDF loaded successfully!' })
+      }
+      reader.readAsDataURL(file)
+    } catch (err) {
+      console.error('Error uploading PDF:', err)
+      setMessage({ type: 'error', text: 'Failed to upload PDF: ' + err.message })
+    } finally {
+      setUploadingPdf(false)
+    }
+  }
+
+  const removePdf = () => {
+    setPdfFile(null)
+    setPdfUrl('')
+  }
+
   const handleSendEmails = async () => {
-    if (!emailContent.trim()) {
+    const content = emailMode === 'rich' ? emailContent.trim() : emailContent.trim()
+    
+    if (!content || (emailMode === 'rich' && content === '<p><br></p>')) {
       setMessage({ type: 'error', text: 'Please enter email content' });
+      return;
+    }
+
+    if (!emailSubject.trim()) {
+      setMessage({ type: 'error', text: 'Please enter email subject' });
       return;
     }
 
@@ -171,7 +386,11 @@ const NewsletterSubscribersList = () => {
               type: 'subscriber_notification',
               email: subscriber.email,
               name: subscriber.name || 'Subscriber',
-              message: emailContent.trim(),
+              message: content,
+              subject: emailSubject.trim(),
+              htmlContent: emailMode === 'rich' ? content : null,
+              pdfUrl: pdfUrl || null,
+              pdfFileName: pdfFile?.name || null,
               fromEmail: emailConfig.email_id.trim(),
               fromName: emailConfig.from_email_name.trim(),
               password: emailConfig.email_password.trim()
@@ -233,6 +452,17 @@ const NewsletterSubscribersList = () => {
     subscriberStatuses[sub.id] !== undefined && subscriberStatuses[sub.id] !== sub.is_active
   );
 
+  if (checkingSession) {
+    return (
+      <main className="newsletter-subscribers-page bg-texture">
+        <div className="subscribers-login">
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </main>
+    );
+  }
+
   if (!loggedIn) {
     return (
       <main className="newsletter-subscribers-page bg-texture">
@@ -251,6 +481,7 @@ const NewsletterSubscribersList = () => {
                   placeholder="Enter password"
                   required
                   autoFocus
+                  disabled={checkingSession}
                 />
                 <button
                   type="button"
@@ -265,8 +496,8 @@ const NewsletterSubscribersList = () => {
             {message.type === 'error' && (
               <div className="message message-error">{message.text}</div>
             )}
-            <button type="submit" className="btn btn-primary">
-              Login
+            <button type="submit" className="btn btn-primary" disabled={checkingSession}>
+              {checkingSession ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>
@@ -429,32 +660,119 @@ const NewsletterSubscribersList = () => {
 
         {/* Send Email to Subscribers Section */}
         <div className="send-email-section">
-          <h3 className="section-title">Send Notification to Active Subscribers</h3>
+          <h3 className="section-title">Send Newsletter to Active Subscribers</h3>
           <p className="section-description">
-            Send an email notification to all active subscribers. Emails will be sent one by one.
+            Create and send a professional newsletter email to all active subscribers. Emails will be sent one by one.
           </p>
           <div className="email-form">
             <div className="form-group">
-              <label htmlFor="email_content">Email Content *</label>
-              <textarea
-                id="email_content"
-                value={emailContent}
-                onChange={(e) => setEmailContent(e.target.value)}
-                placeholder="Enter your message here (e.g., policy updates, announcements, etc.)"
-                rows={6}
-                className="email-content-textarea"
+              <label htmlFor="email_subject">Email Subject *</label>
+              <input
+                id="email_subject"
+                type="text"
+                value={emailSubject}
+                onChange={(e) => setEmailSubject(e.target.value)}
+                placeholder="Enter email subject (e.g., Monthly Newsletter - January 2025)"
+                className="email-subject-input"
                 disabled={sendingEmails}
+                required
               />
+            </div>
+
+            <div className="form-group">
+              <div className="email-mode-toggle">
+                <label className="mode-label">Email Format:</label>
+                <button
+                  type="button"
+                  className={`mode-btn ${emailMode === 'rich' ? 'active' : ''}`}
+                  onClick={() => setEmailMode('rich')}
+                  disabled={sendingEmails}
+                >
+                  Rich Text (HTML)
+                </button>
+                <button
+                  type="button"
+                  className={`mode-btn ${emailMode === 'plain' ? 'active' : ''}`}
+                  onClick={() => setEmailMode('plain')}
+                  disabled={sendingEmails}
+                >
+                  Plain Text
+                </button>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email_content">Email Content *</label>
+              {emailMode === 'rich' ? (
+                <div className="quill-container">
+                  <ReactQuill
+                    theme="snow"
+                    value={emailContent}
+                    onChange={setEmailContent}
+                    placeholder="Write your newsletter content here... Use the toolbar to format text, add images, links, etc."
+                    modules={quillModules}
+                    formats={quillFormats}
+                  />
+                </div>
+              ) : (
+                <textarea
+                  id="email_content"
+                  value={emailContent}
+                  onChange={(e) => setEmailContent(e.target.value)}
+                  placeholder="Enter your message here (e.g., policy updates, announcements, etc.)"
+                  rows={8}
+                  className="email-content-textarea"
+                  disabled={sendingEmails}
+                />
+              )}
               <small className="form-hint">
                 This message will be sent to all {activeSubscribers} active subscriber(s)
               </small>
             </div>
+
+            <div className="form-group">
+              <label htmlFor="pdf_upload">Attach PDF Newsletter (Optional)</label>
+              <div className="pdf-upload-section">
+                {pdfFile ? (
+                  <div className="pdf-preview-container">
+                    <FileText size={24} />
+                    <span className="pdf-file-name">{pdfFile.name}</span>
+                    <button
+                      type="button"
+                      className="btn-remove-pdf"
+                      onClick={removePdf}
+                      disabled={sendingEmails || uploadingPdf}
+                      title="Remove PDF"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="pdf-upload-area">
+                    <input
+                      id="pdf_upload"
+                      type="file"
+                      accept="application/pdf"
+                      onChange={handlePdfUpload}
+                      disabled={sendingEmails || uploadingPdf}
+                      style={{ display: 'none' }}
+                    />
+                    <label htmlFor="pdf_upload" className="pdf-upload-label">
+                      <Upload size={20} />
+                      <span>{uploadingPdf ? 'Uploading PDF...' : 'Upload PDF Newsletter'}</span>
+                    </label>
+                    <small className="form-hint">Upload a PDF file to attach to the newsletter (max 10MB)</small>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <button 
               onClick={handleSendEmails} 
               className="btn btn-secondary send-email-btn"
-              disabled={sendingEmails || !emailContent.trim() || activeSubscribers === 0}
+              disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || activeSubscribers === 0 || uploadingPdf}
             >
-              {sendingEmails ? `Sending... (${activeSubscribers} emails)` : `Send to All Active Subscribers (${activeSubscribers})`}
+              {sendingEmails ? `Sending... (${activeSubscribers} emails)` : `Send Newsletter to All Active Subscribers (${activeSubscribers})`}
             </button>
           </div>
         </div>

@@ -36,6 +36,8 @@ import ClientsPage from './pages/ClientsPage/ClientsPage';
 import NewsletterSubscribersList from './pages/NewsletterSubscribersList/NewsletterSubscribersList';
 import EmailConfigurationPage from './pages/EmailConfigurationPage/EmailConfigurationPage';
 import BlogAdminPage from './pages/BlogAdminPage/BlogAdminPage';
+import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
+import CredentialsManagement from './pages/CredentialsManagement/CredentialsManagement';
 function App() {
   return (
     <Router>
@@ -102,10 +104,12 @@ function App() {
             <Route path="/page/blog" element={<BlogPage />} /> {/* Fallback route for old blog page */}
 
             <Route path="/blog/:id" element={<BlogPostPage />} />
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/legacy" element={<AdminPage />} />
             <Route path="/admin/email_configuration" element={<EmailConfigurationPage />} />
             <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
             <Route path="/admin/blog-management" element={<BlogAdminPage />} />
+            <Route path="/admin/credentials" element={<CredentialsManagement />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}

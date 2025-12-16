@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../supabaseClient'
 import { Eye, EyeOff } from 'lucide-react'
+import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
 import './EmailConfigurationPage.css'
 
 function EmailConfigurationPage() {
   const [loggedIn, setLoggedIn] = useState(false)
   const [password, setPassword] = useState('')
+  const [checkingSession, setCheckingSession] = useState(true)
   
   const [emailId, setEmailId] = useState('')
   const [emailPassword, setEmailPassword] = useState('')
@@ -18,7 +20,14 @@ function EmailConfigurationPage() {
   const [message, setMessage] = useState({ type: '', text: '' })
   const [showPassword, setShowPassword] = useState(false)
 
-  const ADMIN_PASSWORD = 'admin@dgmts123'
+  useEffect(() => {
+    // Check if user is already logged in via session
+    const isAuthenticated = checkAdminSession()
+    if (isAuthenticated) {
+      setLoggedIn(true)
+    }
+    setCheckingSession(false)
+  }, [])
 
   useEffect(() => {
     if (loggedIn) {
@@ -52,15 +61,20 @@ function EmailConfigurationPage() {
     }
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    if (password === ADMIN_PASSWORD) {
+    setCheckingSession(true)
+    setMessage({ type: '', text: '' })
+
+    const isValid = await verifyAdminPassword(password)
+    if (isValid) {
       setLoggedIn(true)
       setPassword('')
       setMessage({ type: '', text: '' })
     } else {
       setMessage({ type: 'error', text: 'Invalid password' })
     }
+    setCheckingSession(false)
   }
 
   const handleSaveConfiguration = async (e) => {
@@ -174,6 +188,17 @@ function EmailConfigurationPage() {
     }
   }
 
+  if (checkingSession) {
+    return (
+      <div className="email-config-page">
+        <div className="email-config-login">
+          <div className="loading-spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (!loggedIn) {
     return (
       <div className="email-config-page">
@@ -183,21 +208,32 @@ function EmailConfigurationPage() {
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
-                required
-                autoFocus
-              />
+              <div className="password-input-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  required
+                  autoFocus
+                  disabled={checkingSession}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
             {message.type === 'error' && (
               <div className="message message-error">{message.text}</div>
             )}
-            <button type="submit" className="btn btn-primary">
-              Login
+            <button type="submit" className="btn btn-primary" disabled={checkingSession}>
+              {checkingSession ? 'Logging in...' : 'Login'}
             </button>
           </form>
         </div>
