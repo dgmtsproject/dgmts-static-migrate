@@ -14,7 +14,7 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, message, type, fromEmail, fromName, password, paymentData, subject, htmlContent, pdfUrl, pdfFileName } = await req.json();
+    const { name, email, message, type, fromEmail, fromName, password, paymentData, subject, htmlContent, pdfUrl, pdfFileName, token } = await req.json();
 
     console.log('Email request received:', { type, name, email });
 
@@ -410,6 +410,24 @@ DGMTS Team
     } else if (type === 'newsletter') {
       // Newsletter subscription welcome email
       const subscriberName = name || email.split('@')[0];
+      
+      // Get subscriber token if not provided
+      let subscriberToken = token;
+      if (!subscriberToken) {
+        const { data: subscriberData } = await supabase
+          .from('subscribers')
+          .select('token')
+          .eq('email', email)
+          .single();
+        if (subscriberData) {
+          subscriberToken = subscriberData.token;
+        }
+      }
+      
+      const unsubscribeUrl = subscriberToken 
+        ? `https://dullesgeotechnical.com/unsubscribe?token=${encodeURIComponent(subscriberToken)}`
+        : `https://dullesgeotechnical.com/unsubscribe?email=${encodeURIComponent(email)}`;
+      
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
         to: email,
@@ -437,7 +455,7 @@ Best regards,
 The DGMTS Team
 
 ---
-You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.
+You can unsubscribe at any time by visiting: ${unsubscribeUrl}
         `,
         html: `
 <!DOCTYPE html>
@@ -489,7 +507,9 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
     
     <div class="footer">
         <p>This email was sent to ${email} because you subscribed to our newsletter.</p>
-        <p>You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.</p>
+        <p style="margin-top: 10px;">
+            <a href="${unsubscribeUrl}" style="color: #4a90e2; text-decoration: underline;">Unsubscribe from this newsletter</a>
+        </p>
     </div>
 </body>
 </html>
@@ -502,6 +522,23 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
       }
       const subscriberName = name || email.split('@')[0];
       const emailSubjectText = subject || '📢 Important Update from DGMTS';
+      
+      // Get subscriber token if not provided
+      let subscriberToken = token;
+      if (!subscriberToken) {
+        const { data: subscriberData } = await supabase
+          .from('subscribers')
+          .select('token')
+          .eq('email', email)
+          .single();
+        if (subscriberData) {
+          subscriberToken = subscriberData.token;
+        }
+      }
+      
+      const unsubscribeUrl = subscriberToken 
+        ? `https://dullesgeotechnical.com/unsubscribe?token=${encodeURIComponent(subscriberToken)}`
+        : `https://dullesgeotechnical.com/unsubscribe?email=${encodeURIComponent(email)}`;
       
       // Use HTML content if provided, otherwise use plain message
       const htmlBody = htmlContent || `
@@ -566,7 +603,9 @@ You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in 
         
         <div class="footer">
             <p>This email was sent to ${email} because you are subscribed to our newsletter.</p>
-            <p>You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.</p>
+            <p style="margin-top: 10px;">
+                <a href="${unsubscribeUrl}" style="color: #4a90e2; text-decoration: underline;">Unsubscribe from this newsletter</a>
+            </p>
             <p style="margin-top: 15px; opacity: 0.8;">© ${new Date().getFullYear()} DGMTS. All rights reserved.</p>
         </div>
     </div>
@@ -592,7 +631,7 @@ Best regards,
 The DGMTS Team
 
 ---
-You can unsubscribe at any time by replying to this email with "UNSUBSCRIBE" in the subject line.
+You can unsubscribe at any time by visiting: ${unsubscribeUrl}
         `,
         html: htmlBody,
       };

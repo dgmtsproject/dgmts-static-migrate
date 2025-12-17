@@ -38,6 +38,7 @@ import EmailConfigurationPage from './pages/EmailConfigurationPage/EmailConfigur
 import BlogAdminPage from './pages/BlogAdminPage/BlogAdminPage';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import CredentialsManagement from './pages/CredentialsManagement/CredentialsManagement';
+import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
 function App() {
   return (
     <Router>
@@ -110,6 +111,7 @@ function App() {
             <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
             <Route path="/admin/blog-management" element={<BlogAdminPage />} />
             <Route path="/admin/credentials" element={<CredentialsManagement />} />
+            <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
             <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}

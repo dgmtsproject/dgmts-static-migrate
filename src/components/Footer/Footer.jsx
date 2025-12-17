@@ -41,11 +41,12 @@ const Footer = () => {
               return;
             } else {
               // Reactivate inactive subscriber
+              const reactivateToken = `${Date.now()}${Math.random()}`;
               const { error: updateError } = await supabase
                 .from('subscribers')
                 .update({
                   is_active: true,
-                  token: `${Date.now()}${Math.random()}`,
+                  token: reactivateToken,
                   date_joined: new Date().toISOString()
                 })
                 .eq('email', email);
@@ -59,7 +60,8 @@ const Footer = () => {
                   body: JSON.stringify({
                     type: 'newsletter',
                     name: email.split('@')[0], // Use email prefix as name if no name provided
-                    email: email
+                    email: email,
+                    token: reactivateToken
                   }),
                 });
               } catch (emailError) {
@@ -72,6 +74,7 @@ const Footer = () => {
             }
           } else {
             // Insert new subscriber
+            const newToken = `${Date.now()}${Math.random()}`;
             const { error } = await supabase
               .from('subscribers')
               .insert([
@@ -79,7 +82,7 @@ const Footer = () => {
                   email: email,
                   date_joined: new Date().toISOString(),
                   is_active: true,
-                  token: `${Date.now()}${Math.random()}`
+                  token: newToken
                 }
               ])
 
@@ -92,7 +95,8 @@ const Footer = () => {
                 body: JSON.stringify({
                   type: 'newsletter',
                   name: email.split('@')[0], // Use email prefix as name if no name provided
-                  email: email
+                  email: email,
+                  token: newToken
                 }),
               });
             } catch (emailError) {

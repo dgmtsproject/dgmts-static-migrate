@@ -24,14 +24,19 @@ const NewsletterModal = () => {
         if (devMode) {
             setIsVisible(true);
         }
+        // Check if user has already subscribed (never show again)
+        const hasSubscribed = localStorage.getItem('newsletterSubscribed');
         const alreadyShown = sessionStorage.getItem('newsletterModalShown');
-        if (!alreadyShown) {
-            const timer = setTimeout(() => {
-                setIsVisible(true);
-                sessionStorage.setItem('newsletterModalShown', 'true');
-            }, 7000);
-            return () => clearTimeout(timer);
+        
+        if (hasSubscribed || alreadyShown) {
+            return; // Don't show if already subscribed or already shown this session
         }
+        
+        const timer = setTimeout(() => {
+            setIsVisible(true);
+            sessionStorage.setItem('newsletterModalShown', 'true');
+        }, 7000);
+        return () => clearTimeout(timer);
     }, [location.pathname]);
 
     const closeModal = () => {
@@ -88,7 +93,8 @@ const NewsletterModal = () => {
                             body: JSON.stringify({
                                 type: 'newsletter',
                                 name: name,
-                                email: email
+                                email: email,
+                                token: token
                             }),
                         });
                     } catch (emailError) {
@@ -97,6 +103,8 @@ const NewsletterModal = () => {
                     }
 
                     alert('Welcome back! Your subscription has been reactivated.');
+                    // Mark as subscribed so popup never shows again
+                    localStorage.setItem('newsletterSubscribed', 'true');
                     closeModal();
                 }
             } else {
@@ -122,7 +130,8 @@ const NewsletterModal = () => {
                         body: JSON.stringify({
                             type: 'newsletter',
                             name: name,
-                            email: email
+                            email: email,
+                            token: token
                         }),
                     });
                 } catch (emailError) {
@@ -131,6 +140,8 @@ const NewsletterModal = () => {
                 }
 
                 alert('Thank you for subscribing!');
+                // Mark as subscribed so popup never shows again
+                localStorage.setItem('newsletterSubscribed', 'true');
                 closeModal();
             }
         } catch (error) {

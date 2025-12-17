@@ -142,7 +142,8 @@ function BlogPage() {
               body: JSON.stringify({
                 type: 'newsletter',
                 name: newsletterData.name,
-                email: newsletterData.email
+                email: newsletterData.email,
+                token: token
               }),
             });
           } catch (emailError) {
@@ -177,7 +178,8 @@ function BlogPage() {
             body: JSON.stringify({
               type: 'newsletter',
               name: newsletterData.name,
-              email: newsletterData.email
+              email: newsletterData.email,
+              token: token
             }),
           });
         } catch (emailError) {

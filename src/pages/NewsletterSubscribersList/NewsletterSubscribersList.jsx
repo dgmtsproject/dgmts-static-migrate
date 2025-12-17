@@ -393,7 +393,8 @@ const NewsletterSubscribersList = () => {
               pdfFileName: pdfFile?.name || null,
               fromEmail: emailConfig.email_id.trim(),
               fromName: emailConfig.from_email_name.trim(),
-              password: emailConfig.email_password.trim()
+              password: emailConfig.email_password.trim(),
+              token: subscriber.token || null
             })
           });
 

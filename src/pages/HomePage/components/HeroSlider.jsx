@@ -127,7 +127,7 @@ const HeroSlider = () => {
           isAutoFlipping.current = false;
         }
       }
-    }, 8000); // Increased from 5000ms to 8000ms to allow more time to read
+    }, 16000); // Doubled from 8000ms to 16000ms to allow more time to read
 
     return () => clearInterval(timer);
   }, [slides.length]);
