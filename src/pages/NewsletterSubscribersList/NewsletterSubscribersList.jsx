@@ -429,8 +429,17 @@ const NewsletterSubscribersList = () => {
     }
   };
 
-  // Filter subscribers based on search term
+  // Filter subscribers based on search term and remove invalid entries
   const filteredSubscribers = subscribers.filter((subscriber) => {
+    // Remove invalid subscribers - must have both id and email, and they must be truthy strings
+    if (!subscriber || 
+        !subscriber.id || 
+        !subscriber.email || 
+        typeof subscriber.id !== 'string' && typeof subscriber.id !== 'number' ||
+        typeof subscriber.email !== 'string' ||
+        subscriber.email.trim() === '') {
+      return false;
+    }
     const searchLower = searchTerm.toLowerCase();
     const nameMatch = subscriber.name?.toLowerCase().includes(searchLower) || false;
     const emailMatch = subscriber.email?.toLowerCase().includes(searchLower) || false;
@@ -591,56 +600,42 @@ const NewsletterSubscribersList = () => {
               <>
                 <div className="subscribers-table">
                   <div className="table-header">
-                    <div className="table-cell header-cell checkbox-cell">
-                      <input
-                        type="checkbox"
-                        checked={filteredSubscribers.length > 0 && filteredSubscribers.every(sub => {
-                          const status = subscriberStatuses[sub.id];
-                          return status === true || (status === undefined && sub.is_active === true);
-                        })}
-                        onChange={(e) => {
-                          filteredSubscribers.forEach(sub => {
-                            handleStatusChange(sub.id, e.target.checked);
-                          });
-                        }}
-                        className="header-checkbox"
-                      />
-                    </div>
-                    <div className="table-cell header-cell">#</div>
+                    <div className="table-cell header-cell checkbox-cell">Active</div>
                     <div className="table-cell header-cell">Name</div>
                     <div className="table-cell header-cell">Email</div>
                     <div className="table-cell header-cell">Date Joined</div>
                     <div className="table-cell header-cell">Status</div>
                   </div>
-                  {filteredSubscribers.map((subscriber, index) => (
-                    <div key={subscriber.id || index} className="table-row">
-                      <div className="table-cell checkbox-cell">
-                        <input
-                          type="checkbox"
-                          checked={subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)}
-                          onChange={(e) => handleStatusChange(subscriber.id, e.target.checked)}
-                          className="subscriber-checkbox"
-                        />
+                  {filteredSubscribers
+                    .filter(sub => sub && sub.id && sub.email && sub.email.trim() !== '')
+                    .map((subscriber, index) => (
+                      <div key={subscriber.id} className="table-row">
+                        <div className="table-cell checkbox-cell">
+                          <input
+                            type="checkbox"
+                            checked={subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)}
+                            onChange={(e) => handleStatusChange(subscriber.id, e.target.checked)}
+                            className="subscriber-checkbox"
+                          />
+                        </div>
+                        <div className="table-cell name-cell">
+                          {subscriber.name || 'N/A'}
+                        </div>
+                        <div className="table-cell email-cell">
+                          <a href={`mailto:${subscriber.email}`} className="email-link">
+                            {subscriber.email}
+                          </a>
+                        </div>
+                        <div className="table-cell date-cell">
+                          {formatDate(subscriber.date_joined)}
+                        </div>
+                        <div className="table-cell status-cell">
+                          <span className={`status-badge ${(subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)) ? 'active' : 'inactive'}`}>
+                            {(subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)) ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
                       </div>
-                      <div className="table-cell">{index + 1}</div>
-                      <div className="table-cell name-cell">
-                        {subscriber.name || 'N/A'}
-                      </div>
-                      <div className="table-cell email-cell">
-                        <a href={`mailto:${subscriber.email}`} className="email-link">
-                          {subscriber.email}
-                        </a>
-                      </div>
-                      <div className="table-cell date-cell">
-                        {formatDate(subscriber.date_joined)}
-                      </div>
-                      <div className="table-cell status-cell">
-                        <span className={`status-badge ${(subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)) ? 'active' : 'inactive'}`}>
-                          {(subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)) ? 'Active' : 'Inactive'}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
                 
                 {hasChanges && (
