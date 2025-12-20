@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Footer.css';
 import swamImg from '../../assets/logos/swam.png';
 import mbeImg from '../../assets/logos/mbe.png';
@@ -10,6 +10,36 @@ import { supabase } from '../../supabaseClient';
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [subscribedEmail, setSubscribedEmail] = useState(null);
+
+  useEffect(() => {
+    // Check if user is subscribed
+    const savedEmail = localStorage.getItem('subscriberEmail');
+    if (savedEmail) {
+      setSubscribedEmail(savedEmail);
+    }
+
+    // Listen for storage changes (e.g., when unsubscribed in another tab or page)
+    const handleStorageChange = (e) => {
+      if (e.key === 'subscriberEmail') {
+        setSubscribedEmail(e.newValue);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for custom events (for same-page updates)
+    const handleUnsubscribe = () => {
+      setSubscribedEmail(null);
+    };
+
+    window.addEventListener('unsubscribed', handleUnsubscribe);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('unsubscribed', handleUnsubscribe);
+    };
+  }, []);
 
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
@@ -70,6 +100,8 @@ const Footer = () => {
               }
 
               alert('Welcome back! Your subscription has been reactivated.');
+              localStorage.setItem('subscriberEmail', email);
+              setSubscribedEmail(email);
               setEmail('');
             }
           } else {
@@ -105,6 +137,8 @@ const Footer = () => {
             }
 
             alert('Thank you for subscribing to our newsletter!');
+            localStorage.setItem('subscriberEmail', email);
+            setSubscribedEmail(email);
             setEmail('');
           }
 
@@ -283,28 +317,45 @@ const Footer = () => {
                       </div>
                     </div>
 
-                    {/* Newsletter Signup */}
+                    {/* Newsletter Signup/Unsubscribe */}
                     <div className="newsletter-signup">
-                      <h5 className="newsletter-title">Newsletter Signup</h5>
-                      <form onSubmit={handleNewsletterSubmit} className="newsletter-form" aria-label="Newsletter form">
-                        <div className="input-group">
-                          <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Email address"
-                            className="newsletter-input"
-                            required
-                            aria-label="Email address"
-                          />
-                          <button type="submit" disabled={isSubmitting} className="newsletter-button" aria-label="Subscribe">
-                            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
-                          </button>
-                        </div>
-                        <p className="newsletter-disclaimer">
-                          Get notified about news and updates.
-                        </p>
-                      </form>
+                      {subscribedEmail ? (
+                        <>
+                          <h5 className="newsletter-title">Newsletter</h5>
+                          <p className="newsletter-subscribed">
+                            ✓ You're subscribed with: <strong>{subscribedEmail}</strong>
+                          </p>
+                          <a 
+                            href={`/unsubscribe?email=${encodeURIComponent(subscribedEmail)}`}
+                            className="unsubscribe-link"
+                          >
+                            Unsubscribe
+                          </a>
+                        </>
+                      ) : (
+                        <>
+                          <h5 className="newsletter-title">Newsletter Signup</h5>
+                          <form onSubmit={handleNewsletterSubmit} className="newsletter-form" aria-label="Newsletter form">
+                            <div className="input-group">
+                              <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Email address"
+                                className="newsletter-input"
+                                required
+                                aria-label="Email address"
+                              />
+                              <button type="submit" disabled={isSubmitting} className="newsletter-button" aria-label="Subscribe">
+                                {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                              </button>
+                            </div>
+                            <p className="newsletter-disclaimer">
+                              Get notified about news and updates.
+                            </p>
+                          </form>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

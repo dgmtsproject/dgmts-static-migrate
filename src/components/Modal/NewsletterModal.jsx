@@ -23,7 +23,9 @@ const NewsletterModal = () => {
         // if dev mode is on always show the modal
         if (devMode) {
             setIsVisible(true);
+            return;
         }
+        
         // Check if user has already subscribed (never show again)
         const hasSubscribed = localStorage.getItem('newsletterSubscribed');
         const alreadyShown = sessionStorage.getItem('newsletterModalShown');
@@ -36,7 +38,19 @@ const NewsletterModal = () => {
             setIsVisible(true);
             sessionStorage.setItem('newsletterModalShown', 'true');
         }, 7000);
-        return () => clearTimeout(timer);
+
+        // Listen for unsubscribe events to potentially show modal again
+        const handleUnsubscribe = () => {
+            // Clear session storage so modal can show again in this session
+            sessionStorage.removeItem('newsletterModalShown');
+        };
+
+        window.addEventListener('unsubscribed', handleUnsubscribe);
+
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('unsubscribed', handleUnsubscribe);
+        };
     }, [location.pathname]);
 
     const closeModal = () => {
@@ -105,6 +119,7 @@ const NewsletterModal = () => {
                     alert('Welcome back! Your subscription has been reactivated.');
                     // Mark as subscribed so popup never shows again
                     localStorage.setItem('newsletterSubscribed', 'true');
+                    localStorage.setItem('subscriberEmail', email);
                     closeModal();
                 }
             } else {
@@ -142,6 +157,7 @@ const NewsletterModal = () => {
                 alert('Thank you for subscribing!');
                 // Mark as subscribed so popup never shows again
                 localStorage.setItem('newsletterSubscribed', 'true');
+                localStorage.setItem('subscriberEmail', email);
                 closeModal();
             }
         } catch (error) {

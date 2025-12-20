@@ -234,6 +234,38 @@
   color: transparent;
 }
 
+.newsletter-subscribed {
+  color: #4caf50;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.newsletter-subscribed strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.unsubscribe-link {
+  display: inline-block;
+  color: #ff6b6b;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ff6b6b;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.unsubscribe-link:hover {
+  background-color: #ff6b6b;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
 .newsletter-form {
   width: 100%;
 }
