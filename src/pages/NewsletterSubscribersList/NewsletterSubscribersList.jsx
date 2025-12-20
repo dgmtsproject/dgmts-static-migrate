@@ -22,7 +22,7 @@ const NewsletterSubscribersList = () => {
   const [sendingEmails, setSendingEmails] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [showPassword, setShowPassword] = useState(false);
-  const [emailMode, setEmailMode] = useState('rich'); // 'rich' or 'plain'
+  const [emailMode, setEmailMode] = useState('rich'); // 'rich', 'plain', or 'html'
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfUrl, setPdfUrl] = useState('');
   const [uploadingPdf, setUploadingPdf] = useState(false);
@@ -337,7 +337,7 @@ const NewsletterSubscribersList = () => {
   }
 
   const handleSendEmails = async () => {
-    const content = emailMode === 'rich' ? emailContent.trim() : emailContent.trim()
+    const content = emailContent.trim();
     
     if (!content || (emailMode === 'rich' && content === '<p><br></p>')) {
       setMessage({ type: 'error', text: 'Please enter email content' });
@@ -388,7 +388,7 @@ const NewsletterSubscribersList = () => {
               name: subscriber.name || 'Subscriber',
               message: content,
               subject: emailSubject.trim(),
-              htmlContent: emailMode === 'rich' ? content : null,
+              htmlContent: (emailMode === 'rich' || emailMode === 'html') ? content : null,
               pdfUrl: pdfUrl || null,
               pdfFileName: pdfFile?.name || null,
               fromEmail: emailConfig.email_id.trim(),
@@ -684,7 +684,15 @@ const NewsletterSubscribersList = () => {
                   onClick={() => setEmailMode('rich')}
                   disabled={sendingEmails}
                 >
-                  Rich Text (HTML)
+                  Rich Text Editor
+                </button>
+                <button
+                  type="button"
+                  className={`mode-btn ${emailMode === 'html' ? 'active' : ''}`}
+                  onClick={() => setEmailMode('html')}
+                  disabled={sendingEmails}
+                >
+                  Custom HTML/CSS
                 </button>
                 <button
                   type="button"
@@ -709,6 +717,46 @@ const NewsletterSubscribersList = () => {
                     modules={quillModules}
                     formats={quillFormats}
                   />
+                </div>
+              ) : emailMode === 'html' ? (
+                <div className="html-editor-container">
+                  <textarea
+                    id="html_content"
+                    value={emailContent}
+                    onChange={(e) => setEmailContent(e.target.value)}
+                    placeholder={`Paste your custom HTML/CSS code here...
+
+Example:
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    .header { background: #4a90e2; color: white; padding: 20px; }
+    .content { padding: 20px; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Newsletter Title</h1>
+  </div>
+  <div class="content">
+    <img src="https://your-image-url.com/image.jpg" alt="Banner" />
+    <p>Your content here...</p>
+  </div>
+</body>
+</html>`}
+                    rows={20}
+                    className="html-content-textarea"
+                    disabled={sendingEmails}
+                    spellCheck={false}
+                  />
+                  <small className="form-hint html-hint">
+                    💡 <strong>Tips:</strong> Use inline CSS for best email client compatibility. 
+                    For images, use absolute URLs (https://). 
+                    Test with popular email clients before sending to all subscribers.
+                  </small>
                 </div>
               ) : (
                 <textarea
