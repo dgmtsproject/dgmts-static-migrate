@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library, FolderOpen, UserCircle } from 'lucide-react';
+import { ChevronDown, Menu, X, Users, Briefcase, GalleryVertical, Mail, Map, CreditCard, Building, Construction, FlaskConical, Drill, Radar, Laptop, Server, Newspaper, Library, FolderOpen, UserCircle, CalendarDays } from 'lucide-react';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -24,6 +24,7 @@ const Navigation = () => {
           items: [
             { name: 'Engineering Updates', path: '/blog', icon: Newspaper, description: 'Technical insights and guides' },
             { name: 'Published Papers', path: '/published-papers', icon: Library, description: 'Contributions to the research community' },
+            { name: 'Events & Workshops', path: '/events', icon: CalendarDays, description: 'Upcoming events and workshops' },
           ]
         }
       ]

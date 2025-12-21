@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, EyeOff, FileText, Mail, Users, Settings } from 'lucide-react'
+import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
 import './AdminDashboard.css'
 
@@ -43,6 +43,13 @@ function AdminDashboard() {
       icon: FileText,
       path: '/admin/blog-management',
       color: '#4a90e2'
+    },
+    {
+      title: 'Event Management',
+      description: 'Create, edit, and manage events, workshops, and webinars',
+      icon: CalendarDays,
+      path: '/admin/event-management',
+      color: '#9c27b0'
     },
     {
       title: 'Newsletter Subscribers',

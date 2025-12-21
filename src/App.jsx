@@ -14,6 +14,8 @@ import InstrumentationConditionSurveysPage from './pages/InstrumentationConditio
 import AdminPage from './pages/AdminPage/AdminPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
+import EventsPage from './pages/EventsPage/EventsPage';
+import EventDetailPage from './pages/EventsPage/EventDetailPage';
 import CareerPage from './pages/CareerPage/CareerPage';
 import LocationPage from './pages/LocationPage/LocationPage'; // Importing the LocationPage component
 import ContactPage from './pages/ContactPage/ContactPage';
@@ -38,6 +40,7 @@ import EmailConfigurationPage from './pages/EmailConfigurationPage/EmailConfigur
 import BlogAdminPage from './pages/BlogAdminPage/BlogAdminPage';
 import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import CredentialsManagement from './pages/CredentialsManagement/CredentialsManagement';
+import EventAdminPage from './pages/EventAdminPage/EventAdminPage';
 import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
 function App() {
   return (
@@ -105,11 +108,16 @@ function App() {
             <Route path="/page/blog" element={<BlogPage />} /> {/* Fallback route for old blog page */}
 
             <Route path="/blog/:id" element={<BlogPostPage />} />
+
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:id" element={<EventDetailPage />} />
+
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/legacy" element={<AdminPage />} />
             <Route path="/admin/email_configuration" element={<EmailConfigurationPage />} />
             <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
             <Route path="/admin/blog-management" element={<BlogAdminPage />} />
+            <Route path="/admin/event-management" element={<EventAdminPage />} />
             <Route path="/admin/credentials" element={<CredentialsManagement />} />
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
