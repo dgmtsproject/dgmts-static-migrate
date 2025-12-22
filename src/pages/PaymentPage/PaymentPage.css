@@ -7,6 +7,127 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Card Popup Styles */
+.card-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+  padding: 20px;
+}
+
+.card-popup {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+.card-popup-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.card-popup-close:hover {
+  background-color: #f0f0f0;
+  color: #333;
+  transform: rotate(90deg);
+}
+
+.card-popup-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 10px 0;
+  color: #333;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-popup-subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin: 0 0 30px 0;
+}
+
+.card-logos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card-logo-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 2px solid #e9ecef;
+  min-height: 130px;
+}
+
+.card-logo-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.card-logo-item img {
+  max-width: 100%;
+  max-height: 90px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
 .payment-page {
   font-family: 'Montserrat', sans-serif;
   color: var(--grey-900);
@@ -137,6 +258,14 @@
     .payment-section {
         padding: 2rem;
     }
+    
+    .card-popup {
+        padding: 30px 25px;
+    }
+    
+    .card-logos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 767px) {
@@ -146,5 +275,31 @@
     .payment-section {
         padding: 1.5rem;
         margin: 1rem;
+    }
+    
+    .card-popup {
+        padding: 25px 20px;
+    }
+    
+    .card-popup-title {
+        font-size: 1.5rem;
+    }
+    
+    .card-popup-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .card-logos-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .card-logo-item {
+        padding: 20px;
+        min-height: 110px;
+    }
+    
+    .card-logo-item img {
+        max-height: 70px;
     }
 }

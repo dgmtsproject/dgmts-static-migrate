@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import './PaymentPage.css';
-import { Wrench } from 'lucide-react';
+import { Wrench, X } from 'lucide-react';
+import visaLogo from '../../assets/logos/Visa_logo.png';
+import mastercardLogo from '../../assets/logos/mastercard.png';
+import amexLogo from '../../assets/logos/american-express.png';
+import discoverLogo from '../../assets/logos/discover.png';
 
 const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
 
@@ -16,6 +20,7 @@ const PaymentPage = () => {
   const [success, setSuccess] = useState(false);
   const [transactionId, setTransactionId] = useState('');
   const [countdown, setCountdown] = useState(12);
+  const [showCardPopup, setShowCardPopup] = useState(false);
 
   // Billing Information (Step 1)
   const [billingData, setBillingData] = useState({
@@ -336,8 +341,48 @@ const PaymentPage = () => {
     }
   }, [navigate]);
 
+  // Show card popup 2 seconds after page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowCardPopup(true);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main className="payment-page bg-texture">
+      {/* Accepted Payment Cards Popup */}
+      {showCardPopup && (
+        <div className="card-popup-overlay" onClick={() => setShowCardPopup(false)}>
+          <div className="card-popup" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="card-popup-close" 
+              onClick={() => setShowCardPopup(false)}
+              aria-label="Close"
+            >
+              <X size={24} />
+            </button>
+            <h3 className="card-popup-title">Accepted Payment Cards</h3>
+            <p className="card-popup-subtitle">We accept the following cards</p>
+            <div className="card-logos-grid">
+              <div className="card-logo-item">
+                <img src={visaLogo} alt="Visa" />
+              </div>
+              <div className="card-logo-item">
+                <img src={mastercardLogo} alt="Mastercard" />
+              </div>
+              <div className="card-logo-item">
+                <img src={amexLogo} alt="American Express" />
+              </div>
+              <div className="card-logo-item">
+                <img src={discoverLogo} alt="Discover" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <section className="payment-section">
         {UNDER_MAINTENANCE ? (
           <div className="maintenance-container" style={{ textAlign: 'center', padding: '50px 20px' }}>
