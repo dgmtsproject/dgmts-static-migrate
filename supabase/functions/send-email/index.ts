@@ -540,8 +540,43 @@ You can unsubscribe at any time by visiting: ${unsubscribeUrl}
         ? `https://dullesgeotechnical.com/unsubscribe?token=${encodeURIComponent(subscriberToken)}`
         : `https://dullesgeotechnical.com/unsubscribe?email=${encodeURIComponent(email)}`;
       
-      // Use HTML content if provided, otherwise use plain message
-      const htmlBody = htmlContent || `
+      // Unsubscribe footer HTML to inject into custom HTML emails
+      const unsubscribeFooterHtml = `
+        <div style="text-align: center; padding: 20px; margin-top: 20px; border-top: 1px solid #ddd; font-family: Arial, sans-serif; font-size: 12px; color: #666;">
+            <p style="margin: 0 0 10px 0;">This email was sent to ${email} because you are subscribed to our newsletter.</p>
+            <p style="margin: 0;"><a href="${unsubscribeUrl}" style="color: #4a90e2; text-decoration: underline;">Unsubscribe from this newsletter</a></p>
+            <p style="margin: 10px 0 0 0; opacity: 0.8;">© ${new Date().getFullYear()} DGMTS. All rights reserved.</p>
+        </div>
+      `;
+      
+      // Check if htmlContent is a complete HTML document (custom HTML/CSS mode)
+      const isCompleteHtmlDocument = htmlContent && 
+        (htmlContent.trim().toLowerCase().startsWith('<!doctype') || 
+         htmlContent.trim().toLowerCase().startsWith('<html'));
+      
+      let htmlBody;
+      
+      if (isCompleteHtmlDocument) {
+        // For complete HTML documents, inject unsubscribe link before closing </body> tag
+        // This preserves the original structure and styling
+        if (htmlContent.toLowerCase().includes('</body>')) {
+          htmlBody = htmlContent.replace(
+            /<\/body>/i, 
+            `${unsubscribeFooterHtml}</body>`
+          );
+        } else if (htmlContent.toLowerCase().includes('</html>')) {
+          // If no body tag but has html tag, inject before </html>
+          htmlBody = htmlContent.replace(
+            /<\/html>/i, 
+            `${unsubscribeFooterHtml}</html>`
+          );
+        } else {
+          // Fallback: append at the end
+          htmlBody = htmlContent + unsubscribeFooterHtml;
+        }
+      } else {
+        // For plain text or rich text editor content, use the template wrapper
+        htmlBody = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -612,6 +647,7 @@ You can unsubscribe at any time by visiting: ${unsubscribeUrl}
 </body>
 </html>
       `;
+      }
 
       mailOptions = {
         from: `${fromEmailName} <${smtpUser}>`,
