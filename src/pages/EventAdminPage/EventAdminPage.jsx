@@ -29,9 +29,10 @@ function EventAdminPage() {
   const [registrationUrl, setRegistrationUrl] = useState('')
   const [isFeatured, setIsFeatured] = useState(false)
   const [isPublished, setIsPublished] = useState(true)
+  const [additionalImages, setAdditionalImages] = useState([])
   
   const [editingId, setEditingId] = useState(null)
-  const [view, setView] = useState('list') // 'list', 'add', 'edit'
+  const [view, setView] = useState('list') // 'list', 'add', 'edit', 'preview'
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState({ type: '', text: '' })
@@ -218,6 +219,95 @@ function EventAdminPage() {
     setImagePreview('')
   }
 
+  const uploadImageToStorage = async (file) => {
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
+
+    // Try uploading to event-images bucket
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('event-images')
+      .upload(fileName, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (!uploadError && uploadData) {
+      const { data: urlData } = supabase.storage
+        .from('event-images')
+        .getPublicUrl(fileName)
+
+      if (urlData?.publicUrl) {
+        return { url: urlData.publicUrl, error: null }
+      }
+    }
+
+    // Fallback: Try blog-images bucket
+    const { data: blogUploadData, error: blogUploadError } = await supabase.storage
+      .from('blog-images')
+      .upload(`events/${fileName}`, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (!blogUploadError && blogUploadData) {
+      const { data: blogUrlData } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(`events/${fileName}`)
+
+      if (blogUrlData?.publicUrl) {
+        return { url: blogUrlData.publicUrl, error: null }
+      }
+    }
+
+    // Final fallback: Use data URL
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        resolve({ url: reader.result, error: null })
+      }
+      reader.readAsDataURL(file)
+    })
+  }
+
+  const handleAdditionalImageUpload = async (e) => {
+    const files = Array.from(e.target.files || [])
+    if (files.length === 0) return
+
+    const invalidFiles = files.filter(file => !file.type.startsWith('image/'))
+    if (invalidFiles.length > 0) {
+      setMessage({ type: 'error', text: 'Please select only image files' })
+      return
+    }
+
+    const largeFiles = files.filter(file => file.size > 10 * 1024 * 1024)
+    if (largeFiles.length > 0) {
+      setMessage({ type: 'error', text: 'All images must be less than 10MB' })
+      return
+    }
+
+    setUploading(true)
+    setMessage({ type: '', text: '' })
+
+    try {
+      const uploadPromises = files.map(file => uploadImageToStorage(file))
+      const results = await Promise.all(uploadPromises)
+      
+      const newImages = results.map(result => result.url).filter(Boolean)
+      setAdditionalImages([...additionalImages, ...newImages])
+      setMessage({ type: 'success', text: `${newImages.length} image(s) uploaded successfully!` })
+    } catch (err) {
+      console.error('Error uploading images:', err)
+      setMessage({ type: 'error', text: 'Failed to upload some images: ' + err.message })
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const removeAdditionalImage = (index) => {
+    const newImages = additionalImages.filter((_, i) => i !== index)
+    setAdditionalImages(newImages)
+  }
+
   const generateSlug = (text) => {
     return text
       .toLowerCase()
@@ -268,6 +358,7 @@ function EventAdminPage() {
         description: description.trim() || null,
         content: content.trim() || null,
         image_url: imageUrl.trim() || null,
+        additional_images: additionalImages.length > 0 ? additionalImages : null,
         slug: slug.trim(),
         location: location.trim() || null,
         event_date: combineDateAndTime(eventDate, eventTime),
@@ -314,6 +405,7 @@ function EventAdminPage() {
     setContent('')
     setImageUrl('')
     setImagePreview('')
+    setAdditionalImages([])
     setSlug('')
     setLocation('')
     setEventDate('')
@@ -343,6 +435,7 @@ function EventAdminPage() {
     setContent(event.content || '')
     setImageUrl(event.image_url || '')
     setImagePreview(event.image_url || '')
+    setAdditionalImages(event.additional_images || [])
     setSlug(event.slug || '')
     setLocation(event.location || '')
     
@@ -786,6 +879,50 @@ function EventAdminPage() {
                 </div>
               </div>
 
+              {/* Additional Images Section */}
+              <div className="form-section">
+                <h4 className="form-section-title">Additional Images Gallery</h4>
+                
+                <div className="form-group">
+                  <div className="additional-images-upload-section">
+                    <input
+                      id="additionalImages"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleAdditionalImageUpload}
+                      disabled={saving || uploading}
+                      style={{ display: 'none' }}
+                    />
+                    <label htmlFor="additionalImages" className="image-upload-label secondary">
+                      <Upload size={20} />
+                      <span>{uploading ? 'Uploading...' : 'Upload Multiple Images'}</span>
+                    </label>
+                    <small className="form-hint">Select multiple images to create an event gallery</small>
+                  </div>
+
+                  {additionalImages.length > 0 && (
+                    <div className="additional-images-grid">
+                      {additionalImages.map((imgUrl, index) => (
+                        <div key={index} className="additional-image-item">
+                          <img src={imgUrl} alt={`Additional ${index + 1}`} />
+                          <button
+                            type="button"
+                            className="btn-remove-additional-image"
+                            onClick={() => removeAdditionalImage(index)}
+                            disabled={saving || uploading}
+                            aria-label="Remove image"
+                            title="Remove image"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Content Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Event Details</h4>
@@ -847,6 +984,14 @@ function EventAdminPage() {
                 </button>
                 <button
                   type="button"
+                  className="btn btn-info"
+                  onClick={() => setView('preview')}
+                  disabled={saving || !title}
+                >
+                  Preview Event
+                </button>
+                <button
+                  type="button"
                   className="btn btn-secondary"
                   onClick={() => { setView('list'); resetForm(); }}
                   disabled={saving}
@@ -855,6 +1000,120 @@ function EventAdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        )}
+
+        {view === 'preview' && (
+          <div className="event-preview-section">
+            <div className="event-preview-header">
+              <h3>Event Preview</h3>
+              <div className="preview-actions">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setView(editingId ? 'edit' : 'add')}
+                >
+                  ← Back to Edit
+                </button>
+              </div>
+            </div>
+            
+            <div className="event-preview-content">
+              {/* Simulated Event Detail Page */}
+              <div className="event-detail-preview-card">
+                {imagePreview && (
+                  <div className="event-detail-image">
+                    <img src={imagePreview} alt={title} />
+                    {isFeatured && (
+                      <span className="featured-badge">Featured Event</span>
+                    )}
+                  </div>
+                )}
+                
+                <header className="event-detail-header">
+                  <div className="event-status-badge-container">
+                    <span className={`event-status-badge ${isUpcoming(eventDate) ? 'upcoming' : 'past'}`}>
+                      {isUpcoming(eventDate) ? 'Upcoming Event' : 'Past Event'}
+                    </span>
+                    {isOnline && (
+                      <span className="event-type-badge online">
+                        <Video size={14} /> Online Event
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h1 className="event-detail-title">{title || 'Event Title'}</h1>
+                  
+                  <div className="event-info-grid">
+                    {eventDate && (
+                      <div className="event-info-item">
+                        <Calendar size={20} />
+                        <div>
+                          <strong>Date & Time</strong>
+                          <span>{formatDate(combineDateAndTime(eventDate, eventTime))}</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {duration && (
+                      <div className="event-info-item">
+                        <Clock size={20} />
+                        <div>
+                          <strong>Duration</strong>
+                          <span>{duration}</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {location && (
+                      <div className="event-info-item">
+                        <MapPin size={20} />
+                        <div>
+                          <strong>Location</strong>
+                          <span>{location}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {registrationUrl && isUpcoming(eventDate) && (
+                    <a 
+                      href={registrationUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="register-button"
+                    >
+                      Register Now <ExternalLink size={16} />
+                    </a>
+                  )}
+                </header>
+
+                {description && (
+                  <div className="event-description">
+                    <p>{description}</p>
+                  </div>
+                )}
+
+                {content && (
+                  <div 
+                    className="event-detail-content"
+                    dangerouslySetInnerHTML={{ __html: content }}
+                  />
+                )}
+
+                {additionalImages.length > 0 && (
+                  <div className="event-images-gallery">
+                    <h3>Event Gallery</h3>
+                    <div className="event-images-grid">
+                      {additionalImages.map((imgUrl, index) => (
+                        <div key={index} className="event-gallery-item">
+                          <img src={imgUrl} alt={`${title} - Image ${index + 1}`} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

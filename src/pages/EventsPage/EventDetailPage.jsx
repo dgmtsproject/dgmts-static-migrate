@@ -215,6 +215,19 @@ function EventDetailPage() {
               dangerouslySetInnerHTML={{ __html: event.content }}
             />
           )}
+
+          {event.additional_images && event.additional_images.length > 0 && (
+            <div className="event-images-gallery">
+              <h3>Event Gallery</h3>
+              <div className="event-images-grid">
+                {event.additional_images.map((imgUrl, index) => (
+                  <div key={index} className="event-gallery-item">
+                    <img src={imgUrl} alt={`${event.title} - Image ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </article>
 
         <div className="event-detail-navigation">
