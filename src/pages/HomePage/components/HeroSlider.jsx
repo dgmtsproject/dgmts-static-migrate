@@ -4,7 +4,7 @@ import HTMLFlipBook from 'react-pageflip';
 import sliderImage1 from "../../../assets/gallery/photo-66.jpg";
 import sliderImage2 from "../../../assets/gallery/photo-44.jpg";
 import sliderImage3 from "../../../assets/gallery/photo-49.jpg";
-import sliderImage4 from "../../../assets/gallery/photo-54.jpg";
+import sliderImage4 from "../../../assets/instrumentation/project7_1.png";
 import sliderImage5 from "../../../assets/gallery/photo-103.jpg";
 import sliderImage6 from "../../../assets/gallery/photo-38.jpg";
 import sliderImage7 from "../../../assets/gallery/photo-86.jpg";
