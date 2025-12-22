@@ -7,12 +7,12 @@
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-.unsubscribe-container {
+.unsubscribe-page .unsubscribe-container {
   max-width: 600px;
   width: 100%;
 }
 
-.unsubscribe-content {
+.unsubscribe-page .unsubscribe-content {
   background: white;
   border-radius: 12px;
   padding: 50px 40px;
@@ -20,27 +20,27 @@
   text-align: center;
 }
 
-.unsubscribe-content h2 {
+.unsubscribe-page .unsubscribe-content h2 {
   color: #003366;
   margin: 20px 0 15px 0;
   font-size: 28px;
   font-weight: 600;
 }
 
-.unsubscribe-content p {
+.unsubscribe-page .unsubscribe-content p {
   color: #666;
   font-size: 16px;
   line-height: 1.6;
   margin: 15px 0;
 }
 
-.unsubscribe-note {
+.unsubscribe-page .unsubscribe-note {
   color: #999;
   font-size: 14px;
   margin-top: 25px;
 }
 
-.loading-spinner {
+.unsubscribe-page .loading-spinner {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #2795d0;
   border-radius: 50%;
@@ -55,7 +55,7 @@
   100% { transform: rotate(360deg); }
 }
 
-.success-icon {
+.unsubscribe-page .success-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -69,7 +69,7 @@
   font-weight: bold;
 }
 
-.error-icon {
+.unsubscribe-page .error-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -83,7 +83,7 @@
   font-weight: bold;
 }
 
-.info-icon {
+.unsubscribe-page .info-icon {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -97,7 +97,7 @@
   font-weight: bold;
 }
 
-.btn {
+.unsubscribe-page .btn {
   padding: 12px 30px;
   border: none;
   border-radius: 6px;
@@ -108,27 +108,27 @@
   margin-top: 25px;
 }
 
-.btn-primary {
+.unsubscribe-page .btn-primary {
   background: linear-gradient(45deg, #2795d0, #0056b3);
   color: white;
 }
 
-.btn-primary:hover {
+.unsubscribe-page .btn-primary:hover {
   background: linear-gradient(45deg, #0056b3, #2795d0);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(39, 149, 208, 0.3);
 }
 
 @media (max-width: 576px) {
-  .unsubscribe-content {
+  .unsubscribe-page .unsubscribe-content {
     padding: 30px 20px;
   }
 
-  .unsubscribe-content h2 {
+  .unsubscribe-page .unsubscribe-content h2 {
     font-size: 24px;
   }
 
-  .unsubscribe-content p {
+  .unsubscribe-page .unsubscribe-content p {
     font-size: 14px;
   }
 }

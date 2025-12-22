@@ -213,7 +213,7 @@ function EventsPage() {
       <div className="container">
         <header className="events-header">
           <h1>Events & Workshops</h1>
-          <p>Join us at our upcoming events, workshops, and webinars to stay connected with the industry.</p>
+          <p>DGMTS events, workshops, and webinars to stay connected with the industry.</p>
         </header>
 
         <div className="events-layout">
