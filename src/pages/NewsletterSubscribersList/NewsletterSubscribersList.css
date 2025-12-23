@@ -347,7 +347,7 @@
 
 .newsletter-subscribers-page .table-row {
   display: grid;
-  grid-template-columns: 80px 1.5fr 2fr 140px 120px;
+  grid-template-columns: 80px 1.5fr 1.5fr 180px 120px;
   grid-auto-flow: column;
   border-bottom: 1px solid var(--grey-200);
   transition: background-color 0.2s;
@@ -1149,6 +1149,617 @@
   }
 
   .newsletter-subscribers-page .add-subscriber-btn {
+    width: 100%;
+  }
+}
+
+/* Updated Table Grid for new columns */
+.newsletter-subscribers-page .table-header {
+  grid-template-columns: 60px 60px 1.5fr 2fr 120px 100px 80px;
+}
+
+.newsletter-subscribers-page .table-row {
+  grid-template-columns: 60px 60px 1.5fr 2fr 120px 100px 80px;
+}
+
+/* Actions Cell */
+.newsletter-subscribers-page .actions-cell {
+  justify-content: center;
+}
+
+.newsletter-subscribers-page .btn-delete-single {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  color: #dc3545;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-subscribers-page .btn-delete-single:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* Group Management Section */
+.newsletter-subscribers-page .group-management-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba(39, 149, 208, 0.05), rgba(40, 167, 69, 0.05));
+  border-radius: 12px;
+  border: 1px solid var(--grey-200);
+}
+
+.newsletter-subscribers-page .group-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.newsletter-subscribers-page .group-management-header .section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.newsletter-subscribers-page .groups-empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--grey-600);
+}
+
+.newsletter-subscribers-page .groups-empty-state svg {
+  color: var(--grey-400);
+  margin-bottom: 1rem;
+}
+
+.newsletter-subscribers-page .groups-empty-state p {
+  margin: 0;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.newsletter-subscribers-page .groups-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.newsletter-subscribers-page .group-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid var(--grey-200);
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .group-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .group-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.newsletter-subscribers-page .group-name {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--grey-900);
+}
+
+.newsletter-subscribers-page .group-description {
+  font-size: 0.85rem;
+  color: var(--grey-600);
+  margin: 0 0 0.5rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newsletter-subscribers-page .group-member-count {
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.newsletter-subscribers-page .group-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-subscribers-page .btn-group-action {
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--grey-300);
+  border-radius: 6px;
+  color: var(--grey-600);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-subscribers-page .btn-group-action:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(39, 149, 208, 0.05);
+}
+
+.newsletter-subscribers-page .btn-group-delete:hover {
+  border-color: #dc3545;
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.05);
+}
+
+/* Bulk Actions Section */
+.newsletter-subscribers-page .bulk-actions-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(39, 149, 208, 0.1), rgba(74, 144, 226, 0.1));
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.newsletter-subscribers-page .bulk-actions-info {
+  display: flex;
+  align-items: center;
+}
+
+.newsletter-subscribers-page .selected-count {
+  font-weight: 600;
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.newsletter-subscribers-page .bulk-actions-buttons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.newsletter-subscribers-page .add-to-group-dropdown .group-select {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--grey-300);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: white;
+  cursor: pointer;
+  color: var(--grey-700);
+}
+
+.newsletter-subscribers-page .add-to-group-dropdown .group-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .btn-danger {
+  padding: 0.6rem 1rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .btn-danger:hover {
+  background: #c82333;
+}
+
+.newsletter-subscribers-page .btn-danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.newsletter-subscribers-page .btn-secondary-outline {
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: var(--grey-700);
+  border: 1px solid var(--grey-300);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .btn-secondary-outline:hover {
+  border-color: var(--grey-500);
+  color: var(--grey-900);
+}
+
+/* Target Group Select */
+.newsletter-subscribers-page .target-group-select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  color: var(--grey-900);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  font-family: 'Red Hat Display', sans-serif;
+  cursor: pointer;
+}
+
+.newsletter-subscribers-page .target-group-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.newsletter-subscribers-page .target-group-select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Modal Styles */
+.newsletter-subscribers-page .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.newsletter-subscribers-page .modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-subscribers-page .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--grey-200);
+}
+
+.newsletter-subscribers-page .modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--grey-900);
+}
+
+.newsletter-subscribers-page .modal-close {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--grey-500);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .modal-close:hover {
+  background: var(--grey-100);
+  color: var(--grey-700);
+}
+
+.newsletter-subscribers-page .modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.newsletter-subscribers-page .modal-body .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.newsletter-subscribers-page .modal-body .form-group:last-child {
+  margin-bottom: 0;
+}
+
+.newsletter-subscribers-page .modal-body .form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--grey-900);
+  font-size: 0.95rem;
+}
+
+.newsletter-subscribers-page .modal-body .form-input,
+.newsletter-subscribers-page .modal-body .form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: 'Red Hat Display', sans-serif;
+  box-sizing: border-box;
+}
+
+.newsletter-subscribers-page .modal-body .form-input:focus,
+.newsletter-subscribers-page .modal-body .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.newsletter-subscribers-page .modal-body .form-textarea {
+  resize: vertical;
+}
+
+.newsletter-subscribers-page .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--grey-200);
+  background: var(--grey-50);
+}
+
+.newsletter-subscribers-page .warning-text {
+  color: #dc3545;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+
+/* Group Members Modal */
+.newsletter-subscribers-page .group-members-modal {
+  max-width: 600px;
+}
+
+.newsletter-subscribers-page .member-search {
+  margin-bottom: 1rem;
+}
+
+.newsletter-subscribers-page .members-list {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid var(--grey-200);
+  border-radius: 8px;
+}
+
+.newsletter-subscribers-page .member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--grey-100);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .member-item:last-child {
+  border-bottom: none;
+}
+
+.newsletter-subscribers-page .member-item:hover {
+  background: var(--grey-50);
+}
+
+.newsletter-subscribers-page .member-item.in-group {
+  background: rgba(40, 167, 69, 0.05);
+}
+
+.newsletter-subscribers-page .member-item.in-group:hover {
+  background: rgba(40, 167, 69, 0.1);
+}
+
+.newsletter-subscribers-page .member-item.changed {
+  background: rgba(255, 193, 7, 0.1);
+  border-left: 3px solid #ffc107;
+}
+
+.newsletter-subscribers-page .member-item.changed.in-group {
+  background: rgba(40, 167, 69, 0.15);
+  border-left: 3px solid #28a745;
+}
+
+.newsletter-subscribers-page .member-item.changed:not(.in-group) {
+  background: rgba(220, 53, 69, 0.05);
+  border-left: 3px solid #dc3545;
+}
+
+.newsletter-subscribers-page .member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.newsletter-subscribers-page .member-name {
+  font-weight: 600;
+  color: var(--grey-900);
+  font-size: 0.95rem;
+}
+
+.newsletter-subscribers-page .member-email {
+  font-size: 0.85rem;
+  color: var(--grey-600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newsletter-subscribers-page .member-inactive-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  width: fit-content;
+}
+
+.newsletter-subscribers-page .member-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 60px;
+}
+
+.newsletter-subscribers-page .member-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .changed-indicator {
+  color: #ffc107;
+  font-size: 1.2rem;
+  line-height: 1;
+  animation: pulse 2s infinite;
+}
+
+.newsletter-subscribers-page .in-group-icon {
+  color: #28a745;
+}
+
+.newsletter-subscribers-page .add-icon {
+  color: var(--grey-400);
+}
+
+.newsletter-subscribers-page .member-item:hover .add-icon {
+  color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .members-summary {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--grey-600);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.newsletter-subscribers-page .changes-summary {
+  color: #ffc107;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Delete Confirm Modal */
+.newsletter-subscribers-page .delete-confirm-modal .modal-body {
+  text-align: center;
+}
+
+.newsletter-subscribers-page .delete-confirm-modal .modal-body p {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: var(--grey-700);
+}
+
+/* Responsive Adjustments for New Features */
+@media (max-width: 992px) {
+  .newsletter-subscribers-page .table-header,
+  .newsletter-subscribers-page .table-row {
+    grid-template-columns: 50px 50px 1fr 1.5fr 100px 80px 60px;
+  }
+  
+  .newsletter-subscribers-page .table-cell {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .newsletter-subscribers-page .group-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .newsletter-subscribers-page .groups-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .newsletter-subscribers-page .bulk-actions-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .newsletter-subscribers-page .bulk-actions-info {
+    justify-content: center;
+  }
+  
+  .newsletter-subscribers-page .bulk-actions-buttons {
+    justify-content: center;
+  }
+  
+  .newsletter-subscribers-page .subscribers-table {
+    overflow-x: auto;
+  }
+  
+  .newsletter-subscribers-page .table-header,
+  .newsletter-subscribers-page .table-row {
+    min-width: 700px;
+  }
+  
+  .newsletter-subscribers-page .modal-content {
+    max-height: 80vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-subscribers-page .bulk-actions-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .newsletter-subscribers-page .bulk-actions-buttons .btn,
+  .newsletter-subscribers-page .bulk-actions-buttons .group-select {
     width: 100%;
   }
 }

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
@@ -11,7 +12,6 @@ import ConstructionInspectionPage from './pages/ConstructionInspectionPage/Const
 import DrillingInSituTestingPage from './pages/DrillingInSituTestingPage/DrillingInSituTestingPage';
 import LaboratoryTestingPage from './pages/LaboratoryTestingPage/LaboratoryTestingPage';
 import InstrumentationConditionSurveysPage from './pages/InstrumentationConditionSurveysPage/InstrumentationConditionSurveysPage';
-import AdminPage from './pages/AdminPage/AdminPage';
 import BlogPage from './pages/BlogPage/BlogPage';
 import BlogPostPage from './pages/BlogPostPage/BlogPostPage';
 import EventsPage from './pages/EventsPage/EventsPage';
@@ -35,14 +35,20 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
 import ClientsPage from './pages/ClientsPage/ClientsPage';
-import NewsletterSubscribersList from './pages/NewsletterSubscribersList/NewsletterSubscribersList';
-import EmailConfigurationPage from './pages/EmailConfigurationPage/EmailConfigurationPage';
-import BlogAdminPage from './pages/BlogAdminPage/BlogAdminPage';
-import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
-import CredentialsManagement from './pages/CredentialsManagement/CredentialsManagement';
-import EventAdminPage from './pages/EventAdminPage/EventAdminPage';
 import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
 import PileDrivingPage from './pages/PlileDrivingPage/PileDrivingPage'
+
+// Lazy load admin pages - these won't be in the main bundle
+const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'));
+const NewsletterSubscribersList = lazy(() => import('./pages/NewsletterSubscribersList/NewsletterSubscribersList'));
+const EmailConfigurationPage = lazy(() => import('./pages/EmailConfigurationPage/EmailConfigurationPage'));
+const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage/BlogAdminPage'));
+const CredentialsManagement = lazy(() => import('./pages/CredentialsManagement/CredentialsManagement'));
+const EventAdminPage = lazy(() => import('./pages/EventAdminPage/EventAdminPage'));
+
+
+
 function App() {
   return (
     <Router>
@@ -115,13 +121,43 @@ function App() {
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
 
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/legacy" element={<AdminPage />} />
-            <Route path="/admin/email_configuration" element={<EmailConfigurationPage />} />
-            <Route path="/admin/newsletter-subscribers-list" element={<NewsletterSubscribersList />} />
-            <Route path="/admin/blog-management" element={<BlogAdminPage />} />
-            <Route path="/admin/event-management" element={<EventAdminPage />} />
-            <Route path="/admin/credentials" element={<CredentialsManagement />} />
+            {/* Admin routes with lazy loading */}
+            <Route path="/admin" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading admin panel...</p></div>}>
+                <AdminDashboard />
+              </Suspense>
+            } />
+            <Route path="/admin/legacy" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <AdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/email_configuration" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <EmailConfigurationPage />
+              </Suspense>
+            } />
+            <Route path="/admin/newsletter-subscribers-list" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <NewsletterSubscribersList />
+              </Suspense>
+            } />
+            <Route path="/admin/blog-management" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <BlogAdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/event-management" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <EventAdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/credentials" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <CredentialsManagement />
+              </Suspense>
+            } />
+
             <Route path="/unsubscribe" element={<UnsubscribePage />} />
             <Route path="/published-papers" element={<PublishedPapersPage />} />
             <Route path="/location" element={<LocationPage />} />
