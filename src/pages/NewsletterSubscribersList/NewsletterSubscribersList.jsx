@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../supabaseClient';
-import { Eye, EyeOff, Upload, FileText, X, UserPlus } from 'lucide-react';
+import { Eye, EyeOff, Upload, FileText, X, UserPlus, Trash2, Users, Plus, Edit2, Check, XCircle } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth';
@@ -36,6 +36,25 @@ const NewsletterSubscribersList = () => {
     is_active: true
   });
   const [addingSubscriber, setAddingSubscriber] = useState(false);
+
+  // State for delete functionality
+  const [selectedSubscribers, setSelectedSubscribers] = useState(new Set());
+  const [deleting, setDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // State for group management
+  const [groups, setGroups] = useState([]);
+  const [showGroupModal, setShowGroupModal] = useState(false);
+  const [editingGroup, setEditingGroup] = useState(null);
+  const [newGroupName, setNewGroupName] = useState('');
+  const [newGroupDescription, setNewGroupDescription] = useState('');
+  const [savingGroup, setSavingGroup] = useState(false);
+  const [selectedGroupForEmail, setSelectedGroupForEmail] = useState('all');
+  const [showGroupMembersModal, setShowGroupMembersModal] = useState(false);
+  const [managingGroup, setManagingGroup] = useState(null);
+  const [groupMemberSearch, setGroupMemberSearch] = useState('');
+  const [pendingGroupMembers, setPendingGroupMembers] = useState(new Set());
+  const [savingGroupMembers, setSavingGroupMembers] = useState(false);
 
   // Enhanced ReactQuill modules configuration for professional newsletters
   const quillModules = useMemo(() => {
@@ -167,6 +186,7 @@ const NewsletterSubscribersList = () => {
   useEffect(() => {
     if (loggedIn) {
       fetchSubscribers();
+      fetchGroups();
     }
   }, [loggedIn, filterActive]);
 
@@ -206,6 +226,248 @@ const NewsletterSubscribersList = () => {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchGroups = async () => {
+    try {
+      const { data, error: fetchError } = await supabase
+        .from('subscriber_groups')
+        .select('*, subscriber_group_members(subscriber_id)')
+        .order('name', { ascending: true });
+
+      if (fetchError) {
+        // If table doesn't exist, that's okay - groups feature is optional
+        if (fetchError.code === '42P01') {
+          console.log('Groups table not found - groups feature disabled');
+          setGroups([]);
+          return;
+        }
+        throw fetchError;
+      }
+
+      setGroups(data || []);
+    } catch (err) {
+      console.error('Error fetching groups:', err);
+      // Don't show error for groups - it's optional
+      setGroups([]);
+    }
+  };
+
+  const handleCreateGroup = async () => {
+    if (!newGroupName.trim()) {
+      setMessage({ type: 'error', text: 'Please enter a group name' });
+      return;
+    }
+
+    setSavingGroup(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      if (editingGroup) {
+        // Update existing group
+        const { error } = await supabase
+          .from('subscriber_groups')
+          .update({ 
+            name: newGroupName.trim(),
+            description: newGroupDescription.trim() || null
+          })
+          .eq('id', editingGroup.id);
+
+        if (error) throw error;
+        setMessage({ type: 'success', text: 'Group updated successfully!' });
+      } else {
+        // Create new group
+        const { error } = await supabase
+          .from('subscriber_groups')
+          .insert([{
+            name: newGroupName.trim(),
+            description: newGroupDescription.trim() || null
+          }]);
+
+        if (error) throw error;
+        setMessage({ type: 'success', text: 'Group created successfully!' });
+      }
+
+      setNewGroupName('');
+      setNewGroupDescription('');
+      setEditingGroup(null);
+      setShowGroupModal(false);
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error saving group:', err);
+      setMessage({ type: 'error', text: 'Failed to save group: ' + err.message });
+    } finally {
+      setSavingGroup(false);
+    }
+  };
+
+  const handleDeleteGroup = async (groupId) => {
+    if (!window.confirm('Are you sure you want to delete this group? Members will not be deleted.')) {
+      return;
+    }
+
+    try {
+      // First delete group memberships
+      await supabase
+        .from('subscriber_group_members')
+        .delete()
+        .eq('group_id', groupId);
+
+      // Then delete the group
+      const { error } = await supabase
+        .from('subscriber_groups')
+        .delete()
+        .eq('id', groupId);
+
+      if (error) throw error;
+
+      setMessage({ type: 'success', text: 'Group deleted successfully!' });
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error deleting group:', err);
+      setMessage({ type: 'error', text: 'Failed to delete group: ' + err.message });
+    }
+  };
+
+  const handleEditGroup = (group) => {
+    setEditingGroup(group);
+    setNewGroupName(group.name);
+    setNewGroupDescription(group.description || '');
+    setShowGroupModal(true);
+  };
+
+  const handleManageGroupMembers = (group) => {
+    setManagingGroup(group);
+    setGroupMemberSearch('');
+    // Initialize pending members with current group members
+    const currentMemberIds = new Set(
+      group.subscriber_group_members?.map(m => m.subscriber_id) || []
+    );
+    setPendingGroupMembers(currentMemberIds);
+    setShowGroupMembersModal(true);
+  };
+
+  const getGroupMemberIds = (group) => {
+    if (!group?.subscriber_group_members) return new Set();
+    return new Set(group.subscriber_group_members.map(m => m.subscriber_id));
+  };
+
+  const handleToggleGroupMember = (subscriberId) => {
+    setPendingGroupMembers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(subscriberId)) {
+        newSet.delete(subscriberId);
+      } else {
+        newSet.add(subscriberId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleSaveGroupMembers = async () => {
+    if (!managingGroup) return;
+
+    setSavingGroupMembers(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const currentMemberIds = getGroupMemberIds(managingGroup);
+      const pendingMemberIds = pendingGroupMembers;
+
+      // Find members to add (in pending but not in current)
+      const toAdd = Array.from(pendingMemberIds).filter(id => !currentMemberIds.has(id));
+      
+      // Find members to remove (in current but not in pending)
+      const toRemove = Array.from(currentMemberIds).filter(id => !pendingMemberIds.has(id));
+
+      // Remove members
+      if (toRemove.length > 0) {
+        const { error: removeError } = await supabase
+          .from('subscriber_group_members')
+          .delete()
+          .eq('group_id', managingGroup.id)
+          .in('subscriber_id', toRemove);
+
+        if (removeError) throw removeError;
+      }
+
+      // Add members
+      if (toAdd.length > 0) {
+        const membersToAdd = toAdd.map(subscriberId => ({
+          group_id: managingGroup.id,
+          subscriber_id: subscriberId
+        }));
+
+        const { error: addError } = await supabase
+          .from('subscriber_group_members')
+          .insert(membersToAdd);
+
+        if (addError) throw addError;
+      }
+
+      const totalChanges = toAdd.length + toRemove.length;
+      if (totalChanges > 0) {
+        setMessage({ 
+          type: 'success', 
+          text: `Successfully updated group members (${toAdd.length} added, ${toRemove.length} removed)` 
+        });
+      } else {
+        setMessage({ type: 'success', text: 'No changes to save' });
+      }
+
+      // Refresh groups data
+      await fetchGroups();
+      
+      // Update the managing group with new data
+      const { data: updatedGroup } = await supabase
+        .from('subscriber_groups')
+        .select('*, subscriber_group_members(subscriber_id)')
+        .eq('id', managingGroup.id)
+        .single();
+      
+      if (updatedGroup) {
+        setManagingGroup(updatedGroup);
+        // Update pending members to match new state
+        const newMemberIds = new Set(
+          updatedGroup.subscriber_group_members?.map(m => m.subscriber_id) || []
+        );
+        setPendingGroupMembers(newMemberIds);
+      }
+
+      setShowGroupMembersModal(false);
+    } catch (err) {
+      console.error('Error updating group membership:', err);
+      setMessage({ type: 'error', text: 'Failed to update membership: ' + err.message });
+    } finally {
+      setSavingGroupMembers(false);
+    }
+  };
+
+  const handleAddSelectedToGroup = async (groupId) => {
+    if (selectedSubscribers.size === 0) {
+      setMessage({ type: 'error', text: 'Please select subscribers first' });
+      return;
+    }
+
+    try {
+      const membersToAdd = Array.from(selectedSubscribers).map(subscriberId => ({
+        group_id: groupId,
+        subscriber_id: subscriberId
+      }));
+
+      const { error } = await supabase
+        .from('subscriber_group_members')
+        .upsert(membersToAdd, { onConflict: 'group_id,subscriber_id' });
+
+      if (error) throw error;
+
+      setMessage({ type: 'success', text: `Added ${selectedSubscribers.size} subscriber(s) to group` });
+      setSelectedSubscribers(new Set());
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error adding to group:', err);
+      setMessage({ type: 'error', text: 'Failed to add to group: ' + err.message });
     }
   };
 
@@ -328,6 +590,95 @@ const NewsletterSubscribersList = () => {
     }
   };
 
+  // Select all functionality
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allIds = new Set(filteredSubscribers.map(sub => sub.id));
+      setSelectedSubscribers(allIds);
+    } else {
+      setSelectedSubscribers(new Set());
+    }
+  };
+
+  const handleSelectSubscriber = (subscriberId, isSelected) => {
+    setSelectedSubscribers(prev => {
+      const newSet = new Set(prev);
+      if (isSelected) {
+        newSet.add(subscriberId);
+      } else {
+        newSet.delete(subscriberId);
+      }
+      return newSet;
+    });
+  };
+
+  // Delete functionality
+  const handleDeleteSelected = async () => {
+    if (selectedSubscribers.size === 0) return;
+
+    setDeleting(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const idsToDelete = Array.from(selectedSubscribers);
+
+      // First, remove from any groups
+      await supabase
+        .from('subscriber_group_members')
+        .delete()
+        .in('subscriber_id', idsToDelete);
+
+      // Then delete the subscribers
+      const { error } = await supabase
+        .from('subscribers')
+        .delete()
+        .in('id', idsToDelete);
+
+      if (error) throw error;
+
+      setMessage({ type: 'success', text: `Successfully deleted ${idsToDelete.length} subscriber(s)` });
+      setSelectedSubscribers(new Set());
+      setShowDeleteConfirm(false);
+      
+      await fetchSubscribers();
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error deleting subscribers:', err);
+      setMessage({ type: 'error', text: 'Failed to delete subscribers: ' + err.message });
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleDeleteSingle = async (subscriberId) => {
+    if (!window.confirm('Are you sure you want to delete this subscriber?')) return;
+
+    setMessage({ type: '', text: '' });
+
+    try {
+      // First, remove from any groups
+      await supabase
+        .from('subscriber_group_members')
+        .delete()
+        .eq('subscriber_id', subscriberId);
+
+      // Then delete the subscriber
+      const { error } = await supabase
+        .from('subscribers')
+        .delete()
+        .eq('id', subscriberId);
+
+      if (error) throw error;
+
+      setMessage({ type: 'success', text: 'Subscriber deleted successfully' });
+      await fetchSubscribers();
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error deleting subscriber:', err);
+      setMessage({ type: 'error', text: 'Failed to delete subscriber: ' + err.message });
+    }
+  };
+
   const handlePdfUpload = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -413,10 +764,22 @@ const NewsletterSubscribersList = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      // Get all active subscribers
-      const activeSubscribers = subscribers.filter(sub => sub.is_active === true);
+      // Get subscribers based on selected group
+      let targetSubscribers = [];
+
+      if (selectedGroupForEmail === 'all') {
+        // Get all active subscribers
+        targetSubscribers = subscribers.filter(sub => sub.is_active === true);
+      } else {
+        // Get subscribers in the selected group
+        const selectedGroup = groups.find(g => g.id === selectedGroupForEmail);
+        if (selectedGroup && selectedGroup.subscriber_group_members) {
+          const memberIds = new Set(selectedGroup.subscriber_group_members.map(m => m.subscriber_id));
+          targetSubscribers = subscribers.filter(sub => sub.is_active && memberIds.has(sub.id));
+        }
+      }
       
-      if (activeSubscribers.length === 0) {
+      if (targetSubscribers.length === 0) {
         setMessage({ type: 'error', text: 'No active subscribers to send emails to' });
         setSendingEmails(false);
         return;
@@ -438,7 +801,7 @@ const NewsletterSubscribersList = () => {
       let failCount = 0;
 
       // Send emails one by one
-      for (const subscriber of activeSubscribers) {
+      for (const subscriber of targetSubscribers) {
         try {
           const { error: emailError } = await supabase.functions.invoke('send-email', {
             method: 'POST',
@@ -489,22 +852,36 @@ const NewsletterSubscribersList = () => {
     }
   };
 
-  // Filter subscribers based on search term and remove invalid entries
-  const filteredSubscribers = subscribers.filter((subscriber) => {
-    // Remove invalid subscribers - must have both id and email, and they must be truthy strings
-    if (!subscriber || 
-        !subscriber.id || 
-        !subscriber.email || 
-        typeof subscriber.id !== 'string' && typeof subscriber.id !== 'number' ||
-        typeof subscriber.email !== 'string' ||
-        subscriber.email.trim() === '') {
-      return false;
-    }
-    const searchLower = searchTerm.toLowerCase();
-    const nameMatch = subscriber.name?.toLowerCase().includes(searchLower) || false;
-    const emailMatch = subscriber.email?.toLowerCase().includes(searchLower) || false;
-    return nameMatch || emailMatch;
-  });
+  // Filter subscribers based on search term and remove invalid entries, then sort alphabetically
+  const filteredSubscribers = subscribers
+    .filter((subscriber) => {
+      // Remove invalid subscribers - must have both id and email, and they must be truthy strings
+      if (!subscriber || 
+          !subscriber.id || 
+          !subscriber.email || 
+          typeof subscriber.id !== 'string' && typeof subscriber.id !== 'number' ||
+          typeof subscriber.email !== 'string' ||
+          subscriber.email.trim() === '') {
+        return false;
+      }
+      const searchLower = searchTerm.toLowerCase();
+      const nameMatch = subscriber.name?.toLowerCase().includes(searchLower) || false;
+      const emailMatch = subscriber.email?.toLowerCase().includes(searchLower) || false;
+      return nameMatch || emailMatch;
+    })
+    .sort((a, b) => {
+      // Sort alphabetically by name, then by email if names are equal
+      const nameA = (a.name || '').toLowerCase();
+      const nameB = (b.name || '').toLowerCase();
+      if (nameA !== nameB) {
+        return nameA.localeCompare(nameB);
+      }
+      return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
+    });
+
+  // Check if all filtered subscribers are selected
+  const isAllSelected = filteredSubscribers.length > 0 && 
+    filteredSubscribers.every(sub => selectedSubscribers.has(sub.id));
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -521,6 +898,21 @@ const NewsletterSubscribersList = () => {
   const hasChanges = subscribers.some(sub => 
     subscriberStatuses[sub.id] !== undefined && subscriberStatuses[sub.id] !== sub.is_active
   );
+
+  // Calculate target count for email
+  const getTargetEmailCount = () => {
+    if (selectedGroupForEmail === 'all') {
+      return activeSubscribers;
+    }
+    const selectedGroup = groups.find(g => g.id === selectedGroupForEmail);
+    if (selectedGroup && selectedGroup.subscriber_group_members) {
+      const memberIds = new Set(selectedGroup.subscriber_group_members.map(m => m.subscriber_id));
+      return subscribers.filter(sub => sub.is_active && memberIds.has(sub.id)).length;
+    }
+    return 0;
+  };
+
+  const targetEmailCount = getTargetEmailCount();
 
   if (checkingSession) {
     return (
@@ -605,7 +997,121 @@ const NewsletterSubscribersList = () => {
             <div className="stat-value">{subscribers.length - activeSubscribers}</div>
             <div className="stat-label">Inactive Subscribers</div>
           </div>
+          <div className="stat-card">
+            <div className="stat-value">{groups.length}</div>
+            <div className="stat-label">Groups</div>
+          </div>
         </div>
+
+        {/* Group Management Section */}
+        <div className="group-management-section">
+          <div className="group-management-header">
+            <h3 className="section-title">
+              <Users size={20} />
+              Subscriber Groups
+            </h3>
+            <button 
+              className="btn btn-toggle-form"
+              onClick={() => {
+                setEditingGroup(null);
+                setNewGroupName('');
+                setNewGroupDescription('');
+                setShowGroupModal(true);
+              }}
+            >
+              <Plus size={18} />
+              Create Group
+            </button>
+          </div>
+          
+          {groups.length === 0 ? (
+            <div className="groups-empty-state">
+              <Users size={48} />
+              <p>No groups created yet. Create groups to organize your subscribers and send targeted emails.</p>
+            </div>
+          ) : (
+            <div className="groups-list">
+              {groups.map(group => (
+                <div key={group.id} className="group-card">
+                  <div className="group-info">
+                    <h4 className="group-name">{group.name}</h4>
+                    {group.description && (
+                      <p className="group-description">{group.description}</p>
+                    )}
+                    <span className="group-member-count">
+                      {group.subscriber_group_members?.length || 0} member(s)
+                    </span>
+                  </div>
+                  <div className="group-actions">
+                    <button
+                      className="btn-group-action"
+                      onClick={() => handleManageGroupMembers(group)}
+                      title="Manage members"
+                    >
+                      <Users size={16} />
+                    </button>
+                    <button
+                      className="btn-group-action"
+                      onClick={() => handleEditGroup(group)}
+                      title="Edit group"
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button
+                      className="btn-group-action btn-group-delete"
+                      onClick={() => handleDeleteGroup(group.id)}
+                      title="Delete group"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Bulk Actions Section */}
+        {selectedSubscribers.size > 0 && (
+          <div className="bulk-actions-section">
+            <div className="bulk-actions-info">
+              <span className="selected-count">{selectedSubscribers.size} subscriber(s) selected</span>
+            </div>
+            <div className="bulk-actions-buttons">
+              {groups.length > 0 && (
+                <div className="add-to-group-dropdown">
+                  <select 
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        handleAddSelectedToGroup(e.target.value);
+                        e.target.value = '';
+                      }
+                    }}
+                    className="group-select"
+                  >
+                    <option value="">Add to group...</option>
+                    {groups.map(group => (
+                      <option key={group.id} value={group.id}>{group.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <button
+                className="btn btn-danger"
+                onClick={() => setShowDeleteConfirm(true)}
+              >
+                <Trash2 size={16} />
+                Delete Selected
+              </button>
+              <button
+                className="btn btn-secondary-outline"
+                onClick={() => setSelectedSubscribers(new Set())}
+              >
+                Clear Selection
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Add Subscriber Section */}
         <div className="add-subscriber-section">
@@ -725,16 +1231,34 @@ const NewsletterSubscribersList = () => {
               <>
                 <div className="subscribers-table">
                   <div className="table-header">
-                    <div className="table-cell header-cell checkbox-cell">Active</div>
+                    <div className="table-cell header-cell checkbox-cell">
+                      <input
+                        type="checkbox"
+                        checked={isAllSelected}
+                        onChange={handleSelectAll}
+                        className="header-checkbox"
+                        title="Select all"
+                      />
+                    </div>
+                    <div className="table-cell header-cell">Active</div>
                     <div className="table-cell header-cell">Name</div>
                     <div className="table-cell header-cell">Email</div>
                     <div className="table-cell header-cell">Date Joined</div>
                     <div className="table-cell header-cell">Status</div>
+                    <div className="table-cell header-cell">Actions</div>
                   </div>
                   {filteredSubscribers
                     .filter(sub => sub && sub.id && sub.email && sub.email.trim() !== '')
                     .map((subscriber, index) => (
                       <div key={subscriber.id} className="table-row">
+                        <div className="table-cell checkbox-cell">
+                          <input
+                            type="checkbox"
+                            checked={selectedSubscribers.has(subscriber.id)}
+                            onChange={(e) => handleSelectSubscriber(subscriber.id, e.target.checked)}
+                            className="subscriber-checkbox"
+                          />
+                        </div>
                         <div className="table-cell checkbox-cell">
                           <input
                             type="checkbox"
@@ -759,6 +1283,15 @@ const NewsletterSubscribersList = () => {
                             {(subscriberStatuses[subscriber.id] === true || (subscriberStatuses[subscriber.id] === undefined && subscriber.is_active === true)) ? 'Active' : 'Inactive'}
                           </span>
                         </div>
+                        <div className="table-cell actions-cell">
+                          <button
+                            className="btn-delete-single"
+                            onClick={() => handleDeleteSingle(subscriber.id)}
+                            title="Delete subscriber"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </div>
                     ))}
                 </div>
@@ -781,11 +1314,36 @@ const NewsletterSubscribersList = () => {
 
         {/* Send Email to Subscribers Section */}
         <div className="send-email-section">
-          <h3 className="section-title">Send Newsletter to Active Subscribers</h3>
+          <h3 className="section-title">Send Newsletter to Subscribers</h3>
           <p className="section-description">
-            Create and send a professional newsletter email to all active subscribers. Emails will be sent one by one.
+            Create and send a professional newsletter email. Select a group or send to all active subscribers.
           </p>
           <div className="email-form">
+            {/* Target Group Selection */}
+            <div className="form-group">
+              <label htmlFor="target_group">Send To *</label>
+              <select
+                id="target_group"
+                value={selectedGroupForEmail}
+                onChange={(e) => setSelectedGroupForEmail(e.target.value)}
+                className="target-group-select"
+                disabled={sendingEmails}
+              >
+                <option value="all">All Active Subscribers ({activeSubscribers})</option>
+                {groups.map(group => {
+                  const memberCount = group.subscriber_group_members?.length || 0;
+                  const activeMemberCount = group.subscriber_group_members 
+                    ? subscribers.filter(s => s.is_active && group.subscriber_group_members.some(m => m.subscriber_id === s.id)).length
+                    : 0;
+                  return (
+                    <option key={group.id} value={group.id}>
+                      {group.name} ({activeMemberCount} active of {memberCount})
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
             <div className="form-group">
               <label htmlFor="email_subject">Email Subject *</label>
               <input
@@ -895,7 +1453,9 @@ Example:
                 />
               )}
               <small className="form-hint">
-                This message will be sent to all {activeSubscribers} active subscriber(s)
+                This message will be sent to {targetEmailCount} subscriber(s)
+                {selectedGroupForEmail !== 'all' && groups.find(g => g.id === selectedGroupForEmail) && 
+                  ` in "${groups.find(g => g.id === selectedGroupForEmail).name}"`}
               </small>
             </div>
 
@@ -939,13 +1499,221 @@ Example:
             <button 
               onClick={handleSendEmails} 
               className="btn btn-secondary send-email-btn"
-              disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || activeSubscribers === 0 || uploadingPdf}
+              disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || targetEmailCount === 0 || uploadingPdf}
             >
-              {sendingEmails ? `Sending... (${activeSubscribers} emails)` : `Send Newsletter to All Active Subscribers (${activeSubscribers})`}
+              {sendingEmails 
+                ? `Sending... (${targetEmailCount} emails)` 
+                : `Send Newsletter (${targetEmailCount} subscriber${targetEmailCount !== 1 ? 's' : ''})`}
             </button>
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal-overlay" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="modal-content delete-confirm-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Confirm Delete</h3>
+              <button className="modal-close" onClick={() => setShowDeleteConfirm(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>Are you sure you want to delete {selectedSubscribers.size} subscriber(s)?</p>
+              <p className="warning-text">This action cannot be undone.</p>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn btn-secondary-outline"
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-danger"
+                onClick={handleDeleteSelected}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Group Create/Edit Modal */}
+      {showGroupModal && (
+        <div className="modal-overlay" onClick={() => setShowGroupModal(false)}>
+          <div className="modal-content group-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{editingGroup ? 'Edit Group' : 'Create New Group'}</h3>
+              <button className="modal-close" onClick={() => setShowGroupModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-group">
+                <label htmlFor="group_name">Group Name *</label>
+                <input
+                  id="group_name"
+                  type="text"
+                  value={newGroupName}
+                  onChange={(e) => setNewGroupName(e.target.value)}
+                  placeholder="Enter group name (e.g., VIP Clients, Monthly Updates)"
+                  className="form-input"
+                  disabled={savingGroup}
+                  autoFocus
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="group_description">Description (Optional)</label>
+                <textarea
+                  id="group_description"
+                  value={newGroupDescription}
+                  onChange={(e) => setNewGroupDescription(e.target.value)}
+                  placeholder="Enter a description for this group"
+                  className="form-textarea"
+                  rows={3}
+                  disabled={savingGroup}
+                />
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn btn-secondary-outline"
+                onClick={() => {
+                  setShowGroupModal(false);
+                  setEditingGroup(null);
+                  setNewGroupName('');
+                  setNewGroupDescription('');
+                }}
+                disabled={savingGroup}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary"
+                onClick={handleCreateGroup}
+                disabled={savingGroup || !newGroupName.trim()}
+              >
+                {savingGroup ? 'Saving...' : (editingGroup ? 'Update Group' : 'Create Group')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Group Members Modal */}
+      {showGroupMembersModal && managingGroup && (
+        <div className="modal-overlay" onClick={() => setShowGroupMembersModal(false)}>
+          <div className="modal-content group-members-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Manage Members - {managingGroup.name}</h3>
+              <button className="modal-close" onClick={() => setShowGroupMembersModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="member-search">
+                <input
+                  type="text"
+                  value={groupMemberSearch}
+                  onChange={(e) => setGroupMemberSearch(e.target.value)}
+                  placeholder="Search subscribers..."
+                  className="form-input"
+                />
+              </div>
+              <div className="members-list">
+                {(() => {
+                  const currentMemberIds = getGroupMemberIds(managingGroup);
+                  const searchLower = groupMemberSearch.toLowerCase();
+                  
+                  return subscribers
+                    .filter(sub => {
+                      if (!searchLower) return true;
+                      return (sub.name?.toLowerCase().includes(searchLower) || 
+                              sub.email.toLowerCase().includes(searchLower));
+                    })
+                    .sort((a, b) => {
+                      const nameA = (a.name || '').toLowerCase();
+                      const nameB = (b.name || '').toLowerCase();
+                      if (nameA !== nameB) return nameA.localeCompare(nameB);
+                      return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
+                    })
+                    .map(subscriber => {
+                      const isInPending = pendingGroupMembers.has(subscriber.id);
+                      const wasInGroup = currentMemberIds.has(subscriber.id);
+                      const hasChanged = isInPending !== wasInGroup;
+                      
+                      return (
+                        <div 
+                          key={subscriber.id} 
+                          className={`member-item ${isInPending ? 'in-group' : ''} ${hasChanged ? 'changed' : ''}`}
+                          onClick={() => handleToggleGroupMember(subscriber.id)}
+                        >
+                          <div className="member-info">
+                            <span className="member-name">{subscriber.name || 'No Name'}</span>
+                            <span className="member-email">{subscriber.email}</span>
+                            {!subscriber.is_active && (
+                              <span className="member-inactive-badge">Inactive</span>
+                            )}
+                          </div>
+                          <div className="member-status">
+                            <input
+                              type="checkbox"
+                              checked={isInPending}
+                              onChange={() => {}}
+                              className="member-checkbox"
+                            />
+                            {hasChanged && (
+                              <span className="changed-indicator">●</span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    });
+                })()}
+              </div>
+              <div className="members-summary">
+                <span>{pendingGroupMembers.size} member(s) selected</span>
+                {(() => {
+                  const currentMemberIds = getGroupMemberIds(managingGroup);
+                  const toAdd = Array.from(pendingGroupMembers).filter(id => !currentMemberIds.has(id)).length;
+                  const toRemove = Array.from(currentMemberIds).filter(id => !pendingGroupMembers.has(id)).length;
+                  const hasChanges = toAdd > 0 || toRemove > 0;
+                  
+                  if (hasChanges) {
+                    return (
+                      <span className="changes-summary">
+                        ({toAdd > 0 ? `+${toAdd}` : ''}{toAdd > 0 && toRemove > 0 ? ', ' : ''}{toRemove > 0 ? `-${toRemove}` : ''})
+                      </span>
+                    );
+                  }
+                  return null;
+                })()}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn btn-secondary-outline"
+                onClick={() => setShowGroupMembersModal(false)}
+                disabled={savingGroupMembers}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary"
+                onClick={handleSaveGroupMembers}
+                disabled={savingGroupMembers}
+              >
+                {savingGroupMembers ? 'Saving...' : 'Save Changes'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
