@@ -491,7 +491,6 @@
   letter-spacing: 1.5px;
   border: none;
   cursor: pointer;
-  /* box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); */
   transition: all 0.3s ease;
 }
 
