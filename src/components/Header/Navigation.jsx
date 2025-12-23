@@ -142,6 +142,7 @@ const Navigation = () => {
             ))}
             <Link to="/it-services" className="desktop-nav-link">IT & Digital Services</Link>
             <Link to="/geo5-software" className="desktop-nav-link">GEO5 Software</Link>
+            <Link to="/pile-driving" className="desktop-nav-link">Pile Driving Software</Link>
             <Link to="/clients" className="desktop-nav-link">Our Clients</Link>
             <Link to="/projects" className="desktop-nav-link">Our Projects</Link>
             <Link to="/contact" className="desktop-nav-link">Contact Us</Link>

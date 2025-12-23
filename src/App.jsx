@@ -42,6 +42,7 @@ import AdminDashboard from './pages/AdminDashboard/AdminDashboard';
 import CredentialsManagement from './pages/CredentialsManagement/CredentialsManagement';
 import EventAdminPage from './pages/EventAdminPage/EventAdminPage';
 import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
+import PileDrivingPage from './pages/PlileDrivingPage/PileDrivingPage'
 function App() {
   return (
     <Router>
@@ -51,6 +52,8 @@ function App() {
         <main>
           <Routes> {/* Added Fallback routes for old php routes*/}
             <Route path="/" element={<HomePage />} />
+
+            <Route path="/pile-driving" element={<PileDrivingPage/>}/>
 
 
             <Route path="/page/our-services" element={<HomePage />} /> {/* Fallback route for old our-services page */}
