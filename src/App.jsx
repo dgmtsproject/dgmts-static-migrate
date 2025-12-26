@@ -190,7 +190,7 @@ function App() {
         </main>
         <ChatBot />
         <FloatingQuoteButton />
-        <NewsletterModal />
+        {/* <NewsletterModal /> */}
         <Footer />
       </div>
     </Router>
