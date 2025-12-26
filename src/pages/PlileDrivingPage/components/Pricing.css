@@ -1,10 +1,10 @@
-.pricing-section {
+.pile-driving-page .pricing-section {
   padding: 96px 24px;
   background: var(--grey-100);
   border-top: 1px solid var(--grey-200);
 }
 
-.pricing-grid {
+.pile-driving-page .pricing-grid {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -12,7 +12,7 @@
   gap: 32px;
 }
 
-.pricing-card {
+.pile-driving-page .pricing-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -24,18 +24,18 @@
   transition: all 0.3s ease;
 }
 
-.pricing-card:hover {
+.pile-driving-page .pricing-card:hover {
   transform: translateY(-8px);
 }
 
-.pricing-card.popular {
+.pile-driving-page .pricing-card.popular {
   border: 2px solid var(--orange-primary);
   box-shadow: 0 20px 60px rgba(255, 107, 53, 0.15);
   transform: scale(1.05);
   z-index: 10;
 }
 
-.popular-badge {
+.pile-driving-page .popular-badge {
   position: absolute;
   top: 0;
   left: 50%;
@@ -50,36 +50,36 @@
   letter-spacing: 1px;
 }
 
-.pricing-header {
+.pile-driving-page .pricing-header {
   margin-bottom: 40px;
   text-align: center;
 }
 
-.plan-name {
+.pile-driving-page .plan-name {
   font-size: 20px;
   font-weight: 700;
   color: var(--grey-800);
   margin-bottom: 8px;
 }
 
-.plan-price {
+.pile-driving-page .plan-price {
   display: flex;
   align-items: baseline;
   justify-content: center;
 }
 
-.price-amount {
+.pile-driving-page .price-amount {
   font-size: 36px;
   font-weight: 900;
   color: var(--grey-800);
 }
 
-.price-period {
+.pile-driving-page .price-period {
   color: var(--grey-400);
   margin-left: 8px;
 }
 
-.plan-features {
+.pile-driving-page .plan-features {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -88,14 +88,14 @@
   flex-grow: 1;
 }
 
-.plan-features li {
+.pile-driving-page .plan-features li {
   display: flex;
   align-items: center;
   gap: 12px;
   color: var(--grey-600);
 }
 
-.feature-check {
+.pile-driving-page .feature-check {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
@@ -108,12 +108,12 @@
   font-size: 10px;
 }
 
-.plan-features li span {
+.pile-driving-page .plan-features li span {
   font-size: 14px;
   font-weight: 500;
 }
 
-.plan-button {
+.pile-driving-page .plan-button {
   width: 100%;
   padding: 16px;
   border-radius: 16px;
@@ -127,17 +127,17 @@
   color: var(--grey-800);
 }
 
-.plan-button:hover {
+.pile-driving-page .plan-button:hover {
   background: var(--grey-400);
 }
 
-.plan-button.primary {
+.pile-driving-page .plan-button.primary {
   background: var(--orange-primary);
   color: var(--white);
   box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
 }
 
-.plan-button.primary:hover {
+.pile-driving-page .plan-button.primary:hover {
   background: var(--orange-hover);
   transform: translateY(-2px);
 }

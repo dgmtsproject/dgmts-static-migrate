@@ -1,11 +1,11 @@
-.cta-section {
+.pile-driving-page .cta-section {
   padding: 96px 24px;
   background: var(--navy-dark);
   position: relative;
   overflow: hidden;
 }
 
-.cta-background {
+.pile-driving-page .cta-background {
   position: absolute;
   inset: 0;
   opacity: 0.1;
@@ -15,26 +15,26 @@
   pointer-events: none;
 }
 
-.cta-circle {
+.pile-driving-page .cta-circle {
   position: absolute;
   border: 2px solid var(--orange-primary);
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  animation: pdp-pulse 2s infinite;
 }
 
-.cta-circle.large {
+.pile-driving-page .cta-circle.large {
   width: 800px;
   height: 800px;
 }
 
-.cta-circle.small {
+.pile-driving-page .cta-circle.small {
   width: 600px;
   height: 600px;
   border-color: var(--green-primary);
   animation-delay: 0.5s;
 }
 
-@keyframes pulse {
+@keyframes pdp-pulse {
   0%, 100% {
     transform: scale(1);
     opacity: 1;
@@ -45,14 +45,14 @@
   }
 }
 
-.cta-container {
+.pile-driving-page .cta-container {
   max-width: 1000px;
   margin: 0 auto;
   position: relative;
   z-index: 10;
 }
 
-.cta-card {
+.pile-driving-page .cta-card {
   background: var(--white);
   border-radius: 48px;
   padding: 48px 80px;
@@ -60,7 +60,7 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.cta-title {
+.pile-driving-page .cta-title {
   font-size: 40px;
   font-weight: 800;
   color: var(--navy-dark);
@@ -68,11 +68,11 @@
   line-height: 1.3;
 }
 
-.cta-title-accent {
+.pile-driving-page .cta-title-accent {
   color: var(--orange-primary);
 }
 
-.cta-benefits {
+.pile-driving-page .cta-benefits {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,13 +81,13 @@
   flex-wrap: wrap;
 }
 
-.benefit-item {
+.pile-driving-page .benefit-item {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.benefit-icon {
+.pile-driving-page .benefit-icon {
   width: 40px;
   height: 40px;
   background: var(--green-primary);
@@ -99,13 +99,13 @@
   box-shadow: 0 4px 12px rgba(0, 168, 107, 0.3);
 }
 
-.benefit-item span {
+.pile-driving-page .benefit-item span {
   color: var(--grey-600);
   font-weight: 700;
   font-size: 16px;
 }
 
-.cta-buttons {
+.pile-driving-page .cta-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,7 +113,7 @@
   flex-wrap: wrap;
 }
 
-.btn-cta-primary {
+.pile-driving-page .btn-cta-primary {
   background: var(--green-primary);
   color: var(--white);
   padding: 20px 40px;
@@ -128,12 +128,12 @@
   font-size: 18px;
 }
 
-.btn-cta-primary:hover {
+.pile-driving-page .btn-cta-primary:hover {
   background: #009960;
   transform: scale(1.05);
 }
 
-.btn-cta-secondary {
+.pile-driving-page .btn-cta-secondary {
   background: var(--white);
   color: var(--navy-dark);
   padding: 20px 40px;
@@ -147,6 +147,6 @@
   font-size: 18px;
 }
 
-.btn-cta-secondary:hover {
+.pile-driving-page .btn-cta-secondary:hover {
   background: var(--grey-100);
 }

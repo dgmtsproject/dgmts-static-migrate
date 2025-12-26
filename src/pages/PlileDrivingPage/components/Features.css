@@ -1,9 +1,9 @@
-.features-section {
+.pile-driving-page .features-section {
   padding: 96px 24px;
   background: var(--grey-100);
 }
 
-.section-header {
+.pile-driving-page .section-header {
   text-align: center;
   margin-bottom: 64px;
   max-width: 1200px;
@@ -11,7 +11,7 @@
   margin-right: auto;
 }
 
-.section-subtitle {
+.pile-driving-page .section-subtitle {
   color: var(--orange-primary);
   font-weight: 700;
   font-size: 14px;
@@ -20,14 +20,14 @@
   margin-bottom: 12px;
 }
 
-.section-title {
+.pile-driving-page .section-title {
   font-size: 36px;
   font-weight: 700;
   color: var(--grey-800);
   margin-bottom: 24px;
 }
 
-.section-description {
+.pile-driving-page .section-description {
   font-size: 18px;
   color: var(--grey-600);
   max-width: 700px;
@@ -35,7 +35,7 @@
   line-height: 1.7;
 }
 
-.features-grid {
+.pile-driving-page .features-grid {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -43,7 +43,7 @@
   gap: 32px;
 }
 
-.feature-card {
+.pile-driving-page .feature-card {
   background: var(--white);
   padding: 32px;
   border-radius: 16px;
@@ -51,13 +51,13 @@
   transition: all 0.3s ease;
 }
 
-.feature-card:hover {
+.pile-driving-page .feature-card:hover {
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
   border-color: var(--orange-primary);
   transform: translateY(-4px);
 }
 
-.feature-icon {
+.pile-driving-page .feature-icon {
   width: 56px;
   height: 56px;
   background: var(--blue-light);
@@ -70,43 +70,43 @@
   transition: all 0.3s ease;
 }
 
-.feature-icon svg {
+.pile-driving-page .feature-icon svg {
   width: 24px;
   height: 24px;
 }
 
-.feature-card:hover .feature-icon {
+.pile-driving-page .feature-card:hover .feature-icon {
   background: var(--orange-primary);
   color: var(--white);
 }
 
-.feature-title {
+.pile-driving-page .feature-title {
   font-size: 20px;
   font-weight: 700;
   color: var(--grey-800);
   margin-bottom: 12px;
 }
 
-.feature-description {
+.pile-driving-page .feature-description {
   color: var(--grey-600);
   line-height: 1.6;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .features-section {
+  .pile-driving-page .features-section {
     padding: 64px 16px;
   }
 
-  .section-title {
+  .pile-driving-page .section-title {
     font-size: 28px;
   }
 
-  .section-description {
+  .pile-driving-page .section-description {
     font-size: 16px;
   }
 
-  .features-grid {
+  .pile-driving-page .features-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }

@@ -8,7 +8,7 @@ import CTA from './components/CTA';
 
 const PileDrivingPage = () => {
   return (
-    <div className="app">
+    <div className="pile-driving-page">
       <Hero />
       <Features />
       <Screenshots />
