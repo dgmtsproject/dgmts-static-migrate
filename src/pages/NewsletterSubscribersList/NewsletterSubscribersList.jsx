@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '../../supabaseClient';
-import { Eye, EyeOff, Upload, FileText, X, UserPlus, Trash2, Users, Plus, Edit2, Check, XCircle } from 'lucide-react';
+import { Eye, EyeOff, Upload, FileText, X, UserPlus, Trash2, Users, Plus, Edit2, Check, XCircle, ChevronLeft, ChevronRight, FileSpreadsheet } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth';
@@ -55,6 +55,18 @@ const NewsletterSubscribersList = () => {
   const [groupMemberSearch, setGroupMemberSearch] = useState('');
   const [pendingGroupMembers, setPendingGroupMembers] = useState(new Set());
   const [savingGroupMembers, setSavingGroupMembers] = useState(false);
+
+  // State for CSV bulk upload
+  const [showCsvModal, setShowCsvModal] = useState(false);
+  const [csvData, setCsvData] = useState([]);
+  const [csvFileName, setCsvFileName] = useState('');
+  const [csvGroupSelection, setCsvGroupSelection] = useState('none');
+  const [importingCsv, setImportingCsv] = useState(false);
+  const [csvParseError, setCsvParseError] = useState('');
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(25);
 
   // Enhanced ReactQuill modules configuration for professional newsletters
   const quillModules = useMemo(() => {
@@ -679,6 +691,226 @@ const NewsletterSubscribersList = () => {
     }
   };
 
+  // CSV Upload and Import functions
+  const handleCsvFileSelect = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.name.endsWith('.csv') && file.type !== 'text/csv') {
+      setMessage({ type: 'error', text: 'Please select a CSV file' });
+      return;
+    }
+
+    setCsvFileName(file.name);
+    setCsvParseError('');
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const text = event.target.result;
+        const parsedData = parseCsv(text);
+        
+        if (parsedData.length === 0) {
+          setCsvParseError('No valid subscribers found in the CSV file');
+          setCsvData([]);
+          return;
+        }
+        
+        setCsvData(parsedData);
+        setShowCsvModal(true);
+      } catch (err) {
+        console.error('Error parsing CSV:', err);
+        setCsvParseError('Failed to parse CSV file: ' + err.message);
+        setCsvData([]);
+      }
+    };
+    reader.onerror = () => {
+      setCsvParseError('Failed to read the file');
+    };
+    reader.readAsText(file);
+    
+    // Reset file input
+    e.target.value = '';
+  };
+
+  const parseCsv = (text) => {
+    const lines = text.split(/\r?\n/).filter(line => line.trim());
+    if (lines.length === 0) return [];
+
+    // Try to detect header row
+    const firstLine = lines[0].toLowerCase();
+    const hasHeader = firstLine.includes('name') || firstLine.includes('email') || firstLine.includes('active');
+    
+    const dataLines = hasHeader ? lines.slice(1) : lines;
+    const parsedSubscribers = [];
+    const existingEmails = new Set(subscribers.map(s => s.email.toLowerCase()));
+
+    for (let i = 0; i < dataLines.length; i++) {
+      const line = dataLines[i].trim();
+      if (!line) continue;
+
+      // Parse CSV line (handle quoted values)
+      const values = parseCSVLine(line);
+      
+      if (values.length < 2) continue;
+
+      const name = values[0]?.trim() || '';
+      const email = values[1]?.trim().toLowerCase() || '';
+      const activeValue = values[2]?.trim().toLowerCase() || 'true';
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) continue;
+
+      // Parse active status
+      const isActive = activeValue === 'true' || activeValue === '1' || activeValue === 'yes' || activeValue === 'active';
+
+      // Check for duplicates
+      const isDuplicate = existingEmails.has(email) || parsedSubscribers.some(s => s.email === email);
+
+      parsedSubscribers.push({
+        name,
+        email,
+        is_active: isActive,
+        isDuplicate,
+        rowIndex: i + (hasHeader ? 2 : 1) // For display purposes (1-indexed, accounting for header)
+      });
+    }
+
+    return parsedSubscribers;
+  };
+
+  // Helper function to parse CSV line with proper handling of quoted values
+  const parseCSVLine = (line) => {
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        values.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    values.push(current);
+    
+    return values.map(v => v.replace(/^"|"$/g, '').trim());
+  };
+
+  const handleCsvImport = async () => {
+    const validSubscribers = csvData.filter(s => !s.isDuplicate);
+    
+    if (validSubscribers.length === 0) {
+      setMessage({ type: 'error', text: 'No new subscribers to import (all are duplicates)' });
+      return;
+    }
+
+    setImportingCsv(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      let successCount = 0;
+      let failCount = 0;
+      const insertedSubscriberIds = [];
+
+      for (const sub of validSubscribers) {
+        try {
+          // Generate a random token for unsubscribe functionality
+          const token = Math.floor(Math.random() * 1000000000000);
+
+          const { data, error: insertError } = await supabase
+            .from('subscribers')
+            .insert([{
+              name: sub.name || null,
+              email: sub.email,
+              is_active: sub.is_active,
+              date_joined: new Date().toISOString(),
+              token: token
+            }])
+            .select();
+
+          if (insertError) {
+            console.error(`Failed to insert ${sub.email}:`, insertError);
+            failCount++;
+          } else {
+            successCount++;
+            if (data && data[0]) {
+              insertedSubscriberIds.push(data[0].id);
+            }
+          }
+        } catch (err) {
+          console.error(`Error inserting ${sub.email}:`, err);
+          failCount++;
+        }
+      }
+
+      // Add to group if selected
+      if (csvGroupSelection !== 'none' && insertedSubscriberIds.length > 0) {
+        try {
+          const groupMembers = insertedSubscriberIds.map(subscriberId => ({
+            group_id: csvGroupSelection,
+            subscriber_id: subscriberId
+          }));
+
+          const { error: groupError } = await supabase
+            .from('subscriber_group_members')
+            .insert(groupMembers);
+
+          if (groupError) {
+            console.error('Error adding subscribers to group:', groupError);
+            setMessage({ 
+              type: 'success', 
+              text: `Imported ${successCount} subscriber(s)${failCount > 0 ? `, ${failCount} failed` : ''}. Note: Failed to add to group.`
+            });
+          } else {
+            const groupName = groups.find(g => g.id === csvGroupSelection)?.name || 'selected group';
+            setMessage({ 
+              type: 'success', 
+              text: `Successfully imported ${successCount} subscriber(s) and added to "${groupName}"${failCount > 0 ? `. ${failCount} failed.` : ''}`
+            });
+          }
+        } catch (err) {
+          console.error('Error adding to group:', err);
+        }
+      } else {
+        setMessage({ 
+          type: 'success', 
+          text: `Successfully imported ${successCount} subscriber(s)${failCount > 0 ? `. ${failCount} failed.` : ''}`
+        });
+      }
+
+      // Reset and close modal
+      setShowCsvModal(false);
+      setCsvData([]);
+      setCsvFileName('');
+      setCsvGroupSelection('none');
+      
+      // Refresh data
+      await fetchSubscribers();
+      await fetchGroups();
+    } catch (err) {
+      console.error('Error importing CSV:', err);
+      setMessage({ type: 'error', text: 'Failed to import subscribers: ' + err.message });
+    } finally {
+      setImportingCsv(false);
+    }
+  };
+
+  const closeCsvModal = () => {
+    setShowCsvModal(false);
+    setCsvData([]);
+    setCsvFileName('');
+    setCsvGroupSelection('none');
+    setCsvParseError('');
+  };
+
   const handlePdfUpload = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -878,6 +1110,17 @@ const NewsletterSubscribersList = () => {
       }
       return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
     });
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredSubscribers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedSubscribers = filteredSubscribers.slice(startIndex, endIndex);
+
+  // Reset to page 1 when search term or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, filterActive]);
 
   // Check if all filtered subscribers are selected
   const isAllSelected = filteredSubscribers.length > 0 && 
@@ -1117,14 +1360,33 @@ const NewsletterSubscribersList = () => {
         <div className="add-subscriber-section">
           <div className="add-subscriber-header">
             <h3 className="section-title">Add New Subscriber</h3>
-            <button 
-              className="btn btn-toggle-form"
-              onClick={() => setShowAddForm(!showAddForm)}
-            >
-              <UserPlus size={18} />
-              {showAddForm ? 'Cancel' : 'Add Subscriber'}
-            </button>
+            <div className="add-subscriber-buttons">
+              <button 
+                className="btn btn-toggle-form"
+                onClick={() => setShowAddForm(!showAddForm)}
+              >
+                <UserPlus size={18} />
+                {showAddForm ? 'Cancel' : 'Add Single'}
+              </button>
+              <label className="btn btn-csv-upload">
+                <FileSpreadsheet size={18} />
+                Import CSV
+                <input
+                  type="file"
+                  accept=".csv,text/csv"
+                  onChange={handleCsvFileSelect}
+                  style={{ display: 'none' }}
+                />
+              </label>
+            </div>
           </div>
+
+          {csvParseError && (
+            <div className="csv-error-message">
+              <XCircle size={16} />
+              {csvParseError}
+            </div>
+          )}
           
           {showAddForm && (
             <form className="add-subscriber-form" onSubmit={handleAddSubscriber}>
@@ -1176,6 +1438,12 @@ const NewsletterSubscribersList = () => {
               </button>
             </form>
           )}
+
+          <div className="csv-format-hint">
+            <small>
+              <strong>CSV Format:</strong> The CSV file should have columns: <code>name, email, active</code> (active can be true/false, yes/no, or 1/0)
+            </small>
+          </div>
         </div>
 
         {/* Filters and Search */}
@@ -1229,6 +1497,30 @@ const NewsletterSubscribersList = () => {
               </div>
             ) : (
               <>
+                {/* Table info bar */}
+                <div className="table-info-bar">
+                  <span className="showing-info">
+                    Showing {startIndex + 1}-{Math.min(endIndex, filteredSubscribers.length)} of {filteredSubscribers.length} subscribers
+                  </span>
+                  <div className="items-per-page">
+                    <label htmlFor="items-per-page">Show:</label>
+                    <select
+                      id="items-per-page"
+                      value={itemsPerPage}
+                      onChange={(e) => {
+                        setItemsPerPage(Number(e.target.value));
+                        setCurrentPage(1);
+                      }}
+                      className="items-per-page-select"
+                    >
+                      <option value={10}>10</option>
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div className="subscribers-table">
                   <div className="table-header">
                     <div className="table-cell header-cell checkbox-cell">
@@ -1247,7 +1539,7 @@ const NewsletterSubscribersList = () => {
                     <div className="table-cell header-cell">Status</div>
                     <div className="table-cell header-cell">Actions</div>
                   </div>
-                  {filteredSubscribers
+                  {paginatedSubscribers
                     .filter(sub => sub && sub.id && sub.email && sub.email.trim() !== '')
                     .map((subscriber, index) => (
                       <div key={subscriber.id} className="table-row">
@@ -1295,6 +1587,104 @@ const NewsletterSubscribersList = () => {
                       </div>
                     ))}
                 </div>
+
+                {/* Pagination controls */}
+                {totalPages > 1 && (
+                  <div className="pagination-controls">
+                    <button
+                      className="pagination-btn"
+                      onClick={() => setCurrentPage(1)}
+                      disabled={currentPage === 1}
+                      title="First page"
+                    >
+                      ««
+                    </button>
+                    <button
+                      className="pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      title="Previous page"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                    
+                    <div className="pagination-pages">
+                      {(() => {
+                        const pages = [];
+                        const maxVisiblePages = 5;
+                        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                        
+                        if (endPage - startPage + 1 < maxVisiblePages) {
+                          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                        }
+
+                        if (startPage > 1) {
+                          pages.push(
+                            <button
+                              key={1}
+                              className={`pagination-page ${currentPage === 1 ? 'active' : ''}`}
+                              onClick={() => setCurrentPage(1)}
+                            >
+                              1
+                            </button>
+                          );
+                          if (startPage > 2) {
+                            pages.push(<span key="ellipsis-start" className="pagination-ellipsis">...</span>);
+                          }
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                          if (i === 1 && startPage > 1) continue;
+                          if (i === totalPages && endPage < totalPages) continue;
+                          pages.push(
+                            <button
+                              key={i}
+                              className={`pagination-page ${currentPage === i ? 'active' : ''}`}
+                              onClick={() => setCurrentPage(i)}
+                            >
+                              {i}
+                            </button>
+                          );
+                        }
+
+                        if (endPage < totalPages) {
+                          if (endPage < totalPages - 1) {
+                            pages.push(<span key="ellipsis-end" className="pagination-ellipsis">...</span>);
+                          }
+                          pages.push(
+                            <button
+                              key={totalPages}
+                              className={`pagination-page ${currentPage === totalPages ? 'active' : ''}`}
+                              onClick={() => setCurrentPage(totalPages)}
+                            >
+                              {totalPages}
+                            </button>
+                          );
+                        }
+
+                        return pages;
+                      })()}
+                    </div>
+
+                    <button
+                      className="pagination-btn"
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      title="Next page"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                    <button
+                      className="pagination-btn"
+                      onClick={() => setCurrentPage(totalPages)}
+                      disabled={currentPage === totalPages}
+                      title="Last page"
+                    >
+                      »»
+                    </button>
+                  </div>
+                )}
                 
                 {hasChanges && (
                   <div className="save-status-section">
@@ -1709,6 +2099,149 @@ Example:
                 disabled={savingGroupMembers}
               >
                 {savingGroupMembers ? 'Saving...' : 'Save Changes'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CSV Import Preview Modal */}
+      {showCsvModal && (
+        <div className="modal-overlay" onClick={closeCsvModal}>
+          <div className="modal-content csv-preview-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>
+                <FileSpreadsheet size={22} />
+                CSV Import Preview
+              </h3>
+              <button className="modal-close" onClick={closeCsvModal}>
+                <X size={20} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="csv-file-info">
+                <FileText size={18} />
+                <span className="csv-file-name">{csvFileName}</span>
+                <span className="csv-subscribers-count">
+                  {csvData.length} subscriber(s) found
+                </span>
+              </div>
+
+              {/* Add to Group Option */}
+              <div className="csv-group-selection">
+                <label htmlFor="csv_group_select">Add all imported subscribers to group (optional):</label>
+                <select
+                  id="csv_group_select"
+                  value={csvGroupSelection}
+                  onChange={(e) => setCsvGroupSelection(e.target.value)}
+                  className="csv-group-select"
+                  disabled={importingCsv}
+                >
+                  <option value="none">Don't add to any group</option>
+                  {groups.map(group => (
+                    <option key={group.id} value={group.id}>{group.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Summary stats */}
+              <div className="csv-import-stats">
+                <div className="csv-stat">
+                  <span className="csv-stat-value csv-stat-new">
+                    {csvData.filter(s => !s.isDuplicate).length}
+                  </span>
+                  <span className="csv-stat-label">New subscribers</span>
+                </div>
+                <div className="csv-stat">
+                  <span className="csv-stat-value csv-stat-duplicate">
+                    {csvData.filter(s => s.isDuplicate).length}
+                  </span>
+                  <span className="csv-stat-label">Duplicates (will skip)</span>
+                </div>
+                <div className="csv-stat">
+                  <span className="csv-stat-value csv-stat-active">
+                    {csvData.filter(s => !s.isDuplicate && s.is_active).length}
+                  </span>
+                  <span className="csv-stat-label">Active</span>
+                </div>
+                <div className="csv-stat">
+                  <span className="csv-stat-value csv-stat-inactive">
+                    {csvData.filter(s => !s.isDuplicate && !s.is_active).length}
+                  </span>
+                  <span className="csv-stat-label">Inactive</span>
+                </div>
+              </div>
+
+              {/* Preview Table */}
+              <div className="csv-preview-table-container">
+                <table className="csv-preview-table">
+                  <thead>
+                    <tr>
+                      <th>Row</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Active</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {csvData.map((subscriber, index) => (
+                      <tr 
+                        key={index} 
+                        className={subscriber.isDuplicate ? 'csv-row-duplicate' : 'csv-row-new'}
+                      >
+                        <td className="csv-row-number">{subscriber.rowIndex}</td>
+                        <td className="csv-name">{subscriber.name || <em>No name</em>}</td>
+                        <td className="csv-email">{subscriber.email}</td>
+                        <td className="csv-active">
+                          <span className={`csv-active-badge ${subscriber.is_active ? 'active' : 'inactive'}`}>
+                            {subscriber.is_active ? 'Yes' : 'No'}
+                          </span>
+                        </td>
+                        <td className="csv-status">
+                          {subscriber.isDuplicate ? (
+                            <span className="csv-status-badge duplicate">
+                              <XCircle size={14} />
+                              Duplicate
+                            </span>
+                          ) : (
+                            <span className="csv-status-badge new">
+                              <Check size={14} />
+                              Will import
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {csvData.filter(s => s.isDuplicate).length > 0 && (
+                <div className="csv-duplicate-warning">
+                  <XCircle size={16} />
+                  <span>
+                    {csvData.filter(s => s.isDuplicate).length} duplicate email(s) found and will be skipped.
+                  </span>
+                </div>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button 
+                className="btn btn-secondary-outline"
+                onClick={closeCsvModal}
+                disabled={importingCsv}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary"
+                onClick={handleCsvImport}
+                disabled={importingCsv || csvData.filter(s => !s.isDuplicate).length === 0}
+              >
+                {importingCsv 
+                  ? 'Importing...' 
+                  : `Import ${csvData.filter(s => !s.isDuplicate).length} Subscriber(s)`}
               </button>
             </div>
           </div>
