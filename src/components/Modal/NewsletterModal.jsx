@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import supabase from '../../supabaseClient';
 import './NewsletterModal.css'; // Make sure this path is correct
 import logo from "../../assets/logos/cropped-logo.png";
-const devMode = false;
+const devMode = false; // Set to true for testing, false for production
 const NewsletterModal = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [email, setEmail] = useState('');

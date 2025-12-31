@@ -536,10 +536,12 @@
 /* Send Email Section */
 .newsletter-subscribers-page .send-email-section {
   margin-top: 3rem;
-  padding: 2rem;
+  padding: 2.5rem 2rem 2rem 2rem;
   background: #f8f9fa;
   border-radius: 12px;
   border: 1px solid var(--grey-200);
+  overflow: visible;
+  position: relative;
 }
 
 .newsletter-subscribers-page .section-title {
@@ -560,10 +562,13 @@
   padding: 1.5rem;
   border-radius: 8px;
   border: 1px solid var(--grey-200);
+  overflow: visible;
 }
 
 .newsletter-subscribers-page .email-form .form-group {
   margin-bottom: 1.5rem;
+  overflow: visible;
+  position: relative;
 }
 
 .newsletter-subscribers-page .email-form .form-group label {
@@ -752,6 +757,7 @@
 /* ReactQuill Styling */
 .newsletter-subscribers-page .quill-container {
   margin: 1rem 0 2rem 0;
+  position: relative;
 }
 
 .newsletter-subscribers-page .quill-container .ql-toolbar {
@@ -761,6 +767,261 @@
   border-bottom: none !important;
   border-radius: 8px 8px 0 0 !important;
   background: #f8f9fa;
+  z-index: 1;
+  position: relative;
+  padding-top: 12px !important;
+  overflow: visible !important;
+}
+
+/* Ensure all toolbar buttons are clickable */
+.newsletter-subscribers-page .quill-container .ql-toolbar button,
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button:hover,
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker:hover {
+  color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-active,
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker.ql-active {
+  color: var(--primary-color);
+  background-color: rgba(74, 144, 226, 0.15);
+  border-radius: 3px;
+}
+
+/* Highlight link button when active */
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-link.ql-active {
+  background-color: rgba(74, 144, 226, 0.2);
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-link.ql-active svg .ql-stroke {
+  stroke: var(--primary-color);
+}
+
+/* Highlight code-block button when active */
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-code-block.ql-active {
+  background-color: rgba(40, 44, 52, 0.15);
+}
+
+/* Style the code-block button icon */
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-code-block {
+  position: relative;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-code-block svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Tooltips for toolbar buttons - positioned above button */
+.newsletter-subscribers-page .quill-container .ql-toolbar button::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Tooltip arrow */
+.newsletter-subscribers-page .quill-container .ql-toolbar button::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 2px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10000;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+  transition-delay: 0.6s;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button:hover::before {
+  opacity: 1;
+  transition-delay: 0.6s;
+}
+
+/* Specific tooltip content for each button */
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-bold::after {
+  content: 'Bold';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-italic::after {
+  content: 'Italic';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-underline::after {
+  content: 'Underline';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-strike::after {
+  content: 'Strikethrough';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-link::after {
+  content: 'Insert Link';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-image::after {
+  content: 'Insert Image';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-video::after {
+  content: 'Embed Video';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-code-block::after {
+  content: 'Code Block';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-blockquote::after {
+  content: 'Quote';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-list[value="ordered"]::after {
+  content: 'Numbered List';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-list[value="bullet"]::after {
+  content: 'Bullet List';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-indent[value="-1"]::after {
+  content: 'Decrease Indent';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-indent[value="+1"]::after {
+  content: 'Increase Indent';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-script[value="sub"]::after {
+  content: 'Subscript';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-script[value="super"]::after {
+  content: 'Superscript';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-direction::after {
+  content: 'Text Direction';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button.ql-clean::after {
+  content: 'Clear Formatting';
+}
+
+/* Tooltip for picker dropdowns */
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-label::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10000;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-label:hover::after {
+  opacity: 1;
+  transition-delay: 0.6s;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-header .ql-picker-label::after {
+  content: 'Heading';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-font .ql-picker-label::after {
+  content: 'Font';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-size .ql-picker-label::after {
+  content: 'Size';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-color .ql-picker-label::after {
+  content: 'Text Color';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-background .ql-picker-label::after {
+  content: 'Background';
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-align .ql-picker-label::after {
+  content: 'Align';
+}
+
+/* Ensure toolbar button SVG icons are visible and clickable */
+.newsletter-subscribers-page .quill-container .ql-toolbar button svg,
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker svg {
+  pointer-events: none;
+}
+
+/* Style toolbar dropdowns properly */
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-label {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-options {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-picker-item:hover {
+  background: #f8f9fa;
+  color: var(--primary-color);
 }
 
 .newsletter-subscribers-page .quill-container .ql-container {
@@ -794,11 +1055,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.newsletter-subscribers-page .quill-container .ql-editor iframe {
-  max-width: 100%;
-  margin: 1rem 0;
-}
-
 .newsletter-subscribers-page .quill-container .ql-editor table {
   border-collapse: collapse;
   width: 100%;
@@ -826,13 +1082,250 @@
   border-radius: 0 4px 4px 0;
 }
 
+/* Code block styling - professional dark theme */
+.newsletter-subscribers-page .quill-container .ql-editor pre.ql-syntax {
+  background: #282c34;
+  color: #abb2bf;
+  border: none;
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
 .newsletter-subscribers-page .quill-container .ql-editor pre {
+  background: #282c34;
+  color: #abb2bf;
+  border: none;
+  border-radius: 8px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Add scrollbar styling for code blocks */
+.newsletter-subscribers-page .quill-container .ql-editor pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.newsletter-subscribers-page .quill-container .ql-editor pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.newsletter-subscribers-page .quill-container .ql-editor pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.newsletter-subscribers-page .quill-container .ql-editor pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Inline code styling */
+.newsletter-subscribers-page .quill-container .ql-editor code {
   background: #f8f9fa;
+  color: #e83e8c;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875em;
+  border: 1px solid #e0e0e0;
+  font-weight: 500;
+}
+
+/* Don't apply inline code styling inside code blocks */
+.newsletter-subscribers-page .quill-container .ql-editor pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  font-size: inherit;
+  font-weight: normal;
+}
+
+/* Color picker styling */
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-color-picker .ql-picker-options,
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-background .ql-picker-options {
+  padding: 8px;
+  width: auto !important;
+}
+
+/* Link styling in editor - make links visible and clickable */
+.newsletter-subscribers-page .quill-container .ql-editor a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.newsletter-subscribers-page .quill-container .ql-editor a:hover {
+  color: #2c5aa0;
+  text-decoration: underline;
+  background-color: rgba(74, 144, 226, 0.1);
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+/* Link tooltip styling */
+.newsletter-subscribers-page .ql-tooltip {
+  z-index: 100;
+  background: white;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 8px 12px;
+  position: absolute;
+}
+
+.newsletter-subscribers-page .ql-tooltip input[type="text"] {
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  padding: 1rem;
-  overflow-x: auto;
-  font-family: 'Courier New', monospace;
+  padding: 6px 10px;
+  font-size: 14px;
+  min-width: 250px;
+}
+
+.newsletter-subscribers-page .ql-tooltip input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.newsletter-subscribers-page .ql-tooltip .ql-action,
+.newsletter-subscribers-page .ql-tooltip .ql-remove {
+  cursor: pointer;
+  color: var(--primary-color);
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.newsletter-subscribers-page .ql-tooltip .ql-action:hover,
+.newsletter-subscribers-page .ql-tooltip .ql-remove:hover {
+  text-decoration: underline;
+  color: #2c5aa0;
+}
+
+.newsletter-subscribers-page .ql-tooltip a.ql-preview {
+  color: var(--primary-color);
+  text-decoration: none;
+  max-width: 300px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newsletter-subscribers-page .ql-tooltip a.ql-preview:hover {
+  text-decoration: underline;
+}
+
+/* Tooltip arrow */
+.newsletter-subscribers-page .ql-tooltip::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #e0e0e0;
+}
+
+.newsletter-subscribers-page .ql-tooltip::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid white;
+}
+
+/* Video embed styling - responsive video container */
+.newsletter-subscribers-page .quill-container .ql-editor .ql-video {
+  width: 100%;
+  max-width: 640px;
+  height: 360px;
+  margin: 1.5rem auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+/* Make videos responsive */
+@media (max-width: 768px) {
+  .newsletter-subscribers-page .quill-container .ql-editor .ql-video {
+    max-width: 100%;
+    height: 240px;
+  }
+}
+
+/* Wrapper for responsive video embeds */
+.newsletter-subscribers-page .quill-container .ql-editor p:has(.ql-video),
+.newsletter-subscribers-page .quill-container .ql-editor div:has(.ql-video) {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin: 1.5rem auto;
+}
+
+/* Support for custom iframe embeds */
+.newsletter-subscribers-page .quill-container .ql-editor iframe {
+  max-width: 100%;
+  height: 360px;
+  margin: 1.5rem auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .newsletter-subscribers-page .quill-container .ql-editor iframe {
+    height: 240px;
+  }
+}
+
+/* Make sure toolbar is fully visible and functional */
+.newsletter-subscribers-page .quill-container .ql-toolbar.ql-snow {
+  display: block;
+  padding: 12px 8px 8px 8px;
+  overflow: visible;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar .ql-formats {
+  margin-right: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.newsletter-subscribers-page .quill-container .ql-toolbar button {
+  width: 28px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Fix for disabled state */
+.newsletter-subscribers-page .quill-container.disabled .ql-toolbar,
+.newsletter-subscribers-page .quill-container .ql-container.ql-disabled .ql-toolbar {
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 /* PDF Upload Section */
