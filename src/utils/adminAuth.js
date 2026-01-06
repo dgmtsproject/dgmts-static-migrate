@@ -108,3 +108,53 @@ export const updateAdminPassword = async (newPassword) => {
   }
 }
 
+export const verifyAdminEmail = async (email) => {
+  try {
+    const { data, error } = await supabase
+      .from('credentials')
+      .select('email')
+      .eq('user', 'admin')
+      .single()
+
+    if (error) {
+      console.error('Error fetching credentials:', error)
+      return false
+    }
+
+    if (data && data.email && data.email.toLowerCase() === email.toLowerCase().trim()) {
+      return true
+    }
+
+    return false
+  } catch (err) {
+    console.error('Error verifying email:', err)
+    return false
+  }
+}
+
+export const resetAdminPasswordWithEmail = async (email, newPassword) => {
+  try {
+    // First verify the email
+    const isValidEmail = await verifyAdminEmail(email)
+    if (!isValidEmail) {
+      return { success: false, error: 'Invalid email address' }
+    }
+
+    // Update the password
+    const { error } = await supabase
+      .from('credentials')
+      .update({ password: newPassword })
+      .eq('user', 'admin')
+
+    if (error) {
+      console.error('Error updating password:', error)
+      return { success: false, error: error.message }
+    }
+
+    return { success: true }
+  } catch (err) {
+    console.error('Error resetting password:', err)
+    return { success: false, error: err.message }
+  }
+}
+
