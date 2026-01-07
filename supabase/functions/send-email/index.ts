@@ -23,39 +23,113 @@ serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
     const supabase = createClient(supabaseUrl || "", supabaseAnonKey || "");
 
-    // Get email configuration from database
-    const { data: emailConfig, error: dbError } = await supabase
+    // Get all email configurations from database (primary and secondary)
+    const { data: emailConfigs, error: dbError } = await supabase
       .from('email_config')
       .select('*')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+      .order('type', { ascending: true }); // 'primary' comes before 'secondary' alphabetically
 
-    if (dbError || !emailConfig || !emailConfig.email_id || !emailConfig.email_password) {
+    if (dbError || !emailConfigs || emailConfigs.length === 0) {
       throw new Error("Email configuration not found. Please configure email settings in the admin panel.");
     }
 
-    // Use database credentials with Microsoft 365 SMTP
-    const smtpHost = "smtp.office365.com";
-    const smtpPort = 587;
-    const smtpUser = emailConfig.email_id.trim();
-    const smtpPass = emailConfig.email_password.trim();
-    const fromEmailName = (emailConfig.from_email_name || "DGMTS").trim();
+    // Separate primary and secondary configs
+    const primaryConfig = emailConfigs.find(config => config.type === 'primary') || emailConfigs[0];
+    const secondaryConfig = emailConfigs.find(config => config.type === 'secondary');
+
+    if (!primaryConfig || !primaryConfig.email_id || !primaryConfig.email_password) {
+      throw new Error("Primary email configuration is incomplete. Please configure email settings in the admin panel.");
+    }
+
+    // Function to get SMTP settings based on email provider
+    const getSmtpSettings = (emailId: string) => {
+      const emailLower = emailId.toLowerCase();
+      if (emailLower.includes('@gmail.com')) {
+        return { host: 'smtp.gmail.com', port: 587 };
+      } else if (emailLower.includes('@outlook.com') || emailLower.includes('@hotmail.com') || emailLower.includes('@live.com')) {
+        return { host: 'smtp.office365.com', port: 587 };
+      } else if (emailLower.includes('dullesgeotechnical.com')) {
+        return { host: 'smtp.office365.com', port: 587 };
+      } else {
+        // Default to Office 365
+        return { host: 'smtp.office365.com', port: 587 };
+      }
+    };
+
+    // Get SMTP settings for primary config
+    const primarySmtp = getSmtpSettings(primaryConfig.email_id);
+    const smtpHost = primarySmtp.host;
+    const smtpPort = primarySmtp.port;
+    const smtpUser = primaryConfig.email_id.trim();
+    const smtpPass = primaryConfig.email_password.trim();
+    const fromEmailName = (primaryConfig.from_email_name || "DGMTS").trim();
 
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
     const bccEmails = ["iaziz@dullesgeotechnical.com", "info@dullesgeotechnical.com", "qhaider@dullesgeotechnical.com"];
     const paymentCcEmails = ["dgmts.project@gmail.com"];
 
-    // Configure Nodemailer transport
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: false,
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    // Function to create transporter with given config
+    const createTransporter = (config: any) => {
+      const smtp = getSmtpSettings(config.email_id);
+      return nodemailer.createTransport({
+        host: smtp.host,
+        port: smtp.port,
+        secure: false,
+        auth: {
+          user: config.email_id.trim(),
+          pass: config.email_password.trim(),
+        },
+      });
+    };
+
+    // Function to send email with fallback to secondary config
+    const sendEmailWithFallback = async (mailOptions: any, senderName: string = 'primary') => {
+      let lastError;
+      
+      // Try primary config first
+      try {
+        console.log(`Attempting to send email using primary config (${primaryConfig.email_id})...`);
+        const primaryTransporter = createTransporter(primaryConfig);
+        const info = await primaryTransporter.sendMail({
+          ...mailOptions,
+          from: mailOptions.from || `${fromEmailName} <${primaryConfig.email_id.trim()}>`,
+        });
+        console.log(`Email sent successfully using primary config: ${info.messageId}`);
+        return { success: true, messageId: info.messageId, usedConfig: 'primary' };
+      } catch (error: any) {
+        console.error(`Primary email config failed:`, error);
+        lastError = error;
+        
+        // Check if it's an authentication error (535, EAUTH) and we have a secondary config
+        const isAuthError = error.code === 'EAUTH' || 
+                          error.responseCode === 535 || 
+                          (error.message && error.message.includes('Authentication unsuccessful'));
+        
+        if (isAuthError && secondaryConfig && secondaryConfig.email_id && secondaryConfig.email_password) {
+          console.log(`Authentication failed with primary. Attempting secondary config (${secondaryConfig.email_id})...`);
+          
+          try {
+            const secondaryTransporter = createTransporter(secondaryConfig);
+            const secondaryFromName = secondaryConfig.from_email_name || fromEmailName;
+            const info = await secondaryTransporter.sendMail({
+              ...mailOptions,
+              from: mailOptions.from || `${secondaryFromName} <${secondaryConfig.email_id.trim()}>`,
+            });
+            console.log(`Email sent successfully using secondary config: ${info.messageId}`);
+            return { success: true, messageId: info.messageId, usedConfig: 'secondary' };
+          } catch (secondaryError: any) {
+            console.error(`Secondary email config also failed:`, secondaryError);
+            throw new Error(`Both primary and secondary email configurations failed. Primary: ${error.message}. Secondary: ${secondaryError.message}`);
+          }
+        } else {
+          // Not an auth error or no secondary config available
+          throw error;
+        }
+      }
+    };
+
+    // Configure Nodemailer transport for primary (kept for backward compatibility in some checks)
+    const transporter = createTransporter(primaryConfig);
 
     let mailOptions;
 
@@ -388,16 +462,18 @@ DGMTS Team
         `,
       };
 
-      // Send customer email
-      const customerEmailInfo = await transporter.sendMail(mailOptions);
-      console.log(`Customer email sent successfully: ${customerEmailInfo.messageId}`);
+      // Send customer email with fallback
+      const customerEmailResult = await sendEmailWithFallback(mailOptions, 'customer');
+      console.log(`Customer email sent successfully using ${customerEmailResult.usedConfig} config: ${customerEmailResult.messageId}`);
 
-      // Send accounting/info email
-      const accountingEmailInfo = await transporter.sendMail(accountingMailOptions);
-      console.log(`Accounting email sent successfully: ${accountingEmailInfo.messageId}`);
+      // Send accounting/info email with fallback
+      const accountingEmailResult = await sendEmailWithFallback(accountingMailOptions, 'accounting');
+      console.log(`Accounting email sent successfully using ${accountingEmailResult.usedConfig} config: ${accountingEmailResult.messageId}`);
 
       return new Response(JSON.stringify({ 
-        message: "Payment emails sent successfully"
+        message: "Payment emails sent successfully",
+        customerEmailConfig: customerEmailResult.usedConfig,
+        accountingEmailConfig: accountingEmailResult.usedConfig
       }), {
         status: 200,
         headers: { 
@@ -773,13 +849,15 @@ Reply directly to this email to respond to ${name}.
       };
     }
 
-    // Send email using SMTP
-    const info = await transporter.sendMail(mailOptions);
+    // Send email using SMTP with automatic fallback to secondary config
+    const result = await sendEmailWithFallback(mailOptions);
 
-    console.log(`Email sent successfully: ${info.messageId}`);
+    console.log(`Email sent successfully using ${result.usedConfig} config: ${result.messageId}`);
 
     return new Response(JSON.stringify({ 
-      message: "Email sent successfully"
+      message: "Email sent successfully",
+      configUsed: result.usedConfig,
+      messageId: result.messageId
     }), {
       status: 200,
       headers: { 

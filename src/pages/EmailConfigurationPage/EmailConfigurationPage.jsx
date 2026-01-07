@@ -9,9 +9,23 @@ function EmailConfigurationPage() {
   const [password, setPassword] = useState('')
   const [checkingSession, setCheckingSession] = useState(true)
   
-  const [emailId, setEmailId] = useState('')
-  const [emailPassword, setEmailPassword] = useState('')
-  const [fromEmailName, setFromEmailName] = useState('')
+  // Tab state
+  const [activeTab, setActiveTab] = useState('primary') // 'primary' or 'secondary'
+  
+  // Primary config
+  const [primaryId, setPrimaryId] = useState(null)
+  const [primaryEmailId, setPrimaryEmailId] = useState('')
+  const [primaryEmailPassword, setPrimaryEmailPassword] = useState('')
+  const [primaryFromEmailName, setPrimaryFromEmailName] = useState('')
+  const [showPrimaryPassword, setShowPrimaryPassword] = useState(false)
+  
+  // Secondary config
+  const [secondaryId, setSecondaryId] = useState(null)
+  const [secondaryEmailId, setSecondaryEmailId] = useState('')
+  const [secondaryEmailPassword, setSecondaryEmailPassword] = useState('')
+  const [secondaryFromEmailName, setSecondaryFromEmailName] = useState('')
+  const [showSecondaryPassword, setShowSecondaryPassword] = useState(false)
+  
   const [testEmail, setTestEmail] = useState('')
   
   const [loading, setLoading] = useState(false)
@@ -41,17 +55,29 @@ function EmailConfigurationPage() {
       const { data, error } = await supabase
         .from('email_config')
         .select('*')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+        .order('type', { ascending: true }) // primary comes before secondary alphabetically
 
       if (error && error.code !== 'PGRST116') { // PGRST116 is "no rows returned"
         console.error('Error fetching email config:', error)
         setMessage({ type: 'error', text: 'Failed to load email configuration' })
       } else if (data) {
-        setEmailId(data.email_id || '')
-        setEmailPassword(data.email_password || '')
-        setFromEmailName(data.from_email_name || '')
+        // Load primary config
+        const primary = data.find(config => config.type === 'primary')
+        if (primary) {
+          setPrimaryId(primary.id)
+          setPrimaryEmailId(primary.email_id || '')
+          setPrimaryEmailPassword(primary.email_password || '')
+          setPrimaryFromEmailName(primary.from_email_name || '')
+        }
+        
+        // Load secondary config
+        const secondary = data.find(config => config.type === 'secondary')
+        if (secondary) {
+          setSecondaryId(secondary.id)
+          setSecondaryEmailId(secondary.email_id || '')
+          setSecondaryEmailPassword(secondary.email_password || '')
+          setSecondaryFromEmailName(secondary.from_email_name || '')
+        }
       }
     } catch (err) {
       console.error('Error:', err)
@@ -80,48 +106,70 @@ function EmailConfigurationPage() {
   const handleSaveConfiguration = async (e) => {
     e.preventDefault()
     
-    if (!emailId.trim() || !emailPassword.trim() || !fromEmailName.trim()) {
+    const configType = activeTab
+    const emailId = configType === 'primary' ? primaryEmailId : secondaryEmailId
+    const emailPassword = configType === 'primary' ? primaryEmailPassword : secondaryEmailPassword
+    const fromEmailName = configType === 'primary' ? primaryFromEmailName : secondaryFromEmailName
+    const configId = configType === 'primary' ? primaryId : secondaryId
+    
+    if (!emailId.trim() || !fromEmailName.trim()) {
       setMessage({ type: 'error', text: 'Please fill in all required fields' })
       return
     }
+    
+    // For primary config, always require password
+    if (configType === 'primary' && !emailPassword.trim()) {
+      setMessage({ type: 'error', text: 'Password is required' })
+      return
+    }
+    
+    // For secondary config with existing record, password is not required (read-only)
+    // Only require password for new secondary configs (created directly in database)
 
     setSaving(true)
     setMessage({ type: '', text: '' })
 
     try {
-      // Check if config exists
-      const { data: existing } = await supabase
-        .from('email_config')
-        .select('id')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single()
+      const configData = {
+        email_id: emailId.trim(),
+        from_email_name: fromEmailName.trim(),
+        type: configType
+      }
+      
+      // Only include password for primary config
+      // Secondary password is never updated from UI (managed in database only)
+      if (configType === 'primary') {
+        configData.email_password = emailPassword.trim()
+      }
 
-        if (existing) {
+      if (configId) {
         // Update existing config
         const { error } = await supabase
           .from('email_config')
-          .update({
-            email_id: emailId.trim(),
-            email_password: emailPassword.trim(), // Ensure password is trimmed
-            from_email_name: fromEmailName.trim()
-          })
-          .eq('id', existing.id)
+          .update(configData)
+          .eq('id', configId)
 
         if (error) throw error
-        setMessage({ type: 'success', text: 'Email configuration updated successfully!' })
+        setMessage({ type: 'success', text: `${configType.charAt(0).toUpperCase() + configType.slice(1)} email configuration updated successfully!` })
       } else {
         // Insert new config
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('email_config')
-          .insert({
-            email_id: emailId.trim(),
-            email_password: emailPassword.trim(), // Ensure password is trimmed
-            from_email_name: fromEmailName.trim()
-          })
+          .insert(configData)
+          .select()
 
         if (error) throw error
-        setMessage({ type: 'success', text: 'Email configuration saved successfully!' })
+        
+        // Update the ID state
+        if (data && data[0]) {
+          if (configType === 'primary') {
+            setPrimaryId(data[0].id)
+          } else {
+            setSecondaryId(data[0].id)
+          }
+        }
+        
+        setMessage({ type: 'success', text: `${configType.charAt(0).toUpperCase() + configType.slice(1)} email configuration saved successfully!` })
       }
     } catch (err) {
       console.error('Error saving configuration:', err)
@@ -136,11 +184,6 @@ function EmailConfigurationPage() {
     
     if (!testEmail.trim()) {
       setMessage({ type: 'error', text: 'Please enter a test email address' })
-      return
-    }
-
-    if (!emailId.trim() || !emailPassword.trim() || !fromEmailName.trim()) {
-      setMessage({ type: 'error', text: 'Please save configuration first' })
       return
     }
 
@@ -159,10 +202,7 @@ function EmailConfigurationPage() {
         method: 'POST',
         body: JSON.stringify({
           type: 'test',
-          email: testEmail.trim(),
-          fromEmail: emailId.trim(),
-          fromName: fromEmailName.trim(),
-          password: emailPassword.trim()
+          email: testEmail.trim()
         })
       })
 
@@ -172,7 +212,11 @@ function EmailConfigurationPage() {
       }
 
       if (data && data.message) {
-        setMessage({ type: 'success', text: 'Test email sent successfully!' })
+        const configUsed = data.configUsed || 'primary'
+        setMessage({ 
+          type: 'success', 
+          text: `Test email sent successfully using ${configUsed} configuration!` 
+        })
         setTestEmail('')
       } else {
         throw new Error('Unexpected response from server')
@@ -241,12 +285,22 @@ function EmailConfigurationPage() {
     )
   }
 
+  // Get current config based on active tab
+  const currentEmailId = activeTab === 'primary' ? primaryEmailId : secondaryEmailId
+  const currentEmailPassword = activeTab === 'primary' ? primaryEmailPassword : secondaryEmailPassword
+  const currentFromEmailName = activeTab === 'primary' ? primaryFromEmailName : secondaryFromEmailName
+  const currentShowPassword = activeTab === 'primary' ? showPrimaryPassword : showSecondaryPassword
+  const setCurrentEmailId = activeTab === 'primary' ? setPrimaryEmailId : setSecondaryEmailId
+  const setCurrentEmailPassword = activeTab === 'primary' ? setPrimaryEmailPassword : setSecondaryEmailPassword
+  const setCurrentFromEmailName = activeTab === 'primary' ? setPrimaryFromEmailName : setSecondaryFromEmailName
+  const setCurrentShowPassword = activeTab === 'primary' ? setShowPrimaryPassword : setShowSecondaryPassword
+
   return (
     <div className="email-config-page">
       <div className="email-config-container">
         <div className="email-config-header">
           <h2>Email Configuration</h2>
-          <p className="config-subtitle">Manage your email settings and test email functionality</p>
+          <p className="config-subtitle">Manage your email settings with automatic fallback support</p>
         </div>
 
         {message.text && (
@@ -255,56 +309,112 @@ function EmailConfigurationPage() {
           </div>
         )}
 
+        {/* Info Box */}
+        <div className="info-box">
+          <p><strong>📧 Fallback Email System:</strong> The system will automatically use the secondary email if the primary fails with authentication errors.</p>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="config-tabs">
+          <button
+            className={`tab-button ${activeTab === 'primary' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('primary')
+              setMessage({ type: '', text: '' })
+            }}
+            type="button"
+          >
+            Primary Email
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'secondary' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTab('secondary')
+              setMessage({ type: '', text: '' })
+            }}
+            type="button"
+          >
+            Secondary Email (Fallback)
+          </button>
+        </div>
+
         <form onSubmit={handleSaveConfiguration} className="email-config-form">
           <div className="form-section">
-            <h3>Email Settings</h3>
+            <h3>{activeTab === 'primary' ? 'Primary' : 'Secondary'} Email Settings</h3>
+            {activeTab === 'secondary' && (
+              <p className="tab-description">
+                This email will be used automatically if the primary email fails to send.
+              </p>
+            )}
             
             <div className="form-group">
-              <label htmlFor="email_id">Email ID *</label>
+              <label htmlFor={`${activeTab}_email_id`}>Email ID *</label>
               <input
-                id="email_id"
+                id={`${activeTab}_email_id`}
                 type="email"
-                value={emailId}
-                onChange={(e) => setEmailId(e.target.value)}
-                placeholder="noreply@dullesgeotechnical.com"
+                value={currentEmailId}
+                onChange={(e) => setCurrentEmailId(e.target.value)}
+                placeholder={activeTab === 'primary' ? 'noreply@dullesgeotechnical.com' : 'noreply.dullesgeotechnical@gmail.com'}
                 required
                 disabled={loading}
               />
               <small className="form-hint">The email address used for sending emails</small>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email_password">Password *</label>
-              <div className="password-input-wrapper">
-                <input
-                  id="email_password"
-                  type={showPassword ? "text" : "password"}
-                  value={emailPassword}
-                  onChange={(e) => setEmailPassword(e.target.value)}
-                  placeholder="Enter email password"
-                  required
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={loading}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
+            {activeTab === 'primary' ? (
+              // Primary: Editable password field
+              <div className="form-group">
+                <label htmlFor="primary_email_password">Password *</label>
+                <div className="password-input-wrapper">
+                  <input
+                    id="primary_email_password"
+                    type={showPrimaryPassword ? "text" : "password"}
+                    value={primaryEmailPassword}
+                    onChange={(e) => setPrimaryEmailPassword(e.target.value)}
+                    placeholder="Enter email password"
+                    required
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPrimaryPassword(!showPrimaryPassword)}
+                    disabled={loading}
+                    aria-label={showPrimaryPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPrimaryPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
+                <small className="form-hint">The password for the email account</small>
               </div>
-              <small className="form-hint">The password for the email account</small>
-            </div>
+            ) : (
+              // Secondary: Read-only password display
+              <div className="form-group">
+                <label htmlFor="secondary_email_password">
+                  Password (Read-Only)
+                </label>
+                <div className="password-readonly-wrapper">
+                  <input
+                    id="secondary_email_password"
+                    type="text"
+                    value={secondaryEmailPassword}
+                    disabled
+                    className="password-readonly-input"
+                  />
+                  <small className="form-hint">
+                    Gmail App Password is read-only. To change it, generate a new App Password in Google Settings and update directly in the database.
+                  </small>
+                </div>
+              </div>
+            )}
 
             <div className="form-group">
-              <label htmlFor="from_email_name">From Name *</label>
+              <label htmlFor={`${activeTab}_from_email_name`}>From Name *</label>
               <input
-                id="from_email_name"
+                id={`${activeTab}_from_email_name`}
                 type="text"
-                value={fromEmailName}
-                onChange={(e) => setFromEmailName(e.target.value)}
+                value={currentFromEmailName}
+                onChange={(e) => setCurrentFromEmailName(e.target.value)}
                 placeholder="DGMTS"
                 required
                 disabled={loading}
@@ -319,14 +429,17 @@ function EmailConfigurationPage() {
               className="btn btn-primary"
               disabled={saving || loading}
             >
-              {saving ? 'Saving...' : 'Save Configuration'}
+              {saving ? 'Saving...' : `Save ${activeTab === 'primary' ? 'Primary' : 'Secondary'} Configuration`}
             </button>
           </div>
         </form>
 
         <div className="test-section">
           <h3>Test Email Configuration</h3>
-          <p className="test-description">Send a test email to verify your configuration is working correctly.</p>
+          <p className="test-description">
+            Send a test email to verify your configuration. The system will automatically try the primary email first, 
+            and fallback to secondary if it fails.
+          </p>
           
           <form onSubmit={handleTestConfiguration} className="test-email-form">
             <div className="form-group">
