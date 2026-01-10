@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import supabase from '../../supabaseClient';
+import { sendNewsletterWelcome } from '../../utils/emailService';
 import './NewsletterModal.css'; // Make sure this path is correct
 import logo from "../../assets/logos/cropped-logo.png";
 const devMode = false; // Set to true for testing, false for production
@@ -102,15 +103,7 @@ const NewsletterModal = () => {
 
                     // Send welcome email
                     try {
-                        await supabase.functions.invoke('send-email', {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                type: 'newsletter',
-                                name: name,
-                                email: email,
-                                token: token
-                            }),
-                        });
+                        await sendNewsletterWelcome(email, name, token);
                     } catch (emailError) {
                         console.error('Error sending welcome email:', emailError);
                         // Don't fail the subscription if email fails
@@ -140,15 +133,7 @@ const NewsletterModal = () => {
 
                 // Send welcome email
                 try {
-                    await supabase.functions.invoke('send-email', {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            type: 'newsletter',
-                            name: name,
-                            email: email,
-                            token: token
-                        }),
-                    });
+                    await sendNewsletterWelcome(email, name, token);
                 } catch (emailError) {
                     console.error('Error sending welcome email:', emailError);
                     // Don't fail the subscription if email fails

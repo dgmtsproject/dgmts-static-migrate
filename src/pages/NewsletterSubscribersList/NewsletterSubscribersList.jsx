@@ -4,6 +4,7 @@ import { Eye, EyeOff, Upload, FileText, X, UserPlus, Trash2, Users, Plus, Edit2,
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth';
+import { sendSubscriberNotification } from '../../utils/emailService';
 import './NewsletterSubscribersList.css';
 
 const NewsletterSubscribersList = () => {
@@ -1026,23 +1027,16 @@ const NewsletterSubscribersList = () => {
       // Send emails one by one
       for (const subscriber of targetSubscribers) {
         try {
-          const { error: emailError } = await supabase.functions.invoke('send-email', {
-            method: 'POST',
-            body: JSON.stringify({
-              type: 'subscriber_notification',
-              email: subscriber.email,
-              name: subscriber.name || 'Subscriber',
-              message: content,
-              subject: emailSubject.trim(),
-              htmlContent: (emailMode === 'rich' || emailMode === 'html') ? content : null,
-              pdfUrl: pdfUrl || null,
-              pdfFileName: pdfFile?.name || null,
-              fromEmail: emailConfig.email_id.trim(),
-              fromName: emailConfig.from_email_name.trim(),
-              password: emailConfig.email_password.trim(),
-              token: subscriber.token || null
-            })
-          });
+          const { error: emailError } = await sendSubscriberNotification(
+            subscriber.email,
+            subscriber.name || 'Subscriber',
+            emailSubject.trim(),
+            content,
+            (emailMode === 'rich' || emailMode === 'html') ? content : null,
+            pdfUrl || null,
+            pdfFile?.name || null,
+            subscriber.token || null
+          );
 
           if (emailError) {
             console.error(`Error sending email to ${subscriber.email}:`, emailError);

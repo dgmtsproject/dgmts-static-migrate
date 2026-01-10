@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import './ContactPage.css';
-import supabase from '../../supabaseClient'
+import { sendContactForm } from '../../utils/emailService'
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -21,14 +21,14 @@ const ContactPage = () => {
     setStatus('Sending...');
 
     try {
-      // Use the Supabase client to invoke the Edge Function to avoid CORS preflight Authorization rejection
-      const { error } = await supabase.functions.invoke('send-email', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-      });
+      const { error } = await sendContactForm(
+        formData.name,
+        formData.email,
+        formData.message
+      );
 
       if (error) {
-        console.error('Edge function error:', error);
+        console.error('Email service error:', error);
         setStatus(`Error: ${error.message || 'Something went wrong'}`);
       } else {
         setStatus('Message sent successfully!');

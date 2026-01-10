@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
 import { Search } from 'lucide-react'
+import { sendNewsletterWelcome } from '../../utils/emailService'
 import './BlogPage.css'
 
 function BlogPage() {
@@ -137,15 +138,11 @@ function BlogPage() {
 
           // Send welcome email
           try {
-            await supabase.functions.invoke('send-email', {
-              method: 'POST',
-              body: JSON.stringify({
-                type: 'newsletter',
-                name: newsletterData.name,
-                email: newsletterData.email,
-                token: token
-              }),
-            });
+            await sendNewsletterWelcome(
+              newsletterData.email,
+              newsletterData.name,
+              token
+            );
           } catch (emailError) {
             console.error('Error sending welcome email:', emailError);
             // Don't fail the subscription if email fails
@@ -173,15 +170,11 @@ function BlogPage() {
 
         // Send welcome email
         try {
-          await supabase.functions.invoke('send-email', {
-            method: 'POST',
-            body: JSON.stringify({
-              type: 'newsletter',
-              name: newsletterData.name,
-              email: newsletterData.email,
-              token: token
-            }),
-          });
+          await sendNewsletterWelcome(
+            newsletterData.email,
+            newsletterData.name,
+            token
+          );
         } catch (emailError) {
           console.error('Error sending welcome email:', emailError);
           // Don't fail the subscription if email fails

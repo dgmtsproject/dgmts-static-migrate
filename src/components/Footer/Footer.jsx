@@ -7,6 +7,7 @@ import geo5Img from '../../assets/logos/geo5-logo.png';
 import logoIcon from '../../assets/logos/logo-icon.png';
 import tpBgLogo from '../../assets/logos/cropped-logo-transparent.png';
 import { supabase } from '../../supabaseClient';
+import { sendNewsletterWelcome } from '../../utils/emailService';
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -85,15 +86,11 @@ const Footer = () => {
 
               // Send welcome email
               try {
-                await supabase.functions.invoke('send-email', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    type: 'newsletter',
-                    name: email.split('@')[0], // Use email prefix as name if no name provided
-                    email: email,
-                    token: reactivateToken
-                  }),
-                });
+                await sendNewsletterWelcome(
+                  email,
+                  email.split('@')[0], // Use email prefix as name if no name provided
+                  reactivateToken
+                );
               } catch (emailError) {
                 console.error('Error sending welcome email:', emailError);
                 // Don't fail the subscription if email fails
@@ -122,15 +119,11 @@ const Footer = () => {
 
             // Send welcome email
             try {
-              await supabase.functions.invoke('send-email', {
-                method: 'POST',
-                body: JSON.stringify({
-                  type: 'newsletter',
-                  name: email.split('@')[0], // Use email prefix as name if no name provided
-                  email: email,
-                  token: newToken
-                }),
-              });
+              await sendNewsletterWelcome(
+                email,
+                email.split('@')[0], // Use email prefix as name if no name provided
+                newToken
+              );
             } catch (emailError) {
               console.error('Error sending welcome email:', emailError);
               // Don't fail the subscription if email fails

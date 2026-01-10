@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { sendPaymentEmail } from '../../utils/emailService';
 import './PaymentPage.css';
 import { Wrench, X } from 'lucide-react';
 import visaLogo from '../../assets/logos/Visa_logo.png';
@@ -238,24 +239,17 @@ const PaymentPage = () => {
           // Send payment confirmation email
           try {
             const serviceCharge = calculateServiceCharge(billingData.invoiceAmount);
-            await supabase.functions.invoke('send-email', {
-              method: 'POST',
-              body: JSON.stringify({
-                type: 'payment',
-                email: billingData.email,
-                paymentData: {
-                  customerName: customerName,
-                  customerEmail: billingData.email,
-                  customerAddress: `${billingData.address}, ${billingData.city}, ${billingData.state} ${billingData.zip}`,
-                  invoiceNo: billingData.invoiceNo,
-                  paymentNote: billingData.paymentNote || '',
-                  transactionId: data.transactionId || '',
-                  amount: totalAmount,
-                  invoiceAmount: billingData.invoiceAmount,
-                  serviceCharge: serviceCharge,
-                  paymentMethod: 'Credit Card'
-                }
-              })
+            await sendPaymentEmail(billingData.email, {
+              customerName: customerName,
+              customerEmail: billingData.email,
+              customerAddress: `${billingData.address}, ${billingData.city}, ${billingData.state} ${billingData.zip}`,
+              invoiceNo: billingData.invoiceNo,
+              paymentNote: billingData.paymentNote || '',
+              transactionId: data.transactionId || '',
+              amount: totalAmount,
+              invoiceAmount: billingData.invoiceAmount,
+              serviceCharge: serviceCharge,
+              paymentMethod: 'Credit Card'
             });
             console.log('Payment confirmation email sent');
           } catch (emailErr) {

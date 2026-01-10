@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../supabaseClient'
 import { Eye, EyeOff } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
+import { sendTestEmail } from '../../utils/emailService'
 import './EmailConfigurationPage.css'
 
 function EmailConfigurationPage() {
@@ -198,17 +199,11 @@ function EmailConfigurationPage() {
     setMessage({ type: '', text: '' })
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-email', {
-        method: 'POST',
-        body: JSON.stringify({
-          type: 'test',
-          email: testEmail.trim()
-        })
-      })
+      const { data, error } = await sendTestEmail(testEmail.trim())
 
       if (error) {
-        console.error('Edge function error:', error)
-        throw error
+        console.error('Email service error:', error)
+        throw new Error(error.message)
       }
 
       if (data && data.message) {
