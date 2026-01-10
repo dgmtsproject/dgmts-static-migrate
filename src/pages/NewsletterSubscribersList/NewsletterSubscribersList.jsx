@@ -88,13 +88,6 @@ const NewsletterSubscribersList = () => {
         }
 
         try {
-          // Get the Quill editor instance from the ref
-          const quillEditor = quillRef.current?.getEditor()
-          if (!quillEditor) {
-            console.error('Quill editor instance not found')
-            return
-          }
-
           // Try to upload to Supabase Storage
           const fileExt = file.name.split('.').pop()
           const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`
@@ -124,148 +117,37 @@ const NewsletterSubscribersList = () => {
             const reader = new FileReader()
             reader.onloadend = () => {
               imageUrl = reader.result
-              const range = quillEditor.getSelection(true)
-              quillEditor.insertEmbed(range.index, 'image', imageUrl, 'user')
-              quillEditor.setSelection(range.index + 1)
+              insertImageToEditor(imageUrl)
             }
             reader.readAsDataURL(file)
             return
           }
 
-          // Insert the image into the editor
-          const range = quillEditor.getSelection(true)
-          quillEditor.insertEmbed(range.index, 'image', imageUrl, 'user')
-          quillEditor.setSelection(range.index + 1)
-          setMessage({ type: 'success', text: 'Image uploaded successfully!' })
+          insertImageToEditor(imageUrl)
         } catch (err) {
           console.error('Error uploading image:', err)
-          setMessage({ type: 'error', text: 'Failed to upload image: ' + err.message })
+          // Fallback to data URL
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            insertImageToEditor(reader.result)
+          }
+          reader.readAsDataURL(file)
         }
       }
     }
 
-    // Link handler - works like Gmail/MS Word
-    const linkHandler = function(value) {
-      const quillEditor = quillRef.current?.getEditor()
-      if (!quillEditor) return
-
-      const range = quillEditor.getSelection()
-      if (!range) return
-
-      if (value) {
-        // Get selected text
-        const selectedText = quillEditor.getText(range.index, range.length)
-        
-        // Check if there's already a link at this position
-        const format = quillEditor.getFormat(range)
-        const existingLink = format.link
-        
-        if (existingLink) {
-          // Edit existing link
-          const newUrl = prompt('Edit URL:', existingLink)
-          if (newUrl !== null) {
-            if (newUrl === '') {
-              // Remove link if URL is empty
-              quillEditor.format('link', false)
-            } else {
-              // Update link
-              quillEditor.format('link', newUrl)
-            }
-          }
-        } else {
-          // Create new link
-          if (range.length === 0) {
-            // No text selected - prompt for both text and URL
-            const linkText = prompt('Enter link text:')
-            if (linkText) {
-              const url = prompt('Enter URL:')
-              if (url) {
-                // Insert text and make it a link
-                quillEditor.insertText(range.index, linkText, 'link', url)
-                quillEditor.setSelection(range.index + linkText.length)
-              }
-            }
-          } else {
-            // Text is selected - just ask for URL
-            const url = prompt('Enter URL:', 'https://')
-            if (url) {
-              quillEditor.format('link', url)
-            }
-          }
+    // Insert image to editor helper function
+    const insertImageToEditor = (url) => {
+      // Get the Quill editor instance from the DOM
+      const editorElement = document.querySelector('.ql-editor')
+      if (editorElement) {
+        // Try to get Quill instance from the element
+        const quillInstance = editorElement.__quill || (window.Quill && window.Quill.find(editorElement))
+        if (quillInstance) {
+          const range = quillInstance.getSelection(true)
+          quillInstance.insertEmbed(range.index, 'image', url, 'user')
+          quillInstance.setSelection(range.index + 1)
         }
-      } else {
-        // Remove link
-        quillEditor.format('link', false)
-      }
-    }
-
-    // Video handler - supports YouTube, Vimeo URLs and iframe embeds
-    const videoHandler = function() {
-      const quillEditor = quillRef.current?.getEditor()
-      if (!quillEditor) return
-
-      const input = prompt(
-        'Enter video URL or paste iframe code:\n\n' +
-        '• YouTube URL: https://www.youtube.com/watch?v=...\n' +
-        '• Vimeo URL: https://vimeo.com/...\n' +
-        '• Or paste full iframe embed code'
-      )
-      
-      if (!input) return
-
-      const range = quillEditor.getSelection(true)
-      if (!range) return
-
-      try {
-        let videoUrl = input.trim()
-
-        // Check if it's iframe code
-        if (videoUrl.includes('<iframe')) {
-          // Extract src from iframe
-          const srcMatch = videoUrl.match(/src=["']([^"']+)["']/)
-          if (srcMatch && srcMatch[1]) {
-            videoUrl = srcMatch[1]
-          } else {
-            setMessage({ type: 'error', text: 'Could not extract video URL from iframe code' })
-            return
-          }
-        }
-
-        // Convert various YouTube formats to embed format
-        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-          let videoId = ''
-          
-          if (videoUrl.includes('youtu.be/')) {
-            videoId = videoUrl.split('youtu.be/')[1].split('?')[0].split('&')[0]
-          } else if (videoUrl.includes('youtube.com/watch')) {
-            const urlParams = new URLSearchParams(videoUrl.split('?')[1])
-            videoId = urlParams.get('v')
-          } else if (videoUrl.includes('youtube.com/embed/')) {
-            videoId = videoUrl.split('youtube.com/embed/')[1].split('?')[0]
-          }
-          
-          if (videoId) {
-            videoUrl = `https://www.youtube.com/embed/${videoId}`
-          }
-        }
-        
-        // Convert Vimeo formats to embed format
-        if (videoUrl.includes('vimeo.com') && !videoUrl.includes('/video/')) {
-          const videoId = videoUrl.split('vimeo.com/')[1]?.split('?')[0]
-          if (videoId && !videoId.includes('player.vimeo.com')) {
-            videoUrl = `https://player.vimeo.com/video/${videoId}`
-          }
-        }
-
-        // Insert video
-        quillEditor.insertEmbed(range.index, 'video', videoUrl, 'user')
-        quillEditor.insertText(range.index + 1, '\n')
-        quillEditor.setSelection(range.index + 2)
-        
-        setMessage({ type: 'success', text: 'Video embedded successfully!' })
-      } catch (err) {
-        console.error('Error embedding video:', err)
-        setMessage({ type: 'error', text: 'Failed to embed video. Please check the URL or iframe code.' })
       }
     }
 
@@ -285,9 +167,7 @@ const NewsletterSubscribersList = () => {
           ['clean']
         ],
         handlers: {
-          image: imageHandler,
-          link: linkHandler,
-          video: videoHandler
+          image: imageHandler
         }
       },
       clipboard: {
@@ -936,42 +816,29 @@ const NewsletterSubscribersList = () => {
     setMessage({ type: '', text: '' });
 
     try {
-      let successCount = 0;
-      let failCount = 0;
-      const insertedSubscriberIds = [];
+      // Prepare all subscribers for batch insert
+      const subscribersToInsert = validSubscribers.map(sub => ({
+        name: sub.name || null,
+        email: sub.email,
+        is_active: sub.is_active,
+        date_joined: new Date().toISOString(),
+        token: Math.floor(Math.random() * 1000000000000)
+      }));
 
-      for (const sub of validSubscribers) {
-        try {
-          // Generate a random token for unsubscribe functionality
-          const token = Math.floor(Math.random() * 1000000000000);
+      // Batch insert all subscribers in a single request
+      const { data: insertedData, error: insertError } = await supabase
+        .from('subscribers')
+        .insert(subscribersToInsert)
+        .select();
 
-          const { data, error: insertError } = await supabase
-            .from('subscribers')
-            .insert([{
-              name: sub.name || null,
-              email: sub.email,
-              is_active: sub.is_active,
-              date_joined: new Date().toISOString(),
-              token: token
-            }])
-            .select();
-
-          if (insertError) {
-            console.error(`Failed to insert ${sub.email}:`, insertError);
-            failCount++;
-          } else {
-            successCount++;
-            if (data && data[0]) {
-              insertedSubscriberIds.push(data[0].id);
-            }
-          }
-        } catch (err) {
-          console.error(`Error inserting ${sub.email}:`, err);
-          failCount++;
-        }
+      if (insertError) {
+        throw insertError;
       }
 
-      // Add to group if selected
+      const successCount = insertedData?.length || 0;
+      const insertedSubscriberIds = insertedData?.map(sub => sub.id) || [];
+
+      // Add to group if selected (also batch insert)
       if (csvGroupSelection !== 'none' && insertedSubscriberIds.length > 0) {
         try {
           const groupMembers = insertedSubscriberIds.map(subscriberId => ({
@@ -987,22 +854,26 @@ const NewsletterSubscribersList = () => {
             console.error('Error adding subscribers to group:', groupError);
             setMessage({ 
               type: 'success', 
-              text: `Imported ${successCount} subscriber(s)${failCount > 0 ? `, ${failCount} failed` : ''}. Note: Failed to add to group.`
+              text: `Imported ${successCount} subscriber(s). Note: Failed to add to group.`
             });
           } else {
             const groupName = groups.find(g => g.id === csvGroupSelection)?.name || 'selected group';
             setMessage({ 
               type: 'success', 
-              text: `Successfully imported ${successCount} subscriber(s) and added to "${groupName}"${failCount > 0 ? `. ${failCount} failed.` : ''}`
+              text: `Successfully imported ${successCount} subscriber(s) and added to "${groupName}"`
             });
           }
         } catch (err) {
           console.error('Error adding to group:', err);
+          setMessage({ 
+            type: 'success', 
+            text: `Imported ${successCount} subscriber(s). Note: Failed to add to group.`
+          });
         }
       } else {
         setMessage({ 
           type: 'success', 
-          text: `Successfully imported ${successCount} subscriber(s)${failCount > 0 ? `. ${failCount} failed.` : ''}`
+          text: `Successfully imported ${successCount} subscriber(s)`
         });
       }
 
@@ -1903,7 +1774,6 @@ const NewsletterSubscribersList = () => {
               {emailMode === 'rich' ? (
                 <div className="quill-container">
                   <ReactQuill
-                    ref={quillRef}
                     theme="snow"
                     value={emailContent}
                     onChange={setEmailContent}
@@ -2373,4 +2243,3 @@ Example:
 };
 
 export default NewsletterSubscribersList;
-
