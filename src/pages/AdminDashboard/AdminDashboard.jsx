@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays } from 'lucide-react'
+import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays, DollarSign } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword, verifyAdminEmail, resetAdminPasswordWithEmail } from '../../utils/adminAuth'
 import './AdminDashboard.css'
 
@@ -131,11 +131,18 @@ function AdminDashboard() {
       color: '#9c27b0'
     },
     {
+      title: 'Payments',
+      description: 'View and manage production environment payment transactions',
+      icon: DollarSign,
+      path: '/admin/payments',
+      color: '#28a745'
+    },
+    {
       title: 'Newsletter Subscribers',
       description: 'Manage subscribers and send professional newsletter emails with rich formatting',
       icon: Users,
       path: '/admin/newsletter-subscribers-list',
-      color: '#28a745'
+      color: '#17a2b8'
     },
     {
       title: 'Email Configuration',

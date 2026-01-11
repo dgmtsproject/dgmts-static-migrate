@@ -215,6 +215,12 @@ const PaymentPage = () => {
         
         // Save payment data to Supabase
         try {
+          // Get current time in EST (America/New_York timezone - Georgia, USA)
+          const estTime = new Date().toLocaleString('en-US', { 
+            timeZone: 'America/New_York' 
+          });
+          const estDate = new Date(estTime);
+          
           const { error: dbError } = await supabase
             .from('payments')
             .insert({
@@ -228,7 +234,9 @@ const PaymentPage = () => {
               transaction_id: data.transactionId || null,
               status: 'success',
               response: JSON.stringify(data),
-              notes: `Auth Code: ${data.authCode || 'N/A'}, Account Type: ${data.accountType || 'N/A'}`
+              notes: `Auth Code: ${data.authCode || 'N/A'}, Account Type: ${data.accountType || 'N/A'}`,
+              environment_type: 'PROD',
+              created_at: estDate.toISOString()
             });
 
           if (dbError) {
@@ -288,6 +296,12 @@ const PaymentPage = () => {
           const totalAmount = calculateTotalAmount(billingData.invoiceAmount);
           const customerName = `${billingData.firstName} ${billingData.lastName}`;
           
+          // Get current time in EST (America/New_York timezone - Georgia, USA)
+          const estTime = new Date().toLocaleString('en-US', { 
+            timeZone: 'America/New_York' 
+          });
+          const estDate = new Date(estTime);
+          
           await supabase
             .from('payments')
             .insert({
@@ -301,7 +315,9 @@ const PaymentPage = () => {
               transaction_id: null,
               status: 'failed',
               response: JSON.stringify(data),
-              notes: `Error: ${data.error || 'Payment failed'}`
+              notes: `Error: ${data.error || 'Payment failed'}`,
+              environment_type: 'PROD',
+              created_at: estDate.toISOString()
             });
         } catch (dbErr) {
           console.error('Error saving failed payment to database:', dbErr);
