@@ -3,7 +3,7 @@
  * Sends emails via the DGMTS email API endpoint
  */
 
-const EMAIL_API_ENDPOINT = 'http://127.0.0.1:5000/api/dgmts-static/send-mail'
+const EMAIL_API_ENDPOINT = 'https://imsite.dullesgeotechnical.com/api/dgmts-static/send-mail'
 
 /**
  * Send email via the DGMTS email API
