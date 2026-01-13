@@ -3,7 +3,7 @@
  * Sends emails via the DGMTS email API endpoint
  */
 
-const EMAIL_API_ENDPOINT = 'https://imsite.dullesgeotechnical.com/api/dgmts-static/send-mail'
+const EMAIL_API_ENDPOINT = 'http://127.0.0.1:5000/api/dgmts-static/send-mail'
 
 /**
  * Send email via the DGMTS email API
@@ -14,9 +14,10 @@ const EMAIL_API_ENDPOINT = 'https://imsite.dullesgeotechnical.com/api/dgmts-stat
  * @param {string} [emailData.message] - Email message content
  * @param {string} [emailData.subject] - Email subject
  * @param {string} [emailData.htmlContent] - HTML content for email
- * @param {string} [emailData.pdfUrl] - URL to PDF attachment
- * @param {string} [emailData.pdfFileName] - PDF filename
+ * @param {Array} [emailData.attachments] - Array of attachment objects {name, url/data, type, size}
+ * @param {Array} [emailData.embeddedImages] - Array of embedded images for CID {cid, name, data, type}
  * @param {string} [emailData.token] - Subscriber token for unsubscribe
+ * @param {boolean} [emailData.includeHeaderFooter] - Whether to include DGMTS header/footer template
  * @param {Object} [emailData.paymentData] - Payment data for payment emails
  * @returns {Promise<Object>} Response from the email API
  */
@@ -39,8 +40,8 @@ export const sendEmail = async (emailData) => {
     return { data, error: null }
   } catch (error) {
     console.error('Email service error:', error)
-    return { 
-      data: null, 
+    return {
+      data: null,
       error: {
         message: error.message || 'Failed to send email',
         details: error.toString()
@@ -110,11 +111,12 @@ export const sendContactForm = async (name, email, message) => {
  * @param {string} subject - Email subject
  * @param {string} message - Plain text message
  * @param {string} [htmlContent] - HTML content
- * @param {string} [pdfUrl] - PDF URL
- * @param {string} [pdfFileName] - PDF filename
+ * @param {Array} [attachments] - Array of attachments {name, url/data, type, size}
+ * @param {Array} [embeddedImages] - Array of embedded images for CID {cid, name, data, type}
  * @param {string} [token] - Subscriber token
+ * @param {boolean} [includeHeaderFooter] - Whether to include DGMTS header/footer template
  */
-export const sendSubscriberNotification = async (email, name, subject, message, htmlContent, pdfUrl, pdfFileName, token) => {
+export const sendSubscriberNotification = async (email, name, subject, message, htmlContent, attachments, embeddedImages, token, includeHeaderFooter = false) => {
   return sendEmail({
     type: 'subscriber_notification',
     email,
@@ -122,9 +124,10 @@ export const sendSubscriberNotification = async (email, name, subject, message, 
     subject,
     message,
     htmlContent,
-    pdfUrl,
-    pdfFileName,
-    token
+    attachments,
+    embeddedImages,
+    token,
+    includeHeaderFooter
   })
 }
 

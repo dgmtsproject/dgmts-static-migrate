@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo, useRef, useCallback } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Upload, FileText, X, Users, User, Check } from 'lucide-react';
+import { Upload, FileText, X, Users, User, Check, Paperclip, Image, ToggleLeft, ToggleRight } from 'lucide-react';
 import { supabase } from '../../../supabaseClient';
 
 const EmailComposer = ({
@@ -11,8 +11,8 @@ const EmailComposer = ({
   emailSubject,
   sendingEmails,
   emailMode,
-  pdfFile,
-  uploadingPdf,
+  attachments,
+  uploadingAttachment,
   emailTargetType,
   selectedGroupsForEmail,
   selectedIndividualsForEmail,
@@ -20,6 +20,8 @@ const EmailComposer = ({
   targetEmailCount,
   activeSubscribers,
   getFilteredIndividualsForEmail,
+  embeddedImages,
+  includeHeaderFooter,
   setEmailContent,
   setEmailSubject,
   setEmailMode,
@@ -29,12 +31,27 @@ const EmailComposer = ({
   toggleIndividualForEmail,
   selectAllIndividuals,
   clearIndividualSelections,
-  handlePdfUpload,
-  removePdf,
+  handleAttachmentUpload,
+  removeAttachment,
+  handleEmbeddedImageUpload,
+  removeEmbeddedImage,
+  setIncludeHeaderFooter,
   handleSendEmails,
   getTargetSummary,
   setMessage
 }) => {
+  // Ref to store Quill instance
+  const quillRef = useRef(null);
+
+  // Get Quill editor instance properly
+  const getQuillInstance = useCallback(() => {
+    if (quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      return editor;
+    }
+    return null;
+  }, []);
+
   // Enhanced ReactQuill modules configuration
   const quillModules = useMemo(() => {
     const imageHandler = () => {
@@ -99,14 +116,11 @@ const EmailComposer = ({
     };
 
     const insertImageToEditor = (url) => {
-      const editorElement = document.querySelector('.ql-editor');
-      if (editorElement) {
-        const quillInstance = editorElement.__quill || (window.Quill && window.Quill.find(editorElement));
-        if (quillInstance) {
-          const range = quillInstance.getSelection(true);
-          quillInstance.insertEmbed(range.index, 'image', url, 'user');
-          quillInstance.setSelection(range.index + 1);
-        }
+      if (quillRef.current) {
+        const quill = quillRef.current.getEditor();
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, 'image', url, 'user');
+        quill.setSelection(range.index + 1);
       }
     };
 
@@ -144,6 +158,19 @@ const EmailComposer = ({
     'direction', 'align',
     'link', 'image', 'video', 'blockquote', 'code-block'
   ];
+
+  // Insert embedded image into editor using preview URL (will be replaced with CID when sending)
+  // We store a data attribute to map the preview URL to the CID
+  const insertCidImage = useCallback((cid, previewUrl) => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      const range = quill.getSelection(true);
+      // Insert the preview image (visible in editor), but we'll track it by a special marker
+      // We'll use the preview URL in editor, and replace with cid: when sending
+      quill.insertEmbed(range.index, 'image', previewUrl, 'user');
+      quill.setSelection(range.index + 1);
+    }
+  }, []);
 
   return (
     <div className="send-email-section">
@@ -355,11 +382,32 @@ const EmailComposer = ({
           </div>
         </div>
 
+        {/* Header/Footer Toggle */}
+        <div className="form-group">
+          <div className="header-footer-toggle">
+            <button
+              type="button"
+              className={`toggle-btn ${includeHeaderFooter ? 'active' : ''}`}
+              onClick={() => setIncludeHeaderFooter(!includeHeaderFooter)}
+              disabled={sendingEmails}
+            >
+              {includeHeaderFooter ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
+              <span>Include DGMTS Header &amp; Footer Template</span>
+            </button>
+            <small className="form-hint">
+              {includeHeaderFooter 
+                ? 'Emails will include the professional DGMTS header and footer wrapper' 
+                : 'Emails will be sent with your content only (no wrapper template)'}
+            </small>
+          </div>
+        </div>
+
         <div className="form-group">
           <label htmlFor="email_content">Email Content *</label>
           {emailMode === 'rich' ? (
             <div className="quill-container">
               <ReactQuill
+                ref={quillRef}
                 theme="snow"
                 value={emailContent}
                 onChange={setEmailContent}
@@ -424,47 +472,114 @@ Example:
           </small>
         </div>
 
+        {/* Embedded Images Section (CID) */}
         <div className="form-group">
-          <label htmlFor="pdf_upload">Attach PDF Newsletter (Optional)</label>
-          <div className="pdf-upload-section">
-            {pdfFile ? (
-              <div className="pdf-preview-container">
-                <FileText size={24} />
-                <span className="pdf-file-name">{pdfFile.name}</span>
-                <button
-                  type="button"
-                  className="btn-remove-pdf"
-                  onClick={removePdf}
-                  disabled={sendingEmails || uploadingPdf}
-                  title="Remove PDF"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            ) : (
-              <div className="pdf-upload-area">
-                <input
-                  id="pdf_upload"
-                  type="file"
-                  accept="application/pdf"
-                  onChange={(e) => handlePdfUpload(e, setMessage)}
-                  disabled={sendingEmails || uploadingPdf}
-                  style={{ display: 'none' }}
-                />
-                <label htmlFor="pdf_upload" className="pdf-upload-label">
-                  <Upload size={20} />
-                  <span>{uploadingPdf ? 'Uploading PDF...' : 'Upload PDF Newsletter'}</span>
-                </label>
-                <small className="form-hint">Upload a PDF file to attach to the newsletter (max 10MB)</small>
+          <label>Embedded Images (Optional)</label>
+          <small className="form-hint" style={{ marginBottom: '0.5rem', display: 'block' }}>
+            Upload images to embed in your email. Click "Insert" to add the image to your content.
+          </small>
+          <div className="embedded-images-section">
+            {embeddedImages && embeddedImages.length > 0 && (
+              <div className="embedded-images-list">
+                {embeddedImages.map((img, index) => (
+                  <div key={img.cid} className="embedded-image-item">
+                    <img src={img.preview} alt={img.name} className="embedded-image-preview" />
+                    <div className="embedded-image-info">
+                      <span className="embedded-image-name">{img.name}</span>
+                      <span className="embedded-image-cid">ID: {img.cid}</span>
+                    </div>
+                    <div className="embedded-image-actions">
+                      <button
+                        type="button"
+                        className="btn btn-small"
+                        onClick={() => insertCidImage(img.cid, img.preview)}
+                        disabled={sendingEmails || emailMode !== 'rich'}
+                        title="Insert image into content"
+                      >
+                        Insert
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-remove-attachment"
+                        onClick={() => removeEmbeddedImage(index)}
+                        disabled={sendingEmails}
+                        title="Remove image"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
+            <div className="embedded-image-upload-area">
+              <input
+                id="embedded_image_upload"
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleEmbeddedImageUpload(e, setMessage)}
+                disabled={sendingEmails}
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="embedded_image_upload" className="attachment-upload-label">
+                <Image size={20} />
+                <span>Upload Embedded Image</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* Attachments Section */}
+        <div className="form-group">
+          <label>Attachments (Optional)</label>
+          <div className="attachments-section">
+            {attachments && attachments.length > 0 && (
+              <div className="attachments-list">
+                {attachments.map((attachment, index) => (
+                  <div key={index} className="attachment-item">
+                    <FileText size={20} />
+                    <div className="attachment-info">
+                      <span className="attachment-name">{attachment.name}</span>
+                      <span className="attachment-size">({(attachment.size / 1024).toFixed(1)} KB)</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn-remove-attachment"
+                      onClick={() => removeAttachment(index)}
+                      disabled={sendingEmails || uploadingAttachment}
+                      title="Remove attachment"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="attachment-upload-area">
+              <input
+                id="attachment_upload"
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip,.rar,.png,.jpg,.jpeg,.gif"
+                onChange={(e) => handleAttachmentUpload(e, setMessage)}
+                disabled={sendingEmails || uploadingAttachment}
+                style={{ display: 'none' }}
+                multiple
+              />
+              <label htmlFor="attachment_upload" className="attachment-upload-label">
+                <Paperclip size={20} />
+                <span>{uploadingAttachment ? 'Uploading...' : 'Add Attachment'}</span>
+              </label>
+              <small className="form-hint">
+                Supported: PDF, Word, Excel, PowerPoint, Images, Text, CSV, ZIP (max 10MB each)
+              </small>
+            </div>
           </div>
         </div>
 
         <button 
           onClick={() => handleSendEmails(setMessage)} 
           className="btn btn-secondary send-email-btn"
-          disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || targetEmailCount === 0 || uploadingPdf}
+          disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || targetEmailCount === 0 || uploadingAttachment}
         >
           {sendingEmails 
             ? `Sending... (${targetEmailCount} emails)` 

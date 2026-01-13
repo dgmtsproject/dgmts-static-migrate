@@ -311,8 +311,8 @@ const NewsletterSubscribersList = () => {
           emailSubject={emailSender.emailSubject}
           sendingEmails={emailSender.sendingEmails}
           emailMode={emailSender.emailMode}
-          pdfFile={emailSender.pdfFile}
-          uploadingPdf={emailSender.uploadingPdf}
+          attachments={emailSender.attachments}
+          uploadingAttachment={emailSender.uploadingAttachment}
           emailTargetType={emailSender.emailTargetType}
           selectedGroupsForEmail={emailSender.selectedGroupsForEmail}
           selectedIndividualsForEmail={emailSender.selectedIndividualsForEmail}
@@ -320,6 +320,8 @@ const NewsletterSubscribersList = () => {
           targetEmailCount={emailSender.targetEmailCount}
           activeSubscribers={emailSender.activeSubscribers}
           getFilteredIndividualsForEmail={emailSender.getFilteredIndividualsForEmail}
+          embeddedImages={emailSender.embeddedImages}
+          includeHeaderFooter={emailSender.includeHeaderFooter}
           setEmailContent={emailSender.setEmailContent}
           setEmailSubject={emailSender.setEmailSubject}
           setEmailMode={emailSender.setEmailMode}
@@ -329,8 +331,11 @@ const NewsletterSubscribersList = () => {
           toggleIndividualForEmail={emailSender.toggleIndividualForEmail}
           selectAllIndividuals={emailSender.selectAllIndividuals}
           clearIndividualSelections={emailSender.clearIndividualSelections}
-          handlePdfUpload={emailSender.handlePdfUpload}
-          removePdf={emailSender.removePdf}
+          handleAttachmentUpload={emailSender.handleAttachmentUpload}
+          removeAttachment={emailSender.removeAttachment}
+          handleEmbeddedImageUpload={emailSender.handleEmbeddedImageUpload}
+          removeEmbeddedImage={emailSender.removeEmbeddedImage}
+          setIncludeHeaderFooter={emailSender.setIncludeHeaderFooter}
           handleSendEmails={emailSender.handleSendEmails}
           getTargetSummary={emailSender.getTargetSummary}
           setMessage={setMessage}

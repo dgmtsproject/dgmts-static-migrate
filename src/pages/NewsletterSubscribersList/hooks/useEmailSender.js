@@ -7,9 +7,16 @@ export const useEmailSender = (subscribers, groups) => {
   const [emailSubject, setEmailSubject] = useState('');
   const [sendingEmails, setSendingEmails] = useState(false);
   const [emailMode, setEmailMode] = useState('rich');
-  const [pdfFile, setPdfFile] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState('');
-  const [uploadingPdf, setUploadingPdf] = useState(false);
+  
+  // New attachments state (supports multiple file types)
+  const [attachments, setAttachments] = useState([]);
+  const [uploadingAttachment, setUploadingAttachment] = useState(false);
+  
+  // Embedded images for CID references
+  const [embeddedImages, setEmbeddedImages] = useState([]);
+  
+  // Header/footer toggle - off by default
+  const [includeHeaderFooter, setIncludeHeaderFooter] = useState(false);
   
   // Enhanced selection state - supports multiple groups and individual subscribers
   const [emailTargetType, setEmailTargetType] = useState('all'); // 'all', 'groups', 'individuals'
@@ -17,68 +24,161 @@ export const useEmailSender = (subscribers, groups) => {
   const [selectedIndividualsForEmail, setSelectedIndividualsForEmail] = useState(new Set());
   const [individualSearchTerm, setIndividualSearchTerm] = useState('');
 
-  const handlePdfUpload = async (e, setMessage) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  // Handle attachment upload (supports multiple file types)
+  const handleAttachmentUpload = async (e, setMessage) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-    if (file.type !== 'application/pdf') {
-      setMessage({ type: 'error', text: 'Please select a PDF file' });
-      return;
-    }
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'text/plain',
+      'text/csv',
+      'application/zip',
+      'application/x-rar-compressed',
+      'image/png',
+      'image/jpeg',
+      'image/gif'
+    ];
 
-    if (file.size > 10 * 1024 * 1024) {
-      setMessage({ type: 'error', text: 'PDF size must be less than 10MB' });
-      return;
-    }
+    const maxSize = 10 * 1024 * 1024; // 10MB
 
-    setUploadingPdf(true);
+    setUploadingAttachment(true);
     setMessage({ type: '', text: '' });
 
     try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
-      const filePath = `newsletter-pdfs/${fileName}`;
+      const newAttachments = [];
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('newsletter-pdfs')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
+      for (const file of files) {
+        if (!allowedTypes.includes(file.type)) {
+          setMessage({ type: 'error', text: `File type not allowed: ${file.name}` });
+          continue;
+        }
+
+        if (file.size > maxSize) {
+          setMessage({ type: 'error', text: `File too large (max 10MB): ${file.name}` });
+          continue;
+        }
+
+        // Try to upload to Supabase storage
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+        const filePath = `newsletter-attachments/${fileName}`;
+
+        try {
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('newsletter-attachments')
+            .upload(filePath, file, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (!uploadError && uploadData) {
+            const { data: urlData } = supabase.storage
+              .from('newsletter-attachments')
+              .getPublicUrl(filePath);
+
+            if (urlData?.publicUrl) {
+              newAttachments.push({
+                name: file.name,
+                url: urlData.publicUrl,
+                type: file.type,
+                size: file.size
+              });
+              continue;
+            }
+          }
+        } catch (err) {
+          console.error('Supabase upload failed, using base64:', err);
+        }
+
+        // Fallback to base64
+        const base64 = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(file);
         });
 
-      if (!uploadError && uploadData) {
-        const { data: urlData } = supabase.storage
-          .from('newsletter-pdfs')
-          .getPublicUrl(filePath);
-
-        if (urlData?.publicUrl) {
-          setPdfUrl(urlData.publicUrl);
-          setPdfFile(file);
-          setMessage({ type: 'success', text: 'PDF uploaded successfully!' });
-          setUploadingPdf(false);
-          return;
-        }
+        newAttachments.push({
+          name: file.name,
+          data: base64,
+          type: file.type,
+          size: file.size
+        });
       }
 
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64data = reader.result;
-        setPdfUrl(base64data);
-        setPdfFile(file);
-        setMessage({ type: 'success', text: 'PDF loaded successfully!' });
-      };
-      reader.readAsDataURL(file);
+      if (newAttachments.length > 0) {
+        setAttachments(prev => [...prev, ...newAttachments]);
+        setMessage({ type: 'success', text: `${newAttachments.length} attachment(s) added successfully!` });
+      }
     } catch (err) {
-      console.error('Error uploading PDF:', err);
-      setMessage({ type: 'error', text: 'Failed to upload PDF: ' + err.message });
+      console.error('Error uploading attachment:', err);
+      setMessage({ type: 'error', text: 'Failed to upload attachment: ' + err.message });
     } finally {
-      setUploadingPdf(false);
+      setUploadingAttachment(false);
+      // Reset input
+      e.target.value = '';
     }
   };
 
-  const removePdf = () => {
-    setPdfFile(null);
-    setPdfUrl('');
+  // Remove attachment
+  const removeAttachment = (index) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  // Handle embedded image upload (for CID references)
+  const handleEmbeddedImageUpload = async (e, setMessage) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setMessage({ type: 'error', text: 'Please select an image file' });
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Image size must be less than 5MB' });
+      return;
+    }
+
+    try {
+      // Generate unique CID
+      const cid = `img_${Math.random().toString(36).substring(2)}_${Date.now()}`;
+
+      // Read as base64 - use this as both data and preview
+      const base64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+
+      // Use base64 as preview (works in editor and can be replaced with CID when sending)
+      setEmbeddedImages(prev => [...prev, {
+        cid,
+        name: file.name,
+        data: base64,
+        type: file.type,
+        preview: base64  // Use base64 as preview so it can be found and replaced
+      }]);
+
+      setMessage({ type: 'success', text: 'Image uploaded! Click "Insert" to add it to your content.' });
+    } catch (err) {
+      console.error('Error uploading embedded image:', err);
+      setMessage({ type: 'error', text: 'Failed to upload image: ' + err.message });
+    }
+
+    // Reset input
+    e.target.value = '';
+  };
+
+  // Remove embedded image
+  const removeEmbeddedImage = (index) => {
+    setEmbeddedImages(prev => prev.filter((_, i) => i !== index));
   };
 
   // Toggle group selection for email
@@ -229,6 +329,22 @@ export const useEmailSender = (subscribers, groups) => {
       let successCount = 0;
       let failCount = 0;
 
+      // Process HTML content to replace preview URLs with CID references
+      let processedContent = content;
+      if ((emailMode === 'rich' || emailMode === 'html') && embeddedImages.length > 0) {
+        for (const img of embeddedImages) {
+          // Replace blob: or data: URLs with cid: references
+          if (img.preview) {
+            // Escape special regex characters in the preview URL
+            const escapedPreview = img.preview.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            processedContent = processedContent.replace(
+              new RegExp(escapedPreview, 'g'),
+              `cid:${img.cid}`
+            );
+          }
+        }
+      }
+
       for (const subscriber of targetSubscribers) {
         try {
           const { error: emailError } = await sendSubscriberNotification(
@@ -236,10 +352,11 @@ export const useEmailSender = (subscribers, groups) => {
             subscriber.name || 'Subscriber',
             emailSubject.trim(),
             content,
-            (emailMode === 'rich' || emailMode === 'html') ? content : null,
-            pdfUrl || null,
-            pdfFile?.name || null,
-            subscriber.token || null
+            (emailMode === 'rich' || emailMode === 'html') ? processedContent : null,
+            attachments.length > 0 ? attachments : null,
+            embeddedImages.length > 0 ? embeddedImages : null,
+            subscriber.token || null,
+            includeHeaderFooter
           );
 
           if (emailError) {
@@ -262,6 +379,8 @@ export const useEmailSender = (subscribers, groups) => {
         });
         setEmailContent('');
         setEmailSubject('');
+        setAttachments([]);
+        setEmbeddedImages([]);
         // Reset selections after successful send
         setSelectedGroupsForEmail(new Set());
         setSelectedIndividualsForEmail(new Set());
@@ -281,9 +400,10 @@ export const useEmailSender = (subscribers, groups) => {
     emailSubject,
     sendingEmails,
     emailMode,
-    pdfFile,
-    pdfUrl,
-    uploadingPdf,
+    attachments,
+    uploadingAttachment,
+    embeddedImages,
+    includeHeaderFooter,
     emailTargetType,
     selectedGroupsForEmail,
     selectedIndividualsForEmail,
@@ -297,12 +417,15 @@ export const useEmailSender = (subscribers, groups) => {
     setEmailMode,
     setEmailTargetType,
     setIndividualSearchTerm,
+    setIncludeHeaderFooter,
     toggleGroupForEmail,
     toggleIndividualForEmail,
     selectAllIndividuals,
     clearIndividualSelections,
-    handlePdfUpload,
-    removePdf,
+    handleAttachmentUpload,
+    removeAttachment,
+    handleEmbeddedImageUpload,
+    removeEmbeddedImage,
     handleSendEmails,
     getTargetSummary
   };
