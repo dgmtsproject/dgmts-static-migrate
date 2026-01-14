@@ -1,7 +1,7 @@
 import { useMemo, useRef, useCallback } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Upload, FileText, X, Users, User, Check, Paperclip, Image, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Upload, FileText, X, Users, User, Check, Paperclip, Image, ToggleLeft, ToggleRight, FlaskConical } from 'lucide-react';
 import { supabase } from '../../../supabaseClient';
 
 const EmailComposer = ({
@@ -22,6 +22,9 @@ const EmailComposer = ({
   getFilteredIndividualsForEmail,
   embeddedImages,
   includeHeaderFooter,
+  customHeader,
+  customFooter,
+  isTestMode,
   setEmailContent,
   setEmailSubject,
   setEmailMode,
@@ -36,6 +39,9 @@ const EmailComposer = ({
   handleEmbeddedImageUpload,
   removeEmbeddedImage,
   setIncludeHeaderFooter,
+  setCustomHeader,
+  setCustomFooter,
+  setIsTestMode,
   handleSendEmails,
   getTargetSummary,
   setMessage
@@ -223,14 +229,14 @@ const EmailComposer = ({
               <div className="groups-selection-list">
                 {groups.map(group => {
                   const memberCount = group.subscriber_group_members?.length || 0;
-                  const activeMemberCount = group.subscriber_group_members 
+                  const activeMemberCount = group.subscriber_group_members
                     ? subscribers.filter(s => s.is_active && group.subscriber_group_members.some(m => m.subscriber_id === s.id)).length
                     : 0;
                   const isSelected = selectedGroupsForEmail.has(group.id);
-                  
+
                   return (
-                    <div 
-                      key={group.id} 
+                    <div
+                      key={group.id}
                       className={`group-selection-item ${isSelected ? 'selected' : ''}`}
                       onClick={() => toggleGroupForEmail(group.id)}
                     >
@@ -238,7 +244,7 @@ const EmailComposer = ({
                         <input
                           type="checkbox"
                           checked={isSelected}
-                          onChange={() => {}}
+                          onChange={() => { }}
                           disabled={sendingEmails}
                         />
                       </div>
@@ -300,10 +306,10 @@ const EmailComposer = ({
               ) : (
                 getFilteredIndividualsForEmail.map(subscriber => {
                   const isSelected = selectedIndividualsForEmail.has(subscriber.id);
-                  
+
                   return (
-                    <div 
-                      key={subscriber.id} 
+                    <div
+                      key={subscriber.id}
                       className={`individual-selection-item ${isSelected ? 'selected' : ''}`}
                       onClick={() => toggleIndividualForEmail(subscriber.id)}
                     >
@@ -311,7 +317,7 @@ const EmailComposer = ({
                         <input
                           type="checkbox"
                           checked={isSelected}
-                          onChange={() => {}}
+                          onChange={() => { }}
                           disabled={sendingEmails}
                         />
                       </div>
@@ -392,13 +398,159 @@ const EmailComposer = ({
               disabled={sendingEmails}
             >
               {includeHeaderFooter ? <ToggleRight size={20} /> : <ToggleLeft size={20} />}
-              <span>Include DGMTS Header &amp; Footer Template</span>
+              <span>Include Header &amp; Footer Template</span>
             </button>
             <small className="form-hint">
-              {includeHeaderFooter 
-                ? 'Emails will include the professional DGMTS header and footer wrapper' 
+              {includeHeaderFooter
+                ? 'Emails will include header and footer wrapper. Customize below or leave empty for default template.'
                 : 'Emails will be sent with your content only (no wrapper template)'}
             </small>
+          </div>
+
+          {/* Custom Header/Footer Inputs - shown when toggle is enabled */}
+          {includeHeaderFooter && (
+            <div className="custom-header-footer-section">
+              {/* Header Customization */}
+              <div className="custom-section-group">
+                <h4 className="custom-section-title">📮 Header Settings</h4>
+                <small className="form-hint">Leave fields empty to use default DGMTS header</small>
+
+                <div className="custom-field-row">
+                  <div className="custom-field">
+                    <label htmlFor="header_bg_color">Background Color</label>
+                    <div className="color-input-wrapper">
+                      <input
+                        id="header_bg_color"
+                        type="color"
+                        value={customHeader.backgroundColor}
+                        onChange={(e) => setCustomHeader({ ...customHeader, backgroundColor: e.target.value })}
+                        disabled={sendingEmails}
+                        className="color-input"
+                      />
+                      <input
+                        type="text"
+                        value={customHeader.backgroundColor}
+                        onChange={(e) => setCustomHeader({ ...customHeader, backgroundColor: e.target.value })}
+                        disabled={sendingEmails}
+                        className="color-text-input"
+                        placeholder="#4a90e2"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="custom-field">
+                  <label htmlFor="header_heading">Email Heading</label>
+                  <input
+                    id="header_heading"
+                    type="text"
+                    value={customHeader.heading}
+                    onChange={(e) => setCustomHeader({ ...customHeader, heading: e.target.value })}
+                    placeholder="e.g., Monthly Newsletter, Special Announcement..."
+                    disabled={sendingEmails}
+                    className="custom-text-input"
+                  />
+                </div>
+
+                <div className="custom-field">
+                  <label htmlFor="header_tagline">Tagline (Optional)</label>
+                  <input
+                    id="header_tagline"
+                    type="text"
+                    value={customHeader.tagline}
+                    onChange={(e) => setCustomHeader({ ...customHeader, tagline: e.target.value })}
+                    placeholder="e.g., Your monthly update from DGMTS"
+                    disabled={sendingEmails}
+                    className="custom-text-input"
+                  />
+                </div>
+              </div>
+
+              {/* Footer Customization */}
+              <div className="custom-section-group">
+                <h4 className="custom-section-title">📝 Footer Settings</h4>
+                <small className="form-hint">Leave fields empty to use default DGMTS footer (unsubscribe link is always included)</small>
+
+                <div className="custom-field">
+                  <label htmlFor="footer_text">Footer Text (Optional)</label>
+                  <input
+                    id="footer_text"
+                    type="text"
+                    value={customFooter.footerText}
+                    onChange={(e) => setCustomFooter({ ...customFooter, footerText: e.target.value })}
+                    placeholder="e.g., Thank you for being a valued subscriber!"
+                    disabled={sendingEmails}
+                    className="custom-text-input"
+                  />
+                </div>
+
+                <div className="custom-field-row">
+                  <div className="custom-field">
+                    <label htmlFor="footer_link_text">Link Text (Optional)</label>
+                    <input
+                      id="footer_link_text"
+                      type="text"
+                      value={customFooter.linkText}
+                      onChange={(e) => setCustomFooter({ ...customFooter, linkText: e.target.value })}
+                      placeholder="e.g., Visit Our Website"
+                      disabled={sendingEmails}
+                      className="custom-text-input"
+                    />
+                  </div>
+                  <div className="custom-field">
+                    <label htmlFor="footer_link_url">Link URL</label>
+                    <input
+                      id="footer_link_url"
+                      type="url"
+                      value={customFooter.linkUrl}
+                      onChange={(e) => setCustomFooter({ ...customFooter, linkUrl: e.target.value })}
+                      placeholder="https://example.com"
+                      disabled={sendingEmails}
+                      className="custom-text-input"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Test Mode Toggle */}
+        <div className="form-group">
+          <div className="test-mode-section">
+            <label className="test-mode-label">
+              <FlaskConical size={18} />
+              <span>Email Mode:</span>
+            </label>
+            <div className="test-mode-options">
+              <label className={`radio-option ${!isTestMode ? 'selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="emailMode"
+                  checked={!isTestMode}
+                  onChange={() => setIsTestMode(false)}
+                  disabled={sendingEmails}
+                />
+                <span className="radio-label">Production</span>
+                <small>Uses primary email</small>
+              </label>
+              <label className={`radio-option ${isTestMode ? 'selected' : ''}`}>
+                <input
+                  type="radio"
+                  name="emailMode"
+                  checked={isTestMode}
+                  onChange={() => setIsTestMode(true)}
+                  disabled={sendingEmails}
+                />
+                <span className="radio-label">Testing</span>
+                <small>Uses secondary email</small>
+              </label>
+            </div>
+            {isTestMode && (
+              <small className="form-hint test-mode-warning">
+                ⚠️ Test mode is enabled. Emails will be sent using the secondary email configuration.
+              </small>
+            )}
           </div>
         </div>
 
@@ -451,8 +603,8 @@ Example:
                 spellCheck={false}
               />
               <small className="form-hint html-hint">
-                💡 <strong>Tips:</strong> Use inline CSS for best email client compatibility. 
-                For images, use absolute URLs (https://). 
+                💡 <strong>Tips:</strong> Use inline CSS for best email client compatibility.
+                For images, use absolute URLs (https://).
                 Test with popular email clients before sending to all subscribers.
               </small>
             </div>
@@ -576,13 +728,13 @@ Example:
           </div>
         </div>
 
-        <button 
-          onClick={() => handleSendEmails(setMessage)} 
+        <button
+          onClick={() => handleSendEmails(setMessage)}
           className="btn btn-secondary send-email-btn"
           disabled={sendingEmails || !emailContent.trim() || !emailSubject.trim() || targetEmailCount === 0 || uploadingAttachment}
         >
-          {sendingEmails 
-            ? `Sending... (${targetEmailCount} emails)` 
+          {sendingEmails
+            ? `Sending... (${targetEmailCount} emails)`
             : `Send Newsletter (${targetEmailCount} subscriber${targetEmailCount !== 1 ? 's' : ''})`}
         </button>
       </div>

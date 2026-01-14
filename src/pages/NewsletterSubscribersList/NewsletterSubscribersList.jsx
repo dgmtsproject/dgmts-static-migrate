@@ -144,12 +144,12 @@ const NewsletterSubscribersList = () => {
   // Filter and sort subscribers
   const filteredSubscribers = subscribers
     .filter((subscriber) => {
-      if (!subscriber || 
-          !subscriber.id || 
-          !subscriber.email || 
-          (typeof subscriber.id !== 'string' && typeof subscriber.id !== 'number') ||
-          typeof subscriber.email !== 'string' ||
-          subscriber.email.trim() === '') {
+      if (!subscriber ||
+        !subscriber.id ||
+        !subscriber.email ||
+        (typeof subscriber.id !== 'string' && typeof subscriber.id !== 'number') ||
+        typeof subscriber.email !== 'string' ||
+        subscriber.email.trim() === '') {
         return false;
       }
       const searchLower = searchTerm.toLowerCase();
@@ -173,7 +173,7 @@ const NewsletterSubscribersList = () => {
   const paginatedSubscribers = filteredSubscribers.slice(startIndex, endIndex);
 
   // Check if all filtered subscribers are selected
-  const isAllSelected = filteredSubscribers.length > 0 && 
+  const isAllSelected = filteredSubscribers.length > 0 &&
     filteredSubscribers.every(sub => selectedSubscribers.has(sub.id));
 
   // Select all handler
@@ -322,6 +322,9 @@ const NewsletterSubscribersList = () => {
           getFilteredIndividualsForEmail={emailSender.getFilteredIndividualsForEmail}
           embeddedImages={emailSender.embeddedImages}
           includeHeaderFooter={emailSender.includeHeaderFooter}
+          customHeader={emailSender.customHeader}
+          customFooter={emailSender.customFooter}
+          isTestMode={emailSender.isTestMode}
           setEmailContent={emailSender.setEmailContent}
           setEmailSubject={emailSender.setEmailSubject}
           setEmailMode={emailSender.setEmailMode}
@@ -336,6 +339,9 @@ const NewsletterSubscribersList = () => {
           handleEmbeddedImageUpload={emailSender.handleEmbeddedImageUpload}
           removeEmbeddedImage={emailSender.removeEmbeddedImage}
           setIncludeHeaderFooter={emailSender.setIncludeHeaderFooter}
+          setCustomHeader={emailSender.setCustomHeader}
+          setCustomFooter={emailSender.setCustomFooter}
+          setIsTestMode={emailSender.setIsTestMode}
           handleSendEmails={emailSender.handleSendEmails}
           getTargetSummary={emailSender.getTargetSummary}
           setMessage={setMessage}
@@ -349,11 +355,11 @@ const NewsletterSubscribersList = () => {
           deleting={deleting}
           onClose={() => setShowDeleteConfirm(false)}
           onConfirm={() => handleDeleteSelected(
-            selectedSubscribers, 
-            setMessage, 
-            setDeleting, 
-            setSelectedSubscribers, 
-            setShowDeleteConfirm, 
+            selectedSubscribers,
+            setMessage,
+            setDeleting,
+            setSelectedSubscribers,
+            setShowDeleteConfirm,
             fetchGroups
           )}
         />

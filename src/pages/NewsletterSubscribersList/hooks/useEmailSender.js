@@ -7,17 +7,34 @@ export const useEmailSender = (subscribers, groups) => {
   const [emailSubject, setEmailSubject] = useState('');
   const [sendingEmails, setSendingEmails] = useState(false);
   const [emailMode, setEmailMode] = useState('rich');
-  
+
   // New attachments state (supports multiple file types)
   const [attachments, setAttachments] = useState([]);
   const [uploadingAttachment, setUploadingAttachment] = useState(false);
-  
+
   // Embedded images for CID references
   const [embeddedImages, setEmbeddedImages] = useState([]);
-  
+
   // Header/footer toggle - off by default
   const [includeHeaderFooter, setIncludeHeaderFooter] = useState(false);
-  
+
+  // Custom header settings (user-friendly fields instead of raw HTML)
+  const [customHeader, setCustomHeader] = useState({
+    backgroundColor: '#4a90e2',
+    heading: '',
+    tagline: ''
+  });
+
+  // Custom footer settings (user-friendly fields instead of raw HTML)
+  const [customFooter, setCustomFooter] = useState({
+    footerText: '',
+    linkText: '',
+    linkUrl: ''
+  });
+
+  // Test mode - when enabled, uses secondary email instead of primary
+  const [isTestMode, setIsTestMode] = useState(false);
+
   // Enhanced selection state - supports multiple groups and individual subscribers
   const [emailTargetType, setEmailTargetType] = useState('all'); // 'all', 'groups', 'individuals'
   const [selectedGroupsForEmail, setSelectedGroupsForEmail] = useState(new Set());
@@ -225,8 +242,8 @@ export const useEmailSender = (subscribers, groups) => {
       .filter(sub => sub.is_active)
       .filter(sub => {
         if (!searchLower) return true;
-        return (sub.name?.toLowerCase().includes(searchLower) || 
-                sub.email.toLowerCase().includes(searchLower));
+        return (sub.name?.toLowerCase().includes(searchLower) ||
+          sub.email.toLowerCase().includes(searchLower));
       })
       .sort((a, b) => {
         const nameA = (a.name || '').toLowerCase();
@@ -239,14 +256,14 @@ export const useEmailSender = (subscribers, groups) => {
   // Calculate target subscribers based on selection type
   const getTargetSubscribers = useMemo(() => {
     const activeSubscribers = subscribers.filter(sub => sub.is_active);
-    
+
     if (emailTargetType === 'all') {
       return activeSubscribers;
     }
-    
+
     if (emailTargetType === 'groups') {
       if (selectedGroupsForEmail.size === 0) return [];
-      
+
       // Collect all subscriber IDs from selected groups
       const memberIds = new Set();
       groups.forEach(group => {
@@ -256,14 +273,14 @@ export const useEmailSender = (subscribers, groups) => {
           });
         }
       });
-      
+
       return activeSubscribers.filter(sub => memberIds.has(sub.id));
     }
-    
+
     if (emailTargetType === 'individuals') {
       return activeSubscribers.filter(sub => selectedIndividualsForEmail.has(sub.id));
     }
-    
+
     return [];
   }, [emailTargetType, selectedGroupsForEmail, selectedIndividualsForEmail, subscribers, groups]);
 
@@ -275,25 +292,25 @@ export const useEmailSender = (subscribers, groups) => {
     if (emailTargetType === 'all') {
       return `All Active Subscribers (${activeSubscribers})`;
     }
-    
+
     if (emailTargetType === 'groups') {
       const selectedGroups = groups.filter(g => selectedGroupsForEmail.has(g.id));
       if (selectedGroups.length === 0) return 'No groups selected';
       const groupNames = selectedGroups.map(g => g.name).join(', ');
       return `${selectedGroups.length} group(s): ${groupNames} (${targetEmailCount} recipients)`;
     }
-    
+
     if (emailTargetType === 'individuals') {
       if (selectedIndividualsForEmail.size === 0) return 'No individuals selected';
       return `${selectedIndividualsForEmail.size} individual subscriber(s)`;
     }
-    
+
     return '';
   };
 
   const handleSendEmails = async (setMessage) => {
     const content = emailContent.trim();
-    
+
     if (!content || (emailMode === 'rich' && content === '<p><br></p>')) {
       setMessage({ type: 'error', text: 'Please enter email content' });
       return;
@@ -356,7 +373,10 @@ export const useEmailSender = (subscribers, groups) => {
             attachments.length > 0 ? attachments : null,
             embeddedImages.length > 0 ? embeddedImages : null,
             subscriber.token || null,
-            includeHeaderFooter
+            includeHeaderFooter,
+            customHeader,
+            customFooter,
+            isTestMode
           );
 
           if (emailError) {
@@ -373,9 +393,9 @@ export const useEmailSender = (subscribers, groups) => {
       }
 
       if (successCount > 0) {
-        setMessage({ 
-          type: 'success', 
-          text: `Successfully sent ${successCount} email(s)${failCount > 0 ? `. ${failCount} failed.` : ''}` 
+        setMessage({
+          type: 'success',
+          text: `Successfully sent ${successCount} email(s)${failCount > 0 ? `. ${failCount} failed.` : ''}`
         });
         setEmailContent('');
         setEmailSubject('');
@@ -404,6 +424,9 @@ export const useEmailSender = (subscribers, groups) => {
     uploadingAttachment,
     embeddedImages,
     includeHeaderFooter,
+    customHeader,
+    customFooter,
+    isTestMode,
     emailTargetType,
     selectedGroupsForEmail,
     selectedIndividualsForEmail,
@@ -418,6 +441,9 @@ export const useEmailSender = (subscribers, groups) => {
     setEmailTargetType,
     setIndividualSearchTerm,
     setIncludeHeaderFooter,
+    setCustomHeader,
+    setCustomFooter,
+    setIsTestMode,
     toggleGroupForEmail,
     toggleIndividualForEmail,
     selectAllIndividuals,

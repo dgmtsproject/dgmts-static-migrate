@@ -1450,9 +1450,215 @@
   border-color: var(--primary-color);
 }
 
+/* Fix hover state for active toggle button - ensure different visual feedback */
+.newsletter-subscribers-page .toggle-btn.active:hover:not(:disabled) {
+  background: var(--primary-dark, #357abd);
+  border-color: var(--primary-dark, #357abd);
+  color: white;
+}
+
 .newsletter-subscribers-page .toggle-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Custom Header/Footer Section */
+.newsletter-subscribers-page .custom-header-footer-section {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.newsletter-subscribers-page .custom-section-group {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.newsletter-subscribers-page .custom-section-group:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.newsletter-subscribers-page .custom-section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--grey-900);
+  margin: 0 0 0.25rem 0;
+}
+
+.newsletter-subscribers-page .custom-field {
+  margin-top: 0.75rem;
+}
+
+.newsletter-subscribers-page .custom-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--grey-700);
+  font-size: 0.85rem;
+}
+
+.newsletter-subscribers-page .custom-field-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.newsletter-subscribers-page .custom-field-row .custom-field {
+  flex: 1;
+  margin-top: 0;
+}
+
+.newsletter-subscribers-page .custom-text-input {
+  width: 100%;
+  padding: 0.6rem 0.875rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background-color: white;
+  color: var(--grey-900);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  font-family: 'Red Hat Display', sans-serif;
+}
+
+.newsletter-subscribers-page .custom-text-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.newsletter-subscribers-page .custom-text-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.newsletter-subscribers-page .custom-text-input::placeholder {
+  color: #adb5bd;
+}
+
+.newsletter-subscribers-page .color-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.newsletter-subscribers-page .color-input {
+  width: 50px;
+  height: 38px;
+  padding: 2px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+}
+
+.newsletter-subscribers-page .color-input::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.newsletter-subscribers-page .color-input::-webkit-color-swatch {
+  border-radius: 4px;
+  border: none;
+}
+
+.newsletter-subscribers-page .color-text-input {
+  flex: 1;
+  max-width: 120px;
+  padding: 0.6rem 0.875rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  background-color: white;
+  color: var(--grey-900);
+}
+
+.newsletter-subscribers-page .color-text-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+
+/* Test Mode Section */
+.newsletter-subscribers-page .test-mode-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.newsletter-subscribers-page .test-mode-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--grey-900);
+  font-size: 0.95rem;
+}
+
+.newsletter-subscribers-page .test-mode-label svg {
+  color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .test-mode-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.newsletter-subscribers-page .radio-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.newsletter-subscribers-page .radio-option:hover {
+  border-color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .radio-option.selected {
+  border-color: var(--primary-color);
+  background: rgba(74, 144, 226, 0.05);
+}
+
+.newsletter-subscribers-page .radio-option input[type="radio"] {
+  display: none;
+}
+
+.newsletter-subscribers-page .radio-option .radio-label {
+  font-weight: 600;
+  color: var(--grey-900);
+  font-size: 0.95rem;
+}
+
+.newsletter-subscribers-page .radio-option.selected .radio-label {
+  color: var(--primary-color);
+}
+
+.newsletter-subscribers-page .radio-option small {
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.newsletter-subscribers-page .test-mode-warning {
+  color: #e67e22 !important;
+  background: rgba(230, 126, 34, 0.1);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border-left: 3px solid #e67e22;
 }
 
 /* Attachments Section */

@@ -115,8 +115,11 @@ export const sendContactForm = async (name, email, message) => {
  * @param {Array} [embeddedImages] - Array of embedded images for CID {cid, name, data, type}
  * @param {string} [token] - Subscriber token
  * @param {boolean} [includeHeaderFooter] - Whether to include DGMTS header/footer template
+ * @param {Object} [customHeader] - Custom header settings {backgroundColor, heading, tagline}
+ * @param {Object} [customFooter] - Custom footer settings {footerText, linkText, linkUrl}
+ * @param {boolean} [isTestMode] - Whether to use secondary email instead of primary
  */
-export const sendSubscriberNotification = async (email, name, subject, message, htmlContent, attachments, embeddedImages, token, includeHeaderFooter = false) => {
+export const sendSubscriberNotification = async (email, name, subject, message, htmlContent, attachments, embeddedImages, token, includeHeaderFooter = false, customHeader = null, customFooter = null, isTestMode = false) => {
   return sendEmail({
     type: 'subscriber_notification',
     email,
@@ -127,7 +130,10 @@ export const sendSubscriberNotification = async (email, name, subject, message, 
     attachments,
     embeddedImages,
     token,
-    includeHeaderFooter
+    includeHeaderFooter,
+    customHeader,
+    customFooter,
+    isTestMode
   })
 }
 
