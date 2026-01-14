@@ -137,3 +137,49 @@ export const sendSubscriberNotification = async (email, name, subject, message, 
   })
 }
 
+/**
+ * Send payment portal registration notification
+ * @param {Object} registrationData - Registration details
+ * @param {string} registrationData.applicantName - Applicant's name
+ * @param {string} registrationData.applicantEmail - Applicant's email
+ * @param {string} registrationData.applicantPhone - Applicant's phone
+ * @param {string} registrationData.contactPersonEmail - DGMTS contact person email
+ * @param {string} registrationData.contactPersonName - DGMTS contact person name
+ * @param {number} registrationData.userId - User ID for approval/denial
+ * @param {string} registrationData.siteUrl - Site URL for approval/denial buttons
+ */
+export const sendPaymentPortalRegistration = async (registrationData) => {
+  return sendEmail({
+    type: 'payment_portal_registration',
+    ...registrationData
+  })
+}
+
+/**
+ * Send approval email to applicant
+ * @param {Object} approvalData - Approval details
+ * @param {string} approvalData.applicantEmail - Applicant's email
+ * @param {string} approvalData.applicantName - Applicant's name
+ * @param {string} approvalData.userId - User ID (email)
+ * @param {string} approvalData.password - User password
+ */
+export const sendApprovalEmail = async (approvalData) => {
+  return sendEmail({
+    type: 'payment_portal_approval',
+    ...approvalData
+  })
+}
+
+/**
+ * Send denial email to applicant
+ * @param {Object} denialData - Denial details
+ * @param {string} denialData.applicantEmail - Applicant's email
+ * @param {string} denialData.applicantName - Applicant's name
+ * @param {string} denialData.reason - Reason for denial
+ */
+export const sendDenialEmail = async (denialData) => {
+  return sendEmail({
+    type: 'payment_portal_denial',
+    ...denialData
+  })
+}

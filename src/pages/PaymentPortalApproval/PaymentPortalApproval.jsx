@@ -1,0 +1,245 @@
+import { useState, useEffect } from 'react'
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { CheckCircle, XCircle, Loader } from 'lucide-react'
+import { supabase } from '../../supabaseClient'
+import { sendApprovalEmail, sendDenialEmail } from '../../utils/emailService'
+import './PaymentPortalApproval.css'
+
+function PaymentPortalApproval() {
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
+  const [message, setMessage] = useState({ type: '', text: '' })
+  const [action, setAction] = useState('') // 'approve' or 'deny'
+  const [userId, setUserId] = useState(null)
+  const [userData, setUserData] = useState(null)
+  const [denialReason, setDenialReason] = useState('')
+
+  useEffect(() => {
+    const actionParam = searchParams.get('action')
+    const userIdParam = searchParams.get('userId')
+
+    if (!actionParam || !userIdParam || !['approve', 'deny'].includes(actionParam)) {
+      setMessage({ type: 'error', text: 'Invalid approval link' })
+      setLoading(false)
+      return
+    }
+
+    setAction(actionParam)
+    setUserId(parseInt(userIdParam))
+    
+    // Fetch user data
+    fetchUserData(parseInt(userIdParam))
+  }, [searchParams])
+
+  const fetchUserData = async (id) => {
+    try {
+      const { data, error } = await supabase
+        .from('payment_portal_users')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+      if (error || !data) {
+        setMessage({ type: 'error', text: 'User not found' })
+        setLoading(false)
+        return
+      }
+
+      setUserData(data)
+      setLoading(false)
+    } catch (err) {
+      console.error('Error fetching user:', err)
+      setMessage({ type: 'error', text: 'Error loading user data' })
+      setLoading(false)
+    }
+  }
+
+  const handleConfirm = async () => {
+    // Validate denial reason if denying
+    if (action === 'deny' && !denialReason.trim()) {
+      setMessage({ type: 'error', text: 'Please provide a reason for denial' })
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      let updateData = {}
+      
+      if (action === 'approve') {
+        updateData = { approved: true, denied: false }
+      } else {
+        updateData = { approved: false, denied: true }
+      }
+
+      const { error } = await supabase
+        .from('payment_portal_users')
+        .update(updateData)
+        .eq('id', userId)
+
+      if (error) {
+        throw error
+      }
+
+      // Send email notification to applicant
+      if (action === 'approve') {
+        await sendApprovalEmail({
+          applicantEmail: userData.email,
+          applicantName: userData.name,
+          userId: userData.email,
+          password: userData.password
+        })
+      } else {
+        await sendDenialEmail({
+          applicantEmail: userData.email,
+          applicantName: userData.name,
+          reason: denialReason.trim()
+        })
+      }
+
+      setMessage({ 
+        type: 'success', 
+        text: `User has been ${action === 'approve' ? 'approved' : 'denied'} successfully! Email notification sent.` 
+      })
+      
+      // Redirect to home after 3 seconds
+      setTimeout(() => {
+        navigate('/')
+      }, 3000)
+    } catch (err) {
+      console.error(`Error ${action}ing user:`, err)
+      setMessage({ type: 'error', text: `Failed to ${action} user. Please try again.` })
+      setLoading(false)
+    }
+  }
+
+  if (loading && !userData) {
+    return (
+      <div className="approval-page">
+        <div className="approval-container">
+          <Loader className="spinner" size={48} />
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (message.type === 'error' && !userData) {
+    return (
+      <div className="approval-page">
+        <div className="approval-container">
+          <XCircle size={64} color="#dc3545" />
+          <h2>Error</h2>
+          <p className="message-error">{message.text}</p>
+          <button className="btn btn-secondary" onClick={() => navigate('/')}>
+            Go to Homepage
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (message.type === 'success') {
+    return (
+      <div className="approval-page">
+        <div className="approval-container">
+          <CheckCircle size={64} color="#28a745" />
+          <h2>Success!</h2>
+          <p className="message-success">{message.text}</p>
+          <p className="redirect-message">Redirecting to homepage...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="approval-page">
+      <div className="approval-container">
+        {action === 'approve' ? (
+          <CheckCircle size={64} color="#28a745" />
+        ) : (
+          <XCircle size={64} color="#dc3545" />
+        )}
+        
+        <h2>{action === 'approve' ? 'Approve User' : 'Deny User'}</h2>
+        <p className="approval-subtitle">
+          {action === 'approve' 
+            ? 'Are you sure you want to approve this user for payment portal access?' 
+            : 'Are you sure you want to deny this user\'s payment portal access?'}
+        </p>
+
+        {userData && (
+          <div className="user-details">
+            <h3>User Details</h3>
+            <div className="detail-row">
+              <span className="detail-label">Name:</span>
+              <span className="detail-value">{userData.name}</span>
+            </div>
+            {userData.company && (
+              <div className="detail-row">
+                <span className="detail-label">Company:</span>
+                <span className="detail-value">{userData.company}</span>
+              </div>
+            )}
+            <div className="detail-row">
+              <span className="detail-label">Email:</span>
+              <span className="detail-value">{userData.email}</span>
+            </div>
+            <div className="detail-row">
+              <span className="detail-label">Phone:</span>
+              <span className="detail-value">{userData.phone}</span>
+            </div>
+            <div className="detail-row">
+              <span className="detail-label">Status:</span>
+              <span className={`status-badge ${
+                userData.approved && !userData.denied ? 'approved' :
+                userData.denied ? 'denied' : 'pending'
+              }`}>
+                {userData.approved && !userData.denied ? 'Approved' :
+                 userData.denied ? 'Denied' : 'Pending'}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {action === 'deny' && (
+          <div className="denial-reason-section">
+            <label htmlFor="denial-reason">
+              <strong>Reason for Denial *</strong>
+            </label>
+            <textarea
+              id="denial-reason"
+              value={denialReason}
+              onChange={(e) => setDenialReason(e.target.value)}
+              placeholder="Please provide a reason for denying this application..."
+              rows={4}
+              disabled={loading}
+              required
+            />
+            <p className="help-text">This reason will be sent to the applicant via email.</p>
+          </div>
+        )}
+
+        <div className="action-buttons">
+          <button 
+            className={`btn ${action === 'approve' ? 'btn-approve' : 'btn-deny'}`}
+            onClick={handleConfirm}
+            disabled={loading}
+          >
+            {loading ? 'Processing...' : `Confirm ${action === 'approve' ? 'Approval' : 'Denial'}`}
+          </button>
+          <button 
+            className="btn btn-secondary" 
+            onClick={() => navigate('/')}
+            disabled={loading}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default PaymentPortalApproval

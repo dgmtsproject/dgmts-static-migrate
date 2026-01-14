@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { sendPaymentEmail } from '../../utils/emailService';
+import { checkPaymentPortalSession, getSessionUserData } from '../../utils/paymentPortalAuth';
 import './PaymentPage.css';
 import { Wrench, X } from 'lucide-react';
 import visaLogo from '../../assets/logos/Visa_logo.png';
@@ -15,6 +16,8 @@ const UNDER_MAINTENANCE = false; // Toggle maintenance mode: set to true to enab
 
 const PaymentPage = () => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [step, setStep] = useState(1); // 1: Billing Info, 2: Card Details
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -336,6 +339,23 @@ const PaymentPage = () => {
     setTermsAcknowledged(false);
   };
 
+  // Check authentication on component mount
+  useEffect(() => {
+    const session = checkPaymentPortalSession();
+    if (!session || !session.isValid) {
+      // User is not authenticated, redirect to login
+      navigate('/payment-login');
+    } else {
+      setIsAuthenticated(true);
+      // Optionally, you can pre-fill email from user data
+      const userData = getSessionUserData();
+      if (userData && userData.email) {
+        setBillingData(prev => ({ ...prev, email: userData.email }));
+      }
+    }
+    setAuthLoading(false);
+  }, [navigate]);
+
   useEffect(() => {
     if (UNDER_MAINTENANCE) {
       const timer = setInterval(() => {
@@ -359,6 +379,25 @@ const PaymentPage = () => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <main className="payment-page bg-texture">
+        <section className="payment-section">
+          <div style={{ textAlign: 'center', padding: '50px 20px' }}>
+            <div className="loading-spinner" style={{ margin: '0 auto 20px' }}></div>
+            <p style={{ color: '#666' }}>Verifying access...</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  // If not authenticated, render nothing (will redirect in useEffect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <main className="payment-page bg-texture">

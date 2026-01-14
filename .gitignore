@@ -31,3 +31,5 @@ supabase/.temp/
 
 commits.md
 *.sh
+
+database-migrations/*
