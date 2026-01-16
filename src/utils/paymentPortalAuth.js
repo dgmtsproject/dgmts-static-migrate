@@ -241,13 +241,13 @@ export const fetchDGMTSContactPersons = async () => {
 }
 
 /**
- * Register a new payment portal user
+ * Register a new payment portal user (without password - admin will set it)
  * @param {Object} userData - User registration data
  * @returns {Object} - { success: boolean, message: string, userId: number }
  */
 export const registerPaymentPortalUser = async (userData) => {
   try {
-    const { name, email, phone, password, dgmtsContactPerson } = userData
+    const { name, email, phone, dgmtsContactPerson } = userData
 
     // Check if email already exists
     const { data: existingUser } = await supabase
@@ -264,14 +264,14 @@ export const registerPaymentPortalUser = async (userData) => {
       }
     }
 
-    // Insert new user with approved=false and denied=false
+    // Insert new user with approved=false, denied=false, and NO password (admin will set it)
     const { data, error } = await supabase
       .from('payment_portal_users')
       .insert([{
         name: name.trim(),
         email: email.toLowerCase().trim(),
         phone: phone.trim(),
-        password: password, // In production, hash this
+        password: null, // Admin will set password upon approval
         approved: false,
         denied: false,
         dgmts_contact_person: dgmtsContactPerson
@@ -290,7 +290,7 @@ export const registerPaymentPortalUser = async (userData) => {
 
     return {
       success: true,
-      message: 'Registration successful! Your request is pending approval.',
+      message: 'Registration successful! Your request is pending approval. You will receive your password via email once approved.',
       userId: data.id
     }
   } catch (err) {

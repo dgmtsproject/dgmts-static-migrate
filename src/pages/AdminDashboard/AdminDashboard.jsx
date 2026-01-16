@@ -138,6 +138,13 @@ function AdminDashboard() {
       color: '#28a745'
     },
     {
+      title: 'Payment Portal Users',
+      description: 'View and manage payment portal user approvals and rejections',
+      icon: Users,
+      path: '/admin/payment-portal-users',
+      color: '#e74c3c'
+    },
+    {
       title: 'Newsletter Subscribers',
       description: 'Manage subscribers and send professional newsletter emails with rich formatting',
       icon: Users,

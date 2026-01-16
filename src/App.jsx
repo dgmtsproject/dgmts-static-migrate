@@ -49,6 +49,7 @@ const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage/BlogAdminPage'));
 const CredentialsManagement = lazy(() => import('./pages/CredentialsManagement/CredentialsManagement'));
 const EventAdminPage = lazy(() => import('./pages/EventAdminPage/EventAdminPage'));
 const PaymentsAdminPage = lazy(() => import('./pages/PaymentsAdminPage/PaymentsAdminPage'));
+const PaymentPortalUsersPage = lazy(() => import('./pages/PaymentPortalUsersPage/PaymentPortalUsersPage'));
 
 
 
@@ -163,6 +164,11 @@ function App() {
             <Route path="/admin/payments" element={
               <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
                 <PaymentsAdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/payment-portal-users" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <PaymentPortalUsersPage />
               </Suspense>
             } />
 

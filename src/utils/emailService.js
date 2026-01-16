@@ -183,3 +183,19 @@ export const sendDenialEmail = async (denialData) => {
     ...denialData
   })
 }
+
+/**
+ * Send password reset request to DGMTS contact person
+ * @param {Object} resetData - Password reset request details
+ * @param {string} resetData.applicantName - Applicant's name
+ * @param {string} resetData.applicantEmail - Applicant's email
+ * @param {string} resetData.contactPersonEmail - DGMTS contact person email
+ * @param {string} resetData.contactPersonName - DGMTS contact person name
+ * @param {string} resetData.siteUrl - Site URL for admin panel access
+ */
+export const sendPasswordResetRequest = async (resetData) => {
+  return sendEmail({
+    type: 'payment_portal_password_reset_request',
+    ...resetData
+  })
+}

@@ -29,22 +29,14 @@ function PaymentPortalLogin() {
   const [regName, setRegName] = useState('')
   const [regEmail, setRegEmail] = useState('')
   const [regPhone, setRegPhone] = useState('')
-  const [regPassword, setRegPassword] = useState('')
-  const [regConfirmPassword, setRegConfirmPassword] = useState('')
   const [regContactPerson, setRegContactPerson] = useState('')
-  const [showRegPassword, setShowRegPassword] = useState(false)
-  const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false)
   const [contactPersons, setContactPersons] = useState([])
   const [regLoading, setRegLoading] = useState(false)
   const [regMessage, setRegMessage] = useState({ type: '', text: '' })
 
   // Forgot Password states
-  const [forgotPasswordStep, setForgotPasswordStep] = useState(1) // 1: email, 2: new password
   const [forgotEmail, setForgotEmail] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmNewPassword, setConfirmNewPassword] = useState('')
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false)
+  const [forgotContactPerson, setForgotContactPerson] = useState('')
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState({ type: '', text: '' })
   const [resetLoading, setResetLoading] = useState(false)
 
@@ -59,8 +51,8 @@ function PaymentPortalLogin() {
   }, [navigate])
 
   useEffect(() => {
-    // Fetch DGMTS contact persons when registration view is shown
-    if (view === 'register') {
+    // Fetch DGMTS contact persons when registration or forgot password view is shown
+    if (view === 'register' || view === 'forgot-password') {
       loadContactPersons()
     }
   }, [view])
@@ -104,37 +96,24 @@ function PaymentPortalLogin() {
     setRegMessage({ type: '', text: '' })
 
     // Validation
-    if (!regName || !regEmail || !regPhone || !regPassword || !regConfirmPassword || !regContactPerson) {
+    if (!regName || !regEmail || !regPhone || !regContactPerson) {
       setRegMessage({ type: 'error', text: 'Please fill in all required fields' })
       setRegLoading(false)
       return
     }
 
-    if (regPassword.length < 6) {
-      setRegMessage({ type: 'error', text: 'Password must be at least 6 characters' })
-      setRegLoading(false)
-      return
-    }
-
-    if (regPassword !== regConfirmPassword) {
-      setRegMessage({ type: 'error', text: 'Passwords do not match' })
-      setRegLoading(false)
-      return
-    }
-
     // Confirm before submission
-    const confirmed = window.confirm('Are you sure you want to submit the registration form?')
+    const confirmed = window.confirm('Are you sure you want to submit the registration form? The admin will send you a password once approved.')
     if (!confirmed) {
       setRegLoading(false)
       return
     }
 
-    // Register user
+    // Register user (without password - admin will set it)
     const result = await registerPaymentPortalUser({
       name: regName,
       email: regEmail,
       phone: regPhone,
-      password: regPassword,
       dgmtsContactPerson: regContactPerson
     })
 
@@ -160,11 +139,9 @@ function PaymentPortalLogin() {
         setRegName('')
         setRegEmail('')
         setRegPhone('')
-        setRegPassword('')
-        setRegConfirmPassword('')
         setRegContactPerson('')
         setView('login')
-        setMessage({ type: 'success', text: 'Registration submitted! You will be notified once approved.' })
+        setMessage({ type: 'success', text: 'Registration submitted! You will receive your password via email once approved.' })
       }, 3000)
     } else {
       setRegMessage({ type: 'error', text: result.message })
@@ -174,13 +151,13 @@ function PaymentPortalLogin() {
   }
 
   // FORGOT PASSWORD HANDLERS
-  const handleVerifyEmail = async (e) => {
+  const handlePasswordResetRequest = async (e) => {
     e.preventDefault()
     setResetLoading(true)
     setForgotPasswordMessage({ type: '', text: '' })
 
-    if (!forgotEmail) {
-      setForgotPasswordMessage({ type: 'error', text: 'Please enter your email address' })
+    if (!forgotEmail || !forgotContactPerson) {
+      setForgotPasswordMessage({ type: 'error', text: 'Please fill in all required fields' })
       setResetLoading(false)
       return
     }
@@ -211,49 +188,33 @@ function PaymentPortalLogin() {
       return
     }
 
-    setForgotPasswordMessage({ type: 'success', text: 'Email verified! Please enter your new password.' })
-    setForgotPasswordStep(2)
-    setResetLoading(false)
-  }
-
-  const handleResetPassword = async (e) => {
-    e.preventDefault()
-    setResetLoading(true)
-    setForgotPasswordMessage({ type: '', text: '' })
-
-    if (!newPassword || !confirmNewPassword) {
-      setForgotPasswordMessage({ type: 'error', text: 'Please enter both password fields' })
-      setResetLoading(false)
-      return
-    }
-
-    if (newPassword.length < 6) {
-      setForgotPasswordMessage({ type: 'error', text: 'Password must be at least 6 characters long' })
-      setResetLoading(false)
-      return
-    }
-
-    if (newPassword !== confirmNewPassword) {
-      setForgotPasswordMessage({ type: 'error', text: 'Passwords do not match' })
-      setResetLoading(false)
-      return
-    }
-
-    const result = await resetPaymentPortalPassword(forgotEmail, newPassword)
+    // Send password reset request email to DGMTS contact person
+    const { sendPasswordResetRequest } = await import('../../utils/emailService')
+    const contactPerson = contactPersons.find(cp => cp.email === forgotContactPerson)
     
-    if (result.success) {
-      setForgotPasswordMessage({ type: 'success', text: result.message })
+    const result = await sendPasswordResetRequest({
+      applicantName: emailCheck.name,
+      applicantEmail: forgotEmail,
+      contactPersonEmail: forgotContactPerson,
+      contactPersonName: contactPerson?.name || 'DGMTS Team',
+      siteUrl: window.location.origin
+    })
+
+    if (result.data) {
+      setForgotPasswordMessage({ 
+        type: 'success', 
+        text: 'Password reset request sent! The DGMTS contact person will send you a new password via email.' 
+      })
+      
       setTimeout(() => {
         setView('login')
-        setForgotPasswordStep(1)
         setForgotEmail('')
-        setNewPassword('')
-        setConfirmNewPassword('')
+        setForgotContactPerson('')
         setForgotPasswordMessage({ type: '', text: '' })
-        setMessage({ type: 'success', text: 'Password reset successful! Please login with your new password.' })
-      }, 2000)
+        setMessage({ type: 'success', text: 'Password reset request submitted! Please check your email.' })
+      }, 3000)
     } else {
-      setForgotPasswordMessage({ type: 'error', text: result.message })
+      setForgotPasswordMessage({ type: 'error', text: 'Failed to send password reset request. Please try again.' })
     }
     
     setResetLoading(false)
@@ -368,7 +329,7 @@ function PaymentPortalLogin() {
             <div className="login-header">
               <UserPlus size={48} className="login-icon" />
               <h2>Register for Payment Portal</h2>
-              <p className="login-subtitle">Create a new account (requires approval)</p>
+              <p className="login-subtitle">Submit your registration (admin will send your password)</p>
             </div>
 
             <form onSubmit={handleRegistration} className="login-form">
@@ -422,62 +383,6 @@ function PaymentPortalLogin() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="reg-password">
-                  <Lock size={18} />
-                  Password *
-                </label>
-                <div className="password-input-wrapper">
-                  <input
-                    id="reg-password"
-                    type={showRegPassword ? "text" : "password"}
-                    value={regPassword}
-                    onChange={(e) => setRegPassword(e.target.value)}
-                    placeholder="Enter password (min. 6 characters)"
-                    required
-                    minLength={6}
-                    disabled={regLoading}
-                  />
-                  <button
-                    type="button"
-                    className="password-toggle"
-                    onClick={() => setShowRegPassword(!showRegPassword)}
-                    aria-label={showRegPassword ? "Hide password" : "Show password"}
-                    disabled={regLoading}
-                  >
-                    {showRegPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="reg-confirm-password">
-                  <Lock size={18} />
-                  Confirm Password *
-                </label>
-                <div className="password-input-wrapper">
-                  <input
-                    id="reg-confirm-password"
-                    type={showRegConfirmPassword ? "text" : "password"}
-                    value={regConfirmPassword}
-                    onChange={(e) => setRegConfirmPassword(e.target.value)}
-                    placeholder="Confirm your password"
-                    required
-                    minLength={6}
-                    disabled={regLoading}
-                  />
-                  <button
-                    type="button"
-                    className="password-toggle"
-                    onClick={() => setShowRegConfirmPassword(!showRegConfirmPassword)}
-                    aria-label={showRegConfirmPassword ? "Hide password" : "Show password"}
-                    disabled={regLoading}
-                  >
-                    {showRegConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
                 <label htmlFor="reg-contact">
                   <User size={18} />
                   DGMTS Contact Person *
@@ -496,6 +401,9 @@ function PaymentPortalLogin() {
                     </option>
                   ))}
                 </select>
+                <p className="form-help-text">
+                  Your selected contact person will receive your registration request and send you a password once approved.
+                </p>
               </div>
 
               {regMessage.type && (
@@ -533,131 +441,76 @@ function PaymentPortalLogin() {
           <>
             <div className="login-header">
               <Mail size={48} className="login-icon" />
-              <h2>Reset Password</h2>
+              <h2>Request Password Reset</h2>
               <p className="login-subtitle">
-                {forgotPasswordStep === 1 
-                  ? 'Enter your email to reset your password' 
-                  : 'Enter your new password'}
+                Request a new password from your DGMTS contact person
               </p>
             </div>
 
-            {forgotPasswordStep === 1 ? (
-              <form onSubmit={handleVerifyEmail} className="login-form">
-                <div className="form-group">
-                  <label htmlFor="forgot-email">
-                    <Mail size={18} />
-                    Email Address
-                  </label>
-                  <input
-                    id="forgot-email"
-                    type="email"
-                    value={forgotEmail}
-                    onChange={(e) => setForgotEmail(e.target.value)}
-                    placeholder="Enter your registered email"
-                    required
-                    autoFocus
-                    disabled={resetLoading}
-                  />
-                </div>
+            <form onSubmit={handlePasswordResetRequest} className="login-form">
+              <div className="form-group">
+                <label htmlFor="forgot-email">
+                  <Mail size={18} />
+                  Email Address *
+                </label>
+                <input
+                  id="forgot-email"
+                  type="email"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                  placeholder="Enter your registered email"
+                  required
+                  autoFocus
+                  disabled={resetLoading}
+                />
+              </div>
 
-                {forgotPasswordMessage.type && (
-                  <div className={`message message-${forgotPasswordMessage.type}`}>
-                    {forgotPasswordMessage.text}
-                  </div>
-                )}
-
-                <button 
-                  type="submit" 
-                  className="btn btn-primary" 
+              <div className="form-group">
+                <label htmlFor="forgot-contact">
+                  <User size={18} />
+                  DGMTS Contact Person *
+                </label>
+                <select
+                  id="forgot-contact"
+                  value={forgotContactPerson}
+                  onChange={(e) => setForgotContactPerson(e.target.value)}
+                  required
                   disabled={resetLoading}
                 >
-                  {resetLoading ? 'Verifying...' : 'Verify Email'}
-                </button>
-              </form>
-            ) : (
-              <form onSubmit={handleResetPassword} className="login-form">
-                <div className="form-group">
-                  <label htmlFor="new-password">
-                    <Lock size={18} />
-                    New Password
-                  </label>
-                  <div className="password-input-wrapper">
-                    <input
-                      id="new-password"
-                      type={showNewPassword ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Enter new password (min. 6 characters)"
-                      required
-                      autoFocus
-                      disabled={resetLoading}
-                      minLength={6}
-                    />
-                    <button
-                      type="button"
-                      className="password-toggle"
-                      onClick={() => setShowNewPassword(!showNewPassword)}
-                      aria-label={showNewPassword ? "Hide password" : "Show password"}
-                      disabled={resetLoading}
-                    >
-                      {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  </div>
+                  <option value="">Select your contact person</option>
+                  {contactPersons.map((person) => (
+                    <option key={person.email} value={person.email}>
+                      {person.name} ({person.email})
+                    </option>
+                  ))}
+                </select>
+                <p className="form-help-text">
+                  Your selected contact person will receive your password reset request and send you a new password via email.
+                </p>
+              </div>
+
+              {forgotPasswordMessage.type && (
+                <div className={`message message-${forgotPasswordMessage.type}`}>
+                  {forgotPasswordMessage.text}
                 </div>
+              )}
 
-                <div className="form-group">
-                  <label htmlFor="confirm-new-password">
-                    <Lock size={18} />
-                    Confirm New Password
-                  </label>
-                  <div className="password-input-wrapper">
-                    <input
-                      id="confirm-new-password"
-                      type={showConfirmNewPassword ? "text" : "password"}
-                      value={confirmNewPassword}
-                      onChange={(e) => setConfirmNewPassword(e.target.value)}
-                      placeholder="Confirm new password"
-                      required
-                      disabled={resetLoading}
-                      minLength={6}
-                    />
-                    <button
-                      type="button"
-                      className="password-toggle"
-                      onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
-                      aria-label={showConfirmNewPassword ? "Hide password" : "Show password"}
-                      disabled={resetLoading}
-                    >
-                      {showConfirmNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                    </button>
-                  </div>
-                </div>
-
-                {forgotPasswordMessage.type && (
-                  <div className={`message message-${forgotPasswordMessage.type}`}>
-                    {forgotPasswordMessage.text}
-                  </div>
-                )}
-
-                <button 
-                  type="submit" 
-                  className="btn btn-primary" 
-                  disabled={resetLoading}
-                >
-                  {resetLoading ? 'Resetting Password...' : 'Reset Password'}
-                </button>
-              </form>
-            )}
+              <button 
+                type="submit" 
+                className="btn btn-primary" 
+                disabled={resetLoading}
+              >
+                {resetLoading ? 'Submitting Request...' : 'Request Password Reset'}
+              </button>
+            </form>
 
             <div className="back-to-login">
               <button 
                 type="button" 
                 onClick={() => {
                   setView('login')
-                  setForgotPasswordStep(1)
                   setForgotEmail('')
-                  setNewPassword('')
-                  setConfirmNewPassword('')
+                  setForgotContactPerson('')
                   setForgotPasswordMessage({ type: '', text: '' })
                 }} 
                 className="link-button"

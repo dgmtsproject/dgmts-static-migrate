@@ -76,6 +76,14 @@
   color: var(--primary-color);
 }
 
+.form-help-text {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
 .form-group input {
   padding: 12px 16px;
   border: 2px solid #e0e0e0;
