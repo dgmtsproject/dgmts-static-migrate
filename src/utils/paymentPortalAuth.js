@@ -131,29 +131,30 @@ export const verifyPaymentPortalUser = async (email, password) => {
 /**
  * Verify user email exists in the system
  * @param {string} email - User email
- * @returns {Object} - { exists: boolean, approved: boolean, denied: boolean }
+ * @returns {Object} - { exists: boolean, approved: boolean, denied: boolean, name: string }
  */
 export const verifyPaymentPortalEmail = async (email) => {
   try {
     const { data, error } = await supabase
       .from('payment_portal_users')
-      .select('email, approved, denied')
+      .select('email, approved, denied, name')
       .eq('email', email.toLowerCase().trim())
       .single()
 
     if (error || !data) {
       console.error('Error fetching user email:', error)
-      return { exists: false, approved: false, denied: false }
+      return { exists: false, approved: false, denied: false, name: null }
     }
 
     return { 
       exists: true, 
       approved: data.approved, 
-      denied: data.denied 
+      denied: data.denied,
+      name: data.name 
     }
   } catch (err) {
     console.error('Error verifying email:', err)
-    return { exists: false, approved: false, denied: false }
+    return { exists: false, approved: false, denied: false, name: null }
   }
 }
 
