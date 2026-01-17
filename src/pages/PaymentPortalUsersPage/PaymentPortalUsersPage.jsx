@@ -2,19 +2,32 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { checkAdminSession } from '../../utils/adminAuth';
-import { ArrowLeft, Users, Calendar, CheckCircle, XCircle, Clock, Filter, Download, Search, Eye, UserCheck, UserX } from 'lucide-react';
+import { ArrowLeft, Users, Calendar, CheckCircle, XCircle, Clock, Filter, Download, Search, Eye, UserCheck, UserX, Trash2, UserPlus, Mail } from 'lucide-react';
 import './PaymentPortalUsersPage.css';
 
 function PaymentPortalUsersPage() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  // Tab state
+  const [activeTab, setActiveTab] = useState('users'); // 'users' or 'contacts'
+  
+  // Users state
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedUser, setSelectedUser] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  
+  // Contact persons state
+  const [contactPersons, setContactPersons] = useState([]);
+  const [filteredContacts, setFilteredContacts] = useState([]);
+  const [contactSearchTerm, setContactSearchTerm] = useState('');
+  const [showAddContactModal, setShowAddContactModal] = useState(false);
+  const [newContactName, setNewContactName] = useState('');
+  const [newContactEmail, setNewContactEmail] = useState('');
 
   useEffect(() => {
     const isAuthenticated = checkAdminSession();
@@ -24,6 +37,7 @@ function PaymentPortalUsersPage() {
     }
     setLoggedIn(true);
     fetchUsers();
+    fetchContactPersons();
   }, [navigate]);
 
   const fetchUsers = async () => {
@@ -45,6 +59,117 @@ function PaymentPortalUsersPage() {
       console.error('Error:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchContactPersons = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('dgmts_contact_persons')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching contact persons:', error);
+        return;
+      }
+
+      setContactPersons(data || []);
+      setFilteredContacts(data || []);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+  };
+
+  const handleDeleteUser = async (userId, userName) => {
+    if (!window.confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('payment_portal_users')
+        .delete()
+        .eq('id', userId);
+
+      if (error) {
+        alert('Failed to delete user. Please try again.');
+        console.error('Error deleting user:', error);
+        return;
+      }
+
+      alert('User deleted successfully!');
+      fetchUsers(); // Refresh the list
+    } catch (err) {
+      console.error('Error:', err);
+      alert('An error occurred while deleting the user.');
+    }
+  };
+
+  const handleDeleteContact = async (contactEmail, contactName) => {
+    if (!window.confirm(`Are you sure you want to delete contact person "${contactName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('dgmts_contact_persons')
+        .delete()
+        .eq('email', contactEmail);
+
+      if (error) {
+        alert('Failed to delete contact person. Please try again.');
+        console.error('Error deleting contact:', error);
+        return;
+      }
+
+      alert('Contact person deleted successfully!');
+      fetchContactPersons(); // Refresh the list
+    } catch (err) {
+      console.error('Error:', err);
+      alert('An error occurred while deleting the contact person.');
+    }
+  };
+
+  const handleAddContact = async () => {
+    if (!newContactName.trim() || !newContactEmail.trim()) {
+      alert('Please fill in both name and email fields.');
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newContactEmail)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('dgmts_contact_persons')
+        .insert([{
+          name: newContactName.trim(),
+          email: newContactEmail.toLowerCase().trim()
+        }]);
+
+      if (error) {
+        if (error.code === '23505') { // Unique constraint violation
+          alert('A contact person with this email already exists.');
+        } else {
+          alert('Failed to add contact person. Please try again.');
+          console.error('Error adding contact:', error);
+        }
+        return;
+      }
+
+      alert('Contact person added successfully!');
+      setNewContactName('');
+      setNewContactEmail('');
+      setShowAddContactModal(false);
+      fetchContactPersons(); // Refresh the list
+    } catch (err) {
+      console.error('Error:', err);
+      alert('An error occurred while adding the contact person.');
     }
   };
 
@@ -76,6 +201,22 @@ function PaymentPortalUsersPage() {
 
     setFilteredUsers(filtered);
   }, [searchTerm, statusFilter, users]);
+
+  // Filter and search contact persons
+  useEffect(() => {
+    let filtered = contactPersons;
+
+    // Apply search filter
+    if (contactSearchTerm) {
+      const term = contactSearchTerm.toLowerCase();
+      filtered = filtered.filter(contact =>
+        contact.name?.toLowerCase().includes(term) ||
+        contact.email?.toLowerCase().includes(term)
+      );
+    }
+
+    setFilteredContacts(filtered);
+  }, [contactSearchTerm, contactPersons]);
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -170,11 +311,32 @@ function PaymentPortalUsersPage() {
           </button>
           <h1>
             <Users size={32} />
-            Payment Portal Users
+            Payment Portal Management
           </h1>
-          <p className="subtitle">Manage payment portal user approvals and access</p>
+          <p className="subtitle">Manage users and contact persons</p>
         </div>
 
+        {/* Tabs */}
+        <div className="tabs-container">
+          <button 
+            className={`tab-button ${activeTab === 'users' ? 'active' : ''}`}
+            onClick={() => setActiveTab('users')}
+          >
+            <Users size={20} />
+            Payment Portal Users
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'contacts' ? 'active' : ''}`}
+            onClick={() => setActiveTab('contacts')}
+          >
+            <Mail size={20} />
+            Contact Persons
+          </button>
+        </div>
+
+        {/* Users Tab Content */}
+        {activeTab === 'users' && (
+          <>
         {/* Stats Cards */}
         <div className="stats-grid">
           <div className="stat-card" style={{ '--stat-color': '#28a745' }}>
@@ -293,13 +455,22 @@ function PaymentPortalUsersPage() {
                     <td>{getStatusBadge(user)}</td>
                     <td className="contact-cell">{user.dgmts_contact_person || 'N/A'}</td>
                     <td>
-                      <button
-                        className="view-details-button"
-                        onClick={() => handleViewDetails(user)}
-                        title="View Details"
-                      >
-                        <Eye size={18} />
-                      </button>
+                      <div className="action-buttons-cell">
+                        <button
+                          className="view-details-button"
+                          onClick={() => handleViewDetails(user)}
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button
+                          className="delete-button"
+                          onClick={() => handleDeleteUser(user.id, user.name)}
+                          title="Delete User"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -376,6 +547,128 @@ function PaymentPortalUsersPage() {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+          </>
+        )}
+
+        {/* Contact Persons Tab Content */}
+        {activeTab === 'contacts' && (
+          <>
+            <div className="contact-persons-header-section">
+              <h2>DGMTS Contact Persons</h2>
+              <button 
+                className="add-contact-button"
+                onClick={() => setShowAddContactModal(true)}
+              >
+                <UserPlus size={20} />
+                Add Contact Person
+              </button>
+            </div>
+
+            {/* Search for contacts */}
+            <div className="filters-section">
+              <div className="search-box">
+                <Search size={20} />
+                <input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={contactSearchTerm}
+                  onChange={(e) => setContactSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Contact Persons Table */}
+            {loading ? (
+              <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading contact persons...</p>
+              </div>
+            ) : filteredContacts.length === 0 ? (
+              <div className="empty-state">
+                <Mail size={64} color="#ccc" />
+                <h3>No Contact Persons Found</h3>
+                <p>Add contact persons to allow users to select them during registration.</p>
+              </div>
+            ) : (
+              <div className="contacts-table-container">
+                <table className="contacts-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredContacts.map((contact) => (
+                      <tr key={contact.email}>
+                        <td className="name-cell">{contact.name}</td>
+                        <td className="email-cell">{contact.email}</td>
+                        <td>
+                          <button
+                            className="delete-button"
+                            onClick={() => handleDeleteContact(contact.email, contact.name)}
+                            title="Delete Contact Person"
+                          >
+                            <Trash2 size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Add Contact Modal */}
+        {showAddContactModal && (
+          <div className="modal-overlay" onClick={() => setShowAddContactModal(false)}>
+            <div className="modal-content add-contact-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h2>Add Contact Person</h2>
+                <button className="modal-close" onClick={() => setShowAddContactModal(false)}>
+                  ×
+                </button>
+              </div>
+
+              <div className="modal-body">
+                <div className="form-group">
+                  <label htmlFor="contact-name">Name *</label>
+                  <input
+                    type="text"
+                    id="contact-name"
+                    value={newContactName}
+                    onChange={(e) => setNewContactName(e.target.value)}
+                    placeholder="Enter contact person's name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="contact-email">Email *</label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    value={newContactEmail}
+                    onChange={(e) => setNewContactEmail(e.target.value)}
+                    placeholder="Enter contact person's email"
+                  />
+                </div>
+
+                <div className="modal-actions">
+                  <button className="btn-primary" onClick={handleAddContact}>
+                    <UserPlus size={18} />
+                    Add Contact Person
+                  </button>
+                  <button className="btn-secondary" onClick={() => setShowAddContactModal(false)}>
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>

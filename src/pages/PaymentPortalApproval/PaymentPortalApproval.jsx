@@ -14,6 +14,7 @@ function PaymentPortalApproval() {
   const [userId, setUserId] = useState(null)
   const [userData, setUserData] = useState(null)
   const [denialReason, setDenialReason] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     const actionParam = searchParams.get('action')
@@ -56,6 +57,18 @@ function PaymentPortalApproval() {
   }
 
   const handleConfirm = async () => {
+    // Validate password if approving
+    if (action === 'approve' && !password.trim()) {
+      setMessage({ type: 'error', text: 'Please provide a password for the user' })
+      return
+    }
+
+    // Validate password length
+    if (action === 'approve' && password.trim().length < 6) {
+      setMessage({ type: 'error', text: 'Password must be at least 6 characters long' })
+      return
+    }
+
     // Validate denial reason if denying
     if (action === 'deny' && !denialReason.trim()) {
       setMessage({ type: 'error', text: 'Please provide a reason for denial' })
@@ -68,7 +81,7 @@ function PaymentPortalApproval() {
       let updateData = {}
       
       if (action === 'approve') {
-        updateData = { approved: true, denied: false }
+        updateData = { approved: true, denied: false, password: password.trim() }
       } else {
         updateData = { approved: false, denied: true }
       }
@@ -88,7 +101,7 @@ function PaymentPortalApproval() {
           applicantEmail: userData.email,
           applicantName: userData.name,
           userId: userData.email,
-          password: userData.password
+          password: password.trim()
         })
       } else {
         await sendDenialEmail({
@@ -200,6 +213,26 @@ function PaymentPortalApproval() {
                  userData.denied ? 'Denied' : 'Pending'}
               </span>
             </div>
+          </div>
+        )}
+
+        {action === 'approve' && (
+          <div className="password-section">
+            <label htmlFor="user-password">
+              <strong>Set Password for User *</strong>
+            </label>
+            <input
+              type="text"
+              id="user-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter a password for the user (min 6 characters)..."
+              disabled={loading}
+              required
+            />
+            <p className="help-text">
+              This password will be sent to the applicant via email. They can change it later.
+            </p>
           </div>
         )}
 
