@@ -30,6 +30,7 @@ import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import PaymentPortalLogin from './pages/PaymentPortalLogin/PaymentPortalLogin';
 import PaymentPortalApproval from './pages/PaymentPortalApproval/PaymentPortalApproval';
+import PasswordResetByContact from './pages/PasswordResetByContact/PasswordResetByContact';
 import SuccessPage from './pages/SuccessPage/SuccessPage';
 import CancelPage from './pages/CancelPage/CancelPage';
 import NewsletterModal from './components/Modal/NewsletterModal';
@@ -191,6 +192,7 @@ function App() {
             <Route path="/team/:id" element={<TeamMemberPage />} />
             <Route path="/payment-login" element={<PaymentPortalLogin />} />
             <Route path="/payment-portal-approval" element={<PaymentPortalApproval />} />
+            <Route path="/password-reset-by-contact" element={<PasswordResetByContact />} />
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/pay" element={<PaymentPage />} />
             <Route path="/success" element={<SuccessPage />} />

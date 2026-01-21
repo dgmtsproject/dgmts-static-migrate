@@ -197,7 +197,8 @@ function PaymentPortalLogin() {
       applicantEmail: forgotEmail,
       contactPersonEmail: forgotContactPerson,
       contactPersonName: contactPerson?.name || 'DGMTS Team',
-      siteUrl: window.location.origin
+      siteUrl: window.location.origin,
+      userId: emailCheck.userId
     })
 
     if (result.data) {

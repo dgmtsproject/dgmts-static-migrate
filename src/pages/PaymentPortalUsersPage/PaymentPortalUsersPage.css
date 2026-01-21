@@ -339,6 +339,21 @@
   font-family: 'Courier New', monospace;
 }
 
+.password-cell {
+  font-family: 'Courier New', monospace;
+  color: #333;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.password-cell .no-password {
+  color: #dc3545;
+  font-style: italic;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .contact-cell {
   color: #6c757d;
   font-size: 0.9rem;

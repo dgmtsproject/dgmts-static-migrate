@@ -262,7 +262,7 @@ function PaymentPortalUsersPage() {
   const exportToCSV = () => {
     if (filteredUsers.length === 0) return;
 
-    const headers = ['Date Created', 'Name', 'Email', 'Phone', 'Status', 'DGMTS Contact Person'];
+    const headers = ['Date Created', 'Name', 'Email', 'Phone', 'Password', 'Status', 'DGMTS Contact Person'];
     const rows = filteredUsers.map(u => {
       const status = getUserStatus(u);
       return [
@@ -270,6 +270,7 @@ function PaymentPortalUsersPage() {
         u.name || '',
         u.email || '',
         u.phone || '',
+        u.password || 'Not Set',
         status.label,
         u.dgmts_contact_person || ''
       ];
@@ -435,6 +436,7 @@ function PaymentPortalUsersPage() {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
+                  <th>Password</th>
                   <th>Status</th>
                   <th>DGMTS Contact</th>
                   <th>Actions</th>
@@ -452,6 +454,7 @@ function PaymentPortalUsersPage() {
                     <td className="name-cell">{user.name}</td>
                     <td className="email-cell">{user.email}</td>
                     <td className="phone-cell">{user.phone}</td>
+                    <td className="password-cell">{user.password || <span className="no-password">Not Set</span>}</td>
                     <td>{getStatusBadge(user)}</td>
                     <td className="contact-cell">{user.dgmts_contact_person || 'N/A'}</td>
                     <td>

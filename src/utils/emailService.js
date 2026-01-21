@@ -192,6 +192,7 @@ export const sendDenialEmail = async (denialData) => {
  * @param {string} resetData.contactPersonEmail - DGMTS contact person email
  * @param {string} resetData.contactPersonName - DGMTS contact person name
  * @param {string} resetData.siteUrl - Site URL for admin panel access
+ * @param {number} resetData.userId - User ID for password reset
  */
 export const sendPasswordResetRequest = async (resetData) => {
   return sendEmail({

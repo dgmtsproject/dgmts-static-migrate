@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { CheckCircle, XCircle, Loader } from 'lucide-react'
+import { CheckCircle, XCircle, Loader, RefreshCw } from 'lucide-react'
 import { supabase } from '../../supabaseClient'
 import { sendApprovalEmail, sendDenialEmail } from '../../utils/emailService'
 import './PaymentPortalApproval.css'
@@ -55,6 +55,36 @@ function PaymentPortalApproval() {
       setLoading(false)
     }
   }
+
+  // Generate a random password
+  const generateRandomPassword = () => {
+    const length = 12
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*'
+    let newPassword = ''
+    
+    // Ensure password has at least one lowercase, one uppercase, one number, and one special char
+    newPassword += 'abcdefghijklmnopqrstuvwxyz'[Math.floor(Math.random() * 26)]
+    newPassword += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)]
+    newPassword += '0123456789'[Math.floor(Math.random() * 10)]
+    newPassword += '!@#$%&*'[Math.floor(Math.random() * 7)]
+    
+    // Fill the rest randomly
+    for (let i = newPassword.length; i < length; i++) {
+      newPassword += charset[Math.floor(Math.random() * charset.length)]
+    }
+    
+    // Shuffle the password
+    newPassword = newPassword.split('').sort(() => Math.random() - 0.5).join('')
+    
+    setPassword(newPassword)
+  }
+
+  // Auto-generate password when action is approve and component loads
+  useEffect(() => {
+    if (action === 'approve' && !password) {
+      generateRandomPassword()
+    }
+  }, [action])
 
   const handleConfirm = async () => {
     // Validate password if approving
@@ -221,17 +251,28 @@ function PaymentPortalApproval() {
             <label htmlFor="user-password">
               <strong>Set Password for User *</strong>
             </label>
-            <input
-              type="text"
-              id="user-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter a password for the user (min 6 characters)..."
-              disabled={loading}
-              required
-            />
+            <div className="password-input-group">
+              <input
+                type="text"
+                id="user-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter a password for the user (min 6 characters)..."
+                disabled={loading}
+                required
+              />
+              <button
+                type="button"
+                className="generate-password-button"
+                onClick={generateRandomPassword}
+                disabled={loading}
+                title="Generate Random Password"
+              >
+                <RefreshCw size={18} />
+              </button>
+            </div>
             <p className="help-text">
-              This password will be sent to the applicant via email. They can change it later.
+              A secure password has been auto-generated. Click the refresh icon to generate a new one, or enter your own password (min 6 characters). This password will be sent to the applicant via email.
             </p>
           </div>
         )}
