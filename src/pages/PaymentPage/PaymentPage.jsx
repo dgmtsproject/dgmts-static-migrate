@@ -379,6 +379,7 @@ const PaymentPage = () => {
     
     return () => clearTimeout(timer);
   }, []);
+  
 
   // Show loading while checking authentication
   // if (authLoading) {
