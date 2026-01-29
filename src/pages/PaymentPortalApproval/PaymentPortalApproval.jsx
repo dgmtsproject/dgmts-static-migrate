@@ -219,10 +219,10 @@ function PaymentPortalApproval() {
               <span className="detail-label">Name:</span>
               <span className="detail-value">{userData.name}</span>
             </div>
-            {userData.company && (
+            {userData.company_name && (
               <div className="detail-row">
                 <span className="detail-label">Company:</span>
-                <span className="detail-value">{userData.company}</span>
+                <span className="detail-value">{userData.company_name}</span>
               </div>
             )}
             <div className="detail-row">

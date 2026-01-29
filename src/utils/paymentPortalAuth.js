@@ -249,7 +249,7 @@ export const fetchDGMTSContactPersons = async () => {
  */
 export const registerPaymentPortalUser = async (userData) => {
   try {
-    const { name, email, phone, dgmtsContactPerson } = userData
+    const { name, email, phone, companyName, dgmtsContactPerson } = userData
 
     // Check if email already exists
     const { data: existingUser } = await supabase
@@ -273,6 +273,7 @@ export const registerPaymentPortalUser = async (userData) => {
         name: name.trim(),
         email: email.toLowerCase().trim(),
         phone: phone.trim(),
+        company_name: companyName ? companyName.trim() : null,
         password: null, // Admin will set password upon approval
         approved: false,
         denied: false,

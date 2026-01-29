@@ -330,6 +330,16 @@
   color: #333;
 }
 
+.company-cell {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.company-cell .no-data {
+  color: #999;
+  font-size: 0.85rem;
+}
+
 .email-cell {
   color: #4a90e2;
 }

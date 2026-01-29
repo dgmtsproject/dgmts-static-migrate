@@ -262,12 +262,13 @@ function PaymentPortalUsersPage() {
   const exportToCSV = () => {
     if (filteredUsers.length === 0) return;
 
-    const headers = ['Date Created', 'Name', 'Email', 'Phone', 'Password', 'Status', 'DGMTS Contact Person'];
+    const headers = ['Date Created', 'Name', 'Company', 'Email', 'Phone', 'Password', 'Status', 'DGMTS Contact Person'];
     const rows = filteredUsers.map(u => {
       const status = getUserStatus(u);
       return [
         formatDate(u.created_at),
         u.name || '',
+        u.company_name || 'N/A',
         u.email || '',
         u.phone || '',
         u.password || 'Not Set',
@@ -434,6 +435,7 @@ function PaymentPortalUsersPage() {
                 <tr>
                   <th>Registration Date (EST)</th>
                   <th>Name</th>
+                  <th>Company</th>
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Password</th>
@@ -452,6 +454,7 @@ function PaymentPortalUsersPage() {
                       </div>
                     </td>
                     <td className="name-cell">{user.name}</td>
+                    <td className="company-cell">{user.company_name || <span className="no-data">N/A</span>}</td>
                     <td className="email-cell">{user.email}</td>
                     <td className="phone-cell">{user.phone}</td>
                     <td className="password-cell">{user.password || <span className="no-password">Not Set</span>}</td>
@@ -500,6 +503,10 @@ function PaymentPortalUsersPage() {
                     <div className="detail-item">
                       <label>Name</label>
                       <p>{selectedUser.name}</p>
+                    </div>
+                    <div className="detail-item">
+                      <label>Company</label>
+                      <p>{selectedUser.company_name || 'N/A'}</p>
                     </div>
                     <div className="detail-item">
                       <label>Email</label>

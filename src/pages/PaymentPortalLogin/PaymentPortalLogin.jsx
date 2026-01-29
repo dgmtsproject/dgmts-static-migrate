@@ -29,6 +29,7 @@ function PaymentPortalLogin() {
   const [regName, setRegName] = useState('')
   const [regEmail, setRegEmail] = useState('')
   const [regPhone, setRegPhone] = useState('')
+  const [regCompanyName, setRegCompanyName] = useState('')
   const [regContactPerson, setRegContactPerson] = useState('')
   const [contactPersons, setContactPersons] = useState([])
   const [regLoading, setRegLoading] = useState(false)
@@ -114,6 +115,7 @@ function PaymentPortalLogin() {
       name: regName,
       email: regEmail,
       phone: regPhone,
+      companyName: regCompanyName,
       dgmtsContactPerson: regContactPerson
     })
 
@@ -139,6 +141,7 @@ function PaymentPortalLogin() {
         setRegName('')
         setRegEmail('')
         setRegPhone('')
+        setRegCompanyName('')
         setRegContactPerson('')
         setView('login')
         setMessage({ type: 'success', text: 'Registration submitted! You will receive your password via email once approved.' })
@@ -381,6 +384,23 @@ function PaymentPortalLogin() {
                   required
                   disabled={regLoading}
                 />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="reg-company">
+                  Company Name (Optional)
+                </label>
+                <input
+                  id="reg-company"
+                  type="text"
+                  value={regCompanyName}
+                  onChange={(e) => setRegCompanyName(e.target.value)}
+                  placeholder="Enter your company name"
+                  disabled={regLoading}
+                />
+                <p className="form-help-text">
+                  Optional: Provide your company name if applicable
+                </p>
               </div>
 
               <div className="form-group">

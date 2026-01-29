@@ -199,6 +199,12 @@ function PasswordResetByContact() {
                 <span className="label">Name:</span>
                 <span className="value">{userData.name}</span>
               </div>
+              {userData.company_name && (
+                <div className="info-row">
+                  <span className="label">Company:</span>
+                  <span className="value">{userData.company_name}</span>
+                </div>
+              )}
               <div className="info-row">
                 <span className="label">Email:</span>
                 <span className="value">{userData.email}</span>
