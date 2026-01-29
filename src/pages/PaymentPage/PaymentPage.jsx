@@ -338,7 +338,7 @@ const PaymentPage = () => {
     setError('');
     setTermsAcknowledged(false);
   };
-
+ 
   // Check authentication on component mount
   useEffect(() => {
     const session = checkPaymentPortalSession();
