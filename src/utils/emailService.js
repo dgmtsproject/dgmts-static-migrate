@@ -143,6 +143,7 @@ export const sendSubscriberNotification = async (email, name, subject, message, 
  * @param {string} registrationData.applicantName - Applicant's name
  * @param {string} registrationData.applicantEmail - Applicant's email
  * @param {string} registrationData.applicantPhone - Applicant's phone
+ * @param {string} [registrationData.applicantCompanyName] - Applicant's company name (optional)
  * @param {string} registrationData.contactPersonEmail - DGMTS contact person email
  * @param {string} registrationData.contactPersonName - DGMTS contact person name
  * @param {number} registrationData.userId - User ID for approval/denial

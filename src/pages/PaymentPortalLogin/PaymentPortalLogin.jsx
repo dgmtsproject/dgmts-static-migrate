@@ -128,6 +128,7 @@ function PaymentPortalLogin() {
         applicantName: regName,
         applicantEmail: regEmail,
         applicantPhone: regPhone,
+        applicantCompanyName: regCompanyName || null,
         contactPersonEmail: regContactPerson,
         contactPersonName: contactPerson?.name || 'DGMTS Team',
         userId: result.userId,
