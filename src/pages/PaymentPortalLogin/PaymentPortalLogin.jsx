@@ -388,7 +388,7 @@ function PaymentPortalLogin() {
 
               <div className="form-group">
                 <label htmlFor="reg-company">
-                  Company Name (Optional)
+                  Company Name
                 </label>
                 <input
                   id="reg-company"
@@ -398,9 +398,6 @@ function PaymentPortalLogin() {
                   placeholder="Enter your company name"
                   disabled={regLoading}
                 />
-                <p className="form-help-text">
-                  Optional: Provide your company name if applicable
-                </p>
               </div>
 
               <div className="form-group">
