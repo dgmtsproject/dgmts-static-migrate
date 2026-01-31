@@ -244,6 +244,7 @@ export const fetchDGMTSContactPersons = async () => {
 
 /**
  * Register a new payment portal user (without password - admin will set it)
+ * If user was previously denied, allows re-registration by updating the existing record
  * @param {Object} userData - User registration data
  * @returns {Object} - { success: boolean, message: string, userId: number }
  */
@@ -254,15 +255,58 @@ export const registerPaymentPortalUser = async (userData) => {
     // Check if email already exists
     const { data: existingUser } = await supabase
       .from('payment_portal_users')
-      .select('email')
+      .select('id, email, approved, denied')
       .eq('email', email.toLowerCase().trim())
       .single()
 
-    if (existingUser) {
+    // If user exists and was denied, allow them to re-register by updating the record
+    if (existingUser && existingUser.denied === true) {
+      const { data, error } = await supabase
+        .from('payment_portal_users')
+        .update({
+          name: name.trim(),
+          phone: phone.trim(),
+          company_name: companyName ? companyName.trim() : null,
+          password: null, // Reset password (admin will set it upon approval)
+          approved: false,
+          denied: false, // Reset denied status
+          dgmts_contact_person: dgmtsContactPerson,
+          created_at: new Date().toISOString() // Update registration date
+        })
+        .eq('id', existingUser.id)
+        .select()
+        .single()
+
+      if (error) {
+        console.error('Error updating denied user:', error)
+        return {
+          success: false,
+          message: 'Failed to register. Please try again.',
+          userId: null
+        }
+      }
+
       return {
-        success: false,
-        message: 'An account with this email already exists.',
-        userId: null
+        success: true,
+        message: 'Registration successful! Your request is pending approval. You will receive your password via email once approved.',
+        userId: data.id
+      }
+    }
+
+    // If user exists and is approved or pending, don't allow re-registration
+    if (existingUser) {
+      if (existingUser.approved === true) {
+        return {
+          success: false,
+          message: 'An active account with this email already exists. Please use the login page or reset your password.',
+          userId: null
+        }
+      } else {
+        return {
+          success: false,
+          message: 'A registration request with this email is already pending approval. Please wait for the administrator to review your request.',
+          userId: null
+        }
       }
     }
 
