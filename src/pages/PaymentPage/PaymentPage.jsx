@@ -13,6 +13,7 @@ import discoverLogo from '../../assets/logos/discover.png';
 const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
 
 const UNDER_MAINTENANCE = false; // Toggle maintenance mode: set to true to enable maintenance mode
+const LOGIN_DISABLED = true; // Temporarily disable login requirement - allows direct payment access
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -341,6 +342,13 @@ const PaymentPage = () => {
  
   // Check authentication on component mount
   useEffect(() => {
+    // If login is disabled, skip authentication check
+    if (LOGIN_DISABLED) {
+      setIsAuthenticated(true);
+      setAuthLoading(false);
+      return;
+    }
+
     const session = checkPaymentPortalSession();
     if (!session || !session.isValid) {
       // User is not authenticated, redirect to login

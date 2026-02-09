@@ -347,17 +347,67 @@ export const useEmailSender = (subscribers, groups) => {
       let failCount = 0;
 
       // Process HTML content to replace preview URLs with CID references
+      // Also extract and convert pasted/inline base64 images
       let processedContent = content;
-      if ((emailMode === 'rich' || emailMode === 'html') && embeddedImages.length > 0) {
-        for (const img of embeddedImages) {
-          // Replace blob: or data: URLs with cid: references
+      const allEmbeddedImages = [...embeddedImages];
+      
+      if (emailMode === 'rich' || emailMode === 'html') {
+        // First, extract all base64 images that were pasted/inserted directly in the editor
+        const base64ImageRegex = /<img[^>]+src=["']data:image\/([^;]+);base64,([^"']+)["'][^>]*>/gi;
+        let match;
+        const extractedImages = [];
+        
+        while ((match = base64ImageRegex.exec(content)) !== null) {
+          const fullImgTag = match[0];
+          const imageType = match[1]; // e.g., 'png', 'jpeg'
+          const base64Data = match[2];
+          const base64Src = `data:image/${imageType};base64,${base64Data}`;
+          
+          // Check if this image is already in embeddedImages (from upload button)
+          const alreadyExists = allEmbeddedImages.some(img => 
+            img.preview && img.preview.includes(base64Data.substring(0, 100))
+          );
+          
+          if (!alreadyExists) {
+            // Generate unique CID for this pasted image
+            const cid = `img_pasted_${Math.random().toString(36).substring(2)}_${Date.now()}_${extractedImages.length}`;
+            
+            extractedImages.push({
+              cid,
+              name: `image.${imageType}`,
+              data: base64Src,
+              type: `image/${imageType}`,
+              preview: base64Src
+            });
+          }
+        }
+        
+        // Add extracted images to the embedded images array
+        allEmbeddedImages.push(...extractedImages);
+        
+        // Now replace all images (both uploaded and pasted) with CID references
+        processedContent = content;
+        for (const img of allEmbeddedImages) {
           if (img.preview) {
-            // Escape special regex characters in the preview URL
-            const escapedPreview = img.preview.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            processedContent = processedContent.replace(
-              new RegExp(escapedPreview, 'g'),
-              `cid:${img.cid}`
-            );
+            // For base64 images, use simple string replace to avoid regex issues with long strings
+            if (img.preview.startsWith('data:image')) {
+              // Use split/join instead of regex for reliable replacement of very long base64 strings
+              // Look for the exact data URI in src attributes
+              const srcPattern1 = `src="${img.preview}"`;
+              const srcPattern2 = `src='${img.preview}'`;
+              
+              if (processedContent.includes(srcPattern1)) {
+                processedContent = processedContent.split(srcPattern1).join(`src="cid:${img.cid}"`);
+              }
+              if (processedContent.includes(srcPattern2)) {
+                processedContent = processedContent.split(srcPattern2).join(`src='cid:${img.cid}'`);
+              }
+            } else {
+              // For other preview URLs (blob:, etc.), simple string replace should work fine
+              if (processedContent.includes(img.preview)) {
+                processedContent = processedContent.split(img.preview).join(`cid:${img.cid}`);
+              }
+            }
           }
         }
       }
@@ -371,7 +421,7 @@ export const useEmailSender = (subscribers, groups) => {
             content,
             (emailMode === 'rich' || emailMode === 'html') ? processedContent : null,
             attachments.length > 0 ? attachments : null,
-            embeddedImages.length > 0 ? embeddedImages : null,
+            allEmbeddedImages.length > 0 ? allEmbeddedImages : null,
             subscriber.token || null,
             includeHeaderFooter,
             customHeader,

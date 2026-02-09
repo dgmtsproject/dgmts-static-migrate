@@ -339,12 +339,18 @@
   font-weight: 600;
 }
 
-.view-details-button {
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.view-details-button,
+.pdf-report-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  background: #4a90e2;
   color: white;
   border: none;
   border-radius: 6px;
@@ -352,8 +358,20 @@
   transition: background 0.2s;
 }
 
+.view-details-button {
+  background: #4a90e2;
+}
+
 .view-details-button:hover {
   background: #357abd;
+}
+
+.pdf-report-button {
+  background: #dc3545;
+}
+
+.pdf-report-button:hover {
+  background: #c82333;
 }
 
 /* Modal */

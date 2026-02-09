@@ -13,6 +13,9 @@ import { sendPaymentPortalRegistration } from '../../utils/emailService'
 import './PaymentPortalLogin.css'
 
 function PaymentPortalLogin() {
+  // TEMPORARY: Disable payment portal login/registration
+  const PORTAL_DISABLED = true;
+
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -231,6 +234,33 @@ function PaymentPortalLogin() {
         <div className="payment-portal-login-container">
           <div className="loading-spinner"></div>
           <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show disabled message if portal is temporarily disabled
+  if (PORTAL_DISABLED) {
+    return (
+      <div className="payment-portal-login-page">
+        <div className="payment-portal-login-container">
+          <div className="portal-disabled-message">
+            <Lock size={64} className="disabled-icon" />
+            <h2>Login & Registration Temporarily Disabled</h2>
+            <p>
+              Payment portal login and registration are currently disabled.
+            </p>
+            <p>
+              However, you can still make payments directly without logging in.
+            </p>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => navigate('/payment')}
+              style={{ marginTop: '20px' }}
+            >
+              Go to Payment Page
+            </button>
+          </div>
         </div>
       </div>
     )

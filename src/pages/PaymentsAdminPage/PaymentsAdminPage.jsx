@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { checkAdminSession } from '../../utils/adminAuth';
-import { ArrowLeft, DollarSign, Calendar, CreditCard, CheckCircle, XCircle, Filter, Download, Search, Eye } from 'lucide-react';
+import { ArrowLeft, DollarSign, Calendar, CreditCard, CheckCircle, XCircle, Filter, Download, Search, Eye, FileText } from 'lucide-react';
 import './PaymentsAdminPage.css';
 
 function PaymentsAdminPage() {
@@ -150,6 +150,160 @@ function PaymentsAdminPage() {
     return filteredPayments
       .filter(p => p.status === 'success' || p.status === 'completed')
       .reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
+  };
+
+  const generatePDFReport = async (payment) => {
+    try {
+      // Dynamic import of jsPDF
+      const { default: jsPDF } = await import('jspdf');
+      
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+      const maxWidth = pageWidth - (margin * 2);
+      let yPos = 20;
+
+      // Helper function to check if we need a new page
+      const checkPageBreak = (estimatedHeight = 30) => {
+        if (yPos + estimatedHeight > pageHeight - 20) {
+          doc.addPage();
+          yPos = 20;
+        }
+      };
+
+      // Helper function to add text with word wrap
+      const addText = (text, fontSize = 10, isBold = false) => {
+        doc.setFontSize(fontSize);
+        doc.setFont(undefined, isBold ? 'bold' : 'normal');
+        
+        // Check if we need a new page
+        if (yPos > pageHeight - 20) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, margin, yPos);
+        yPos += (lines.length * fontSize * 0.5) + 5;
+      };
+
+      const addSpacer = (space = 10) => {
+        yPos += space;
+      };
+
+      // Header with logo space
+      doc.setFillColor(74, 144, 226);
+      doc.rect(0, 0, pageWidth, 40, 'F');
+      
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(24);
+      doc.setFont(undefined, 'bold');
+      doc.text('PAYMENT REPORT', pageWidth / 2, 25, { align: 'center' });
+      
+      doc.setTextColor(0, 0, 0);
+      yPos = 55;
+
+      // Report metadata
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} EST`, margin, yPos);
+      yPos += 15;
+
+      // Customer Information Section
+      checkPageBreak(60); // Ensure space for heading + content
+      addText('CUSTOMER INFORMATION', 14, true);
+      addSpacer(5);
+      
+      addText(`Name: ${payment.customer_name || 'N/A'}`, 11);
+      addText(`Email: ${payment.customer_email || 'N/A'}`, 11);
+      addText(`Address: ${payment.customer_address || 'N/A'}`, 11);
+      addSpacer(10);
+
+      // Payment Information Section
+      checkPageBreak(80); // Ensure space for heading + content
+      addText('PAYMENT INFORMATION', 14, true);
+      addSpacer(5);
+      
+      addText(`Invoice Number: ${payment.invoice_no || 'N/A'}`, 11);
+      addText(`Amount: ${formatCurrency(payment.amount)}`, 11, true);
+      addText(`Transaction ID: ${payment.transaction_id || 'N/A'}`, 11);
+      addText(`Payment Method: ${payment.payment_method || 'N/A'}`, 11);
+      addText(`Status: ${(payment.status || 'N/A').toUpperCase()}`, 11);
+      addText(`Payment Date & Time: ${formatDate(payment.created_at)}`, 11);
+      addSpacer(10);
+
+      // Payment Notes if available
+      if (payment.payment_note) {
+        checkPageBreak(40); // Ensure space for heading + some content
+        addText('PAYMENT NOTE / DESCRIPTION', 14, true);
+        addSpacer(5);
+        addText(payment.payment_note, 10);
+        addSpacer(10);
+      }
+
+      // Additional Notes if available
+      if (payment.notes) {
+        checkPageBreak(40); // Ensure space for heading + some content
+        addText('ADDITIONAL NOTES', 14, true);
+        addSpacer(5);
+        addText(payment.notes, 10);
+        addSpacer(10);
+      }
+
+      // Payment Response if available
+      if (payment.response) {
+        checkPageBreak(50); // Ensure space for heading + some content
+        addText('PAYMENT RESPONSE DATA', 14, true);
+        addSpacer(5);
+        
+        try {
+          const responseData = JSON.parse(payment.response);
+          const responseText = JSON.stringify(responseData, null, 2);
+          
+          doc.setFontSize(8);
+          doc.setFont('courier', 'normal');
+          const responseLines = responseText.split('\n');
+          
+          for (const line of responseLines) {
+            if (yPos > pageHeight - 20) {
+              doc.addPage();
+              yPos = 20;
+            }
+            doc.text(line.substring(0, 80), margin, yPos); // Limit line length
+            yPos += 4;
+          }
+        } catch (e) {
+          addText('Unable to parse response data', 10);
+        }
+      }
+
+      // Footer
+      const totalPages = doc.internal.pages.length - 1;
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+          `Page ${i} of ${totalPages}`,
+          pageWidth / 2,
+          pageHeight - 10,
+          { align: 'center' }
+        );
+        doc.text(
+          'DGMTS Payment System',
+          margin,
+          pageHeight - 10
+        );
+      }
+
+      // Save the PDF
+      const fileName = `payment_report_${payment.invoice_no || payment.transaction_id || payment.id}_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(fileName);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF report. Please try again.');
+    }
   };
 
   if (!loggedIn) {
@@ -303,13 +457,22 @@ function PaymentsAdminPage() {
                     <td>{getStatusBadge(payment.status)}</td>
                     <td className="method-cell">{payment.payment_method}</td>
                     <td>
-                      <button
-                        className="view-details-button"
-                        onClick={() => handleViewDetails(payment)}
-                        title="View Details"
-                      >
-                        <Eye size={18} />
-                      </button>
+                      <div className="action-buttons">
+                        <button
+                          className="view-details-button"
+                          onClick={() => handleViewDetails(payment)}
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </button>
+                        <button
+                          className="pdf-report-button"
+                          onClick={() => generatePDFReport(payment)}
+                          title="Generate PDF Report"
+                        >
+                          <FileText size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
