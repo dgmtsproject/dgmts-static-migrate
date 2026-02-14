@@ -271,7 +271,7 @@ const NewsletterSubscribersList = () => {
           setNewSubscriber={setNewSubscriber}
           addingSubscriber={addingSubscriber}
           csvParseError={csvParseError}
-          handleAddSubscriber={(e) => handleAddSubscriber(newSubscriber, setMessage, setAddingSubscriber, setShowAddForm, setNewSubscriber)}
+          handleAddSubscriber={(e) => handleAddSubscriber(e, newSubscriber, setMessage, setAddingSubscriber, setShowAddForm, setNewSubscriber)}
           handleCsvFileSelect={(e) => handleCsvFileSelect(e, setMessage)}
         />
 

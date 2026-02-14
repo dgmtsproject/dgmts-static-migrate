@@ -216,6 +216,8 @@
   border-radius: 8px;
   transition: border-color 0.3s, box-shadow 0.3s;
   font-family: 'Red Hat Display', sans-serif;
+  background-color: white;
+  color: var(--grey-900);
 }
 
 .newsletter-subscribers-page .search-input:focus {

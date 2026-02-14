@@ -98,7 +98,11 @@ export const useSubscribers = (loggedIn, filterActive) => {
     }
   };
 
-  const handleAddSubscriber = async (newSubscriber, setMessage, setAddingSubscriber, setShowAddForm, setNewSubscriber) => {
+  const handleAddSubscriber = async (e, newSubscriber, setMessage, setAddingSubscriber, setShowAddForm, setNewSubscriber) => {
+    if (e) {
+      e.preventDefault();
+    }
+    
     setMessage({ type: '', text: '' });
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -110,25 +114,41 @@ export const useSubscribers = (loggedIn, filterActive) => {
     setAddingSubscriber(true);
 
     try {
+      const emailToAdd = newSubscriber.email.trim().toLowerCase();
+      
+      // First check if subscriber already exists
+      const { data: existingSubscriber, error: checkError } = await supabase
+        .from('subscribers')
+        .select('*')
+        .eq('email', emailToAdd)
+        .maybeSingle();
+
+      if (checkError) {
+        throw checkError;
+      }
+
+      if (existingSubscriber) {
+        // Subscriber exists - show error
+        setMessage({ type: 'error', text: 'Subscriber already exists with this email' });
+        setAddingSubscriber(false);
+        return;
+      }
+
+      // Subscriber doesn't exist - create new one
       const token = Math.floor(Math.random() * 1000000000000);
 
       const { error: insertError } = await supabase
         .from('subscribers')
         .insert([{
           name: newSubscriber.name.trim() || null,
-          email: newSubscriber.email.trim().toLowerCase(),
+          email: emailToAdd,
           is_active: newSubscriber.is_active,
           date_joined: new Date().toISOString(),
           token: token
         }])
         .select();
 
-      if (insertError) {
-        if (insertError.code === '23505') {
-          throw new Error('This email is already subscribed');
-        }
-        throw insertError;
-      }
+      if (insertError) throw insertError;
 
       setMessage({ type: 'success', text: 'Subscriber added successfully!' });
       setNewSubscriber({ name: '', email: '', is_active: true });
