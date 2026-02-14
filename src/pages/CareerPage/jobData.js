@@ -14,7 +14,7 @@ const jobData = [
   {
     title: 'Geotechnical Instrumentation Engineer',
     id: 'GE0319',
-    worksite: '2046 Exploration Way, Unit 2046A, Hampton, VA 23666',
+    worksite: '2024 Exploration Way, Hampton, VA, 23666',
     responsibilities: 'Develop and implement geotechnical instrumentation systems. Oversee the installation, operation, maintenance, and repair of mechanical components in geotechnical instruments and equipment, including pile dynamic analyzers (PDA), vibration monitoring devices, inclinometers, piezometers, and groundwater measurement devices. Review technical documents to plan and execute work effectively. Maintain and repair laboratory equipment, performing necessary laboratory tests. Obtain certification for PDA testing. Research, install, operate, and maintain geotechnical instruments, drilling equipment, and laboratory tools to meet project requirements. Conduct mechanical testing on construction materials to determine properties such as strength, density, composition, and moisture content. Analyse test data to ensure materials meet required specifications and quality standards. Prepare detailed reports summarising test results and findings. Support the engineering and quality teams by preparing engineering reports, using CAD models, and detailing the performance of various instruments and equipment.',
     requirements: "Bachelor’s Degree in Mechanical Engineering or related field. Proficient in CAD software, including AutoCAD and MicroStation.",
     apply: {

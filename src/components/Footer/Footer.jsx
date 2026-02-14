@@ -278,7 +278,7 @@ const Footer = () => {
                         </svg>
                       </div>
                       <div className="contact-text">
-                        <p>King Commerce Center, 2046 Exploration Way, Unit A, Hampton, VA 23666</p>
+                        <p>2024 Exploration Way, Hampton, VA, 23666</p>
                       </div>
                     </div>
 

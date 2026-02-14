@@ -104,7 +104,7 @@ const ContactPage = () => {
                 <li>14155 Sullyfield Circle, Suite H, Chantilly, VA 20151</li>
                 <li>100 M Street SE, Suite 600, Washington, DC 20003</li>
                 <li>1001 Prince Georges Blvd, Suite 800, Upper Marlboro, MD 20774</li>
-                <li>King Commerce Center, 2046 Exploration Way, Unit A, Hampton, VA 23666.</li>
+                <li>2024 Exploration Way, Hampton, VA, 23666</li>
               </ul>
             </div>
             <div className="contact-info-item">

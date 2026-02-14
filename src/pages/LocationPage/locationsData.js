@@ -28,9 +28,9 @@ export const locations = [
   {
     name: 'Dulles Geotechnical and Material Testing Services (DGMTS)',
     officeType: 'Hampton Branch Office',
-    address: 'King Commerce Center 2046 Exploration Way, Unit A, Hampton VA 23666',
+    address: '2024 Exploration Way, Hampton, VA, 23666',
     phone: '337.965.4600',
-    googleMapsLink: 'https://www.google.com/maps/place/2010+Exploration+Way+%232046a,+Hampton,+VA+23666,+USA/@37.083922,-76.402801,15z/data=!4m5!3m4!1s0x89ba83b6678a60c7:0x3b143d1ef462aad1!8m2!3d37.0839223!4d-76.4028012?hl=en&entry=ttu&g_ep=EgoyMDI1MTAwOC4wIKXMDSoASAFQAw%3D%3D',
+    googleMapsLink: 'https://www.google.com/maps/place/2024+Exploration+Way,+Hampton,+VA+23666',
     icon: 'Warehouse',
   },
 ];

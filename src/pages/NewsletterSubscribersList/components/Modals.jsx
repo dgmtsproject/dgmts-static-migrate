@@ -122,6 +122,7 @@ export const GroupMembersModal = ({
   const searchLower = groupMemberSearch.toLowerCase();
   
   const filteredSubscribers = subscribers
+    .filter(sub => pendingGroupMembers.has(sub.id)) // Only show subscribers who are in the group
     .filter(sub => {
       if (!searchLower) return true;
       return (sub.name?.toLowerCase().includes(searchLower) || 
