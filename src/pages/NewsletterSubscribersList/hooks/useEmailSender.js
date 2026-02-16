@@ -343,8 +343,10 @@ export const useEmailSender = (subscribers, groups) => {
         throw new Error('Email configuration not found. Please configure email settings first.');
       }
 
-      let successCount = 0;
-      let failCount = 0;
+      // Detect environment - save full domain URL
+      const environment = typeof window !== 'undefined' && window.location.origin
+        ? window.location.origin
+        : 'unknown';
 
       // Process HTML content to replace preview URLs with CID references
       // Also extract and convert pasted/inline base64 images
@@ -412,36 +414,104 @@ export const useEmailSender = (subscribers, groups) => {
         }
       }
 
-      for (const subscriber of targetSubscribers) {
-        try {
-          const { error: emailError } = await sendSubscriberNotification(
-            subscriber.email,
-            subscriber.name || 'Subscriber',
-            emailSubject.trim(),
-            content,
-            (emailMode === 'rich' || emailMode === 'html') ? processedContent : null,
-            attachments.length > 0 ? attachments : null,
-            allEmbeddedImages.length > 0 ? allEmbeddedImages : null,
-            subscriber.token || null,
-            includeHeaderFooter,
-            customHeader,
-            customFooter,
-            isTestMode
-          );
+      // Prepare recipient list
+      const recipientEmails = targetSubscribers.map(sub => sub.email);
+      const totalPersons = targetSubscribers.length;
+      let successCount = 0;
+      let failCount = 0;
+      const failedEmails = [];
+      const failedReasons = [];
 
-          if (emailError) {
-            console.error(`Error sending email to ${subscriber.email}:`, emailError);
+      // Batch processing with controlled concurrency (5 emails at a time)
+      const BATCH_SIZE = 5;
+      const DELAY_BETWEEN_BATCHES = 1000; // 1 second delay between batches
+      const DELAY_BETWEEN_SUCCESS = 200; // 200ms delay between successful sends
+
+      // Process emails in batches
+      for (let i = 0; i < targetSubscribers.length; i += BATCH_SIZE) {
+        const batch = targetSubscribers.slice(i, i + BATCH_SIZE);
+        
+        // Process batch concurrently
+        const batchPromises = batch.map(async (subscriber) => {
+          try {
+            const { error: emailError } = await sendSubscriberNotification(
+              subscriber.email,
+              subscriber.name || 'Subscriber',
+              emailSubject.trim(),
+              content,
+              (emailMode === 'rich' || emailMode === 'html') ? processedContent : null,
+              attachments.length > 0 ? attachments : null,
+              allEmbeddedImages.length > 0 ? allEmbeddedImages : null,
+              subscriber.token || null,
+              includeHeaderFooter,
+              customHeader,
+              customFooter,
+              isTestMode
+            );
+
+            if (emailError) {
+              const errorMessage = emailError.message || emailError.details || 'Unknown error';
+              failedEmails.push(subscriber.email);
+              failedReasons.push(`${subscriber.email}: ${errorMessage}`);
+              failCount++;
+              return { success: false, email: subscriber.email, error: errorMessage };
+            } else {
+              successCount++;
+              // Small delay after successful send to avoid rate limiting
+              await new Promise(resolve => setTimeout(resolve, DELAY_BETWEEN_SUCCESS));
+              return { success: true, email: subscriber.email };
+            }
+          } catch (err) {
+            const errorMessage = err.message || err.toString() || 'Unknown error';
+            failedEmails.push(subscriber.email);
+            failedReasons.push(`${subscriber.email}: ${errorMessage}`);
             failCount++;
-          } else {
-            successCount++;
-            await new Promise(resolve => setTimeout(resolve, 500));
+            console.error(`Error sending email to ${subscriber.email}:`, err);
+            return { success: false, email: subscriber.email, error: errorMessage };
           }
-        } catch (err) {
-          console.error(`Error sending email to ${subscriber.email}:`, err);
-          failCount++;
+        });
+
+        // Wait for all emails in batch to complete
+        await Promise.all(batchPromises);
+
+        // Delay between batches to avoid overwhelming the email service
+        if (i + BATCH_SIZE < targetSubscribers.length) {
+          await new Promise(resolve => setTimeout(resolve, DELAY_BETWEEN_BATCHES));
         }
       }
 
+      // Determine overall status
+      const status = failCount === 0 ? 'success' : (successCount === 0 ? 'failed' : 'partial');
+      
+      // Prepare failure reason text (limit to reasonable size for database)
+      const failedReasonText = failedReasons.length > 0 
+        ? failedReasons.slice(0, 100).join('; ') + (failedReasons.length > 100 ? `; ... and ${failedReasons.length - 100} more failures` : '')
+        : null;
+
+      // Log to database
+      try {
+        const { error: logError } = await supabase
+          .from('subscriber_newsletter_email_logs')
+          .insert({
+            recipients: recipientEmails,
+            environment: environment,
+            mail_subject: emailSubject.trim(),
+            mail_content: (emailMode === 'rich' || emailMode === 'html') ? processedContent : content,
+            total_persons: totalPersons,
+            succeeded_persons: successCount,
+            failed_persons: failCount,
+            status: status,
+            failed_reason: failedReasonText
+          });
+
+        if (logError) {
+          console.error('Error logging email send to database:', logError);
+        }
+      } catch (logErr) {
+        console.error('Error logging email send to database:', logErr);
+      }
+
+      // Update UI message
       if (successCount > 0) {
         setMessage({
           type: 'success',
@@ -460,6 +530,30 @@ export const useEmailSender = (subscribers, groups) => {
     } catch (err) {
       console.error('Error sending emails:', err);
       setMessage({ type: 'error', text: 'Failed to send emails: ' + err.message });
+      
+      // Try to log the error to database
+      try {
+        const environment = typeof window !== 'undefined' && window.location.origin
+          ? window.location.origin
+          : 'unknown';
+        
+        const targetSubscribers = getTargetSubscribers;
+        await supabase
+          .from('subscriber_newsletter_email_logs')
+          .insert({
+            recipients: targetSubscribers.map(sub => sub.email),
+            environment: environment,
+            mail_subject: emailSubject.trim(),
+            mail_content: emailContent.trim(),
+            total_persons: targetSubscribers.length,
+            succeeded_persons: 0,
+            failed_persons: targetSubscribers.length,
+            status: 'failed',
+            failed_reason: `System error: ${err.message || err.toString()}`
+          });
+      } catch (logErr) {
+        console.error('Error logging failure to database:', logErr);
+      }
     } finally {
       setSendingEmails(false);
     }
