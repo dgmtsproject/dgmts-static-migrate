@@ -10,6 +10,7 @@ export const useGroups = (loggedIn) => {
   const [savingGroup, setSavingGroup] = useState(false);
   const [showGroupMembersModal, setShowGroupMembersModal] = useState(false);
   const [managingGroup, setManagingGroup] = useState(null);
+  const [groupMembersModalMode, setGroupMembersModalMode] = useState('add'); // 'add' = show all, 'showMembers' = only group members
   const [groupMemberSearch, setGroupMemberSearch] = useState('');
   const [pendingGroupMembers, setPendingGroupMembers] = useState(new Set());
   const [savingGroupMembers, setSavingGroupMembers] = useState(false);
@@ -122,8 +123,9 @@ export const useGroups = (loggedIn) => {
     setShowGroupModal(true);
   };
 
-  const handleManageGroupMembers = (group) => {
+  const handleManageGroupMembers = (group, mode = 'add') => {
     setManagingGroup(group);
+    setGroupMembersModalMode(mode);
     setGroupMemberSearch('');
     const currentMemberIds = new Set(
       group.subscriber_group_members?.map(m => m.subscriber_id) || []
@@ -270,6 +272,7 @@ export const useGroups = (loggedIn) => {
     savingGroup,
     showGroupMembersModal,
     managingGroup,
+    groupMembersModalMode,
     groupMemberSearch,
     pendingGroupMembers,
     savingGroupMembers,

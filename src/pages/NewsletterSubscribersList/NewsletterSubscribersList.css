@@ -2176,6 +2176,8 @@
 .newsletter-subscribers-page .group-info {
   flex: 1;
   min-width: 0;
+  margin-right: 0.75rem;
+  overflow: hidden;
 }
 
 .newsletter-subscribers-page .group-name {
@@ -2183,6 +2185,8 @@
   font-weight: 600;
   margin: 0 0 0.25rem 0;
   color: var(--grey-900);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .newsletter-subscribers-page .group-description {
@@ -2203,6 +2207,7 @@
 .newsletter-subscribers-page .group-actions {
   display: flex;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .newsletter-subscribers-page .btn-group-action {
@@ -2216,6 +2221,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.newsletter-subscribers-page .btn-group-add {
+  color: var(--primary-color);
+  border-color: rgba(39, 149, 208, 0.4);
 }
 
 .newsletter-subscribers-page .btn-group-action:hover {
@@ -2469,6 +2479,48 @@
 
 .newsletter-subscribers-page .member-search {
   margin-bottom: 1rem;
+}
+
+.newsletter-subscribers-page .members-filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-subscribers-page .members-filter-label {
+  font-size: 0.9rem;
+  color: var(--grey-600);
+  font-weight: 500;
+}
+
+.newsletter-subscribers-page .members-filter-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.newsletter-subscribers-page .members-filter-btn {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--grey-300);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--grey-600);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.newsletter-subscribers-page .members-filter-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  background: rgba(39, 149, 208, 0.05);
+}
+
+.newsletter-subscribers-page .members-filter-btn.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: #fff;
 }
 
 .newsletter-subscribers-page .members-list {

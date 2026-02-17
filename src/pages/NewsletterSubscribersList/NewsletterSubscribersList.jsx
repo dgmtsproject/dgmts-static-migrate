@@ -75,6 +75,7 @@ const NewsletterSubscribersList = () => {
     savingGroup,
     showGroupMembersModal,
     managingGroup,
+    groupMembersModalMode,
     groupMemberSearch,
     pendingGroupMembers,
     savingGroupMembers,
@@ -382,6 +383,7 @@ const NewsletterSubscribersList = () => {
         <GroupMembersModal
           managingGroup={managingGroup}
           subscribers={subscribers}
+          showOnlyGroupMembers={groupMembersModalMode === 'showMembers'}
           groupMemberSearch={groupMemberSearch}
           pendingGroupMembers={pendingGroupMembers}
           savingGroupMembers={savingGroupMembers}

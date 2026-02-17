@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { X, FileSpreadsheet, FileText, Check, XCircle } from 'lucide-react';
 
 // Delete Confirmation Modal
@@ -109,6 +110,7 @@ export const GroupModal = ({
 export const GroupMembersModal = ({
   managingGroup,
   subscribers,
+  showOnlyGroupMembers = false,
   groupMemberSearch,
   pendingGroupMembers,
   savingGroupMembers,
@@ -118,14 +120,24 @@ export const GroupMembersModal = ({
   onClose,
   onSave
 }) => {
+  const [membersFilter, setMembersFilter] = useState('all'); // 'all' | 'active' | 'inactive'
   const currentMemberIds = getGroupMemberIds(managingGroup);
   const searchLower = groupMemberSearch.toLowerCase();
-  
+
+  // When showOnlyGroupMembers (Show members): list only current group members. Otherwise (Add): show all subscribers.
   const filteredSubscribers = subscribers
-    .filter(sub => pendingGroupMembers.has(sub.id)) // Only show subscribers who are in the group
+    .filter(sub => {
+      if (showOnlyGroupMembers) return currentMemberIds.has(sub.id);
+      return true;
+    })
+    .filter(sub => {
+      if (membersFilter === 'active') return sub.is_active === true;
+      if (membersFilter === 'inactive') return sub.is_active === false;
+      return true;
+    })
     .filter(sub => {
       if (!searchLower) return true;
-      return (sub.name?.toLowerCase().includes(searchLower) || 
+      return (sub.name?.toLowerCase().includes(searchLower) ||
               sub.email.toLowerCase().includes(searchLower));
     })
     .sort((a, b) => {
@@ -157,6 +169,32 @@ export const GroupMembersModal = ({
               placeholder="Search subscribers..."
               className="form-input"
             />
+          </div>
+          <div className="members-filter-toggle">
+            <span className="members-filter-label">Show:</span>
+            <div className="members-filter-buttons">
+              <button
+                type="button"
+                className={`members-filter-btn ${membersFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setMembersFilter('all')}
+              >
+                All
+              </button>
+              <button
+                type="button"
+                className={`members-filter-btn ${membersFilter === 'active' ? 'active' : ''}`}
+                onClick={() => setMembersFilter('active')}
+              >
+                Active
+              </button>
+              <button
+                type="button"
+                className={`members-filter-btn ${membersFilter === 'inactive' ? 'active' : ''}`}
+                onClick={() => setMembersFilter('inactive')}
+              >
+                Inactive
+              </button>
+            </div>
           </div>
           <div className="members-list">
             {filteredSubscribers.map(subscriber => {

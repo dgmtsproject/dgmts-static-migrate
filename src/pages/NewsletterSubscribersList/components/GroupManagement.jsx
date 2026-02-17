@@ -1,11 +1,11 @@
-import { Users, Plus, Edit2, Trash2 } from 'lucide-react';
+import { Users, Plus, Edit2, Trash2, UserPlus } from 'lucide-react';
 
 const GroupManagement = ({ 
   groups, 
   onCreateGroup, 
   onEditGroup, 
   onDeleteGroup, 
-  onManageMembers 
+  onManageMembers
 }) => {
   return (
     <div className="group-management-section">
@@ -43,9 +43,16 @@ const GroupManagement = ({
               </div>
               <div className="group-actions">
                 <button
+                  className="btn-group-action btn-group-add"
+                  onClick={() => onManageMembers(group, 'add')}
+                  title="Add subscribers to group"
+                >
+                  <UserPlus size={16} />
+                </button>
+                <button
                   className="btn-group-action"
-                  onClick={() => onManageMembers(group)}
-                  title="Manage members"
+                  onClick={() => onManageMembers(group, 'showMembers')}
+                  title="Show members"
                 >
                   <Users size={16} />
                 </button>
