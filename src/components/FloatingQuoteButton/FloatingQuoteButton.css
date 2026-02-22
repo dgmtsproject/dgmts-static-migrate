@@ -22,16 +22,22 @@
   clip-path: polygon(20px 0, 100% 0, 100% 100%, 20px 100%, 0 50%);
 }
 
+/* Jiggle state: periodic appearance with animation */
 .floating-quote-button.jiggling {
   min-width: 140px;
   max-width: 140px;
   padding: 0 15px 0 25px;
+  animation: jiggle 0.8s ease-in-out;
 }
 
-.floating-quote-button.expanded {
+/* Hover: just expand and stay (no jiggle) so we can click */
+.floating-quote-button:hover {
   min-width: 160px;
   max-width: 160px;
   padding: 0 20px 0 30px;
+  transform: translateY(-50%) translateX(-5px) scale(1.02);
+  box-shadow: -6px 0 30px rgba(0, 0, 0, 0.2), -4px 0 15px rgba(59, 130, 246, 0.4);
+  animation: none; /* stable on hover so we can click */
 }
 
 .floating-quote-button::before {
@@ -45,19 +51,8 @@
   pointer-events: none;
 }
 
-.floating-quote-button:hover,
-.floating-quote-button.expanded {
-  transform: translateY(-50%) translateX(-5px) scale(1.02);
-  box-shadow: -6px 0 30px rgba(0, 0, 0, 0.2), -4px 0 15px rgba(59, 130, 246, 0.4);
-}
-
 .floating-quote-button:active {
   transform: translateY(-50%) translateX(0) scale(0.98);
-}
-
-/* Jiggle animation */
-.floating-quote-button.jiggling {
-  animation: jiggle 0.8s ease-in-out;
 }
 
 @keyframes jiggle {
@@ -75,7 +70,8 @@
   justify-content: center;
 }
 
-.floating-quote-button.expanded .quote-button-content {
+.floating-quote-button:hover .quote-button-content,
+.floating-quote-button.jiggling .quote-button-content {
   justify-content: flex-start;
 }
 
@@ -105,12 +101,9 @@
   white-space: nowrap;
 }
 
+/* Show "Request Quote" on hover (stable) or when jiggling (periodic) */
+.floating-quote-button:hover .quote-text,
 .floating-quote-button.jiggling .quote-text {
-  display: flex;
-  opacity: 1;
-}
-
-.floating-quote-button.expanded .quote-text {
   display: flex;
   opacity: 1;
 }
@@ -144,19 +137,11 @@
   }
 }
 
-/* Hide on all mobile and small screens */
-@media (max-width: 768px) {
-  .floating-quote-button {
-    display: none;
-  }
-}
-
 /* Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
   .floating-quote-button {
     transition: none;
   }
-  
   .floating-quote-button.jiggling {
     animation: none;
   }
