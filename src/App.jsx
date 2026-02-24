@@ -39,7 +39,9 @@ import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
 import ClientsPage from './pages/ClientsPage/ClientsPage';
 import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
-import PileDrivingPage from './pages/PlileDrivingPage/PileDrivingPage'
+import PileDrivingPage from './pages/PlileDrivingPage/PileDrivingPage';
+import NewsPage from './pages/NewsPage/NewsPage';
+import NewsDetailPage from './pages/NewsPage/NewsDetailPage';
 
 // Lazy load admin pages - these won't be in the main bundle
 const AdminPage = lazy(() => import('./pages/AdminPage/AdminPage'));
@@ -47,6 +49,7 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard/AdminDashboard'
 const NewsletterSubscribersList = lazy(() => import('./pages/NewsletterSubscribersList/NewsletterSubscribersList'));
 const EmailConfigurationPage = lazy(() => import('./pages/EmailConfigurationPage/EmailConfigurationPage'));
 const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage/BlogAdminPage'));
+const NewsAdminPage = lazy(() => import('./pages/NewsAdminPage/NewsAdminPage'));
 const CredentialsManagement = lazy(() => import('./pages/CredentialsManagement/CredentialsManagement'));
 const EventAdminPage = lazy(() => import('./pages/EventAdminPage/EventAdminPage'));
 const PaymentsAdminPage = lazy(() => import('./pages/PaymentsAdminPage/PaymentsAdminPage'));
@@ -64,7 +67,7 @@ function App() {
           <Routes> {/* Added Fallback routes for old php routes*/}
             <Route path="/" element={<HomePage />} />
 
-            <Route path="/pile-driving" element={<PileDrivingPage/>}/>
+            <Route path="/pile-driving" element={<PileDrivingPage />} />
 
 
             <Route path="/page/our-services" element={<HomePage />} /> {/* Fallback route for old our-services page */}
@@ -91,8 +94,8 @@ function App() {
 
             <Route path="/services/instrumentation-condition-surveys" element={<InstrumentationConditionSurveysPage />} />
             <Route path="/page/instrumentation" element={<InstrumentationConditionSurveysPage />} /> {/* Fallback route for old instrumentation page */}
-            
-            
+
+
             <Route path="/about" element={<AboutPage />} />
             <Route path="/page/meet-the-team" element={<AboutPage />} /> {/* Fallback route for old meet-the-team page */}
             <Route path="/page/who-we-are" element={<AboutPage />} /> {/* Fallback route for old who-we-are page */}
@@ -126,6 +129,9 @@ function App() {
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/:id" element={<EventDetailPage />} />
 
+            <Route path="/news" element={<NewsPage />} />
+            <Route path="/news/:slug" element={<NewsDetailPage />} />
+
             {/* Admin routes with lazy loading */}
             <Route path="/admin" element={
               <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading admin panel...</p></div>}>
@@ -150,6 +156,11 @@ function App() {
             <Route path="/admin/blog-management" element={
               <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
                 <BlogAdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/news-management" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <NewsAdminPage />
               </Suspense>
             } />
             <Route path="/admin/event-management" element={
@@ -179,11 +190,11 @@ function App() {
             <Route path="/page/location" element={<LocationPage />} /> {/* Fallback route for old location page */}
 
 
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage/>}/>
-            <Route path="/privacy-policy.php" element={<PrivacyPolicyPage/>}/> {/* Fallback route for old privacy policy page */}
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/privacy-policy.php" element={<PrivacyPolicyPage />} /> {/* Fallback route for old privacy policy page */}
 
-            <Route path="/terms-and-conditions" element={<TermsAndConditionsPage/>}/>
-            <Route path="/terms-and-conditions.php" element={<TermsAndConditionsPage/>}/> {/* Fallback route for old terms and conditions page */}
+            <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+            <Route path="/terms-and-conditions.php" element={<TermsAndConditionsPage />} /> {/* Fallback route for old terms and conditions page */}
 
 
             <Route path="/gallery" element={<GalleryPage />} />
@@ -203,7 +214,7 @@ function App() {
 
             {/* Catch-all route for 404 errors - must be last */}
             <Route path="*" element={<NotFoundPage />} />
-            
+
           </Routes>
         </main>
         <ChatBot />

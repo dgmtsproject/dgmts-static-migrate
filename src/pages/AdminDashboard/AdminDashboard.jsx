@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays, DollarSign } from 'lucide-react'
+import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays, DollarSign, Newspaper } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword, verifyAdminEmail, resetAdminPasswordWithEmail } from '../../utils/adminAuth'
 import './AdminDashboard.css'
 
@@ -10,7 +10,7 @@ function AdminDashboard() {
   const [showPassword, setShowPassword] = useState(false)
   const [message, setMessage] = useState({ type: '', text: '' })
   const [loading, setLoading] = useState(true)
-  
+
   // Forgot Password states
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [forgotPasswordStep, setForgotPasswordStep] = useState(1) // 1: email, 2: new password
@@ -82,7 +82,7 @@ function AdminDashboard() {
 
   const handleResetPassword = async (e) => {
     e.preventDefault()
-    
+
     if (!newPassword.trim() || !confirmNewPassword.trim()) {
       setForgotPasswordMessage({ type: 'error', text: 'Please fill in all fields' })
       return
@@ -102,7 +102,7 @@ function AdminDashboard() {
     setForgotPasswordMessage({ type: '', text: '' })
 
     const result = await resetAdminPasswordWithEmail(forgotEmail, newPassword)
-    
+
     if (result.success) {
       setForgotPasswordMessage({ type: 'success', text: 'Password reset successfully! You can now login with your new password.' })
       setTimeout(() => {
@@ -111,7 +111,7 @@ function AdminDashboard() {
     } else {
       setForgotPasswordMessage({ type: 'error', text: result.error || 'Failed to reset password' })
     }
-    
+
     setResetLoading(false)
   }
 
@@ -122,6 +122,13 @@ function AdminDashboard() {
       icon: FileText,
       path: '/admin/blog-management',
       color: '#4a90e2'
+    },
+    {
+      title: 'News Management',
+      description: 'Manage company announcements, news updates, and project highlights',
+      icon: Newspaper,
+      path: '/admin/news-management',
+      color: '#ff6b35'
     },
     {
       title: 'Event Management',
