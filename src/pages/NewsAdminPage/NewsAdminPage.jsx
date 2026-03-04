@@ -181,10 +181,12 @@ function NewsAdminPage() {
             return
         }
 
+        /* Content is now optional
         if (!content.trim() || content.trim() === '<p><br></p>') {
             setMessage({ type: 'error', text: 'Content is required' })
             return
         }
+        */
 
         if (!slug.trim()) {
             setMessage({ type: 'error', text: 'Slug is required' })
@@ -477,7 +479,7 @@ function NewsAdminPage() {
                             </div>
 
                             <div className="form-group">
-                                <label>Content *</label>
+                                <label>Content</label>
                                 <div className="editor-container">
                                     <ReactQuill
                                         theme="snow"
