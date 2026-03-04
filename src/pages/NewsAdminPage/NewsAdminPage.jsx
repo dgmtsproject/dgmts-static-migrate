@@ -134,6 +134,23 @@ function NewsAdminPage() {
         reader.readAsDataURL(file)
     }
 
+    const getPreviewUrl = (url) => {
+        if (!url) return '';
+        if (url.startsWith('data:') || url.startsWith('http')) return url;
+
+        // Handle names that are mapped to specific assets
+        if (url === 'drill-rig-news') return 'https://dullesgeotechnical.com/src/assets/drill-rig-news.jpeg';
+        if (url === 'exhibition_news') return 'https://dullesgeotechnical.com/src/assets/exhibition_news.jpeg';
+
+        // Clean up the URL: remove leading slash, then prefix with domain
+        const cleanPath = url.replace(/^\/+/, '');
+        if (cleanPath.startsWith('src/assets/')) {
+            return `https://dullesgeotechnical.com/${cleanPath}`;
+        }
+
+        return url;
+    }
+
     const removeImage = () => {
         setPicture('')
         setImagePreview('')
@@ -231,7 +248,15 @@ function NewsAdminPage() {
         setPicture(item.picture || '')
         setImagePreview(item.picture || '')
         setSlug(item.news_route || '')
-        setNewsDate(item.news_date ? item.news_date.split('T')[0] : new Date().toISOString().split('T')[0])
+
+        // Standardize date to YYYY-MM-DD for the html5 date picker
+        let formattedDate = new Date().toISOString().split('T')[0];
+        if (item.news_date) {
+            // Take the first 10 characters (YYYY-MM-DD) from the stored string
+            formattedDate = String(item.news_date).substring(0, 10);
+        }
+        setNewsDate(formattedDate)
+
         setView('edit')
         setMessage({ type: '', text: '' })
     }
@@ -348,7 +373,7 @@ function NewsAdminPage() {
                                             <tr key={item.id}>
                                                 <td>
                                                     <div className="title-cell">
-                                                        {item.picture && <img src={item.picture} alt="" className="mini-thumb" />}
+                                                        {item.picture && <img src={getPreviewUrl(item.picture)} alt="" className="mini-thumb" />}
                                                         <span>{item.news_title}</span>
                                                     </div>
                                                 </td>
@@ -419,7 +444,7 @@ function NewsAdminPage() {
                                 <div className="image-management">
                                     {imagePreview ? (
                                         <div className="preview-box">
-                                            <img src={imagePreview} alt="Preview" />
+                                            <img src={getPreviewUrl(imagePreview)} alt="Preview" />
                                             <button type="button" className="remove-img" onClick={removeImage}><X size={20} /></button>
                                         </div>
                                     ) : (

@@ -272,7 +272,30 @@
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 1rem;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    background-color: white;
+}
+
+.form-group input[type="date"] {
+    cursor: pointer;
+    min-width: 180px;
+    position: relative;
+    color-scheme: light;
+    /* Ensures the browser's date picker icons are visible */
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    transition: transform 0.2s;
+    filter: invert(40%) sepia(80%) saturate(500%) hue-rotate(190deg) brightness(90%) contrast(90%);
+    /* Gives it a bluish tint */
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    transform: scale(1.1);
 }
 
 .form-group input:focus {
