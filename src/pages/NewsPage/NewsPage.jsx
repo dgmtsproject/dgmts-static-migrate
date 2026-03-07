@@ -37,8 +37,11 @@ const NewsPage = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
+    // Parse YYYY-MM-DD manually to avoid UTC shift
+    const [year, month, day] = String(dateString).split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return date.toLocaleDateString(undefined, options);
   };
 
   const getImageForNews = (item, index) => {
@@ -123,7 +126,7 @@ const NewsPage = () => {
                       />
                       {item.news_date && (
                         <div className="news-item-badge">
-                          {new Date(item.news_date).getFullYear()}
+                          {String(item.news_date).split('-')[0]}
                         </div>
                       )}
                     </div>

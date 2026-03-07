@@ -40,7 +40,7 @@ function EventDetailPage() {
             data = idResponse.data
           }
         }
-        
+
         if (fetchError) throw fetchError
         setEvent(data)
       } catch (err) {
@@ -65,9 +65,12 @@ function EventDetailPage() {
     }
   }, [id])
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      weekday: 'long',
+  const formatDate = (dateString, showWeekday = true) => {
+    if (!dateString) return 'N/A';
+    const datePart = String(dateString).split('T')[0];
+    const [year, month, day] = datePart.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+      weekday: showWeekday ? 'long' : undefined,
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -75,7 +78,16 @@ function EventDetailPage() {
   }
 
   const formatTime = (dateString) => {
-    return new Date(dateString).toLocaleTimeString('en-US', {
+    if (!dateString) return '';
+    const parts = String(dateString).split('T');
+    if (parts.length < 2) return '00:00 AM';
+
+    // Extract hours and minutes from the time part
+    const [h, m] = parts[1].split(':').map(Number);
+    const d = new Date();
+    d.setHours(h, m, 0, 0);
+
+    return d.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
@@ -89,7 +101,7 @@ function EventDetailPage() {
   const formatDateRange = (startDate, endDate) => {
     const start = new Date(startDate)
     const end = endDate ? new Date(endDate) : null
-    
+
     if (!end || start.toDateString() === end.toDateString()) {
       // Same day event
       return `${formatDate(startDate)} • ${formatTime(startDate)}${end ? ` - ${formatTime(endDate)}` : ''}`
@@ -146,7 +158,7 @@ function EventDetailPage() {
               )}
             </div>
           )}
-          
+
           <header className="event-detail-header">
             <div className="event-status-badge-container">
               <span className={`event-status-badge ${upcoming ? 'upcoming' : 'past'}`}>
@@ -158,9 +170,9 @@ function EventDetailPage() {
                 </span>
               )}
             </div>
-            
+
             <h1 className="event-detail-title">{event.title}</h1>
-            
+
             <div className="event-info-grid">
               <div className="event-info-item">
                 <Calendar size={20} />
@@ -169,7 +181,7 @@ function EventDetailPage() {
                   <span>{formatDateRange(event.event_date, event.end_date)}</span>
                 </div>
               </div>
-              
+
               {event.duration && (
                 <div className="event-info-item">
                   <Clock size={20} />
@@ -179,7 +191,7 @@ function EventDetailPage() {
                   </div>
                 </div>
               )}
-              
+
               {event.location && (
                 <div className="event-info-item">
                   <MapPin size={20} />
@@ -192,9 +204,9 @@ function EventDetailPage() {
             </div>
 
             {event.registration_url && upcoming && (
-              <a 
-                href={event.registration_url} 
-                target="_blank" 
+              <a
+                href={event.registration_url}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="register-button"
               >
@@ -210,7 +222,7 @@ function EventDetailPage() {
           )}
 
           {event.content && (
-            <div 
+            <div
               className="event-detail-content"
               dangerouslySetInnerHTML={{ __html: event.content }}
             />

@@ -27,8 +27,12 @@ const NewsSection = () => {
   ];
 
   const formatDate = (dateString) => {
+    if (!dateString) return '';
+    // Parse YYYY-MM-DD manually to avoid UTC shift
+    const [year, month, day] = String(dateString).split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return date.toLocaleDateString(undefined, options);
   };
 
   return (
@@ -59,13 +63,13 @@ const NewsSection = () => {
                 </h3>
                 <p className="news-excerpt">{article.content}</p>
                 <div className="news-footer">
-                  <a 
+                  <a
                     href={`/news/${article.title.toLowerCase().replace(/\s+/g, '-')}`}
                     className="news-link"
                   >
                     Read More
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </a>
                 </div>

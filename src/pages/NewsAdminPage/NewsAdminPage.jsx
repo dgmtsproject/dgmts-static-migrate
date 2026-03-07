@@ -380,7 +380,10 @@ function NewsAdminPage() {
                                                     </div>
                                                 </td>
                                                 <td><code>{item.news_route}</code></td>
-                                                <td>{new Date(item.news_date).toLocaleDateString()}</td>
+                                                <td>{item.news_date ? (() => {
+                                                    const [y, m, d] = String(item.news_date).split('-').map(Number);
+                                                    return new Date(y, m - 1, d).toLocaleDateString();
+                                                })() : ''}</td>
                                                 <td>
                                                     <div className="action-btns">
                                                         <Link to={`/news/${item.news_route}`} target="_blank" className="btn-icon view" title="View Article">

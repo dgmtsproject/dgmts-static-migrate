@@ -41,8 +41,11 @@ const NewsDetailPage = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
+    // Parse YYYY-MM-DD manually to avoid UTC shift
+    const [year, month, day] = String(dateString).split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return date.toLocaleDateString(undefined, options);
   };
 
   const resolveImage = (item) => {

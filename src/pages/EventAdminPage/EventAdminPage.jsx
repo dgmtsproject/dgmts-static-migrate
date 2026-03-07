@@ -12,7 +12,7 @@ function EventAdminPage() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(true)
-  
+
   const [events, setEvents] = useState([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -30,7 +30,7 @@ function EventAdminPage() {
   const [isFeatured, setIsFeatured] = useState(false)
   const [isPublished, setIsPublished] = useState(true)
   const [additionalImages, setAdditionalImages] = useState([])
-  
+
   const [editingId, setEditingId] = useState(null)
   const [view, setView] = useState('list') // 'list', 'add', 'edit', 'preview'
   const [saving, setSaving] = useState(false)
@@ -89,7 +89,7 @@ function EventAdminPage() {
         .from('events')
         .select('*')
         .order('event_date', { ascending: false })
-      
+
       if (error) throw error
       setEvents(data || [])
     } catch (err) {
@@ -291,7 +291,7 @@ function EventAdminPage() {
     try {
       const uploadPromises = files.map(file => uploadImageToStorage(file))
       const results = await Promise.all(uploadPromises)
-      
+
       const newImages = results.map(result => result.url).filter(Boolean)
       setAdditionalImages([...additionalImages, ...newImages])
       setMessage({ type: 'success', text: `${newImages.length} image(s) uploaded successfully!` })
@@ -333,7 +333,7 @@ function EventAdminPage() {
 
   const handleSave = async (e) => {
     e.preventDefault()
-    
+
     if (!title.trim()) {
       setMessage({ type: 'error', text: 'Title is required' })
       return
@@ -438,21 +438,21 @@ function EventAdminPage() {
     setAdditionalImages(event.additional_images || [])
     setSlug(event.slug || '')
     setLocation(event.location || '')
-    
+
     const startDateTime = extractDateAndTime(event.event_date)
     setEventDate(startDateTime.date)
     setEventTime(startDateTime.time)
-    
+
     const endDateTime = extractDateAndTime(event.end_date)
     setEndDate(endDateTime.date)
     setEndTime(endDateTime.time)
-    
+
     setDuration(event.duration || '')
     setIsOnline(event.is_online || false)
     setRegistrationUrl(event.registration_url || '')
     setIsFeatured(event.is_featured || false)
     setIsPublished(event.is_published !== false)
-    
+
     setView('edit')
     setMessage({ type: '', text: '' })
   }
@@ -477,7 +477,19 @@ function EventAdminPage() {
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A'
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const parts = String(dateString).split('T');
+    const [y, m, d] = parts[0].split('-').map(Number);
+
+    // For the time part in the admin grid, we can still use the standard parsing 
+    // but the date part should be explicitly set to avoid the previous day shift.
+    const date = new Date(y, m - 1, d);
+
+    if (parts[1]) {
+      const [h, min] = parts[1].split(':').map(Number);
+      date.setHours(h, min);
+    }
+
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -678,7 +690,7 @@ function EventAdminPage() {
               {/* Basic Info Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Basic Information</h4>
-                
+
                 <div className="form-group">
                   <label htmlFor="title">Title *</label>
                   <input
@@ -723,7 +735,7 @@ function EventAdminPage() {
               {/* Date & Time Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Date & Time</h4>
-                
+
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="eventDate">Start Date *</label>
@@ -788,7 +800,7 @@ function EventAdminPage() {
               {/* Location Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Location</h4>
-                
+
                 <div className="form-group checkbox-group">
                   <label className="checkbox-label">
                     <input
@@ -830,7 +842,7 @@ function EventAdminPage() {
               {/* Image Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Event Image</h4>
-                
+
                 <div className="form-group">
                   <div className="image-upload-section">
                     {imagePreview ? (
@@ -882,7 +894,7 @@ function EventAdminPage() {
               {/* Additional Images Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Additional Images Gallery</h4>
-                
+
                 <div className="form-group">
                   <div className="additional-images-upload-section">
                     <input
@@ -926,7 +938,7 @@ function EventAdminPage() {
               {/* Content Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Event Details</h4>
-                
+
                 <div className="form-group">
                   <label htmlFor="content">Full Content</label>
                   <div className="quill-container">
@@ -946,7 +958,7 @@ function EventAdminPage() {
               {/* Settings Section */}
               <div className="form-section">
                 <h4 className="form-section-title">Settings</h4>
-                
+
                 <div className="form-group checkbox-group">
                   <label className="checkbox-label">
                     <input
@@ -1016,7 +1028,7 @@ function EventAdminPage() {
                 </button>
               </div>
             </div>
-            
+
             <div className="event-preview-content">
               {/* Simulated Event Detail Page */}
               <div className="event-detail-preview-card">
@@ -1028,7 +1040,7 @@ function EventAdminPage() {
                     )}
                   </div>
                 )}
-                
+
                 <header className="event-detail-header">
                   <div className="event-status-badge-container">
                     <span className={`event-status-badge ${isUpcoming(eventDate) ? 'upcoming' : 'past'}`}>
@@ -1040,9 +1052,9 @@ function EventAdminPage() {
                       </span>
                     )}
                   </div>
-                  
+
                   <h1 className="event-detail-title">{title || 'Event Title'}</h1>
-                  
+
                   <div className="event-info-grid">
                     {eventDate && (
                       <div className="event-info-item">
@@ -1053,7 +1065,7 @@ function EventAdminPage() {
                         </div>
                       </div>
                     )}
-                    
+
                     {duration && (
                       <div className="event-info-item">
                         <Clock size={20} />
@@ -1063,7 +1075,7 @@ function EventAdminPage() {
                         </div>
                       </div>
                     )}
-                    
+
                     {location && (
                       <div className="event-info-item">
                         <MapPin size={20} />
@@ -1076,9 +1088,9 @@ function EventAdminPage() {
                   </div>
 
                   {registrationUrl && isUpcoming(eventDate) && (
-                    <a 
-                      href={registrationUrl} 
-                      target="_blank" 
+                    <a
+                      href={registrationUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="register-button"
                     >
@@ -1094,7 +1106,7 @@ function EventAdminPage() {
                 )}
 
                 {content && (
-                  <div 
+                  <div
                     className="event-detail-content"
                     dangerouslySetInnerHTML={{ __html: content }}
                   />

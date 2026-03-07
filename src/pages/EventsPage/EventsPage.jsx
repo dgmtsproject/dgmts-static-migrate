@@ -20,7 +20,7 @@ function EventsPage() {
         .select('*')
         .eq('is_published', true)
         .order('event_date', { ascending: false })
-      
+
       if (error) throw error
       setEvents(data || [])
       setFilteredEvents(data || [])
@@ -59,10 +59,10 @@ function EventsPage() {
       const dateA = new Date(a.event_date)
       const dateB = new Date(b.event_date)
       const nowDate = new Date()
-      
+
       const aIsUpcoming = dateA >= nowDate
       const bIsUpcoming = dateB >= nowDate
-      
+
       if (aIsUpcoming && !bIsUpcoming) return -1
       if (!aIsUpcoming && bIsUpcoming) return 1
       if (aIsUpcoming && bIsUpcoming) return dateA - dateB // ascending for upcoming
@@ -89,10 +89,10 @@ function EventsPage() {
       const dateA = new Date(a.event_date)
       const dateB = new Date(b.event_date)
       const nowDate = new Date()
-      
+
       const aIsUpcoming = dateA >= nowDate
       const bIsUpcoming = dateB >= nowDate
-      
+
       if (aIsUpcoming && !bIsUpcoming) return -1
       if (!aIsUpcoming && bIsUpcoming) return 1
       if (aIsUpcoming && bIsUpcoming) return dateA - dateB
@@ -119,7 +119,11 @@ function EventsPage() {
   }
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    if (!dateString) return '';
+    // Handle both YYYY-MM-DD and YYYY-MM-DDTHH:mm:ss
+    const datePart = String(dateString).split('T')[0];
+    const [year, month, day] = datePart.split('-').map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
       weekday: 'short',
       year: 'numeric',
       month: 'long',
@@ -128,7 +132,18 @@ function EventsPage() {
   }
 
   const formatTime = (dateString) => {
-    return new Date(dateString).toLocaleTimeString('en-US', {
+    if (!dateString) return '';
+    if (!String(dateString).includes('T')) return '00:00 AM';
+
+    // For time, we actually want to preserve the hours/minutes from the string
+    // regardless of timezone shift if we are treating the stored time as "floating" 
+    // or local to the event location.
+    const timePart = String(dateString).split('T')[1];
+    const [hours, minutes] = timePart.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+
+    return date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
       hour12: true
@@ -159,7 +174,7 @@ function EventsPage() {
                   <div className="event-card-content">
                     <div className="event-meta">
                       <span className="event-date"><span className="skeleton-line short" /></span>
-                      <span className="event-status"><span className="skeleton-line" style={{width: '80px'}} /></span>
+                      <span className="event-status"><span className="skeleton-line" style={{ width: '80px' }} /></span>
                     </div>
                     <h2 className="event-title">
                       <span className="skeleton-line title" />
