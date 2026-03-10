@@ -7,7 +7,7 @@ import teamMember4 from '../../assets/team-members/team-member-4.jpg';
 export const teamMembers = [
   {
     id: 1,
-    name: 'Tariq Hamid, PhD, P.E., CCM',
+    name: 'Tariq Hamid, PhD, P.E., CCM, BC-GE',
     role: 'President',
     degree: 'Ph.D. in Civil Engineering',
     bio: 'Dr. Hamid is the President and founder of Dulles Geotechnical and Materials Testing Services, Inc. (DGMTS). An Industry Leader with more than 30 years of industry leadership who has mastered the merger of Technology with Civil Engineering. He leverages his extensive knowledge and expertise of area geology and current industry standards to provide optimal business acumen to our clientele.',

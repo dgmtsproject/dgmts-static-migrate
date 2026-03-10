@@ -44,7 +44,9 @@
 }
 
 /* Loading, Error, and Empty States */
-.events-page .loading, .events-page .error, .events-page .no-events {
+.events-page .loading,
+.events-page .error,
+.events-page .no-events {
   text-align: center;
   padding: var(--spacing-4xl) 0;
   font-size: 1.125rem;
@@ -149,7 +151,7 @@
 .events-page .event-card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: var(--transition-slow);
 }
 
@@ -465,8 +467,13 @@
 }
 
 @keyframes skeleton-loading {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
 }
 
 .events-page .skeleton-image {
@@ -500,24 +507,24 @@
   .events-page {
     padding: var(--spacing-lg) 0;
   }
-  
+
   .events-page .container {
     padding: 0 var(--spacing-md);
   }
-  
+
   .events-page .events-header {
     margin-bottom: var(--spacing-xl);
     padding: var(--spacing-lg) 0;
   }
-  
+
   .events-page .events-layout {
     gap: var(--spacing-xl);
   }
-  
+
   .events-page .event-card-content {
     padding: var(--spacing-lg);
   }
-  
+
   .events-page .sidebar-widget {
     padding: var(--spacing-md);
     margin-bottom: var(--spacing-md);
@@ -528,7 +535,7 @@
   .events-page .events-header h1 {
     font-size: 1.8rem;
   }
-  
+
   .events-page .event-card-content {
     padding: var(--spacing-md);
     gap: var(--spacing-sm);
