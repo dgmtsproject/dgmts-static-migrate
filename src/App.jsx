@@ -50,6 +50,7 @@ const NewsletterSubscribersList = lazy(() => import('./pages/NewsletterSubscribe
 const EmailConfigurationPage = lazy(() => import('./pages/EmailConfigurationPage/EmailConfigurationPage'));
 const BlogAdminPage = lazy(() => import('./pages/BlogAdminPage/BlogAdminPage'));
 const NewsAdminPage = lazy(() => import('./pages/NewsAdminPage/NewsAdminPage'));
+const TeamEmployeesAdminPage = lazy(() => import('./pages/TeamEmployeesAdminPage/TeamEmployeesAdminPage'));
 const CredentialsManagement = lazy(() => import('./pages/CredentialsManagement/CredentialsManagement'));
 const EventAdminPage = lazy(() => import('./pages/EventAdminPage/EventAdminPage'));
 const PaymentsAdminPage = lazy(() => import('./pages/PaymentsAdminPage/PaymentsAdminPage'));
@@ -161,6 +162,11 @@ function App() {
             <Route path="/admin/news-management" element={
               <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
                 <NewsAdminPage />
+              </Suspense>
+            } />
+            <Route path="/admin/team-employees" element={
+              <Suspense fallback={<div className="loading-page"><div className="loading-spinner"></div><p>Loading...</p></div>}>
+                <TeamEmployeesAdminPage />
               </Suspense>
             } />
             <Route path="/admin/event-management" element={

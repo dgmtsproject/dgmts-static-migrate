@@ -28,9 +28,24 @@ const NewsSection = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return '';
-    // Parse YYYY-MM-DD manually to avoid UTC shift
-    const [year, month, day] = String(dateString).split('-').map(Number);
+    // Parse YYYY-MM-DD manually to avoid UTC shift and guard malformed values
+    const normalizedDate = String(dateString).trim().split('T')[0];
+    const parts = normalizedDate.split('-');
+    if (parts.length !== 3) return '';
+
+    const [year, month, day] = parts.map(Number);
+    if ([year, month, day].some((part) => Number.isNaN(part))) return '';
+
     const date = new Date(year, month - 1, day);
+    if (
+      Number.isNaN(date.getTime()) ||
+      date.getFullYear() !== year ||
+      date.getMonth() !== month - 1 ||
+      date.getDate() !== day
+    ) {
+      return '';
+    }
+
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString(undefined, options);
   };

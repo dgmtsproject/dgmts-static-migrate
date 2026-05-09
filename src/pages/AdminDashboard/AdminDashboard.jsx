@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays, DollarSign, Newspaper } from 'lucide-react'
+import { Eye, EyeOff, FileText, Mail, Users, Settings, CalendarDays, DollarSign, Newspaper, UserSquare2 } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword, verifyAdminEmail, resetAdminPasswordWithEmail } from '../../utils/adminAuth'
 import './AdminDashboard.css'
 
@@ -129,6 +129,13 @@ function AdminDashboard() {
       icon: Newspaper,
       path: '/admin/news-management',
       color: '#ff6b35'
+    },
+    {
+      title: 'About — team grid',
+      description: 'Employee photos and departments on the About page (VPS storage + about_employees)',
+      icon: UserSquare2,
+      path: '/admin/team-employees',
+      color: '#2e7d6e'
     },
     {
       title: 'Event Management',

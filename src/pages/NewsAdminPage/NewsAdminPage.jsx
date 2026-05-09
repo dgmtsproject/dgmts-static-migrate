@@ -20,6 +20,7 @@ function NewsAdminPage() {
     const [slug, setSlug] = useState('')
     const [newsDate, setNewsDate] = useState(new Date().toISOString().split('T')[0])
     const [editingId, setEditingId] = useState(null)
+    const [editingRoute, setEditingRoute] = useState('')
     const [view, setView] = useState('list') // 'list', 'add', 'edit'
     const [saving, setSaving] = useState(false)
     const [uploading, setUploading] = useState(false)
@@ -55,6 +56,47 @@ function NewsAdminPage() {
         'align',
         'link', 'image', 'video', 'blockquote', 'code-block'
     ]
+
+    const normalizeNewsDate = (value) => {
+        if (!value) return ''
+
+        const raw = String(value).trim()
+
+        // Accept common DB formats that start with YYYY-MM-DD
+        const ymdMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})/)
+        if (ymdMatch) {
+            const year = Number(ymdMatch[1])
+            const month = Number(ymdMatch[2])
+            const day = Number(ymdMatch[3])
+
+            const date = new Date(year, month - 1, day)
+            if (
+                !Number.isNaN(date.getTime()) &&
+                date.getFullYear() === year &&
+                date.getMonth() === month - 1 &&
+                date.getDate() === day
+            ) {
+                return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+            }
+        }
+
+        // Fallback for other parseable formats
+        const parsed = new Date(raw)
+        if (Number.isNaN(parsed.getTime())) return ''
+
+        const year = parsed.getUTCFullYear()
+        const month = String(parsed.getUTCMonth() + 1).padStart(2, '0')
+        const day = String(parsed.getUTCDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+    }
+
+    const formatNewsDate = (value) => {
+        const normalizedDate = normalizeNewsDate(value)
+        if (!normalizedDate) return ''
+
+        const [year, month, day] = normalizedDate.split('-').map(Number)
+        return new Date(Date.UTC(year, month - 1, day)).toLocaleDateString(undefined, { timeZone: 'UTC' })
+    }
 
     useEffect(() => {
         const isAuthenticated = checkAdminSession()
@@ -206,10 +248,21 @@ function NewsAdminPage() {
             }
 
             if (editingId) {
-                const { error } = await supabase
+                const parsedEditingId = Number(editingId)
+                let updateQuery = supabase
                     .from('news')
                     .update(newsData)
-                    .eq('id', editingId)
+
+                if (Number.isInteger(parsedEditingId) && parsedEditingId > 0) {
+                    updateQuery = updateQuery.eq('id', parsedEditingId)
+                } else if (editingRoute) {
+                    // Fallback protection if local editingId state gets corrupted.
+                    updateQuery = updateQuery.eq('news_route', editingRoute)
+                } else {
+                    throw new Error('Missing valid record identifier for update.')
+                }
+
+                const { error } = await updateQuery
 
                 if (error) throw error
                 setMessage({ type: 'success', text: 'News item updated successfully!' })
@@ -241,10 +294,13 @@ function NewsAdminPage() {
         setSlug('')
         setNewsDate(new Date().toISOString().split('T')[0])
         setEditingId(null)
+        setEditingRoute('')
     }
 
     const handleEdit = (item) => {
-        setEditingId(item.id)
+        const parsedItemId = Number(item.id)
+        setEditingId(Number.isInteger(parsedItemId) && parsedItemId > 0 ? parsedItemId : null)
+        setEditingRoute(item.news_route || '')
         setTitle(item.news_title || '')
         setContent(item.news_content || '')
         setPicture(item.picture || '')
@@ -252,11 +308,7 @@ function NewsAdminPage() {
         setSlug(item.news_route || '')
 
         // Standardize date to YYYY-MM-DD for the html5 date picker
-        let formattedDate = new Date().toISOString().split('T')[0];
-        if (item.news_date) {
-            // Take the first 10 characters (YYYY-MM-DD) from the stored string
-            formattedDate = String(item.news_date).substring(0, 10);
-        }
+        const formattedDate = normalizeNewsDate(item.news_date) || new Date().toISOString().split('T')[0]
         setNewsDate(formattedDate)
 
         setView('edit')
@@ -380,10 +432,7 @@ function NewsAdminPage() {
                                                     </div>
                                                 </td>
                                                 <td><code>{item.news_route}</code></td>
-                                                <td>{item.news_date ? (() => {
-                                                    const [y, m, d] = String(item.news_date).split('-').map(Number);
-                                                    return new Date(y, m - 1, d).toLocaleDateString();
-                                                })() : ''}</td>
+                                                <td>{formatNewsDate(item.news_date)}</td>
                                                 <td>
                                                     <div className="action-btns">
                                                         <Link to={`/news/${item.news_route}`} target="_blank" className="btn-icon view" title="View Article">

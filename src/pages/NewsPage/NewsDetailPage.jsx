@@ -39,13 +39,35 @@ const NewsDetailPage = () => {
     }
   }, [slug]);
 
+  const parseNewsDate = (value) => {
+    if (!value) return null;
+
+    const raw = String(value).trim();
+    const ymdMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (ymdMatch) {
+      const year = Number(ymdMatch[1]);
+      const month = Number(ymdMatch[2]);
+      const day = Number(ymdMatch[3]);
+      const utcDate = new Date(Date.UTC(year, month - 1, day));
+      if (
+        !Number.isNaN(utcDate.getTime()) &&
+        utcDate.getUTCFullYear() === year &&
+        utcDate.getUTCMonth() === month - 1 &&
+        utcDate.getUTCDate() === day
+      ) {
+        return utcDate;
+      }
+    }
+
+    const parsed = new Date(raw);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  };
+
   const formatDate = (dateString) => {
-    if (!dateString) return '';
-    // Parse YYYY-MM-DD manually to avoid UTC shift
-    const [year, month, day] = String(dateString).split('-').map(Number);
-    const date = new Date(year, month - 1, day);
+    const date = parseNewsDate(dateString);
+    if (!date) return '';
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
+    return date.toLocaleDateString(undefined, { ...options, timeZone: 'UTC' });
   };
 
   const resolveImage = (item) => {

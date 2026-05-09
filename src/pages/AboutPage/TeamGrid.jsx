@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './TeamGrid.css';
 import { teamMembers } from '../TeamMemberPage/teamData.js';
 import MeetTheTeam from './MeetTheTeam';
+import { supabase } from '../../supabaseClient';
+import { ABOUT_EMPLOYEE_DEPARTMENTS } from '../../constants/aboutTeamDepartments';
 
 const TeamGrid = () => {
   const president = teamMembers.find(member => member.role === 'President');
@@ -20,11 +22,8 @@ const TeamGrid = () => {
   const engineersImages = import.meta.glob('../../assets/employees-pictures/Engineers, Inspectors and Techicians Team/*');
   const itImages = import.meta.glob('../../assets/employees-pictures/IT & Digital Solution Team/*');
 
-  // Load images lazily
   useEffect(() => {
-    const loadImages = async () => {
-      setLoading(true);
-      
+    const loadBundledFolders = async () => {
       const processImages = async (images, department) => {
         const imagePromises = Object.keys(images).map(async (path) => {
           const filename = path.split('/').pop();
@@ -32,7 +31,7 @@ const TeamGrid = () => {
           return {
             name: getEmployeeName(filename),
             image: imageModule.default,
-            department: department
+            department
           };
         });
         return Promise.all(imagePromises);
@@ -54,7 +53,42 @@ const TeamGrid = () => {
       setLoading(false);
     };
 
-    loadImages();
+    const loadFromApi = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('about_employees')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true })
+          .order('name', { ascending: true });
+
+        if (error || !data?.length) {
+          await loadBundledFolders();
+          return;
+        }
+
+        setEmployees(
+          data.map((row) => ({
+            id: row.id,
+            name: row.name,
+            image: row.image_url,
+            department: row.department,
+            sortOrder: row.sort_order ?? 0
+          }))
+        );
+      } catch {
+        await loadBundledFolders();
+        return;
+      }
+      setLoading(false);
+    };
+
+    const run = async () => {
+      setLoading(true);
+      await loadFromApi();
+    };
+
+    run();
   }, []);
 
   // Group employees by department
@@ -70,11 +104,7 @@ const TeamGrid = () => {
     return groups;
   }, [employees]);
 
-  const departmentOrder = [
-    'Management & Support Team', 
-    'Engineers, Inspectors and Technicians Team', 
-    'IT & Digital Solution Team'
-  ];
+  const departmentOrder = ABOUT_EMPLOYEE_DEPARTMENTS;
 
   return (
     <section className="team-grid-section">
@@ -139,7 +169,7 @@ const TeamGrid = () => {
                   <div className="employees-grid">
                     {groupedEmployees[dept].map((employee, index) => (
                       <div 
-                        key={index} 
+                        key={employee.id ?? `${dept}-${employee.name}-${index}`} 
                         className="employee-card"
                         style={{ animationDelay: `${(index % 20) * 50}ms` }}
                       >
