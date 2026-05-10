@@ -47,7 +47,9 @@ const TeamGrid = () => {
         ...managementEmployees,
         ...engineersEmployees,
         ...itEmployees
-      ].sort((a, b) => a.name.localeCompare(b.name));
+      ].sort((a, b) =>
+        (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
+      );
 
       setEmployees(allEmployees);
       setLoading(false);
@@ -59,7 +61,6 @@ const TeamGrid = () => {
           .from('about_employees')
           .select('*')
           .eq('is_active', true)
-          .order('sort_order', { ascending: true })
           .order('name', { ascending: true });
 
         if (error || !data?.length) {
@@ -72,8 +73,7 @@ const TeamGrid = () => {
             id: row.id,
             name: row.name,
             image: row.image_url,
-            department: row.department,
-            sortOrder: row.sort_order ?? 0
+            department: row.department
           }))
         );
       } catch {
@@ -99,6 +99,12 @@ const TeamGrid = () => {
         groups[emp.department] = [];
       }
       groups[emp.department].push(emp);
+    });
+
+    Object.keys(groups).forEach((dept) => {
+      groups[dept].sort((a, b) =>
+        (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
+      );
     });
 
     return groups;

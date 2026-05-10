@@ -41,7 +41,6 @@ function TeamEmployeesAdminPage () {
   const [department, setDepartment] = useState(ABOUT_EMPLOYEE_DEPARTMENTS[0])
   const [imageUrl, setImageUrl] = useState('')
   const [imagePreview, setImagePreview] = useState('')
-  const [sortOrder, setSortOrder] = useState(0)
   const [isActive, setIsActive] = useState(true)
 
   useEffect(() => {
@@ -53,17 +52,26 @@ function TeamEmployeesAdminPage () {
     if (loggedIn) fetchRows()
   }, [loggedIn])
 
+  const departmentListIndex = (dept) => {
+    const i = ABOUT_EMPLOYEE_DEPARTMENTS.indexOf(dept)
+    return i === -1 ? 999 : i
+  }
+
   const fetchRows = async () => {
     try {
       setLoading(true)
       const { data, error } = await supabase
         .from('about_employees')
         .select('*')
-        .order('sort_order', { ascending: true })
-        .order('name', { ascending: true })
 
       if (error) throw error
-      setRows(data || [])
+      const list = data || []
+      list.sort((a, b) => {
+        const d = departmentListIndex(a.department) - departmentListIndex(b.department)
+        if (d !== 0) return d
+        return (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
+      })
+      setRows(list)
     } catch (err) {
       console.error(err)
       setMessage({
@@ -96,7 +104,6 @@ function TeamEmployeesAdminPage () {
     setDepartment(ABOUT_EMPLOYEE_DEPARTMENTS[0])
     setImageUrl('')
     setImagePreview('')
-    setSortOrder(0)
     setIsActive(true)
   }
 
@@ -106,7 +113,6 @@ function TeamEmployeesAdminPage () {
     setDepartment(row.department || ABOUT_EMPLOYEE_DEPARTMENTS[0])
     setImageUrl(row.image_url || '')
     setImagePreview(row.image_url || '')
-    setSortOrder(Number(row.sort_order) || 0)
     setIsActive(row.is_active !== false)
     setView('edit')
     setMessage({ type: '', text: '' })
@@ -150,7 +156,7 @@ function TeamEmployeesAdminPage () {
       name: name.trim(),
       department,
       image_url: imageUrl.trim(),
-      sort_order: Number(sortOrder) || 0,
+      sort_order: 0,
       is_active: !!isActive
     }
 
@@ -227,7 +233,7 @@ function TeamEmployeesAdminPage () {
           <div>
             <Link to="/admin" className="back-link"><ArrowLeft size={18} /> Dashboard</Link>
             <h1>About — employee grid</h1>
-            <p>Photos are stored via the VPS storage API (bucket <code>employee-images</code> preferred). Rows live in <code>about_employees</code>.</p>
+            <p>Photos are stored via the VPS storage API (bucket <code>employee-images</code> preferred). Rows live in <code>about_employees</code>. On the public About page, people are listed <strong>alphabetically by name</strong> within each department.</p>
           </div>
           {view === 'list' && (
             <button type="button" className="btn-primary" onClick={() => { resetForm(); setView('add'); setMessage({ type: '', text: '' }) }}>
@@ -253,7 +259,6 @@ function TeamEmployeesAdminPage () {
                     <th></th>
                     <th>Name</th>
                     <th>Department</th>
-                    <th>Order</th>
                     <th>Active</th>
                     <th />
                   </tr>
@@ -270,7 +275,6 @@ function TeamEmployeesAdminPage () {
                       </td>
                       <td>{row.name}</td>
                       <td>{row.department}</td>
-                      <td>{row.sort_order ?? 0}</td>
                       <td>{row.is_active === false ? 'No' : 'Yes'}</td>
                       <td className="actions">
                         <button type="button" className="btn-ghost" onClick={() => handleEdit(row)} aria-label="Edit"><Edit size={18} /></button>
@@ -301,17 +305,11 @@ function TeamEmployeesAdminPage () {
                   ))}
                 </select>
               </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Sort order</label>
-                  <input type="number" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
-                </div>
-                <div className="form-group checkbox-group">
-                  <label>
-                    <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
-                    Active (shown on site)
-                  </label>
-                </div>
+              <div className="form-group checkbox-group">
+                <label>
+                  <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
+                  Active (shown on site)
+                </label>
               </div>
               <div className="form-group">
                 <label>Image URL</label>
