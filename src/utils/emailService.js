@@ -65,13 +65,18 @@ export const sendTestEmail = async (email) => {
  * Send payment confirmation email
  * @param {string} email - Customer email
  * @param {Object} paymentData - Payment details
+ * @param {number|string} [paymentId] - payments.id for outbox tracking / admin resend
  */
-export const sendPaymentEmail = async (email, paymentData) => {
-  return sendEmail({
+export const sendPaymentEmail = async (email, paymentData, paymentId = null) => {
+  const payload = {
     type: 'payment',
     email,
     paymentData
-  })
+  }
+  if (paymentId != null && paymentId !== '') {
+    payload.paymentId = paymentId
+  }
+  return sendEmail(payload)
 }
 
 /**

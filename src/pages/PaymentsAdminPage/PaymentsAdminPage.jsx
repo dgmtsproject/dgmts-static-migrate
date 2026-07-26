@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import { checkAdminSession } from '../../utils/adminAuth';
-import { ArrowLeft, DollarSign, Calendar, CreditCard, CheckCircle, XCircle, Filter, Download, Search, Eye, FileText } from 'lucide-react';
+import { ArrowLeft, DollarSign, Calendar, CreditCard, CheckCircle, XCircle, Filter, Download, Search, Eye, FileText, Mail, RefreshCw, AlertCircle, Clock } from 'lucide-react';
 import './PaymentsAdminPage.css';
+
+const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
 
 function PaymentsAdminPage() {
   const navigate = useNavigate();
@@ -13,8 +15,12 @@ function PaymentsAdminPage() {
   const [filteredPayments, setFilteredPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [mailFilter, setMailFilter] = useState('all');
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [mailStatuses, setMailStatuses] = useState({});
+  const [resendingId, setResendingId] = useState(null);
+  const [mailActionMessage, setMailActionMessage] = useState('');
 
   useEffect(() => {
     const isAuthenticated = checkAdminSession();
@@ -25,6 +31,29 @@ function PaymentsAdminPage() {
     setLoggedIn(true);
     fetchPayments();
   }, [navigate]);
+
+  const fetchMailStatuses = async (paymentList) => {
+    const ids = (paymentList || []).map((p) => p.id).filter(Boolean);
+    if (ids.length === 0) {
+      setMailStatuses({});
+      return;
+    }
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/dgmts-static/payment-emails/status`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_ids: ids })
+      });
+      const result = await response.json();
+      if (!response.ok || result.error) {
+        console.error('Error fetching mail statuses:', result.error || response.statusText);
+        return;
+      }
+      setMailStatuses(result.statuses || {});
+    } catch (err) {
+      console.error('Error fetching mail statuses:', err);
+    }
+  };
 
   const fetchPayments = async () => {
     setLoading(true);
@@ -41,8 +70,10 @@ function PaymentsAdminPage() {
         return;
       }
 
-      setPayments(data || []);
-      setFilteredPayments(data || []);
+      const list = data || [];
+      setPayments(list);
+      setFilteredPayments(list);
+      await fetchMailStatuses(list);
     } catch (err) {
       console.error('Error:', err);
     } finally {
@@ -59,6 +90,16 @@ function PaymentsAdminPage() {
       filtered = filtered.filter(payment => payment.status === statusFilter);
     }
 
+    if (mailFilter !== 'all') {
+      filtered = filtered.filter((payment) => {
+        const overall = mailStatuses[String(payment.id)]?.overall || 'no_tracking';
+        if (mailFilter === 'not_sent') {
+          return overall === 'not_sent' || overall === 'no_tracking' || overall === 'unknown';
+        }
+        return overall === mailFilter;
+      });
+    }
+
     // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -71,7 +112,7 @@ function PaymentsAdminPage() {
     }
 
     setFilteredPayments(filtered);
-  }, [searchTerm, statusFilter, payments]);
+  }, [searchTerm, statusFilter, mailFilter, payments, mailStatuses]);
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -112,6 +153,84 @@ function PaymentsAdminPage() {
         {config.text}
       </span>
     );
+  };
+
+  const getMailStatus = (paymentId) => {
+    return mailStatuses[String(paymentId)] || {
+      overall: 'no_tracking',
+      label: 'No tracking data',
+      can_resend: true,
+      emails: [],
+      last_error: null,
+      sent_at: null
+    };
+  };
+
+  const getMailStatusBadge = (paymentId) => {
+    const mail = getMailStatus(paymentId);
+    const configByOverall = {
+      sent: { icon: CheckCircle, color: '#155724', bg: '#d4edda', text: 'Mail sent' },
+      pending: { icon: Clock, color: '#856404', bg: '#fff3cd', text: 'Mail pending' },
+      failed: { icon: XCircle, color: '#721c24', bg: '#f8d7da', text: 'Mail failed' },
+      partial: { icon: AlertCircle, color: '#856404', bg: '#fff3cd', text: 'Mail partial' },
+      // Before outbox tracking existed we have no proof either way — not the same as "failed to send"
+      no_tracking: { icon: Mail, color: '#6c757d', bg: '#e9ecef', text: 'No tracking' },
+      not_sent: { icon: Mail, color: '#6c757d', bg: '#e9ecef', text: 'No tracking' },
+      unknown: { icon: Mail, color: '#6c757d', bg: '#e9ecef', text: 'No tracking' }
+    };
+    const config = configByOverall[mail.overall] || configByOverall.no_tracking;
+    const Icon = config.icon;
+    const title =
+      mail.last_error ||
+      mail.label ||
+      'No email outbox record for this payment (sent before mail tracking, or status API unavailable)';
+    return (
+      <span
+        className="status-badge mail-status-badge"
+        style={{ backgroundColor: config.bg, color: config.color }}
+        title={title}
+      >
+        <Icon size={16} />
+        {config.text}
+      </span>
+    );
+  };
+
+  const handleResendEmails = async (payment) => {
+    if (!payment?.id) return;
+    const confirmed = window.confirm(
+      `Resend payment emails for invoice ${payment.invoice_no || payment.id} to ${payment.customer_email}?`
+    );
+    if (!confirmed) return;
+
+    setResendingId(payment.id);
+    setMailActionMessage('');
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/dgmts-static/payment-emails/resend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ payment_id: payment.id })
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) {
+        setMailActionMessage(result.error || 'Failed to resend payment emails');
+        return;
+      }
+      if (result.status) {
+        setMailStatuses((prev) => ({
+          ...prev,
+          [String(payment.id)]: result.status
+        }));
+      } else {
+        await fetchMailStatuses(payments);
+      }
+      setMailActionMessage(result.message || 'Payment emails resent successfully');
+    } catch (err) {
+      console.error('Resend error:', err);
+      setMailActionMessage(err.message || 'Failed to resend payment emails');
+    } finally {
+      setResendingId(null);
+    }
   };
 
   const handleViewDetails = (payment) => {
@@ -402,12 +521,32 @@ function PaymentsAdminPage() {
               </select>
             </div>
 
+            <div className="filter-group">
+              <Mail size={18} />
+              <select value={mailFilter} onChange={(e) => setMailFilter(e.target.value)}>
+                <option value="all">All Mail Status</option>
+                <option value="sent">Mail Sent</option>
+                <option value="pending">Mail Pending</option>
+                <option value="failed">Mail Failed</option>
+                <option value="partial">Mail Partial</option>
+                <option value="not_sent">No Tracking</option>
+              </select>
+            </div>
+
             <button className="export-button" onClick={exportToCSV}>
               <Download size={18} />
               Export CSV
             </button>
           </div>
         </div>
+
+        {mailActionMessage && (
+          <div className="mail-action-banner">
+            <Mail size={18} />
+            <span>{mailActionMessage}</span>
+            <button type="button" onClick={() => setMailActionMessage('')}>×</button>
+          </div>
+        )}
 
         {/* Payments Table */}
         {loading ? (
@@ -432,6 +571,7 @@ function PaymentsAdminPage() {
                   <th>Amount</th>
                   <th>Transaction ID</th>
                   <th>Status</th>
+                  <th>Mail Status</th>
                   <th>Method</th>
                   <th>Actions</th>
                 </tr>
@@ -455,6 +595,7 @@ function PaymentsAdminPage() {
                     <td className="amount-cell">{formatCurrency(payment.amount)}</td>
                     <td className="transaction-cell">{payment.transaction_id || 'N/A'}</td>
                     <td>{getStatusBadge(payment.status)}</td>
+                    <td>{getMailStatusBadge(payment.id)}</td>
                     <td className="method-cell">{payment.payment_method}</td>
                     <td>
                       <div className="action-buttons">
@@ -472,6 +613,16 @@ function PaymentsAdminPage() {
                         >
                           <FileText size={18} />
                         </button>
+                        {(payment.status === 'success' || payment.status === 'completed') && (
+                          <button
+                            className="resend-mail-button"
+                            onClick={() => handleResendEmails(payment)}
+                            disabled={resendingId === payment.id}
+                            title="Resend payment emails"
+                          >
+                            <RefreshCw size={18} className={resendingId === payment.id ? 'spinning' : ''} />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -551,6 +702,52 @@ function PaymentsAdminPage() {
                       </div>
                     )}
                   </div>
+                </div>
+
+                <div className="detail-section">
+                  <h3>Email Delivery</h3>
+                  <div className="detail-grid">
+                    <div className="detail-item">
+                      <label>Mail Status</label>
+                      <p>{getMailStatusBadge(selectedPayment.id)}</p>
+                    </div>
+                    <div className="detail-item">
+                      <label>Last Sent At</label>
+                      <p>{formatDate(getMailStatus(selectedPayment.id).sent_at)}</p>
+                    </div>
+                    {getMailStatus(selectedPayment.id).last_error && (
+                      <div className="detail-item full-width">
+                        <label>Last Error</label>
+                        <p className="mail-error-text">{getMailStatus(selectedPayment.id).last_error}</p>
+                      </div>
+                    )}
+                    <div className="detail-item full-width">
+                      <label>Outbox Records</label>
+                      {(getMailStatus(selectedPayment.id).emails || []).length === 0 ? (
+                        <p>No mail outbox records for this payment yet.</p>
+                      ) : (
+                        <ul className="mail-outbox-list">
+                          {getMailStatus(selectedPayment.id).emails.map((email) => (
+                            <li key={email.id}>
+                              <strong>{email.kind}</strong> — {email.status}
+                              {email.attempts ? ` (attempts: ${email.attempts})` : ''}
+                              {email.sent_at ? ` · sent ${formatDate(email.sent_at)}` : ''}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
+                  {(selectedPayment.status === 'success' || selectedPayment.status === 'completed') && (
+                    <button
+                      className="resend-mail-button-lg"
+                      onClick={() => handleResendEmails(selectedPayment)}
+                      disabled={resendingId === selectedPayment.id}
+                    >
+                      <RefreshCw size={18} className={resendingId === selectedPayment.id ? 'spinning' : ''} />
+                      {resendingId === selectedPayment.id ? 'Resending…' : 'Resend Payment Emails'}
+                    </button>
+                  )}
                 </div>
 
                 {selectedPayment.response && (

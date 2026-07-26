@@ -346,7 +346,8 @@
 }
 
 .view-details-button,
-.pdf-report-button {
+.pdf-report-button,
+.resend-mail-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -372,6 +373,91 @@
 
 .pdf-report-button:hover {
   background: #c82333;
+}
+
+.resend-mail-button {
+  background: #17a2b8;
+}
+
+.resend-mail-button:hover:not(:disabled) {
+  background: #138496;
+}
+
+.resend-mail-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.resend-mail-button-lg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.7rem 1.1rem;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resend-mail-button-lg:hover:not(:disabled) {
+  background: #138496;
+}
+
+.resend-mail-button-lg:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.mail-status-badge {
+  white-space: nowrap;
+}
+
+.mail-action-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: 8px;
+  color: #004085;
+}
+
+.mail-action-banner button {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+.mail-error-text {
+  color: #721c24;
+  word-break: break-word;
+}
+
+.mail-outbox-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #333;
+}
+
+.mail-outbox-list li {
+  margin-bottom: 0.35rem;
+}
+
+.spinning {
+  animation: mail-spin 0.8s linear infinite;
+}
+
+@keyframes mail-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Modal */

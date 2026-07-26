@@ -225,7 +225,7 @@ const PaymentPage = () => {
           });
           const estDate = new Date(estTime);
           
-          const { error: dbError } = await supabase
+          const { data: savedPayment, error: dbError } = await supabase
             .from('payments')
             .insert({
               customer_name: customerName,
@@ -241,14 +241,18 @@ const PaymentPage = () => {
               notes: `Auth Code: ${data.authCode || 'N/A'}, Account Type: ${data.accountType || 'N/A'}`,
               environment_type: 'PROD',
               created_at: estDate.toISOString()
-            });
+            })
+            .select('id')
+            .single();
 
           if (dbError) {
             console.error('Error saving payment to database:', dbError);
             // Don't fail the payment if database save fails, just log it
           }
 
-          // Send payment confirmation email
+          const paymentRecordId = savedPayment?.id ?? null;
+
+          // Send payment confirmation email (linked to payment id for admin status/resend)
           try {
             const serviceCharge = calculateServiceCharge(billingData.invoiceAmount);
             await sendPaymentEmail(billingData.email, {
@@ -262,7 +266,7 @@ const PaymentPage = () => {
               invoiceAmount: billingData.invoiceAmount,
               serviceCharge: serviceCharge,
               paymentMethod: 'Credit Card'
-            });
+            }, paymentRecordId);
             console.log('Payment confirmation email sent');
           } catch (emailErr) {
             console.error('Error sending payment confirmation email:', emailErr);
