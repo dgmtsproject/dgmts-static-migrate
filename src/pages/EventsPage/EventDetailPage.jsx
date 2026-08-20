@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
+import { rewriteSupabaseStorageUrl } from '../../utils/mediaUrl'
 import { MapPin, Clock, Calendar, Video, ExternalLink } from 'lucide-react'
 import './EventDetailPage.css'
 
@@ -152,7 +153,7 @@ function EventDetailPage() {
         <article className="event-detail-card">
           {event.image_url && (
             <div className="event-detail-image">
-              <img src={event.image_url} alt={event.title} />
+              <img src={rewriteSupabaseStorageUrl(event.image_url)} alt={event.title} />
               {event.is_featured && (
                 <span className="featured-badge">Featured Event</span>
               )}
@@ -224,7 +225,7 @@ function EventDetailPage() {
           {event.content && (
             <div
               className="event-detail-content"
-              dangerouslySetInnerHTML={{ __html: event.content }}
+              dangerouslySetInnerHTML={{ __html: rewriteSupabaseStorageUrl(event.content) }}
             />
           )}
 
@@ -234,7 +235,7 @@ function EventDetailPage() {
               <div className="event-images-grid">
                 {event.additional_images.map((imgUrl, index) => (
                   <div key={index} className="event-gallery-item">
-                    <img src={imgUrl} alt={`${event.title} - Image ${index + 1}`} />
+                    <img src={rewriteSupabaseStorageUrl(imgUrl)} alt={`${event.title} - Image ${index + 1}`} />
                   </div>
                 ))}
               </div>

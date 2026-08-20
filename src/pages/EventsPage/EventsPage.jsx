@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
+import { rewriteSupabaseStorageUrl } from '../../utils/mediaUrl'
 import { Search, MapPin, Clock, Calendar, Video } from 'lucide-react'
 import './EventsPage.css'
 
@@ -244,7 +245,7 @@ function EventsPage() {
                   <article key={event.id} className={`event-card ${!isUpcoming(event.event_date) ? 'past-event' : ''}`}>
                     {event.image_url && (
                       <div className="event-card-image">
-                        <img src={event.image_url} alt={event.title} />
+                        <img src={rewriteSupabaseStorageUrl(event.image_url)} alt={event.title} />
                         {event.is_featured && (
                           <span className="featured-badge">Featured</span>
                         )}

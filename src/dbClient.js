@@ -2,6 +2,8 @@
  * Drop-in replacement for @supabase/supabase-js used by the static site.
  * Talks to Flask on the VPS: /api/dgmts-static/data, /storage, /functions/...
  */
+import { rewriteSupabaseStorageValue } from './utils/mediaUrl.js'
+
 const API_BASE = (import.meta.env.VITE_DGMTS_API_URL || 'https://imsite.dullesgeotechnical.com').replace(/\/$/, '')
 
 async function postJson (path, body) {
@@ -124,7 +126,7 @@ class QueryBuilder {
         if (j && j.error) {
           return { data: j.data ?? null, error: { message: j.error.message || String(j.error) } }
         }
-        return { data: j.data, error: null }
+        return { data: rewriteSupabaseStorageValue(j.data), error: null }
       }
 
       if (s.op == null) {
