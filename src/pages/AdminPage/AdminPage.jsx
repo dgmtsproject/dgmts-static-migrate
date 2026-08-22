@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { supabase } from '../../supabaseClient'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import { createQuillModules, QUILL_FORMATS } from '../../utils/quillEditor'
 import './AdminPage.css'
 
 function AdminPage() {
@@ -21,35 +22,14 @@ function AdminPage() {
   const [view, setView] = useState('all') // 'all', 'add', 'edit'
   const [isHtmlMode, setIsHtmlMode] = useState(false) // Toggle between rich text and HTML
 
-  // Enhanced ReactQuill modules configuration
-  const quillModules = {
-    toolbar: [
-      [{ 'header': ['1', '2', '3', false] }],
-      [{ 'font': [] }],
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'indent': '-1' }, { 'indent': '+1' }],
-      [{ 'align': [] }],
-      ['link', 'image', 'video', 'blockquote', 'code-block'],
-      ['clean']
-    ],
-    clipboard: {
-      matchVisual: false,
-    }
-  }
-
-  const quillFormats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike',
-    'color', 'background',
-    'script',
-    'list', 'bullet', 'indent',
-    'align',
-    'link', 'image', 'video', 'blockquote', 'code-block'
-  ]
+  const quillModules = useMemo(
+    () => createQuillModules({
+      bucket: 'blog-images',
+      folder: 'blog-content'
+    }),
+    []
+  )
+  const quillFormats = QUILL_FORMATS
 
   useEffect(() => {
     if (loggedIn) {

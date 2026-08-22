@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Eye, EyeOff, Upload, X, ExternalLink } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
+import { createQuillModules, QUILL_FORMATS } from '../../utils/quillEditor'
 import './BlogAdminPage.css'
 
 function BlogAdminPage() {
@@ -27,35 +28,15 @@ function BlogAdminPage() {
   const [message, setMessage] = useState({ type: '', text: '' })
   const [imagePreview, setImagePreview] = useState('')
 
-  // ReactQuill modules configuration
-  const quillModules = {
-    toolbar: [
-      [{ 'header': ['1', '2', '3', false] }],
-      [{ 'font': [] }],
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'indent': '-1' }, { 'indent': '+1' }],
-      [{ 'align': [] }],
-      ['link', 'image', 'video', 'blockquote', 'code-block'],
-      ['clean']
-    ],
-    clipboard: {
-      matchVisual: false,
-    }
-  }
-
-  const quillFormats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike',
-    'color', 'background',
-    'script',
-    'list', 'bullet', 'indent',
-    'align',
-    'link', 'image', 'video', 'blockquote', 'code-block'
-  ]
+  const quillModules = useMemo(
+    () => createQuillModules({
+      bucket: 'blog-images',
+      folder: 'blog-content',
+      onError: (text) => setMessage({ type: 'error', text })
+    }),
+    []
+  )
+  const quillFormats = QUILL_FORMATS
 
   useEffect(() => {
     // Check if user is already logged in via session
@@ -618,7 +599,7 @@ function BlogAdminPage() {
                     formats={quillFormats}
                   />
                 </div>
-                <small className="form-hint">Use the toolbar to format your content. You can add images, videos, links, and more.</small>
+                <small className="form-hint">Use the toolbar image button to upload photos to site storage (not an external URL).</small>
               </div>
 
               <div className="form-actions">

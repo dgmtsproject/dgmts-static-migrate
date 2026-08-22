@@ -401,6 +401,11 @@
   padding: 1rem !important;
 }
 
+.event-admin-page .ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
 .event-admin-page .ql-editor.ql-blank::before {
   font-style: normal;
   color: #adb5bd;

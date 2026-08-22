@@ -1,13 +1,14 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './TeamGrid.css';
-import { teamMembers } from '../TeamMemberPage/teamData.js';
 import MeetTheTeam from './MeetTheTeam';
 import { supabase } from '../../supabaseClient';
 import { ABOUT_EMPLOYEE_DEPARTMENTS } from '../../constants/aboutTeamDepartments';
+import { fetchAboutLeaders, splitLeaders, profilePath } from '../../utils/aboutLeaders';
 
 const TeamGrid = () => {
-  const president = teamMembers.find(member => member.role === 'President');
+  const [president, setPresident] = useState(null);
+  const [departmentHeads, setDepartmentHeads] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -85,6 +86,10 @@ const TeamGrid = () => {
 
     const run = async () => {
       setLoading(true);
+      const leaders = await fetchAboutLeaders();
+      const split = splitLeaders(leaders);
+      setPresident(split.president);
+      setDepartmentHeads(split.departmentHeads);
       await loadFromApi();
     };
 
@@ -123,7 +128,8 @@ const TeamGrid = () => {
           </p>
         </div>
         
-        <Link to={`/team/${president.id}`} className="president-card">
+        {president && (
+        <Link to={profilePath(president)} className="president-card">
           <div 
             className="president-image"
             style={{
@@ -134,24 +140,14 @@ const TeamGrid = () => {
           <div className="president-content">
             <h3 className="president-name">{president.name}</h3>
             <p className="president-role">{president.role}</p>
-            {/*<p className="president-degree">{president.degree}</p>
-            */ }
             <p className="president-bio">{president.bio}</p>
-            
-            {/* <div className="president-tags">
-              {president.tags.map((tag, idx) => (
-                <span key={idx} className="president-tag">
-                  {tag}
-                </span>
-              ))}
-            </div> */}
-            
             <span className="visit-profile-link">View Full Profile &rarr;</span>
           </div>
         </Link>
+        )}
 
         {/* Team Carousel Section */}
-        <MeetTheTeam />
+        <MeetTheTeam members={departmentHeads} />
 
         {/* Team Members Section */}
         <div className="team-grid-header">

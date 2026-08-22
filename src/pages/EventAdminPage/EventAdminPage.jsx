@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { supabase } from '../../supabaseClient'
 import { Link } from 'react-router-dom'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Eye, EyeOff, Upload, ExternalLink, Calendar, MapPin, Clock, Video } from 'lucide-react'
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
+import { createQuillModules, QUILL_FORMATS } from '../../utils/quillEditor'
 import './EventAdminPage.css'
 
 function EventAdminPage() {
@@ -38,35 +39,15 @@ function EventAdminPage() {
   const [message, setMessage] = useState({ type: '', text: '' })
   const [imagePreview, setImagePreview] = useState('')
 
-  // ReactQuill modules configuration
-  const quillModules = {
-    toolbar: [
-      [{ 'header': ['1', '2', '3', false] }],
-      [{ 'font': [] }],
-      [{ 'size': ['small', false, 'large', 'huge'] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'color': [] }, { 'background': [] }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'indent': '-1' }, { 'indent': '+1' }],
-      [{ 'align': [] }],
-      ['link', 'image', 'video', 'blockquote', 'code-block'],
-      ['clean']
-    ],
-    clipboard: {
-      matchVisual: false,
-    }
-  }
-
-  const quillFormats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike',
-    'color', 'background',
-    'script',
-    'list', 'bullet', 'indent',
-    'align',
-    'link', 'image', 'video', 'blockquote', 'code-block'
-  ]
+  const quillModules = useMemo(
+    () => createQuillModules({
+      bucket: 'event-images',
+      folder: 'event-content',
+      onError: (text) => setMessage({ type: 'error', text })
+    }),
+    []
+  )
+  const quillFormats = QUILL_FORMATS
 
   useEffect(() => {
     const isAuthenticated = checkAdminSession()
@@ -951,7 +932,7 @@ function EventAdminPage() {
                       formats={quillFormats}
                     />
                   </div>
-                  <small className="form-hint">Detailed description shown on the event detail page</small>
+                  <small className="form-hint">Detailed description shown on the event detail page. Use the toolbar image button to upload photos to site storage.</small>
                 </div>
               </div>
 

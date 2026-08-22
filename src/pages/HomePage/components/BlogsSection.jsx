@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../../supabaseClient'
+import { attachCategoryNames } from '../../../utils/blogCategory'
 import './BlogsSection.css'
 
 function BlogsSection() {
@@ -15,12 +16,12 @@ function BlogsSection() {
     try {
       const { data, error } = await supabase
         .from('blogs')
-        .select('*, categories(category_name)')
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(3)
       
       if (error) throw error
-      setBlogs(data || [])
+      setBlogs(await attachCategoryNames(data || []))
     } catch (err) {
       console.error('Error fetching blogs:', err)
     } finally {

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
+import { rewriteSupabaseStorageUrl } from '../../utils/mediaUrl'
+import { attachCategoryNames } from '../../utils/blogCategory'
 import './BlogPostPage.css'
 
 function BlogPostPage() {
@@ -19,9 +21,9 @@ function BlogPostPage() {
         // First try to fetch by slug
         const slugResponse = await supabase
           .from('blogs')
-          .select('*, categories(category_name)')
+          .select('*')
           .eq('slug', id)
-          .single()
+          .maybeSingle()
 
         if (slugResponse.data) {
           data = slugResponse.data
@@ -29,9 +31,9 @@ function BlogPostPage() {
           // If no blog found by slug, try by ID (for backward compatibility)
           const idResponse = await supabase
             .from('blogs')
-            .select('*, categories(category_name)')
+            .select('*')
             .eq('id', id)
-            .single()
+            .maybeSingle()
 
           if (idResponse.error) {
             error = idResponse.error
@@ -41,7 +43,7 @@ function BlogPostPage() {
         }
         
         if (error) throw error
-        setBlog(data)
+        setBlog(data ? await attachCategoryNames(data) : data)
       } catch (err) {
         setError(err.message)
         console.error('Error fetching blog:', err)
@@ -111,7 +113,7 @@ function BlogPostPage() {
         <article className="blog-post">
           {blog.image_url && (
             <div className="blog-post-image">
-              <img src={blog.image_url} alt={blog.title} />
+              <img src={rewriteSupabaseStorageUrl(blog.image_url)} alt={blog.title} />
             </div>
           )}
           <header className="blog-post-header">
@@ -133,7 +135,7 @@ function BlogPostPage() {
 
           <div 
             className="blog-post-content"
-            dangerouslySetInnerHTML={{ __html: blog.content }}
+            dangerouslySetInnerHTML={{ __html: rewriteSupabaseStorageUrl(blog.content || '') }}
           />
         </article>
 

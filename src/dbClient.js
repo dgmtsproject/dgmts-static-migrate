@@ -6,6 +6,15 @@ import { rewriteSupabaseStorageValue } from './utils/mediaUrl.js'
 
 const API_BASE = (import.meta.env.VITE_DGMTS_API_URL || 'https://imsite.dullesgeotechnical.com').replace(/\/$/, '')
 
+function stripPostgrestEmbeds (columns) {
+  if (!columns || columns === '*') return columns || '*'
+  const kept = String(columns)
+    .split(',')
+    .map((part) => part.trim())
+    .filter((part) => part && (part === '*' || !part.includes('(')))
+  return kept.length ? kept.join(',') : '*'
+}
+
 async function postJson (path, body) {
   const r = await fetch(`${API_BASE}${path}`, {
     method: 'POST',
@@ -113,7 +122,7 @@ class QueryBuilder {
         const { ok, j } = await postJson('/api/dgmts-static/data', {
           action: 'select',
           table: s.table,
-          columns: s.columns || '*',
+          columns: stripPostgrestEmbeds(s.columns || '*'),
           filters: s.filters,
           order: s.order || [],
           limit: s.limit,

@@ -1,24 +1,27 @@
-import { useState, useEffect } from 'react'; // referenced for environments not using automatic runtime
+import { useState, useEffect } from 'react';
 import './MeetTheTeam.css';
 import { Link } from 'react-router-dom';
-import { teamMembers } from '../../pages/TeamMemberPage/teamData.js';
+import { profilePath } from '../../utils/aboutLeaders';
 
-const MeetTheTeam = () => {
+const MeetTheTeam = ({ members = [] }) => {
   const [activeTeamMember, setActiveTeamMember] = useState(0);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
 
-  const president = teamMembers.find(member => member.role === 'President');
-  const team = teamMembers.filter(member => member.id !== president.id);
-
+  const team = members;
   const minSwipeDistance = 50;
 
   useEffect(() => {
+    setActiveTeamMember(0);
+  }, [team.length]);
+
+  useEffect(() => {
+    if (team.length === 0) return undefined;
     const interval = setInterval(() => {
       setActiveTeamMember(prev => (prev + 1) % team.length);
     }, 2700);
     return () => clearInterval(interval);
-  }, []);
+  }, [team.length]);
 
   const onTouchStart = (e) => {
     setTouchEnd(null);
@@ -30,12 +33,12 @@ const MeetTheTeam = () => {
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
+    if (!touchStart || !touchEnd || team.length === 0) return;
+
     const distance = touchStart - touchEnd;
     const isLeftSwipe = distance > minSwipeDistance;
     const isRightSwipe = distance < -minSwipeDistance;
-    
+
     if (isLeftSwipe) {
       setActiveTeamMember(prev => (prev + 1) % team.length);
     } else if (isRightSwipe) {
@@ -44,17 +47,16 @@ const MeetTheTeam = () => {
   };
 
   const getCardAnimationClass = (index) => {
+    if (team.length === 0) return 'scale-90 opacity-0';
     if (index === activeTeamMember) return "scale-100 opacity-100 z-20";
     if (index === (activeTeamMember + 1) % team.length) return "translate-x-[80%] scale-95 opacity-60 z-10";
     if (index === (activeTeamMember - 1 + team.length) % team.length) return "translate-x-[-80%] scale-95 opacity-60 z-10";
     return "scale-90 opacity-0";
   };
-  
+
   return (
     <>
-      <div 
-          className="team-header opacity-100 translate-y-0"
-        >
+      <div className="team-header opacity-100 translate-y-0">
         <h2 className="team-carousel-title">
           Meet Our Department Heads
         </h2>
@@ -62,18 +64,19 @@ const MeetTheTeam = () => {
           Our department heads bring extensive expertise and leadership to drive innovation and excellence in geotechnical engineering and related services.
         </p>
       </div>
-      
-      <div 
-          className="team-carousel-wrapper" 
+
+      {team.length > 0 && (
+      <div
+          className="team-carousel-wrapper"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
           <div className="team-carousel-inner">
             {team.map((member, index) => (
-              <Link to={`/team/${member.id}`} key={member.id} className={`team-card-wrapper ${getCardAnimationClass(index)}`} style={{ transitionDelay: `${index * 50}ms` }}>
+              <Link to={profilePath(member)} key={member.id} className={`team-card-wrapper ${getCardAnimationClass(index)}`} style={{ transitionDelay: `${index * 50}ms` }}>
                 <div className="team-card">
-                  <div 
+                  <div
                     className="team-card-image"
                     style={{
                       backgroundImage: `url(${member.imageUrl})`,
@@ -83,7 +86,7 @@ const MeetTheTeam = () => {
                     }}
                   >
                   </div>
-                  
+
                   <div className="team-card-content">
                     <div className="team-card-info">
                       <h4 className="team-info-name">
@@ -91,27 +94,28 @@ const MeetTheTeam = () => {
                       </h4>
                       <p className="team-info-role">{member.role}</p>
                     </div>
-                    
+
                     <p className="team-member-bio">{member.bio}</p>
-                    
+
                     <span className="visit-profile-link">Visit Profile &rarr;</span>
                   </div>
                 </div>
               </Link>
             ))}
           </div>
-          
+
           <div className="team-dots">
             {team.map((_, idx) => (
-              <button 
-                key={idx} 
-                className={`team-dot ${activeTeamMember === idx ? 'active' : ''}`} 
+              <button
+                key={idx}
+                className={`team-dot ${activeTeamMember === idx ? 'active' : ''}`}
                 onClick={() => setActiveTeamMember(idx)}
                 aria-label={`Go to ${team[idx].name}`}
               />
             ))}
           </div>
         </div>
+      )}
     </>
   );
 };

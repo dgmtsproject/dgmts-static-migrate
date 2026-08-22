@@ -324,6 +324,11 @@
   padding: 1rem !important;
 }
 
+.blog-admin-page .ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
 .blog-admin-page .ql-editor.ql-blank::before {
   font-style: normal;
   color: #adb5bd;
