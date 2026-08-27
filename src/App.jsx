@@ -37,6 +37,7 @@ import NewsletterModal from './components/Modal/NewsletterModal';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectsPage/ProjectDetailPage';
+import EngineeringToolsPage from './pages/EngineeringToolsPage/EngineeringToolsPage';
 import ClientsPage from './pages/ClientsPage/ClientsPage';
 import UnsubscribePage from './pages/UnsubscribePage/UnsubscribePage';
 import PileDrivingPage from './pages/PlileDrivingPage/PileDrivingPage';
@@ -222,6 +223,7 @@ function App() {
             <Route path="/cancel" element={<CancelPage />} />
             <Route path="/projects" element={<ProjectsPage />} />
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="/engineering-tools" element={<EngineeringToolsPage />} />
             <Route path="/clients" element={<ClientsPage />} />
 
             {/* Catch-all route for 404 errors - must be last */}
