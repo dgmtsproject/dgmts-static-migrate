@@ -67,6 +67,13 @@ export async function fetchAboutLeaders () {
     .eq('is_active', true)
     .order('sort_order', { ascending: true })
 
-  if (error || !data?.length) return staticLeaders()
-  return data.map(mapLeaderRow)
+  // DB is the single source of truth: show ONLY what's stored. We intentionally
+  // do NOT fall back to staticLeaders() on empty/error, so removing/hiding people
+  // in the admin genuinely removes them from the site (no old hardcoded data revives).
+  // staticLeaders() is kept exported below for reference / future reseeding.
+  if (error) {
+    console.error('Failed to load about_leaders:', error.message || error)
+    return []
+  }
+  return (data || []).map(mapLeaderRow)
 }

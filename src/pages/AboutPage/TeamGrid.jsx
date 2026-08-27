@@ -6,6 +6,11 @@ import { supabase } from '../../supabaseClient';
 import { ABOUT_EMPLOYEE_DEPARTMENTS } from '../../constants/aboutTeamDepartments';
 import { fetchAboutLeaders, splitLeaders, profilePath } from '../../utils/aboutLeaders';
 
+// The public About page shows ONLY the employees stored in `about_employees`.
+// The bundled-photo folders below are kept for future use — set this to true to
+// re-enable falling back to src/assets/employees-pictures when the table is empty.
+const USE_BUNDLED_FALLBACK = false;
+
 const TeamGrid = () => {
   const [president, setPresident] = useState(null);
   const [departmentHeads, setDepartmentHeads] = useState([]);
@@ -64,22 +69,28 @@ const TeamGrid = () => {
           .eq('is_active', true)
           .order('name', { ascending: true });
 
-        if (error || !data?.length) {
-          await loadBundledFolders();
-          return;
+        if (error) {
+          console.error('Failed to load about_employees:', error.message || error);
+          if (USE_BUNDLED_FALLBACK) { await loadBundledFolders(); return; }
+          setEmployees([]);
+        } else if (!data?.length) {
+          // Empty table => show an empty grid (DB is the single source of truth).
+          if (USE_BUNDLED_FALLBACK) { await loadBundledFolders(); return; }
+          setEmployees([]);
+        } else {
+          setEmployees(
+            data.map((row) => ({
+              id: row.id,
+              name: row.name,
+              image: row.image_url,
+              department: row.department
+            }))
+          );
         }
-
-        setEmployees(
-          data.map((row) => ({
-            id: row.id,
-            name: row.name,
-            image: row.image_url,
-            department: row.department
-          }))
-        );
-      } catch {
-        await loadBundledFolders();
-        return;
+      } catch (e) {
+        console.error(e);
+        if (USE_BUNDLED_FALLBACK) { await loadBundledFolders(); return; }
+        setEmployees([]);
       }
       setLoading(false);
     };
