@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Briefcase, Users, Globe } from 'lucide-react';
+import { Briefcase, Users, Globe, Languages, CalendarDays } from 'lucide-react';
 import './Geo5Page.css';
 import geo5Logo from '../../assets/logos/geo5-logo.png';
 import geo1 from '../../assets/geo5-images/1-stability-min.png';
@@ -16,6 +16,14 @@ import carouselImage2 from '../../assets/geo5-images/geo5-carousel-image-2.png';
 import carouselImage3 from '../../assets/geo5-images/geo5-carousel-image-3.png';
 import carouselImage4 from '../../assets/geo5-images/geo5-carousel-image-4.png';
 
+
+const stats = [
+  { number: '30+', label: 'Programs', icon: Briefcase },
+  { number: '11,000+', label: 'Users', icon: Users },
+  { number: '160+', label: 'Countries', icon: Globe },
+  { number: '23', label: 'Languages', icon: Languages },
+  { number: '35+', label: 'Years of Development', icon: CalendarDays },
+];
 
 const slides = [
   {
@@ -180,7 +188,15 @@ export default function Geo5Page() {
         <div className="container">
           <div className="geo5-hero-content">
             <div className="geo5-hero-left">
-              <img src={geo5Logo} alt="GEO5 Logo" className="geo5-logo" />
+              <a
+                href="https://www.finesoftware.eu/geotechnical-software/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="geo5-logo-link"
+                aria-label="Visit the official GEO5 website"
+              >
+                <img src={geo5Logo} alt="GEO5 Logo" className="geo5-logo" />
+              </a>
               <div className="geo5-hero-text">
                 <h1 className="geo5-title">Geotechnical Software</h1>
                 <p className="geo5-subtitle">From Geological Survey to Geotechnical Design</p>
@@ -190,33 +206,20 @@ export default function Geo5Page() {
             {/* Modern stats cards aligned to right column */}
             <div className="geo5-hero-right">
               <div className="geo5-hero-stats">
-                <div className="geo5-stat-item">
-                  <div className="geo5-stat-icon">
-                    <Briefcase size={28} />
-                  </div>
-                  <div className="geo5-stat-content">
-                    <span className="geo5-stat-number">25+</span>
-                    <span className="geo5-stat-label">Professional Programs</span>
-                  </div>
-                </div>
-                <div className="geo5-stat-item">
-                  <div className="geo5-stat-icon">
-                    <Users size={28} />
-                  </div>
-                  <div className="geo5-stat-content">
-                    <span className="geo5-stat-number">10K+</span>
-                    <span className="geo5-stat-label">Global Users</span>
-                  </div>
-                </div>
-                <div className="geo5-stat-item">
-                  <div className="geo5-stat-icon">
-                    <Globe size={28} />
-                  </div>
-                  <div className="geo5-stat-content">
-                    <span className="geo5-stat-number">155+</span>
-                    <span className="geo5-stat-label">Countries Worldwide</span>
-                  </div>
-                </div>
+                {stats.map(stat => {
+                  const Icon = stat.icon;
+                  return (
+                    <div className="geo5-stat-item" key={stat.label}>
+                      <div className="geo5-stat-icon">
+                        <Icon size={28} />
+                      </div>
+                      <div className="geo5-stat-content">
+                        <span className="geo5-stat-number">{stat.number}</span>
+                        <span className="geo5-stat-label">{stat.label}</span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -251,7 +254,7 @@ export default function Geo5Page() {
                   <div className="section-divider"></div>
                 </div>
                 <div className="geo5-description">
-                  <p><strong>DGMTS</strong> is proud to be an authorized distributor in the United States for <strong>GEO5</strong>, a cutting-edge geotechnical engineering software suite developed by <strong>Fine Software</strong>, as part of our technology solutions. <strong>GEO5</strong> is a user-friendly and powerful platform that covers the full scope of geotechnical analysis—from site investigation and soil profiling to the design of foundations, retaining structures, slopes, and underground works.</p>
+                  <p><strong>DGMTS</strong> is proud to be an authorized distributor in the United States for <a href="https://www.finesoftware.eu/geotechnical-software/" target="_blank" rel="noopener noreferrer"><strong>GEO5</strong></a>, a cutting-edge geotechnical engineering software suite developed by <strong>Fine Software</strong>, as part of our technology solutions. <strong>GEO5</strong> is a user-friendly and powerful platform that covers the full scope of geotechnical analysis—from site investigation and soil profiling to the design of foundations, retaining structures, slopes, and underground works.</p>
 
                   <p>As an <strong>authorized U.S. distributor, DGMTS</strong> provides <strong>sales, training, and technical support</strong> for GEO5, empowering engineering professionals to streamline workflows, reduce risk, and improve design quality. Whether you&apos;re working on small-scale projects or large infrastructure developments, GEO5 delivers the performance and confidence needed for successful geotechnical engineering outcomes.</p>
                 </div>
@@ -302,8 +305,8 @@ export default function Geo5Page() {
             </div>
 
             <div className="geo5-buttons">
-              <a href="https://www.finesoftware.eu/geotechnical-software/solutions/" target="_blank" rel="noopener noreferrer" className="btn-primary">
-                Learn More
+              <a href="https://www.finesoftware.eu/geotechnical-software/" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Visit GEO5 Website
               </a>
               <a href="/contact" className="btn-secondary">
                 Contact Us
