@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Base HTML structure for Micropile Computations - Interactive[cite: 4] -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micropile Computations - Interactive</title>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <!-- MathJax for rendering formulas safely -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        h2, h3, h4 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .input-group label {
+            flex: 1;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: right;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .input-group span {
+            width: 45px;
+            margin-left: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        .th-sub {
+            background-color: #ebf5fb;
+            color: #333;
+            font-weight: bold;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .highlight-row {
+            background-color: #fdf2e9;
+            font-weight: bold;
+        }
+        #step-by-step-equations {
+            font-size: 14px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .step-block {
+            background: #fdfdfd;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .section-header {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2980b9;
+        }
+        .canvas-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .canvas-box {
+            flex: 1;
+            text-align: center;
+        }
+        .canvas-title {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        canvas {
+            width: 100%;
+            max-width: 250px;
+            background-color: #fafbfc;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- LEFT COLUMN: INPUTS AND SUMMARY -->
+    <div class="container">
+        <h1>Micropile Design Calculator (v1.0)</h1>
+        
+        <div class="grid">
+            <!-- INPUT SECTION -->
+            <div class="input-section">
+                <h2>Design Parameters</h2>
+                
+                <div class="section-header">Casing & Reinforcement</div>
+                <div class="input-group"><label>Casing OD</label><input type="number" id="f11" value="9.625" step="0.001"><span>in</span></div>
+                <div class="input-group"><label>Casing Thickness</label><input type="number" id="f12" value="0.472" step="0.001"><span>in</span></div>
+                <div class="input-group"><label>Corrosion Reduction (OD)</label><input type="number" id="f13" value="0.392" step="0.001"><span>in</span></div>
+                <div class="input-group"><label>Casing Yield ($F_{y,casing}$)</label><input type="number" id="f14" value="80"><span>ksi</span></div>
+                <div class="input-group"><label>Rebar Diameter</label><input type="number" id="f15" value="2.257" step="0.001"><span>in</span></div>
+                <div class="input-group"><label>Rebar Yield ($F_{y,bar}$)</label><input type="number" id="f16" value="60"><span>ksi</span></div>
+                <div class="input-group"><label>Grout Strength ($f'_c$)</label><input type="number" id="f17" value="5" step="0.1"><span>ksi</span></div>
+                <div class="input-group"><label>Grout Dia. Below Casing</label><input type="number" id="f18" value="8" step="0.1"><span>in</span></div>
+
+                <div class="section-header">Soil Profiles ($\alpha_b$ & $L_b$)</div>
+                <div class="input-group"><label>Layer 1: $\alpha_{b1}$, $L_{b1}$</label><input type="number" id="f19" value="1.5" step="0.1" style="width:50px; margin-right:5px;"><span>ksf</span><input type="number" id="f25" value="11" style="width:50px;"><span>ft</span></div>
+                <div class="input-group"><label>Layer 2: $\alpha_{b2}$, $L_{b2}$</label><input type="number" id="f20" value="1.0" step="0.1" style="width:50px; margin-right:5px;"><span>ksf</span><input type="number" id="f26" value="5" style="width:50px;"><span>ft</span></div>
+                <div class="input-group"><label>Layer 3: $\alpha_{b3}$, $L_{b3}$</label><input type="number" id="f21" value="3.0" step="0.1" style="width:50px; margin-right:5px;"><span>ksf</span><input type="number" id="f27" value="5" style="width:50px;"><span>ft</span></div>
+                <div class="input-group"><label>Layer 4: $\alpha_{b4}$, $L_{b4}$</label><input type="number" id="f22" value="0" step="0.1" style="width:50px; margin-right:5px;"><span>ksf</span><input type="number" id="f28" value="0" style="width:50px;"><span>ft</span></div>
+                <div class="input-group"><label>Layer 5: $\alpha_{b5}$, $L_{b5}$</label><input type="number" id="f23" value="25" step="0.1" style="width:50px; margin-right:5px;"><span>ksf</span><input type="number" id="f29" value="8" style="width:50px;"><span>ft</span></div>
+                
+                <div class="section-header">Tip & Resistance Factors ($\phi$)</div>
+                <div class="input-group"><label>Tip Resistance ($q_p$)</label><input type="number" id="f24" value="600" step="10"><span>ksf</span></div>
+                <div class="input-group"><label>Strength Geo: $\phi_{qs}$, $\phi_{qp}$</label><input type="number" id="f31" value="0.55" step="0.05" style="width:50px; margin-right:5px;"><input type="number" id="f32" value="0.50" step="0.05" style="width:50px;"><span>-</span></div>
+                <div class="input-group"><label>Strength Str: $\phi_{CC}$, $\phi_{CU}$</label><input type="number" id="f38" value="0.75" step="0.05" style="width:50px; margin-right:5px;"><input type="number" id="f46" value="0.75" step="0.05" style="width:50px;"><span>-</span></div>
+                <div class="input-group"><label>Extreme Geo: $\phi_{qs}$, $\phi_{qp}$</label><input type="number" id="f53" value="1.0" step="0.05" style="width:50px; margin-right:5px;"><input type="number" id="f54" value="1.0" step="0.05" style="width:50px;"><span>-</span></div>
+                <div class="input-group"><label>Extreme Str: $\phi_{CC}$, $\phi_{CU}$</label><input type="number" id="f60" value="1.0" step="0.05" style="width:50px; margin-right:5px;"><input type="number" id="f68" value="1.0" step="0.05" style="width:50px;"><span>-</span></div>
+            </div>
+
+            <!-- OUTPUT SECTION -->
+            <div class="result-section">
+                <h2>Visualizations</h2>
+                
+                <div class="canvas-container">
+                    <div class="canvas-box">
+                        <div class="canvas-title">Cross-Section</div>
+                        <canvas id="micropileCanvas" width="250" height="280"></canvas>
+                    </div>
+                    <div class="canvas-box">
+                        <div class="canvas-title">Soil Profile</div>
+                        <canvas id="soilProfileCanvas" width="250" height="280"></canvas>
+                    </div>
+                </div>
+                
+                <h2 style="margin-top: 25px;">Factored Resistance Summary</h2>
+                
+                <div class="section-header">Strength Limit State (kips)</div>
+                <table>
+                    <tr><th>Parameter</th><th>Value</th></tr>
+                    <tr><td class="text-left">Geotechnical ($R_R$)</td><td id="out-str-geo">-</td></tr>
+                    <tr><td class="text-left">Structural (Cased, $R_{CC}$)</td><td id="out-str-str-cc">-</td></tr>
+                    <tr class="highlight-row"><td class="text-left">Structural (Uncased, $R_{CU}$)</td><td id="out-str-str-cu">-</td></tr>
+                </table>
+
+                <div class="section-header" style="margin-top: 25px;">Extreme Limit State (kips)</div>
+                <table>
+                    <tr><th>Parameter</th><th>Value</th></tr>
+                    <tr><td class="text-left">Geotechnical ($R_R$)</td><td id="out-ext-geo">-</td></tr>
+                    <tr><td class="text-left">Structural (Cased, $R_{CC}$)</td><td id="out-ext-str-cc">-</td></tr>
+                    <tr class="highlight-row"><td class="text-left">Structural (Uncased, $R_{CU}$)</td><td id="out-ext-str-cu">-</td></tr>
+                </table>
+
+                <div class="section-header" style="margin-top: 25px;">Intermediate Geometry (in²)</div>
+                <table>
+                    <tr><th>Area Component</th><th>Value</th></tr>
+                    <tr><td class="text-left">Grout (Cased, $A_g$)</td><td id="out-ag-cased">-</td></tr>
+                    <tr><td class="text-left">Grout (Uncased, $A_{g,uncased}$)</td><td id="out-ag-uncased">-</td></tr>
+                    <tr><td class="text-left">Steel Bar ($A_b$)</td><td id="out-ab">-</td></tr>
+                    <tr><td class="text-left">Steel Casing ($A_c$)</td><td id="out-ac">-</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: DYNAMIC EQUATIONS -->
+    <div class="container" style="background-color: #fafbfc;">
+        <h2 style="margin-top:0;">Step-by-Step Equations</h2>
+        <div id="step-by-step-equations">
+            <p><i>Loading calculations...</i></p>
+        </div>
+    </div>
+</div>
+
+<!-- ADDED FOOTER DISCLAIMER -->
+<div style="max-width: 1800px; margin: 20px auto; text-align: center; font-size: 12px; color: #7f8c8d; padding: 0 20px;">
+    <em>Note: Final results shall be independently reviewed and verified by the responsible engineer prior to use or implementation. The developer assumes no responsibility for the final results or their application. Developed by Zhenran Shi, P.E.</em>
+</div>
+
+<script>
+    // Queue system for safely updating MathJax equations instantly without overlapping errors
+    let isMathJaxRendering = false;
+    let mathJaxNeedsRender = false;
+
+    function renderMath() {
+        if (!window.MathJax || !window.MathJax.typesetPromise) {
+            setTimeout(renderMath, 100);
+            return;
+        }
+        if (isMathJaxRendering) {
+            mathJaxNeedsRender = true;
+            return;
+        }
+        isMathJaxRendering = true;
+        mathJaxNeedsRender = false;
+        
+        MathJax.typesetPromise().then(() => {
+            isMathJaxRendering = false;
+            if (mathJaxNeedsRender) {
+                renderMath();
+            }
+        }).catch((err) => {
+            console.log('MathJax Render Error: ', err.message);
+            isMathJaxRendering = false;
+        });
+    }
+
+    function getVal(id) {
+        return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function drawMicropile(OD, t, db, dbar) {
+        const canvas = document.getElementById('micropileCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+
+        // Find max diameter to set scale
+        const maxDia = Math.max(OD, db, dbar);
+        if(maxDia <= 0) return;
+        
+        const margin = 35; // allow space for labels
+        const scale = (Math.min(width, height) - 2 * margin) / maxDia;
+        
+        const cx = width / 2;
+        const cy = height / 2;
+
+        const drawCircle = (dia, fillStyle, strokeStyle, lineWidth) => {
+            if(dia <= 0) return;
+            const r = (dia / 2) * scale;
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+            if(fillStyle) {
+                ctx.fillStyle = fillStyle;
+                ctx.fill();
+            }
+            if(strokeStyle) {
+                ctx.lineWidth = lineWidth || 1;
+                ctx.strokeStyle = strokeStyle;
+                ctx.stroke();
+            }
+        };
+
+        // Draw outer grout (uncased portion nominal diameter)
+        drawCircle(db, '#e0e0e0', '#9e9e9e', 1.5);
+
+        // Draw Casing Outer
+        drawCircle(OD, '#78909c', '#37474f', 2);
+
+        // Draw Casing Inner (Grout inside casing)
+        drawCircle(OD - 2 * t, '#e0e0e0', '#37474f', 1);
+
+        // Draw Rebar
+        drawCircle(dbar, '#c62828', '#b71c1c', 1);
+        
+        // Annotations & Legends
+        ctx.font = '11px "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'left';
+        
+        const legX = 10, legYStart = 10, legStep = 18;
+        
+        ctx.fillStyle = '#9e9e9e';
+        ctx.fillRect(legX, legYStart, 10, 10);
+        ctx.fillStyle = '#333';
+        ctx.fillText(`Grout: ${db.toFixed(2)}"`, legX + 15, legYStart + 9);
+        
+        ctx.fillStyle = '#78909c';
+        ctx.fillRect(legX, legYStart + legStep, 10, 10);
+        ctx.fillStyle = '#333';
+        ctx.fillText(`Casing OD: ${OD.toFixed(2)}"`, legX + 15, legYStart + legStep + 9);
+        
+        ctx.fillStyle = '#e0e0e0';
+        ctx.fillRect(legX, legYStart + legStep*2, 10, 10);
+        ctx.strokeRect(legX, legYStart + legStep*2, 10, 10);
+        ctx.fillStyle = '#333';
+        ctx.fillText(`Casing t: ${t.toFixed(3)}"`, legX + 15, legYStart + legStep*2 + 9);
+        
+        ctx.fillStyle = '#c62828';
+        ctx.fillRect(legX, legYStart + legStep*3, 10, 10);
+        ctx.fillStyle = '#333';
+        ctx.fillText(`Rebar: ${dbar.toFixed(2)}"`, legX + 15, legYStart + legStep*3 + 9);
+        
+        // Draw dimension lines
+        ctx.strokeStyle = '#555';
+        ctx.fillStyle = '#555';
+        ctx.lineWidth = 1;
+        ctx.textAlign = 'center';
+        
+        const drawDim = (dia, yOffset, label) => {
+            if(dia <= 0) return;
+            const r = (dia / 2) * scale;
+            const y = cy + yOffset;
+            ctx.beginPath();
+            ctx.moveTo(cx - r, cy);
+            ctx.lineTo(cx - r, y + 4);
+            ctx.moveTo(cx + r, cy);
+            ctx.lineTo(cx + r, y + 4);
+            ctx.moveTo(cx - r, y);
+            ctx.lineTo(cx + r, y);
+            ctx.stroke();
+            
+            const tw = ctx.measureText(label).width + 4;
+            ctx.fillStyle = '#fafbfc';
+            ctx.fillRect(cx - tw/2, y - 6, tw, 12);
+            ctx.fillStyle = '#555';
+            ctx.fillText(label, cx, y + 4);
+        };
+        
+        drawDim(dbar, - (maxDia/2 * scale + 10), `Rebar`);
+        drawDim(OD, maxDia/2 * scale + 10, `Casing`);
+        if(db > OD) {
+            drawDim(db, maxDia/2 * scale + 24, `Grout`);
+        }
+    }
+
+    function drawSoilProfile(lengths, alphas) {
+        const canvas = document.getElementById('soilProfileCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+
+        const totalL = lengths.reduce((a, b) => a + b, 0);
+        if (totalL <= 0) {
+            ctx.fillStyle = '#888';
+            ctx.textAlign = 'center';
+            ctx.font = '12px Arial';
+            ctx.fillText('No soil profile length', width/2, height/2);
+            return;
+        }
+
+        const margin = 20;
+        const drawHeight = height - 2 * margin;
+        const scaleY = drawHeight / totalL;
+        const cx = width / 2;
+
+        // Soil Colors for visual distinction
+        const colors = ['#efebe9', '#d7ccc8', '#bcaaa4', '#a1887f', '#8d6e63'];
+
+        let currentY = margin;
+        
+        // Draw soil layers blocks
+        for (let i = 0; i < lengths.length; i++) {
+            const L = lengths[i];
+            if (L > 0) {
+                const layerH = L * scaleY;
+                
+                // Draw Block
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.fillRect(0, currentY, width, layerH);
+                
+                // Draw Block Border
+                ctx.strokeStyle = '#5d4037';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(0, currentY);
+                ctx.lineTo(width, currentY);
+                ctx.stroke();
+
+                // Draw Text Annotations
+                ctx.fillStyle = '#3e2723';
+                ctx.font = '11px "Segoe UI", Arial, sans-serif';
+                ctx.textAlign = 'left';
+                
+                // Position text nicely within the layer height
+                const textY = layerH > 20 ? currentY + (layerH/2) + 4 : currentY + 12;
+                ctx.fillText(`L${i+1}=${L}'`, 5, textY - 6);
+                ctx.fillText(`α=${alphas[i]}`, 5, textY + 6);
+
+                currentY += layerH;
+            }
+        }
+        
+        // Draw bottom boundary
+        ctx.beginPath();
+        ctx.moveTo(0, currentY);
+        ctx.lineTo(width, currentY);
+        ctx.stroke();
+
+        // Draw Micropile (fixed visual width)
+        const pileWidth = 24;
+        
+        // Grout body
+        ctx.fillStyle = '#9e9e9e'; 
+        ctx.fillRect(cx - pileWidth/2, margin, pileWidth, drawHeight);
+        ctx.strokeStyle = '#37474f';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(cx - pileWidth/2, margin, pileWidth, drawHeight);
+        
+        // Rebar line through center
+        ctx.strokeStyle = '#c62828';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx, margin);
+        ctx.lineTo(cx, margin + drawHeight);
+        ctx.stroke();
+
+        // Top Ground Line indicator
+        ctx.strokeStyle = '#2e7d32'; // Grass/Ground Green
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(0, margin);
+        ctx.lineTo(width, margin);
+        ctx.stroke();
+    }
+
+    function calculateMicropile() {
+        const PI = Math.PI;
+
+        // Inputs
+        let f11 = getVal('f11');
+        let f12 = getVal('f12');
+        let f13 = getVal('f13');
+        let f14 = getVal('f14');
+        let f15 = getVal('f15');
+        let f16 = getVal('f16');
+        let f17 = getVal('f17');
+        let f18 = getVal('f18') / 12; // converting inches to ft internally for geo calcs
+        
+        let f19 = getVal('f19'); let f20 = getVal('f20'); let f21 = getVal('f21'); let f22 = getVal('f22'); let f23 = getVal('f23');
+        let f25 = getVal('f25'); let f26 = getVal('f26'); let f27 = getVal('f27'); let f28 = getVal('f28'); let f29 = getVal('f29');
+        let f24 = getVal('f24');
+
+        let f31 = getVal('f31'); let f32 = getVal('f32');
+        let f38 = getVal('f38'); let f46 = getVal('f46');
+        let f53 = getVal('f53'); let f54 = getVal('f54');
+        let f60 = getVal('f60'); let f68 = getVal('f68');
+
+        // Geotechnical Calculations
+        let alpha_L_sum = (f19*f25 + f20*f26 + f21*f27 + f22*f28 + f23*f29);
+        let Rs = PI * f18 * alpha_L_sum;
+        let Rp = f24 * (PI/4) * Math.pow(f18, 2);
+        
+        let Str_Geo = f31 * Rs + f32 * Rp;
+        let Ext_Geo = f53 * Rs + f54 * Rp;
+
+        // Structural Calculations (Areas)
+        let Ag_cased = (PI/4) * Math.pow((f11 - 2*f12), 2);
+        let Ag_uncased = (PI/4) * Math.pow((f18 * 12), 2);
+        let fy_min = Math.min(f14, f16);
+        let Ab = (PI/4) * Math.pow(f15, 2);
+        let Ac_gross = (PI/4) * Math.pow((f11 - f13), 2);
+        let Ac = Ac_gross - Ag_cased;
+
+        // Factored Structural (Strength)
+        let Rcc_str = f38 * 0.85 * (0.85 * f17 * Ag_cased + fy_min * (Ab + Ac));
+        let Rcu_str = f46 * 0.85 * (0.85 * f17 * Ag_uncased + fy_min * Ab);
+
+        // Factored Structural (Extreme)
+        let Rcc_ext = f60 * 0.85 * (0.85 * f17 * Ag_cased + fy_min * (Ab + Ac));
+        let Rcu_ext = f68 * 0.85 * (0.85 * f17 * Ag_uncased + fy_min * Ab);
+
+        // Draw dynamic canvases
+        drawMicropile(f11, f12, getVal('f18'), f15);
+        drawSoilProfile([f25, f26, f27, f28, f29], [f19, f20, f21, f22, f23]);
+
+        // Update DOM Tables
+        document.getElementById('out-str-geo').innerText = Str_Geo.toFixed(2);
+        document.getElementById('out-str-str-cc').innerText = Rcc_str.toFixed(2);
+        document.getElementById('out-str-str-cu').innerText = Rcu_str.toFixed(2);
+
+        document.getElementById('out-ext-geo').innerText = Ext_Geo.toFixed(2);
+        document.getElementById('out-ext-str-cc').innerText = Rcc_ext.toFixed(2);
+        document.getElementById('out-ext-str-cu').innerText = Rcu_ext.toFixed(2);
+
+        document.getElementById('out-ag-cased').innerText = Ag_cased.toFixed(2);
+        document.getElementById('out-ag-uncased').innerText = Ag_uncased.toFixed(2);
+        document.getElementById('out-ab').innerText = Ab.toFixed(2);
+        document.getElementById('out-ac').innerText = Ac.toFixed(2);
+
+        // Update MathJax
+        const eqDiv = document.getElementById('step-by-step-equations');
+        const stepsHTML = `
+            <div class="step-block">
+                <h4>Step 1: Nominal Geotechnical Resistance</h4>
+                <b>Grout-to-ground bond nominal resistance, $R_s$:</b><br>
+                $$ R_s = \\pi \\cdot d_b \\sum (\\alpha_{bi} \\cdot L_{bi}) $$
+                $$ R_s = \\pi \\cdot ${f18.toFixed(3)} \\cdot (${alpha_L_sum}) = ${Rs.toFixed(2)} \\text{ kips} $$
+                <br>
+                <b>Tip resistance, $R_p$:</b><br>
+                $$ R_p = q_p \\cdot \\frac{\\pi}{4} (d_b)^2 $$
+                $$ R_p = ${f24} \\cdot \\frac{\\pi}{4} (${f18.toFixed(3)})^2 = ${Rp.toFixed(2)} \\text{ kips} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 2: Structural Geometry & Areas</h4>
+                <b>Area of grout within cased micropile, $A_g$:</b><br>
+                $$ A_g = \\frac{\\pi}{4} (OD - 2t)^2 = \\frac{\\pi}{4} (${f11} - 2(${f12}))^2 = ${Ag_cased.toFixed(2)} \\text{ in}^2 $$
+                <br>
+                <b>Area of grout in uncased portion:</b><br>
+                $$ A_{g,uncased} = \\frac{\\pi}{4} (d_b \\times 12)^2 = \\frac{\\pi}{4} (${(f18*12).toFixed(2)})^2 = ${Ag_uncased.toFixed(2)} \\text{ in}^2 $$
+                <br>
+                <b>Area of steel reinforcing bar, $A_b$:</b><br>
+                $$ A_b = \\frac{\\pi}{4} (d_{bar})^2 = \\frac{\\pi}{4} (${f15})^2 = ${Ab.toFixed(2)} \\text{ in}^2 $$
+                <br>
+                <b>Area of steel casing (accounting for corrosion), $A_c$:</b><br>
+                $$ A_c = \\frac{\\pi}{4} (OD - OD_{corr})^2 - A_g = \\frac{\\pi}{4} (${f11} - ${f13})^2 - ${Ag_cased.toFixed(2)} = ${Ac.toFixed(2)} \\text{ in}^2 $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 3: Factored Resistance (Strength Limit State)</h4>
+                <b>Geotechnical ($R_R$):</b><br>
+                $$ R_R = \\phi_{qs}R_s + \\phi_{qp}R_p = (${f31.toFixed(2)})(${Rs.toFixed(2)}) + (${f32.toFixed(2)})(${Rp.toFixed(2)}) = ${Str_Geo.toFixed(2)} \\text{ kips} $$
+                <br>
+                <b>Structural Cased ($R_{CC}$):</b><br>
+                $$ R_{CC} = \\phi_{CC} \\cdot 0.85 [0.85 f'_c A_g + F_{y,min}(A_b + A_c)] $$
+                $$ R_{CC} = ${f38.toFixed(2)} \\cdot 0.85 [0.85(${f17})(${Ag_cased.toFixed(2)}) + ${fy_min}(${Ab.toFixed(2)} + ${Ac.toFixed(2)})] = ${Rcc_str.toFixed(2)} \\text{ kips} $$
+                <br>
+                <b>Structural Uncased ($R_{CU}$):</b><br>
+                $$ R_{CU} = \\phi_{CU} \\cdot 0.85 [0.85 f'_c A_{g,uncased} + F_{y,min}(A_b)] $$
+                $$ R_{CU} = ${f46.toFixed(2)} \\cdot 0.85 [0.85(${f17})(${Ag_uncased.toFixed(2)}) + ${fy_min}(${Ab.toFixed(2)})] = ${Rcu_str.toFixed(2)} \\text{ kips} $$
+            </div>
+            
+            <div class="step-block">
+                <h4>Step 4: Factored Resistance (Extreme Limit State)</h4>
+                <b>Geotechnical ($R_R$):</b><br>
+                $$ R_R = \\phi_{qs}R_s + \\phi_{qp}R_p = (${f53.toFixed(2)})(${Rs.toFixed(2)}) + (${f54.toFixed(2)})(${Rp.toFixed(2)}) = ${Ext_Geo.toFixed(2)} \\text{ kips} $$
+                <br>
+                <b>Structural Cased ($R_{CC}$):</b><br>
+                $$ R_{CC} = \\phi_{CC} \\cdot 0.85 [0.85 f'_c A_g + F_{y,min}(A_b + A_c)] = ${Rcc_ext.toFixed(2)} \\text{ kips} $$
+                <br>
+                <b>Structural Uncased ($R_{CU}$):</b><br>
+                $$ R_{CU} = \\phi_{CU} \\cdot 0.85 [0.85 f'_c A_{g,uncased} + F_{y,min}(A_b)] = ${Rcu_ext.toFixed(2)} \\text{ kips} $$
+            </div>
+        `;
+        eqDiv.innerHTML = stepsHTML;
+
+        // Route through our safe rendering chain allowing fast typing speeds
+        renderMath();
+    }
+
+    // Assign event listeners dynamically ensuring instant calculations for every change
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.input-group input').forEach(input => {
+            input.addEventListener('input', calculateMicropile);
+        });
+        calculateMicropile(); // initialize automatically on load
+    });
+
+</script>
+</body>
+</html>

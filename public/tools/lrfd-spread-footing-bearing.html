@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Base HTML structure for Spread Footing Design Tool -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spread Footing Design & Multi-State Resistance Curves</title>
+    <!-- MathJax for rendering formulas safely -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        h2, h3, h4 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .input-group label {
+            flex: 1;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: right;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .input-group span {
+            width: 45px;
+            margin-left: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        .section-header {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2980b9;
+        }
+        .chart-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 420px;
+        }
+        #step-by-step-equations {
+            font-size: 13.5px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .step-block {
+            background: #fdfdfd;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .step-block h4 {
+            margin-top: 0;
+            color: #16a085;
+            border-bottom: none;
+            margin-bottom: 8px;
+        }
+        .math-overflow {
+            overflow-x: auto;
+            padding: 5px 0;
+        }
+        .ref-table {
+            width: 100%;
+            max-width: 250px;
+            border-collapse: collapse;
+            margin: 10px 0 15px 0;
+            font-size: 13px;
+        }
+        .ref-table th, .ref-table td {
+            border: 1px solid #ccc;
+            padding: 4px 8px;
+            text-align: center;
+        }
+        .ref-table th {
+            background-color: #ebf5fb;
+            color: #2980b9;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- LEFT COLUMN: INPUTS AND GRAPH -->
+    <div class="container">
+        <h1>Spread Footing Design Calculator (v1.0)</h1>
+        
+        <div class="grid">
+            <div class="input-section">
+                <h2>Soil & Footing Parameters</h2>
+                
+                <div class="section-header">Soil Properties</div>
+                <div class="input-group"><label>Cohesion ($c$)</label><input type="number" id="bc_c" value="0" step="any"><span>psf</span></div>
+                <div class="input-group"><label>Friction Angle ($\phi$)</label><input type="number" id="bc_f" value="35" step="any"><span>deg</span></div>
+                <div class="input-group"><label>Unit Weight ($\gamma$)</label><input type="number" id="bc_g" value="125" step="any"><span>pcf</span></div>
+                <div class="input-group"><label>Elastic Modulus ($E_s$)</label><input type="number" id="el_es" value="15" step="any"><span>ksi</span></div>
+                <div class="input-group"><label>Poisson's Ratio ($\nu$)</label><input type="number" id="el_nu" value="0.35" step="any"><span>-</span></div>
+
+                <div class="section-header">Geometry & Factors</div>
+                <div class="input-group"><label>Embedment Depth ($D_f$)</label><input type="number" id="bc_df" value="11" step="any"><span>ft</span></div>
+                <div class="input-group"><label>Groundwater Depth ($D_w$)</label><input type="number" id="bc_dw" value="0" step="any"><span>ft</span></div>
+                <div class="input-group"><label>Footing Length ($L$)</label><input type="number" id="bc_l" value="11" step="any"><span>ft</span></div>
+                <div class="input-group"><label>Sample Width ($B$)</label><input type="number" id="bc_b" value="6" step="any"><span>ft</span></div>
+                <div class="input-group"><label>Resistance Factor ($\phi_b$)</label><input type="number" id="bc_jb" value="0.45" step="any"><span>-</span></div>
+                <div class="input-group"><label>Extreme Limit State Res. ($\phi_{ext}$)</label><input type="number" id="bc_jb_ext" value="0.85" step="any"><span>-</span></div>
+                <div class="input-group"><label>Depth Factor ($d_q$)</label><input type="number" id="bc_dq" value="1.2" step="any"><span>-</span></div>
+            </div>
+
+            <div class="preview-section">
+                <h2>Overview</h2>
+                <p>This tool evaluates Bearing Resistance across <strong>Strength</strong>, <strong>Extreme</strong>, and <strong>Service Limit States</strong>.</p>
+                <p>The chart below calculates the entire range of footing widths. The <strong>Calculations Panel</strong> to the right shows the exact step-by-step math evaluated specifically for your <strong>Sample Width ($B$)</strong>.</p>
+            </div>
+        </div>
+
+        <!-- THE SPREADSHEET CHART -->
+        <div class="chart-container">
+            <canvas id="multiStateChart"></canvas>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: DYNAMIC EQUATIONS -->
+    <div class="container" style="background-color: #fafbfc;">
+        <h2 style="margin-top:0;">Calculations & Formulas</h2>
+        <div id="step-by-step-equations">
+            <p><i>Loading calculations...</i></p>
+        </div>
+    </div>
+</div>
+
+<!-- ADDED FOOTER DISCLAIMER -->
+<div style="max-width: 1800px; margin: 20px auto; text-align: center; font-size: 12px; color: #7f8c8d; padding: 0 20px;">
+    <em>Note: Final results shall be independently reviewed and verified by the responsible engineer prior to use or implementation. The developer assumes no responsibility for the final results or their application. Developed by Zhenran Shi, P.E.</em>
+</div>
+
+<script>
+    let isMathJaxRendering = false;
+    let mathJaxNeedsRender = false;
+
+    // Queue system for safe, non-blocking MathJax updates while typing rapidly
+    function renderMath() {
+        if (!window.MathJax || !window.MathJax.typesetPromise) {
+            setTimeout(renderMath, 100);
+            return;
+        }
+        if (isMathJaxRendering) {
+            mathJaxNeedsRender = true;
+            return;
+        }
+        isMathJaxRendering = true;
+        mathJaxNeedsRender = false;
+        
+        MathJax.typesetPromise().then(() => {
+            isMathJaxRendering = false;
+            if (mathJaxNeedsRender) {
+                renderMath();
+            }
+        }).catch((err) => {
+            console.log('MathJax Render Error: ', err.message);
+            isMathJaxRendering = false;
+        });
+    }
+
+    function getVal(id) {
+        return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function getRigidBz(lb) {
+        const table = [{x: 0, y: 1.13}, {x: 1, y: 1.08}, {x: 2, y: 1.10}, {x: 3, y: 1.15}, {x: 5, y: 1.24}, {x: 10, y: 1.41}];
+        if (lb <= 0) return 1.13;
+        if (lb >= 10) return 1.41;
+        for (let i = 0; i < table.length - 1; i++) {
+            if (lb >= table[i].x && lb <= table[i+1].x) {
+                let x0 = table[i].x, y0 = table[i].y;
+                let x1 = table[i+1].x, y1 = table[i+1].y;
+                return y0 + (lb - x0) * (y1 - y0) / (x1 - x0);
+            }
+        }
+        return 1.41;
+    }
+
+    let chartInstance = null;
+
+    function updateAll() {
+        let c = getVal('bc_c');
+        let f = getVal('bc_f');
+        let g = getVal('bc_g');
+        let df = getVal('bc_df');
+        let dw = getVal('bc_dw');
+        let jb = getVal('bc_jb');
+        let jb_ext = getVal('bc_jb_ext');
+        let l = getVal('bc_l');
+        let b_sample = getVal('bc_b');
+        let dq = getVal('bc_dq');
+        let es = getVal('el_es');
+        let nu = getVal('el_nu');
+
+        const bValues = [2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0];
+
+        let f_rad = f * Math.PI / 180;
+        let Nq = (f === 0) ? 1.0 : Math.exp(Math.PI * Math.tan(f_rad)) * Math.pow(Math.tan((45 + f/2) * Math.PI / 180), 2);
+        let Nc = (f === 0) ? 5.14 : (Nq - 1) / Math.tan(f_rad);
+        let Ng = (f === 0) ? 0.0 : 2 * (Nq + 1) * Math.tan(f_rad);
+
+        let strengthData = [];
+        let extremeData = [];
+
+        // Build data for chart
+        bValues.forEach(b => {
+            let sc = (f === 0) ? (1 + (b / (5 * l))) : (1 + (b / l) * (Nq / Nc));
+            let sq = (f === 0) ? 1 : (1 + (b / l) * Math.tan(f_rad));
+            let sg = 1 - 0.4 * (b / l);
+            let Cwq = (dw === 0) ? 0.5 : ((dw < df) ? ((dw * 0.5 / df) + 0.5) : 1);
+            let Cwg = (dw <= df) ? 0.5 : ((dw > (1.5 * b + df)) ? 1 : (0.5 * (dw - df) / (1.5 * b) + 0.5));
+            let Ncm = Nc * sc;
+            let Nqm = Nq * sq * dq;
+            let Ngm = Ng * sg;
+            let qn = (c * Ncm + g * df * Nqm * Cwq + 0.5 * g * b * Ngm * Cwg) / 1000.0;
+            let qR = qn * jb;
+            strengthData.push({x: b, y: qR});
+            extremeData.push({x: b, y: qn * jb_ext });
+        });
+
+        // Service limit states data
+        const seInches = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2];
+        let serviceDatasets = [];
+        seInches.forEach((se, idx) => {
+            let seFt = se / 12.0;
+            let dataPoints = [];
+            for (let i = idx; i < bValues.length; i++) {
+                let b = bValues[i];
+                let lb = l / b;
+                let bz = getRigidBz(lb);
+                let q0 = (seFt * 144 * es * bz) / ((1 - Math.pow(nu, 2)) * Math.sqrt(b * l));
+                dataPoints.push({x: b, y: q0});
+            }
+            serviceDatasets.push({
+                label: `Service Limit State; Se=${se} in`,
+                data: dataPoints,
+                borderColor: '#000000',
+                borderDash: [4, 4],
+                borderWidth: 1,
+                pointRadius: 3,
+                pointStyle: idx === 0 ? 'rect' : (idx === 1 ? 'rectRot' : (idx === 2 ? 'triangle' : 'cross')),
+                fill: false
+            });
+        });
+
+        renderChart(strengthData, extremeData, serviceDatasets);
+
+        // Calculate specific point values for the Math panel
+        let sc_val = (f === 0) ? (1 + (b_sample / (5 * l))) : (1 + (b_sample / l) * (Nq / Nc));
+        let sq_val = (f === 0) ? 1 : (1 + (b_sample / l) * Math.tan(f_rad));
+        let sg_val = 1 - 0.4 * (b_sample / l);
+        let Cwq_val = (dw === 0) ? 0.5 : ((dw < df) ? ((dw * 0.5 / df) + 0.5) : 1);
+        let Cwg_val = (dw <= df) ? 0.5 : ((dw > (1.5 * b_sample + df)) ? 1 : (0.5 * (dw - df) / (1.5 * b_sample) + 0.5));
+        let Ncm_val = Nc * sc_val;
+        let Nqm_val = Nq * sq_val * dq;
+        let Ngm_val = Ng * sg_val;
+        let qn_val = (c * Ncm_val + g * df * Nqm_val * Cwq_val + 0.5 * g * b_sample * Ngm_val * Cwg_val) / 1000.0;
+        let qR_str_val = qn_val * jb;
+        let qR_ext_val = qn_val * jb_ext;
+
+        let lb_sample = l / b_sample;
+        let bz_val = getRigidBz(lb_sample);
+        let q0_val_1_inch = ((1.0 / 12.0) * 144 * es * bz_val) / ((1 - Math.pow(nu, 2)) * Math.sqrt(b_sample * l));
+
+        updateEquations(Nc, Nq, Ng, c, f, g, df, dw, l, jb, jb_ext, dq, es, nu, b_sample, sc_val, sq_val, sg_val, Cwq_val, Cwg_val, Ncm_val, Nqm_val, Ngm_val, qn_val, qR_str_val, qR_ext_val, q0_val_1_inch, bz_val);
+    }
+
+    function renderChart(strength, extreme, service) {
+        const ctx = document.getElementById('multiStateChart').getContext('2d');
+        const datasets = [
+            {
+                label: 'Strength Limit State',
+                data: strength,
+                borderColor: '#e74c3c',
+                backgroundColor: '#e74c3c',
+                borderWidth: 2,
+                pointRadius: 4,
+                pointStyle: 'rect',
+                fill: false
+            },
+            {
+                label: 'Extreme Limit State',
+                data: extreme,
+                borderColor: '#f39c12',
+                backgroundColor: '#f39c12',
+                borderWidth: 2,
+                pointRadius: 4,
+                pointStyle: 'circle',
+                fill: false
+            },
+            ...service
+        ];
+
+        if (chartInstance) {
+            chartInstance.data.datasets = datasets;
+            chartInstance.update();
+        } else {
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: { datasets: datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            title: { display: true, text: 'Width of Footing, B (ft)', font: {weight: 'bold'} },
+                            min: 0,
+                            max: 16,
+                            ticks: { stepSize: 2 }
+                        },
+                        y: {
+                            title: { display: true, text: 'Factored Bearing Resistance (ksf)', font: {weight: 'bold'} },
+                            min: 0,
+                            max: 80,
+                            ticks: { stepSize: 10 }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { boxWidth: 12, font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function updateEquations(Nc, Nq, Ng, c, f, g, df, dw, l, jb, jb_ext, dq, es, nu, b_sample, sc_val, sq_val, sg_val, Cwq_val, Cwg_val, Ncm_val, Nqm_val, Ngm_val, qn_val, qR_str_val, qR_ext_val, q0_val_1_inch, bz_val) {
+        
+        // Construct the math for Beta Z interpolation
+        let lb_sample = l / b_sample;
+        let bz_math_html = "";
+        
+        if (lb_sample <= 0) {
+            bz_math_html = `$$ \\beta_z = 1.13 \\quad \\text{(Minimum bound)} $$`;
+        } else if (lb_sample >= 10) {
+            bz_math_html = `$$ \\beta_z = 1.41 \\quad \\text{(Maximum bound)} $$`;
+        } else {
+            const table = [{x: 0, y: 1.13}, {x: 1, y: 1.08}, {x: 2, y: 1.10}, {x: 3, y: 1.15}, {x: 5, y: 1.24}, {x: 10, y: 1.41}];
+            let x0, y0, x1, y1;
+            for (let i = 0; i < table.length - 1; i++) {
+                if (lb_sample >= table[i].x && lb_sample <= table[i+1].x) {
+                    x0 = table[i].x; y0 = table[i].y;
+                    x1 = table[i+1].x; y1 = table[i+1].y;
+                    break;
+                }
+            }
+            bz_math_html = `
+                $$ \\beta_z = \\beta_{z0} + \\left(\\frac{L}{B} - (L/B)_0\\right) \\frac{\\beta_{z1} - \\beta_{z0}}{(L/B)_1 - (L/B)_0} $$
+                $$ \\beta_z = ${y0.toFixed(2)} + \\left(${lb_sample.toFixed(3)} - ${x0}\\right) \\frac{${y1.toFixed(2)} - ${y0.toFixed(2)}}{${x1} - ${x0}} = \\mathbf{${bz_val.toFixed(3)}} $$
+            `;
+        }
+
+        const eqDiv = document.getElementById('step-by-step-equations');
+        
+        eqDiv.innerHTML = `
+            <div class="step-block">
+                <h4>Step 1: Bearing Capacity Factors ($N_c, N_q, N_\\gamma$)</h4>
+                <b>Calculated from Friction Angle $\\phi = ${f}^\\circ$:</b>
+                <div class="math-overflow">
+                $$ N_q = e^{\\pi \\tan \\phi} \\tan^2(45^\\circ + \\phi/2) = \\mathbf{${Nq.toFixed(2)}} $$
+                $$ N_c = \\frac{N_q - 1}{\\tan \\phi} = \\mathbf{${Nc.toFixed(2)}} $$
+                $$ N_\\gamma = 2(N_q + 1)\\tan \\phi = \\mathbf{${Ng.toFixed(2)}} $$
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 2: Shape & Depth Modifiers</h4>
+                <b>Evaluated at Sample Width $B = ${b_sample} \\text{ ft}$ and Length $L = ${l} \\text{ ft}$:</b>
+                <div class="math-overflow">
+                $$ s_c = 1 + \\left(\\frac{B}{L}\\right)\\left(\\frac{N_q}{N_c}\\right) = \\mathbf{${sc_val.toFixed(3)}} $$
+                $$ s_q = 1 + \\left(\\frac{B}{L}\\right)\\tan \\phi = \\mathbf{${sq_val.toFixed(3)}} $$
+                $$ s_\\gamma = 1 - 0.4\\left(\\frac{B}{L}\\right) = \\mathbf{${sg_val.toFixed(3)}} $$
+                $$ d_q = \\mathbf{${dq}} \\quad \\text{(Depth factor)} $$
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 3: Groundwater Correction Factors</h4>
+                <b>Interpolated using $D_w = ${dw} \\text{ ft}$ and $D_f = ${df} \\text{ ft}$:</b>
+                <div class="math-overflow">
+                $$ C_{wq} = \\begin{cases} 
+                0.5 & \\text{if } D_w = 0 \\\\\\\\
+                \\frac{D_w \\cdot 0.5}{D_f} + 0.5 & \\text{if } 0 < D_w < D_f \\\\\\\\
+                1.0 & \\text{if } D_w \\ge D_f 
+                \\end{cases} $$
+                $$ \\mathbf{C_{wq} = ${Cwq_val.toFixed(3)}} $$
+                <br>
+                $$ C_{w\\gamma} = \\begin{cases} 
+                0.5 & \\text{if } D_w \\le D_f \\\\\\\\
+                \\frac{0.5(D_w - D_f)}{1.5B} + 0.5 & \\text{if } D_f < D_w \\le 1.5B + D_f \\\\\\\\
+                1.0 & \\text{if } D_w > 1.5B + D_f 
+                \\end{cases} $$
+                $$ \\mathbf{C_{w\\gamma} = ${Cwg_val.toFixed(3)}} $$
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 4: Nominal Bearing Resistance ($q_n$)</h4>
+                <b>Composite modified factors:</b>
+                <div class="math-overflow">
+                $$ N_{cm} = N_c \\cdot s_c = \\mathbf{${Ncm_val.toFixed(2)}} $$
+                $$ N_{qm} = N_q \\cdot s_q \\cdot d_q = \\mathbf{${Nqm_val.toFixed(2)}} $$
+                $$ N_{\\gamma m} = N_\\gamma \\cdot s_\\gamma = \\mathbf{${Ngm_val.toFixed(2)}} $$
+                </div>
+                <b>Ultimate nominal resistance (ksf):</b>
+                <div class="math-overflow">
+                $$ q_n = \\frac{c(N_{cm}) + \\gamma(D_f)(N_{qm})(C_{wq}) + 0.5(\\gamma)(B)(N_{\\gamma m})(C_{w\\gamma})}{1000} $$
+                $$ q_n = \\frac{${c}(${Ncm_val.toFixed(2)}) + ${g}(${df})(${Nqm_val.toFixed(2)})(${Cwq_val.toFixed(2)}) + 0.5(${g})(${b_sample})(${Ngm_val.toFixed(2)})(${Cwg_val.toFixed(2)})}{1000} $$
+                $$ \\mathbf{q_n = ${qn_val.toFixed(2)} \\text{ ksf}} $$
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 5: Factored Bearing Resistance ($q_R$)</h4>
+                <div class="math-overflow">
+                <b>Strength Limit State:</b>
+                $$ q_{R,\\text{Strength}} = \\phi_b \\cdot q_n = ${jb} \\cdot ${qn_val.toFixed(2)} = \\mathbf{${qR_str_val.toFixed(2)} \\text{ ksf}} $$
+                <br>
+                <b>Extreme Limit State:</b>
+                $$ q_{R,\\text{Extreme}} = \\phi_{ext} \\cdot q_n = ${jb_ext} \\cdot ${qn_val.toFixed(2)} = \\mathbf{${qR_ext_val.toFixed(2)} \\text{ ksf}} $$
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 6: Rigid Shape Factor ($\\beta_z$)</h4>
+                <b>Reference Table:</b>
+                <table class="ref-table">
+                    <tr><th>$L/B$</th><th>$\\beta_z$ (Rigid)</th></tr>
+                    <tr><td>0</td><td>1.13</td></tr>
+                    <tr><td>1</td><td>1.08</td></tr>
+                    <tr><td>2</td><td>1.10</td></tr>
+                    <tr><td>3</td><td>1.15</td></tr>
+                    <tr><td>5</td><td>1.24</td></tr>
+                    <tr><td>10</td><td>1.41</td></tr>
+                </table>
+                <b>Interpolated for $L/B = ${l} / ${b_sample} = ${lb_sample.toFixed(3)}$:</b>
+                <div class="math-overflow">
+                ${bz_math_html}
+                </div>
+            </div>
+
+            <div class="step-block">
+                <h4>Step 7: Service Limit State (Elastic Settlement)</h4>
+                <b>Example required stress $q_0$ for target $S_e = 1.0\\text{ in}$ at Sample $B$:</b>
+                <div class="math-overflow">
+                $$ q_0 = \\frac{\\left(1.0 / 12\\right) \\cdot 144 \\cdot E_s \\cdot \\beta_z}{(1 - \\nu^2) \\sqrt{B \\cdot L}} $$
+                $$ q_0 = \\frac{12 \\cdot ${es} \\cdot ${bz_val.toFixed(3)}}{(1 - ${nu}^2) \\sqrt{${b_sample} \\cdot ${l}}} = \\mathbf{${q0_val_1_inch.toFixed(2)} \\text{ ksf}} $$
+                </div>
+            </div>
+        `;
+        renderMath();
+    }
+
+    // Attach event listeners and run once on load
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', updateAll);
+        });
+        updateAll();
+    });
+</script>
+</body>
+</html>

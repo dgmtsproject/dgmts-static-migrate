@@ -5,6 +5,9 @@ import {
   Sparkles,
   Activity,
   CreditCard,
+  Anchor,
+  BrickWall,
+  SquareStack,
   ArrowRight,
   ExternalLink,
   Lock,
@@ -19,9 +22,12 @@ import './EngineeringToolsPage.css';
  * this array — the page renders entirely from it.
  *
  *   url      : where the tool lives. An external "http(s)://" link opens in a new
- *              tab; a site-internal path (e.g. "/payment") uses in-app routing.
+ *              tab; a site-internal SPA path (e.g. "/payment") uses in-app routing.
  *              Leave as "" (empty) for tools that aren't publicly reachable yet —
  *              the card then shows a "Request Access" button pointing to /contact.
+ *   newTab   : set true for a static file served from /public (e.g. the standalone
+ *              calculators in /tools/*.html). These must open via a real browser
+ *              navigation in a new tab, NOT the SPA router (which would 404 them).
  *   access   : 'public' | 'internal'  — drives the badge + button wording.
  *   status   : short label shown on the badge ("Live", "Beta", "Internal", …).
  *   category : used by the filter bar; keep in sync with the CATEGORIES list below.
@@ -102,6 +108,66 @@ const tools = [
       'Payment history and receipts',
     ],
   },
+  {
+    id: 'micropile-design-lrfd',
+    name: 'Micropile Design (LRFD)',
+    tagline: 'Micropile capacity calculator',
+    description:
+      'Interactive LRFD micropile calculator: enter casing, reinforcement, grout and layered soil parameters to get factored geotechnical and structural resistances for both strength and extreme limit states, with a cross-section, soil profile and step-by-step equations.',
+    category: 'Engineering Calculators',
+    status: 'Live',
+    access: 'public',
+    url: '/tools/micropile-design-lrfd.html',
+    newTab: true,
+    icon: Anchor,
+    accent: '#3498db',
+    features: [
+      'Factored geotechnical & structural resistance',
+      'Strength and extreme limit states',
+      'Live cross-section and soil-profile drawings',
+      'Step-by-step equations shown as you type',
+    ],
+  },
+  {
+    id: 'gravity-retaining-wall',
+    name: 'Gravity Retaining Wall',
+    tagline: 'Wall stability computations',
+    description:
+      'Interactive gravity retaining wall calculator: enter wall geometry and soil parameters to check overturning, sliding and bearing, with active/passive earth pressures, a scaled cross-section, a full stability table and step-by-step equations.',
+    category: 'Engineering Calculators',
+    status: 'Live',
+    access: 'public',
+    url: '/tools/gravity-retaining-wall.html',
+    newTab: true,
+    icon: BrickWall,
+    accent: '#2980b9',
+    features: [
+      'Overturning, sliding & bearing safety factors',
+      'Active / passive earth pressure coefficients',
+      'Scaled wall cross-section drawing',
+      'Full stability table with pass / fail status',
+    ],
+  },
+  {
+    id: 'spread-footing-bearing',
+    name: 'Spread Footing Bearing (LRFD)',
+    tagline: 'Bearing resistance for spread footings',
+    description:
+      'Interactive LRFD spread-footing tool: computes bearing resistance across strength, extreme and service limit states, plots resistance versus footing width, and shows the exact step-by-step math for your sample width.',
+    category: 'Engineering Calculators',
+    status: 'Live',
+    access: 'public',
+    url: '/tools/lrfd-spread-footing-bearing.html',
+    newTab: true,
+    icon: SquareStack,
+    accent: '#16a085',
+    features: [
+      'Strength, extreme & service limit states',
+      'Resistance-vs-width design chart',
+      'Bearing capacity, shape, depth & groundwater factors',
+      'Step-by-step math for your sample width',
+    ],
+  },
 ];
 
 const CATEGORIES = [
@@ -110,6 +176,7 @@ const CATEGORIES = [
   'AI & Automation',
   'Monitoring',
   'Client Services',
+  'Engineering Calculators',
 ];
 
 const isExternal = (url) => /^https?:\/\//i.test(url || '');
@@ -120,11 +187,14 @@ const renderToolCard = (tool) => {
   const Icon = tool.icon;
   const hasLink = Boolean(tool.url);
   const external = isExternal(tool.url);
+  // Open in a new tab for external URLs and for static /public files (newTab):
+  // both need a real browser navigation via a plain <a>, not the SPA router.
+  const opensNewTab = hasLink && (external || tool.newTab);
 
   // Public tool with a real link → open it. Otherwise route to /contact so the
   // card always has a working call-to-action (no dead "#" links).
   const ctaLabel = hasLink ? 'Open Tool' : 'Request Access';
-  const CtaIcon = hasLink ? (external ? ExternalLink : ArrowRight) : Lock;
+  const CtaIcon = hasLink ? (opensNewTab ? ExternalLink : ArrowRight) : Lock;
 
   const cardStyle = { '--tool-accent': tool.accent };
 
@@ -163,9 +233,9 @@ const renderToolCard = (tool) => {
 
   const cat = <span className="tool-card__category">{tool.category}</span>;
 
-  // External URL → plain anchor (new tab). Internal path → router Link.
-  // No URL → route to the contact page to request access.
-  if (hasLink && external) {
+  // External URL or static /public file → plain anchor (new tab). Internal SPA
+  // path → router Link. No URL → route to the contact page to request access.
+  if (opensNewTab) {
     return (
       <a
         key={tool.id}

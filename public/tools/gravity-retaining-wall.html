@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Base HTML structure for Gravity Retaining Wall Computations[cite: 2] -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity Retaining Wall Design - Interactive</title>
+    <!-- MathJax for rendering formulas safely -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+        h2, h3, h4 {
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .input-group label {
+            flex: 1;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .input-group input {
+            width: 80px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: right;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .input-group span {
+            width: 45px;
+            margin-left: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+        .th-sub {
+            background-color: #ebf5fb;
+            color: #333;
+            font-weight: bold;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .highlight-row {
+            background-color: #fdf2e9;
+            font-weight: bold;
+        }
+        .status-ok {
+            background-color: #2ecc71;
+            color: white;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .status-fail {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        canvas {
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            display: block;
+            margin: 15px auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        #step-by-step-equations {
+            font-size: 14px;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+        .step-block {
+            background: #fdfdfd;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- LEFT COLUMN: INPUTS AND SUMMARY -->
+    <div class="container">
+        <h1>Gravity Retaining Wall Calculator (v1.0)</h1>
+        
+        <div class="grid">
+            <!-- INPUT SECTION -->
+            <div class="input-section">
+                <h2>Design Parameters</h2>
+                <div class="input-group"><label>Height of Wall (H)</label><input type="number" id="H" value="14.5" step="0.1"><span>feet</span></div>
+                <div class="input-group"><label>Thickness at Top (A)</label><input type="number" id="A" value="4.5" step="0.1"><span>feet</span></div>
+                <div class="input-group"><label>Thickness at Base (B)</label><input type="number" id="B" value="11.5" step="0.1"><span>feet</span></div>
+                <div class="input-group"><label>Foundation Depth (D)</label><input type="number" id="D" value="2.5" step="0.1"><span>feet</span></div>
+                <div class="input-group"><label>Backslope inclination (β)</label><input type="number" id="beta" value="0" step="1"><span>degree</span></div>
+                <div class="input-group"><label>Backfill friction angle (ϕ)</label><input type="number" id="phi" value="30" step="1"><span>degree</span></div>
+                <div class="input-group"><label>Foundation friction angle</label><input type="number" id="phi_base" value="30" step="1"><span>degree</span></div>
+                <div class="input-group"><label>Surcharge Load</label><input type="number" id="q_sur" value="250" step="10"><span>psf</span></div>
+                <div class="input-group"><label>Unit weight of concrete</label><input type="number" id="gamma_c" value="150" step="1"><span>pcf</span></div>
+                <div class="input-group"><label>Unit weight of backfill</label><input type="number" id="gamma_s" value="115" step="1"><span>pcf</span></div>
+                <div class="input-group"><label>Allowable Bearing Pressure</label><input type="number" id="q_allow" value="3468" step="1"><span>psf</span></div>
+                
+                <h3 style="margin-top: 25px;">Calculated Geometry (Widths)</h3>
+                <table>
+                    <tr><th>Segment</th><th>Value (feet)</th></tr>
+                    <tr><td class="text-left">Base Width (I)</td><td id="out-b1">-</td></tr>
+                    <tr><td class="text-left">Base Width (II)</td><td id="out-b2">-</td></tr>
+                    <tr><td class="text-left">Base Width (III)</td><td id="out-b3">-</td></tr>
+                    <tr><td class="text-left">Width (IV)</td><td id="out-b4">-</td></tr>
+                </table>
+
+                <h3 style="margin-top: 25px;">Final Safety Factors</h3>
+                <table>
+                    <tr><th>Check</th><th>Result</th><th>Criteria</th><th>Status</th></tr>
+                    <tr><td>FS (Overturning)</td><td id="out-fs-ot">-</td><td>≥ 1.5</td><td id="status-fs-ot">-</td></tr>
+                    <tr><td>FS (Sliding)</td><td id="out-fs-sl">-</td><td>≥ 1.5</td><td id="status-fs-sl">-</td></tr>
+                    <tr><td>Toe Bearing (q_toe)</td><td id="out-q-toe">-</td><td>&lt; <span id="lbl-q-allow1"></span></td><td id="status-q-toe">-</td></tr>
+                    <tr><td>Heel Bearing (q_heel)</td><td id="out-q-heel">-</td><td>&lt; <span id="lbl-q-allow2"></span></td><td id="status-q-heel">-</td></tr>
+                </table>
+            </div>
+
+            <!-- GRAPHIC & MISC RESULTS -->
+            <div class="result-section">
+                <h2>Wall Cross-Section</h2>
+                <canvas id="wallCanvas" width="500" height="400"></canvas>
+
+                <h3>Earth Pressure Summary</h3>
+                <table>
+                    <tr><td>Active Earth Coefficient (Ka)</td><td id="out-ka">-</td></tr>
+                    <tr><td>Passive Earth Coefficient (Kp)</td><td id="out-kp">-</td></tr>
+                    <tr><td>Eccentricity (e)</td><td id="out-e">-</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- DETAILED STABILITY TABLE -->
+        <div style="margin-top: 30px;">
+            <h2>Check for Stability of Wall:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">Description</th>
+                        <th rowspan="2">Area<br>(sq. ft)</th>
+                        <th colspan="2">Forces (lb/ft)</th>
+                        <th rowspan="2">Lever Arm<br>(feet)</th>
+                        <th rowspan="2">Resisting Moment, MR<br>(lb-ft)</th>
+                        <th rowspan="2">Overturning Moment, Mo<br>(lb-ft)</th>
+                    </tr>
+                    <tr>
+                        <th class="th-sub">Resisting</th>
+                        <th class="th-sub">Driving</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left">Wall (I)</td>
+                        <td id="t-a-w1">-</td><td id="t-fr-w1">-</td><td></td><td id="t-la-w1">-</td><td id="t-mr-w1">-</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Wall (II)</td>
+                        <td id="t-a-w2">-</td><td id="t-fr-w2">-</td><td></td><td id="t-la-w2">-</td><td id="t-mr-w2">-</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Wall (III)</td>
+                        <td id="t-a-w3">-</td><td id="t-fr-w3">-</td><td></td><td id="t-la-w3">-</td><td id="t-mr-w3">-</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Backsoil (IV)</td>
+                        <td id="t-a-s4">-</td><td id="t-fr-s4">-</td><td></td><td id="t-la-s4">-</td><td id="t-mr-s4">-</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Pa2v(backfill)</td>
+                        <td>-</td><td id="t-fr-pa2v">-</td><td></td><td id="t-la-pa2v">-</td><td id="t-mr-pa2v">-</td><td></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td class="text-left">Total Vertical Force (V)</td>
+                        <td></td><td id="t-fr-total-v">-</td><td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Pp=1/2*(y)(h)^2*Kp (no 1ft cover)</td>
+                        <td></td><td id="t-fr-pp">-</td><td></td><td id="t-la-pp">-</td><td id="t-mr-pp">-</td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Pa1 (surcharge)</td>
+                        <td>-</td><td></td><td id="t-fd-pa1">-</td><td id="t-la-pa1">-</td><td></td><td id="t-mo-pa1">-</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Pa2h(backfill)</td>
+                        <td>-</td><td></td><td id="t-fd-pa2h">-</td><td id="t-la-pa2h">-</td><td></td><td id="t-mo-pa2h">-</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td class="text-left">Total</td>
+                        <td></td><td id="t-fr-final">-</td><td id="t-fd-final">-</td><td></td><td id="t-mr-final">-</td><td id="t-mo-final">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN: DYNAMIC EQUATIONS -->
+    <div class="container" style="background-color: #fafbfc;">
+        <h2 style="margin-top:0;">Step-by-Step Equations</h2>
+        <div id="step-by-step-equations">
+            <p><i>Loading calculations...</i></p>
+        </div>
+    </div>
+</div>
+
+<!-- ADDED FOOTER DISCLAIMER[cite: 1] -->
+<div style="max-width: 1800px; margin: 20px auto; text-align: center; font-size: 12px; color: #7f8c8d; padding: 0 20px;">
+    <em>Note: Final results shall be independently reviewed and verified by the responsible engineer prior to use or implementation. The developer assumes no responsibility for the final results or their application. Developed by Zhenran Shi, P.E. </em>
+</div>
+
+<script>
+    const rad = (deg) => deg * Math.PI / 180;
+    const deg = (radian) => radian * 180 / Math.PI;
+
+    // Drawing functionality updated to include B1, B2, B3, B4 indicators
+    function drawWall(H, A, B, B1, D, beta) {
+        const canvas = document.getElementById('wallCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const margin = 60; // Increased margin to accommodate additional base dimensions
+        const drawWidth = canvas.width - (margin * 2);
+        const drawHeight = canvas.height - (margin * 2);
+        
+        const B2 = A;
+        const B3 = B - A - B1;
+        // B4 is the horizontal projection of the back face (mathematically equal to B3)
+        const B4 = B3; 
+
+        // Dynamic viewport size in 'feet' to keep everything visible
+        const soilLeft = B * 0.8 + 2; 
+        const soilRight = B * 1.5;
+        const totalWidthFt = soilLeft + B + soilRight;
+        const totalHeightFt = H * 1.5;
+
+        const scaleX = drawWidth / totalWidthFt;
+        const scaleY = drawHeight / totalHeightFt;
+        const scale = Math.min(scaleX, scaleY);
+
+        const originX = canvas.width / 2 - (B * scale) / 2;
+        const originY = canvas.height - margin - (D * scale * 0.5);
+
+        const getX = (ft) => originX + (ft * scale);
+        const getY = (ft) => originY - (ft * scale);
+
+        // Wall precise X coordinates
+        const wBottomLeft = 0;
+        const wBottomRight = B;
+        const wTopLeft = B1;
+        const wTopRight = B1 + A;
+
+        // 1. Draw Soil Layout
+        ctx.fillStyle = "#f5ece5"; // Light beige soil color
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        ctx.lineTo(0, getY(D));
+        ctx.lineTo(getX(D * (B1/H)), getY(D)); // Connect smoothly to left face
+        ctx.lineTo(getX(wBottomLeft), getY(0));
+        ctx.lineTo(getX(wBottomRight), getY(0));
+        ctx.lineTo(getX(wTopRight), getY(H));
+        // Backslope trajectory mapping
+        const rightCanvasFt = (canvas.width - getX(wTopRight)) / scale;
+        const rightEdgeY = getY(H + rightCanvasFt * Math.tan(rad(beta)));
+        ctx.lineTo(canvas.width, rightEdgeY);
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.fill();
+
+        // 2. Draw Ground Lines
+        ctx.strokeStyle = "#b5693f"; // Brown surface lines
+        ctx.lineWidth = 1.5;
+        // Left
+        ctx.beginPath();
+        ctx.moveTo(0, getY(D));
+        ctx.lineTo(getX(D * (B1/H)), getY(D));
+        ctx.stroke();
+        // Right
+        ctx.beginPath();
+        ctx.moveTo(getX(wTopRight), getY(H));
+        ctx.lineTo(canvas.width, rightEdgeY);
+        ctx.stroke();
+
+        // 3. Draw Concrete Wall
+        ctx.fillStyle = "#b0bec5"; // Blue-grey concrete
+        ctx.beginPath();
+        ctx.moveTo(getX(wBottomLeft), getY(0));
+        ctx.lineTo(getX(wBottomRight), getY(0));
+        ctx.lineTo(getX(wTopRight), getY(H));
+        ctx.lineTo(getX(wTopLeft), getY(H));
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.strokeStyle = "#34495e";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // 4. Draw Typography & Labels
+        ctx.fillStyle = "#222";
+        ctx.font = "12px 'Segoe UI', Arial, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        // A and B width annotations
+        ctx.fillText(`A = ${A}'`, getX(B1 + A/2), getY(H) - 12);
+        ctx.fillText(`B = ${B}'`, getX(B/2), getY(0) + 14);
+        
+        // H and D height annotations 
+        ctx.textAlign = "right";
+        ctx.fillText(`H = ${H}'`, getX(B1/2) - 8, getY(H/2));
+        ctx.fillText(`D = ${D}'`, getX((D * (B1/H))/2) - 8, getY(D/2));
+
+        // --- ADD B1, B2, B3, B4 INDICATOR LABELS ---
+        
+        ctx.strokeStyle = "#7f8c8d";
+        ctx.lineWidth = 1;
+        
+        // B1, B2, B3 dimensional lines at the bottom
+        const dimY = getY(0) + 36;
+        
+        ctx.beginPath();
+        ctx.moveTo(getX(0), dimY);
+        ctx.lineTo(getX(B), dimY);
+        ctx.stroke();
+        
+        // Draw tick marks for B1, B2, B3 horizontal spans
+        [0, B1, B1 + A, B].forEach(x => {
+            ctx.beginPath();
+            ctx.moveTo(getX(x), dimY - 4);
+            ctx.lineTo(getX(x), dimY + 4);
+            ctx.stroke();
+        });
+
+        // B1, B2, B3 text formatting
+        ctx.textAlign = "center";
+        ctx.font = "11px 'Segoe UI', Arial, sans-serif";
+        ctx.fillStyle = "#555";
+        
+        ctx.fillText(`B1`, getX(B1/2), dimY + 12);
+        ctx.fillText(`B2`, getX(B1 + A/2), dimY + 12);
+        ctx.fillText(`B3`, getX(B1 + A + B3/2), dimY + 12);
+
+        // B4 dimension line spanning the top wedge above the soil
+        const b4Y = getY(H) - 10;
+        ctx.beginPath();
+        ctx.moveTo(getX(B1 + A), b4Y + 4);
+        ctx.lineTo(getX(B1 + A), b4Y);
+        ctx.lineTo(getX(B), b4Y);
+        ctx.lineTo(getX(B), b4Y + 4);
+        ctx.stroke();
+        
+        // B4 text
+        ctx.fillText(`B4`, getX(B1 + A + B3/2), b4Y - 8);
+    }
+
+    // Queue system for safely updating MathJax equations instantly without overlapping errors
+    let isMathJaxRendering = false;
+    let mathJaxNeedsRender = false;
+
+    function renderMath() {
+        if (!window.MathJax) return;
+        if (isMathJaxRendering) {
+            mathJaxNeedsRender = true;
+            return;
+        }
+        isMathJaxRendering = true;
+        mathJaxNeedsRender = false;
+        
+        MathJax.typesetPromise([document.getElementById('step-by-step-equations')]).then(() => {
+            isMathJaxRendering = false;
+            if (mathJaxNeedsRender) {
+                renderMath();
+            }
+        }).catch((err) => {
+            console.log('MathJax Render Error: ', err.message);
+            isMathJaxRendering = false;
+        });
+    }
+
+    // Main calculation flow triggering on variable updates
+    function calculateWall() {
+        const H = parseFloat(document.getElementById('H').value) || 0;
+        const A = parseFloat(document.getElementById('A').value) || 0;
+        const B = parseFloat(document.getElementById('B').value) || 0;
+        const D = parseFloat(document.getElementById('D').value) || 0;
+        const beta = parseFloat(document.getElementById('beta').value) || 0;
+        const phi = parseFloat(document.getElementById('phi').value) || 0;
+        const phi_base = parseFloat(document.getElementById('phi_base').value) || 0;
+        const q_sur = parseFloat(document.getElementById('q_sur').value) || 0;
+        const gamma_c = parseFloat(document.getElementById('gamma_c').value) || 0;
+        const gamma_s = parseFloat(document.getElementById('gamma_s').value) || 0;
+        const q_allow = parseFloat(document.getElementById('q_allow').value) || 0;
+
+        document.getElementById('lbl-q-allow1').innerText = q_allow;
+        document.getElementById('lbl-q-allow2').innerText = q_allow;
+
+        // Geometry Widths
+        const B1 = (1 / 24) * H;
+        const B2 = A;
+        const B3 = B - A - B1;
+        
+        drawWall(H, A, B, B1, D, beta);
+        
+        const vartheta_rad = Math.atan(H / B3);
+        const vartheta_deg = deg(vartheta_rad);
+        const omega = 90 - vartheta_deg; 
+        const B4 = H / Math.tan(vartheta_rad);
+        
+        document.getElementById('out-b1').innerText = B1.toFixed(2);
+        document.getElementById('out-b2').innerText = B2.toFixed(2);
+        document.getElementById('out-b3').innerText = B3.toFixed(2);
+        document.getElementById('out-b4').innerText = B4.toFixed(2);
+
+        const delta = (2 / 3) * phi;
+        const mu = Math.tan(rad((2 / 3) * phi_base));
+        const hp = D - 1;
+
+        // Ka / Kp
+        const ka_num = Math.pow(Math.cos(rad(phi - omega)), 2);
+        const ka_den1 = Math.pow(Math.cos(rad(omega)), 2) * Math.cos(rad(delta + omega));
+        const ka_sqrt = Math.sqrt( (Math.sin(rad(delta + phi)) * Math.sin(rad(phi - beta))) / (Math.cos(rad(delta + omega)) * Math.cos(rad(omega - beta))) );
+        const Ka = ka_num / (ka_den1 * Math.pow(1 + ka_sqrt, 2));
+
+        const kp_num = Math.pow(Math.cos(rad(phi + omega)), 2);
+        const kp_den1 = Math.pow(Math.cos(rad(omega)), 2) * Math.cos(rad(delta - omega));
+        const kp_sqrt = Math.sqrt( (Math.sin(rad(delta + phi)) * Math.sin(rad(phi + beta))) / (Math.cos(rad(delta - omega)) * Math.cos(rad(beta - omega))) );
+        const Kp = kp_num / (kp_den1 * Math.pow(1 - kp_sqrt, 2));
+
+        const Pa1_surcharge = Ka * q_sur;
+        const Pa2_backfill = Ka * gamma_s * H;
+
+        // Wall (I)
+        const w1_area = 0.5 * B1 * H;
+        const w1_v = w1_area * gamma_c;
+        const w1_arm = B1 / 2;
+        const w1_mr = w1_v * w1_arm;
+
+        // Wall (II)
+        const w2_area = H * B2;
+        const w2_v = w2_area * gamma_c;
+        const w2_arm = B1 + (B2 / 2);
+        const w2_mr = w2_v * w2_arm;
+
+        // Wall (III)
+        const w3_area = 0.5 * B3 * H;
+        const w3_v = w3_area * gamma_c;
+        const w3_arm = B1 + B2 + (B3 / 3);
+        const w3_mr = w3_v * w3_arm;
+
+        // Backsoil (IV)
+        const s4_area = 0.5 * H * B4;
+        const s4_v = s4_area * gamma_s;
+        const s4_arm = B1 + B2 + ((2 / 3) * B3);
+        const s4_mr = s4_v * s4_arm;
+
+        // Pa2v (backfill)
+        const Pa2v = 0.5 * Pa2_backfill * H * Math.sin(rad(omega + delta));
+        const J44 = (H / 3) / Math.tan(vartheta_rad); 
+        const pa2v_arm = B1 + B2 + B3 - J44;
+        const pa2v_mr = Pa2v * pa2v_arm;
+
+        // Total Vertical Force (V)
+        const sum_V_resisting = w1_v + w2_v + w3_v + s4_v + Pa2v;
+
+        // Pp (Passive)
+        const Pp = 0.5 * Kp * gamma_s * hp * hp;
+        const pp_arm = hp / 3;
+        const pp_mr = Pp * pp_arm;
+
+        // Pa1 (Surcharge) Driving
+        const Pa1_v_drive = Pa1_surcharge * H;
+        const pa1_arm = H / 2;
+        const pa1_mo = Pa1_v_drive * pa1_arm;
+
+        // Pa2h (Backfill) Driving
+        const Pa2_h_drive = 0.5 * Pa2_backfill * H * Math.cos(rad(omega + delta));
+        const pa2_arm = H / 3;
+        const pa2_mo = Pa2_h_drive * pa2_arm;
+
+        // Grand Totals
+        const sum_V_total = sum_V_resisting + Pp;
+        const sum_H_driving = Pa1_v_drive + Pa2_h_drive;
+        const sum_Mr = w1_mr + w2_mr + w3_mr + s4_mr + pa2v_mr + pp_mr;
+        const sum_Mo = pa1_mo + pa2_mo;
+
+        // Populate Detailed Table UI
+        document.getElementById('t-a-w1').innerText = w1_area.toFixed(2);
+        document.getElementById('t-fr-w1').innerText = w1_v.toFixed(2);
+        document.getElementById('t-la-w1').innerText = w1_arm.toFixed(2);
+        document.getElementById('t-mr-w1').innerText = w1_mr.toFixed(2);
+
+        document.getElementById('t-a-w2').innerText = w2_area.toFixed(2);
+        document.getElementById('t-fr-w2').innerText = w2_v.toFixed(2);
+        document.getElementById('t-la-w2').innerText = w2_arm.toFixed(2);
+        document.getElementById('t-mr-w2').innerText = w2_mr.toFixed(2);
+
+        document.getElementById('t-a-w3').innerText = w3_area.toFixed(2);
+        document.getElementById('t-fr-w3').innerText = w3_v.toFixed(2);
+        document.getElementById('t-la-w3').innerText = w3_arm.toFixed(2);
+        document.getElementById('t-mr-w3').innerText = w3_mr.toFixed(2);
+
+        document.getElementById('t-a-s4').innerText = s4_area.toFixed(2);
+        document.getElementById('t-fr-s4').innerText = s4_v.toFixed(2);
+        document.getElementById('t-la-s4').innerText = s4_arm.toFixed(2);
+        document.getElementById('t-mr-s4').innerText = s4_mr.toFixed(2);
+
+        document.getElementById('t-fr-pa2v').innerText = Pa2v.toFixed(2);
+        document.getElementById('t-la-pa2v').innerText = pa2v_arm.toFixed(2);
+        document.getElementById('t-mr-pa2v').innerText = pa2v_mr.toFixed(2);
+
+        document.getElementById('t-fr-total-v').innerText = sum_V_resisting.toFixed(2);
+
+        document.getElementById('t-fr-pp').innerText = Pp.toFixed(2);
+        document.getElementById('t-la-pp').innerText = pp_arm.toFixed(2);
+        document.getElementById('t-mr-pp').innerText = pp_mr.toFixed(2);
+
+        document.getElementById('t-fd-pa1').innerText = Pa1_v_drive.toFixed(2);
+        document.getElementById('t-la-pa1').innerText = pa1_arm.toFixed(2);
+        document.getElementById('t-mo-pa1').innerText = pa1_mo.toFixed(2);
+
+        document.getElementById('t-fd-pa2h').innerText = Pa2_h_drive.toFixed(2);
+        document.getElementById('t-la-pa2h').innerText = pa2_arm.toFixed(2);
+        document.getElementById('t-mo-pa2h').innerText = pa2_mo.toFixed(2);
+
+        document.getElementById('t-fr-final').innerText = sum_V_total.toFixed(2);
+        document.getElementById('t-fd-final').innerText = sum_H_driving.toFixed(2);
+        document.getElementById('t-mr-final').innerText = sum_Mr.toFixed(2);
+        document.getElementById('t-mo-final').innerText = sum_Mo.toFixed(2);
+
+        // Safety Factors computation
+        const FS_ot = sum_Mr / sum_Mo;
+        const FS_sl = ((mu * sum_V_resisting) + Pp) / sum_H_driving;
+
+        const x_resultant = (sum_Mr - sum_Mo) / sum_V_resisting;
+        const e = (B / 2) - x_resultant;
+        
+        const q_toe = (sum_V_resisting / B) * (1 + (6 * e / B));
+        const q_heel = (sum_V_resisting / B) * (1 - (6 * e / B));
+
+        function setStatus(elId, val, okCondition) {
+            const el = document.getElementById(elId);
+            if (okCondition) {
+                el.innerText = "OK";
+                el.className = "status-ok";
+            } else {
+                el.innerText = "NOT OK";
+                el.className = "status-fail";
+            }
+        }
+
+        document.getElementById('out-fs-ot').innerText = FS_ot.toFixed(2);
+        setStatus('status-fs-ot', FS_ot, FS_ot >= 1.5);
+
+        document.getElementById('out-fs-sl').innerText = FS_sl.toFixed(2);
+        setStatus('status-fs-sl', FS_sl, FS_sl >= 1.5);
+
+        document.getElementById('out-q-toe').innerText = q_toe.toFixed(0);
+        setStatus('status-q-toe', q_toe, q_toe < q_allow);
+
+        document.getElementById('out-q-heel').innerText = q_heel.toFixed(0);
+        setStatus('status-q-heel', q_heel, q_heel < q_allow);
+
+        document.getElementById('out-ka').innerText = Ka.toFixed(4);
+        document.getElementById('out-kp').innerText = Kp.toFixed(4);
+        document.getElementById('out-e').innerText = e.toFixed(3) + " ft";
+
+        const eqDiv = document.getElementById('step-by-step-equations');
+        
+        const stepsHTML = `
+            <div class="step-block">
+                <h4>Step 1: Wall Geometry & Angles</h4>
+                $$ B_1 = \\frac{1}{24}H = \\frac{1}{24}(${H}) = ${B1.toFixed(3)} \\text{ ft} $$
+                $$ B_2 = A = ${A.toFixed(3)} \\text{ ft} $$
+                $$ B_3 = B - A - B_1 = ${B} - ${A} - ${B1.toFixed(3)} = ${B3.toFixed(3)} \\text{ ft} $$
+                $$ \\vartheta = \\arctan\\left(\\frac{H}{B_3}\\right) = \\arctan\\left(\\frac{${H}}{${B3.toFixed(3)}}\\right) = ${vartheta_deg.toFixed(3)}^\\circ $$
+                $$ \\omega = 90^\\circ - \\vartheta = 90^\\circ - ${vartheta_deg.toFixed(3)}^\\circ = ${omega.toFixed(3)}^\\circ $$
+                $$ B_4 = \\frac{H}{\\tan(\\vartheta)} = \\frac{${H}}{\\tan(${vartheta_deg.toFixed(3)}^\\circ)} = ${B4.toFixed(3)} \\text{ ft} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 2: Soil & Friction Parameters</h4>
+                $$ \\delta = \\frac{2}{3}\\phi = \\frac{2}{3}(${phi}^\\circ) = ${delta.toFixed(2)}^\\circ $$
+                $$ \\mu = \\tan\\left(\\frac{2}{3}\\phi_{base}\\right) = \\tan(${delta.toFixed(2)}^\\circ) = ${mu.toFixed(3)} $$
+                $$ h_p = D - 1 = ${D} - 1 = ${hp.toFixed(2)} \\text{ ft} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 3: Earth Pressure Coefficients</h4>
+                $$ K_a = \\frac{\\cos^2(\\phi - \\omega)}{\\cos^2(\\omega) \\cos(\\delta + \\omega) \\left[1 + \\sqrt{\\frac{\\sin(\\delta + \\phi)\\sin(\\phi - \\beta)}{\\cos(\\delta + \\omega)\\cos(\\omega - \\beta)}}\\right]^2} = ${Ka.toFixed(4)} $$
+                $$ K_p = \\frac{\\cos^2(\\phi + \\omega)}{\\cos^2(\\omega) \\cos(\\delta - \\omega) \\left[1 - \\sqrt{\\frac{\\sin(\\delta + \\phi)\\sin(\\phi + \\beta)}{\\cos(\\delta - \\omega)\\cos(\\beta - \\omega)}}\\right]^2} = ${Kp.toFixed(4)} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 4: Lateral Earth Pressures</h4>
+                $$ P_{a1} = K_a \\cdot q_{sur} = ${Ka.toFixed(4)} \\cdot ${q_sur} = ${Pa1_surcharge.toFixed(2)} \\text{ lb/ft} $$
+                $$ P_{a2} = K_a \\cdot \\gamma_s \\cdot H = ${Ka.toFixed(4)} \\cdot ${gamma_s} \\cdot ${H} = ${Pa2_backfill.toFixed(2)} \\text{ lb/ft} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 5: Resisting Forces & Moments (Examples)</h4>
+                <b>Wall I (Front Triangle):</b><br>
+                $$ V_1 = 0.5 \\cdot B_1 \\cdot H \\cdot \\gamma_c = 0.5 \\cdot ${B1.toFixed(3)} \\cdot ${H} \\cdot ${gamma_c} = ${w1_v.toFixed(2)} \\text{ lb/ft} $$
+                $$ Arm_1 = \\frac{B_1}{2} = ${w1_arm.toFixed(3)} \\text{ ft} \\quad \\Rightarrow \\quad M_{r1} = V_1 \\cdot Arm_1 = ${w1_mr.toFixed(2)} \\text{ lb-ft} $$
+                
+                <b>Wall III (Back Triangle):</b><br>
+                $$ V_3 = 0.5 \\cdot B_3 \\cdot H \\cdot \\gamma_c = 0.5 \\cdot ${B3.toFixed(3)} \\cdot ${H} \\cdot ${gamma_c} = ${w3_v.toFixed(2)} \\text{ lb/ft} $$
+                $$ Arm_3 = B_1 + B_2 + \\frac{B_3}{3} = ${w3_arm.toFixed(3)} \\text{ ft} \\quad \\Rightarrow \\quad M_{r3} = ${w3_mr.toFixed(2)} \\text{ lb-ft} $$
+
+                <b>Vertical Backfill Pressure ($P_{a2v}$):</b><br>
+                $$ P_{a2v} = 0.5 \\cdot P_{a2} \\cdot H \\cdot \\sin(\\omega + \\delta) = 0.5 \\cdot ${Pa2_backfill.toFixed(2)} \\cdot ${H} \\cdot \\sin(${omega.toFixed(2)}^\\circ + ${delta.toFixed(2)}^\\circ) = ${Pa2v.toFixed(2)} \\text{ lb/ft} $$
+                $$ Arm_{Pa2v} = B - \\frac{H/3}{\\tan(\\vartheta)} = ${pa2v_arm.toFixed(3)} \\text{ ft} \\quad \\Rightarrow \\quad M_{r\\_Pa2v} = ${pa2v_mr.toFixed(2)} \\text{ lb-ft} $$
+                
+                <b>Total Resisting Sums:</b><br>
+                $$ \\Sigma V_{resist} = ${sum_V_resisting.toFixed(2)} \\text{ lb/ft} \\quad | \\quad \\Sigma M_r = ${sum_Mr.toFixed(2)} \\text{ lb-ft} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 6: Driving Forces & Moments</h4>
+                <b>Surcharge ($P_{a1}$):</b><br>
+                $$ H_{drive1} = P_{a1} \\cdot H = ${Pa1_surcharge.toFixed(2)} \\cdot ${H} = ${Pa1_v_drive.toFixed(2)} \\text{ lb/ft} $$
+                $$ Arm_{drive1} = \\frac{H}{2} = ${pa1_arm.toFixed(3)} \\text{ ft} \\quad \\Rightarrow \\quad M_{o1} = ${pa1_mo.toFixed(2)} \\text{ lb-ft} $$
+                
+                <b>Backfill ($P_{a2h}$):</b><br>
+                $$ H_{drive2} = 0.5 \\cdot P_{a2} \\cdot H \\cdot \\cos(\\omega + \\delta) = 0.5 \\cdot ${Pa2_backfill.toFixed(2)} \\cdot ${H} \\cdot \\cos(${omega.toFixed(2)}^\\circ + ${delta.toFixed(2)}^\\circ) = ${Pa2_h_drive.toFixed(2)} \\text{ lb/ft} $$
+                $$ Arm_{drive2} = \\frac{H}{3} = ${pa2_arm.toFixed(3)} \\text{ ft} \\quad \\Rightarrow \\quad M_{o2} = ${pa2_mo.toFixed(2)} \\text{ lb-ft} $$
+                
+                <b>Total Driving Sums:</b><br>
+                $$ \\Sigma H_{drive} = ${sum_H_driving.toFixed(2)} \\text{ lb/ft} \\quad | \\quad \\Sigma M_o = ${sum_Mo.toFixed(2)} \\text{ lb-ft} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 7: Safety Factors</h4>
+                $$ FS_{ot} = \\frac{\\Sigma M_r}{\\Sigma M_o} = \\frac{${sum_Mr.toFixed(2)}}{${sum_Mo.toFixed(2)}} = ${FS_ot.toFixed(2)} $$
+                $$ FS_{sl} = \\frac{(\\mu \\cdot \\Sigma V_{resist}) + P_p}{\\Sigma H_{drive}} = \\frac{(${mu.toFixed(3)} \\cdot ${sum_V_resisting.toFixed(2)}) + ${Pp.toFixed(2)}}{${sum_H_driving.toFixed(2)}} = ${FS_sl.toFixed(2)} $$
+            </div>
+
+            <div class="step-block">
+                <h4>Step 8: Eccentricity & Bearing Pressures</h4>
+                $$ x_{resultant} = \\frac{\\Sigma M_r - \\Sigma M_o}{\\Sigma V_{resist}} = \\frac{${sum_Mr.toFixed(2)} - \\Sigma ${sum_Mo.toFixed(2)}}{${sum_V_resisting.toFixed(2)}} = ${x_resultant.toFixed(3)} \\text{ ft} $$
+                $$ e = \\frac{B}{2} - x_{resultant} = \\frac{${B}}{2} - ${x_resultant.toFixed(3)} = ${e.toFixed(3)} \\text{ ft} $$
+                $$ q_{toe} = \\frac{\\Sigma V_{resist}}{B} \\left(1 + \\frac{6e}{B}\\right) = \\frac{${sum_V_resisting.toFixed(2)}}{${B}} \\left(1 + \\frac{6(${e.toFixed(3)})}{${B}}\\right) = ${q_toe.toFixed(0)} \\text{ psf} $$
+                $$ q_{heel} = \\frac{\\Sigma V_{resist}}{B} \\left(1 - \\frac{6e}{B}\\right) = \\frac{${sum_V_resisting.toFixed(2)}}{${B}} \\left(1 - \\frac{6(${e.toFixed(3)})}{${B}}\\right) = ${q_heel.toFixed(0)} \\text{ psf} $$
+            </div>
+        `;
+
+        eqDiv.innerHTML = stepsHTML;
+
+        // Route through our safe rendering chain allowing fast typing speeds
+        renderMath();
+    }
+
+    // Assign event listeners dynamically ensuring instant calculations for every change
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.input-group input').forEach(input => {
+            input.addEventListener('input', calculateWall);
+        });
+        calculateWall(); // initialize drawing automatically on load
+    });
+
+</script>
+
+</body>
+</html>
