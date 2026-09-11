@@ -1,10 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  FolderKanban,
-  Sparkles,
-  Activity,
-  CreditCard,
   Anchor,
   BrickWall,
   SquareStack,
@@ -34,86 +30,11 @@ import './EngineeringToolsPage.css';
  */
 const tools = [
   {
-    id: 'projects-system',
-    name: 'DGMTS Projects System',
-    tagline: 'Searchable archive of every DGMTS project',
-    description:
-      'A central, searchable record of the firm’s project archive — browse, filter and search 500+ jobs and open a full detail view for scope of work, DGMTS team, client contacts, vendors, fees, key dates and source documents.',
-    category: 'Project Management',
-    status: 'Internal',
-    access: 'internal',
-    url: '',
-    icon: FolderKanban,
-    accent: '#4a90e2',
-    features: [
-      '500+ historical projects, deduplicated across years',
-      'Filter by service type, location and year',
-      'Verified vs. folder-only record badging',
-      'Per-project team, contacts, vendors & attachments',
-    ],
-  },
-  {
-    id: 'proposal-assistant',
-    name: 'DGMTS Proposal Assistant',
-    tagline: 'AI-assisted RFP / RFQ proposal drafting',
-    description:
-      'Reads an incoming solicitation, retrieves the best-matching past projects and key personnel from the firm’s archive, and drafts each proposal section under the solicitation’s own headings — ready for review and one-click Word export.',
-    category: 'AI & Automation',
-    status: 'Beta',
-    access: 'internal',
-    url: '',
-    icon: Sparkles,
-    accent: '#7c3aed',
-    features: [
-      'Parses RFQ scope and verbatim section headings',
-      'Matches won projects & SF 330 resumes',
-      'Section-by-section AI drafts for human review',
-      'Exports a formatted .docx proposal',
-    ],
-  },
-  {
-    id: 'instrumentation-monitoring',
-    name: 'Instrumentation Monitoring Platform',
-    tagline: 'Live structural & geotechnical monitoring',
-    description:
-      'The firm’s instrumentation & monitoring portal for tracking field sensor data — vibration, tilt, settlement and condition surveys — with dashboards and alerting for construction and infrastructure sites.',
-    category: 'Monitoring',
-    status: 'Internal',
-    access: 'internal',
-    url: '',
-    icon: Activity,
-    accent: '#00a86b',
-    features: [
-      'Real-time sensor dashboards',
-      'Vibration, tilt & settlement monitoring',
-      'Threshold-based alerting',
-      'Project-based access for clients & staff',
-    ],
-  },
-  {
-    id: 'payment-portal',
-    name: 'Client Payment Portal',
-    tagline: 'Secure online invoice payments',
-    description:
-      'Lets DGMTS clients review and pay invoices online through a secure portal, with approval workflows and account access for authorized users.',
-    category: 'Client Services',
-    status: 'Live',
-    access: 'public',
-    url: '/payment',
-    icon: CreditCard,
-    accent: '#ff6b35',
-    features: [
-      'Secure online invoice payments',
-      'Client account access & approvals',
-      'Payment history and receipts',
-    ],
-  },
-  {
     id: 'micropile-design-lrfd',
     name: 'Micropile Design (LRFD)',
     tagline: 'Micropile capacity calculator',
     description:
-      'Interactive LRFD micropile calculator: enter casing, reinforcement, grout and layered soil parameters to get factored geotechnical and structural resistances for both strength and extreme limit states, with a cross-section, soil profile and step-by-step equations.',
+      'Mr. Zhenran Shi, PE has developed a Micropile Design – LRFD Tool in HTML format to provide engineers and design professionals with a convenient resource for preliminary micropile design and evaluation. This web-based tool assists with key micropile design calculations using the Load and Resistance Factor Design (LRFD) methodology. It provides an organized interface for entering design parameters, performing calculations, and reviewing the resulting design information. By incorporating the calculation process into an accessible web-based format, the tool provides a convenient alternative to traditional standalone calculation worksheets and can support engineers during preliminary design, evaluation, and review.',
     category: 'Engineering Calculators',
     status: 'Live',
     access: 'public',
@@ -133,7 +54,7 @@ const tools = [
     name: 'Gravity Retaining Wall',
     tagline: 'Wall stability computations',
     description:
-      'Interactive gravity retaining wall calculator: enter wall geometry and soil parameters to check overturning, sliding and bearing, with active/passive earth pressures, a scaled cross-section, a full stability table and step-by-step equations.',
+      'Mr. Zhenran Shi, PE has developed a Gravity Retaining Wall Computation Tool in HTML format to support engineers and design professionals in the preliminary evaluation of gravity retaining wall systems. The tool provides a streamlined approach for evaluating key gravity retaining wall design parameters and performing associated engineering calculations. Its structured interface allows users to enter project-specific inputs and efficiently review calculation results in a clear and organized format. The web-based platform provides a convenient digital resource for preliminary retaining wall evaluation and design development while reducing reliance on conventional calculation spreadsheets.',
     category: 'Engineering Calculators',
     status: 'Live',
     access: 'public',
@@ -153,7 +74,7 @@ const tools = [
     name: 'Spread Footing Bearing (LRFD)',
     tagline: 'Bearing resistance for spread footings',
     description:
-      'Interactive LRFD spread-footing tool: computes bearing resistance across strength, extreme and service limit states, plots resistance versus footing width, and shows the exact step-by-step math for your sample width.',
+      'To support foundation design applications, Mr. Zhenran Shi, PE has developed a BC Equation for Spread Footings – LRFD Tool in HTML format. This web-based engineering tool assists with the evaluation of spread footing bearing capacity using the BC Equation and the LRFD design approach. Users can enter relevant foundation and soil parameters and review the resulting calculations and design parameters through a structured and easy-to-use interface. By incorporating the calculation procedures into a web-based platform, the tool provides engineers and design professionals with a convenient resource for preliminary foundation design, evaluation, and engineering review.',
     category: 'Engineering Calculators',
     status: 'Live',
     access: 'public',
@@ -172,10 +93,6 @@ const tools = [
 
 const CATEGORIES = [
   'All',
-  'Project Management',
-  'AI & Automation',
-  'Monitoring',
-  'Client Services',
   'Engineering Calculators',
 ];
 
@@ -278,13 +195,30 @@ const EngineeringToolsPage = () => {
       <section className="eng-tools-hero">
         <div className="container">
           <div className="eng-tools-hero__content">
-            <span className="eng-tools-hero__eyebrow">Built by DGMTS</span>
             <h1>Engineering Tools</h1>
             <p>
-              Explore the digital tools and platforms our team has built to power
-              geotechnical engineering, project delivery and client services —
-              from our project archive to AI-assisted proposals and live field
-              monitoring.
+              As part of our ongoing commitment to developing practical
+              engineering resources and improving access to design tools, DGMTS
+              develops Engineering Tools that combine engineering expertise with
+              practical digital solutions. These resources are intended to assist
+              clients, engineers, and project teams by streamlining engineering
+              calculations, improving efficiency, and providing convenient tools
+              for preliminary design and evaluation.
+            </p>
+            <p>
+              We welcome you to explore these tools and share your feedback as we
+              continue to expand our collection of engineering resources.
+            </p>
+            <p className="eng-tools-hero__disclaimer">
+              <strong>Disclaimer:</strong> These tools are provided for
+              informational and preliminary design purposes only. DGMTS makes no
+              representations or warranties regarding the accuracy, completeness,
+              or reliability of the calculations or results. Users are solely
+              responsible for independently verifying all inputs, assumptions,
+              methodologies, and results and for obtaining appropriate
+              professional engineering review and approval before using or
+              relying upon the tools or their outputs for any project or design
+              decision.
             </p>
           </div>
         </div>
