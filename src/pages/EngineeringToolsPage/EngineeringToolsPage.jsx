@@ -9,6 +9,7 @@ import {
   Lock,
   CheckCircle2,
 } from 'lucide-react';
+import zhenranShi from '../../assets/zhenran-shi.jpeg';
 import './EngineeringToolsPage.css';
 
 /*
@@ -139,6 +140,20 @@ const renderToolCard = (tool) => {
             </li>
           ))}
         </ul>
+      )}
+
+      {tool.category === 'Engineering Calculators' && (
+        <figure className="tool-card__author">
+          <img
+            src={zhenranShi}
+            alt="Mr. Zhenran Shi, P.E."
+            className="tool-card__author-photo"
+            loading="lazy"
+          />
+          <figcaption className="tool-card__author-caption">
+            Developed by Mr. Zhenran Shi, P.E.
+          </figcaption>
+        </figure>
       )}
 
       <span className="tool-card__cta">
