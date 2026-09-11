@@ -1,4 +1,3 @@
-import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Anchor,
@@ -27,7 +26,8 @@ import './EngineeringToolsPage.css';
  *              navigation in a new tab, NOT the SPA router (which would 404 them).
  *   access   : 'public' | 'internal'  — drives the badge + button wording.
  *   status   : short label shown on the badge ("Live", "Beta", "Internal", …).
- *   category : used by the filter bar; keep in sync with the CATEGORIES list below.
+ *   category : grouping label; 'Engineering Calculators' also shows the
+ *              "Developed by" engineer credit on the card.
  */
 const tools = [
   {
@@ -90,11 +90,6 @@ const tools = [
       'Step-by-step math for your sample width',
     ],
   },
-];
-
-const CATEGORIES = [
-  'All',
-  'Engineering Calculators',
 ];
 
 const isExternal = (url) => /^https?:\/\//i.test(url || '');
@@ -197,13 +192,6 @@ const renderToolCard = (tool) => {
 };
 
 const EngineeringToolsPage = () => {
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const filteredTools = useMemo(() => {
-    if (activeCategory === 'All') return tools;
-    return tools.filter((t) => t.category === activeCategory);
-  }, [activeCategory]);
-
   return (
     <div className="eng-tools-page">
       {/* Hero */}
@@ -239,43 +227,18 @@ const EngineeringToolsPage = () => {
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="eng-tools-filters">
-        <div className="container">
-          <div className="eng-tools-filters__bar">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                className={`eng-tools-filter ${activeCategory === cat ? 'is-active' : ''}`}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Tools grid */}
       <section className="eng-tools-grid-section">
         <div className="container">
           <div className="eng-tools-stats">
             <p>
-              Showing {filteredTools.length} of {tools.length} tools
+              Showing {tools.length} of {tools.length} tools
             </p>
           </div>
 
           <div className="eng-tools-grid">
-            {filteredTools.map((tool) => renderToolCard(tool))}
+            {tools.map((tool) => renderToolCard(tool))}
           </div>
-
-          {filteredTools.length === 0 && (
-            <div className="eng-tools-empty">
-              <h3>No tools in this category yet</h3>
-              <p>Check back soon — we’re always building.</p>
-            </div>
-          )}
         </div>
       </section>
 
