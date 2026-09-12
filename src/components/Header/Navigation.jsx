@@ -239,7 +239,6 @@ const Navigation = () => {
             <Link to="/projects" className="desktop-nav-link">
               Our Projects
             </Link>
-            {/* <Link to="/engineering-tools" className="desktop-nav-link">Engineering Tools</Link> */}
             <Link to="/contact" className="desktop-nav-link">
               Contact Us
             </Link>
@@ -248,6 +247,9 @@ const Navigation = () => {
             </Link>
             <Link to="/payment" className="desktop-nav-link">
               Payment
+            </Link>
+            <Link to="/engineering-tools" className="desktop-nav-link">
+              Engineering Tools
             </Link>
           </div>
 
