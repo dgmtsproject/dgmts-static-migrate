@@ -7,6 +7,19 @@ import './PaymentsAdminPage.css';
 
 const API_BASE_URL = 'https://imsite.dullesgeotechnical.com';
 
+// The `payments` table only stores the combined total charged (card amount +
+// processing fee), never the invoice/fee split separately. Reverse the split
+// out of it using the same fee formula the payment form applies when charging
+// the card (total = invoice * 1.029 + 0.30) — matches the backend's resend
+// logic and the breakdown shown in the payment confirmation email, so the
+// admin UI, the downloaded PDF, and the email all agree on the same numbers.
+const getPaymentAmountBreakdown = (amount) => {
+  const totalPaid = parseFloat(amount) || 0;
+  const invoiceAmount = totalPaid > 0.30 ? Math.round(((totalPaid - 0.30) / 1.029) * 100) / 100 : totalPaid;
+  const serviceCharge = Math.round((totalPaid - invoiceAmount) * 100) / 100;
+  return { invoiceAmount, serviceCharge, totalPaid };
+};
+
 function PaymentsAdminPage() {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
@@ -343,13 +356,24 @@ function PaymentsAdminPage() {
       checkPageBreak(80); // Ensure space for heading + content
       addText('PAYMENT INFORMATION', 14, true);
       addSpacer(5);
-      
+
       addText(`Invoice Number: ${payment.invoice_no || 'N/A'}`, 11);
-      addText(`Amount: ${formatCurrency(payment.amount)}`, 11, true);
       addText(`Transaction ID: ${payment.transaction_id || 'N/A'}`, 11);
       addText(`Payment Method: ${payment.payment_method || 'N/A'}`, 11);
       addText(`Status: ${(payment.status || 'N/A').toUpperCase()}`, 11);
       addText(`Payment Date & Time: ${formatDate(payment.created_at)}`, 11);
+      addSpacer(10);
+
+      // Payment Summary Section — same breakdown sent in the confirmation email.
+      const { invoiceAmount, serviceCharge, totalPaid } = getPaymentAmountBreakdown(payment.amount);
+
+      checkPageBreak(60);
+      addText('PAYMENT SUMMARY', 14, true);
+      addSpacer(5);
+
+      addText(`Invoice Amount: ${formatCurrency(invoiceAmount)}`, 11);
+      addText(`Service Charge: ${formatCurrency(serviceCharge)}`, 11);
+      addText(`Total Amount Paid: ${formatCurrency(totalPaid)}`, 12, true);
       addSpacer(10);
 
       // Payment Notes if available
@@ -670,10 +694,6 @@ function PaymentsAdminPage() {
                       <p>{selectedPayment.invoice_no}</p>
                     </div>
                     <div className="detail-item">
-                      <label>Amount</label>
-                      <p className="amount-highlight">{formatCurrency(selectedPayment.amount)}</p>
-                    </div>
-                    <div className="detail-item">
                       <label>Transaction ID</label>
                       <p>{selectedPayment.transaction_id || 'N/A'}</p>
                     </div>
@@ -701,6 +721,31 @@ function PaymentsAdminPage() {
                         <p>{selectedPayment.notes}</p>
                       </div>
                     )}
+                  </div>
+                </div>
+
+                <div className="detail-section">
+                  <h3>Payment Summary</h3>
+                  <div className="detail-grid">
+                    {(() => {
+                      const { invoiceAmount, serviceCharge, totalPaid } = getPaymentAmountBreakdown(selectedPayment.amount);
+                      return (
+                        <>
+                          <div className="detail-item">
+                            <label>Invoice Amount</label>
+                            <p>{formatCurrency(invoiceAmount)}</p>
+                          </div>
+                          <div className="detail-item">
+                            <label>Service Charge</label>
+                            <p>{formatCurrency(serviceCharge)}</p>
+                          </div>
+                          <div className="detail-item">
+                            <label>Total Amount Paid</label>
+                            <p className="amount-highlight">{formatCurrency(totalPaid)}</p>
+                          </div>
+                        </>
+                      );
+                    })()}
                   </div>
                 </div>
 
