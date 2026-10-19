@@ -25,6 +25,7 @@ import PublishedPapersPage from './pages/PublishedPapersPage/PublishedPapersPage
 import GalleryPage from './pages/GalleryPage/GalleryPage';
 import ChatBot from './components/ChatBot/ChatBot'; // Importing the ChatBot component
 import ScrollToTop from './components/ScrollToTop';
+import SeoByRoute from './components/SEO/SeoByRoute';
 import FloatingQuoteButton from './components/FloatingQuoteButton/FloatingQuoteButton';
 import TeamMemberPage from './pages/TeamMemberPage/TeamMemberPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
@@ -64,6 +65,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <SeoByRoute />
       <div className="App">
         <Header />
         <main>

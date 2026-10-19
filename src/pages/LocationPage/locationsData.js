@@ -1,6 +1,6 @@
 export const locations = [
   {
-    name: 'Dulles Geotechnical and Material Testing Services (DGMTS)',
+    name: 'Dulles Geotechnical and Materials Testing Services (DGMTS)',
     certification: 'SWaM and MBE/DBE Certified',
     officeType: 'Main Office',
     address: '14155 Sullyfield Circle, Suite H, Chantilly, VA 20151',
@@ -18,7 +18,7 @@ export const locations = [
     icon: 'Landmark',
   },
   {
-    name: 'Dulles Geotechnical and Material Testing Services (DGMTS)',
+    name: 'Dulles Geotechnical and Materials Testing Services (DGMTS)',
     officeType: 'Maryland Branch Office',
     address: '1001 Prince Georges Blvd, Suite 800, Upper Marlboro, MD 20774',
     phone: '240.618.7635 | 703.999.3207',
@@ -26,9 +26,9 @@ export const locations = [
     icon: 'Building2',
   },
   {
-    name: 'Dulles Geotechnical and Material Testing Services (DGMTS)',
+    name: 'Dulles Geotechnical and Materials Testing Services (DGMTS)',
     officeType: 'Hampton Branch Office',
-    address: '2024 Exploration Way, Hampton, VA, 23666',
+    address: '2024 Exploration Way, Hampton, VA 23666',
     phone: '337.965.4600',
     googleMapsLink: 'https://www.google.com/maps/place/2024+Exploration+Way,+Hampton,+VA+23666',
     icon: 'Warehouse',

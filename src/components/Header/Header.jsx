@@ -26,7 +26,7 @@ const Header = () => {
                   </Link>
                   <div className="company-details">
                     <h1 className="company-name">
-                      Dulles Geotechnical & Material Testing Services Inc.
+                      Dulles Geotechnical & Materials Testing Services Inc.
                     </h1>
                     <p className="company-tagline">
                       A Certified SWaM and MBE/DBE Firm
@@ -59,7 +59,7 @@ const Header = () => {
               
               <div className="mobile-info">
                 <h1 className="mobile-title">
-                  Dulles Geotechnical & Material Testing Services Inc.
+                  Dulles Geotechnical & Materials Testing Services Inc.
                 </h1>
                 <p className="mobile-subtitle">Professional Engineering Excellence</p>
               </div>

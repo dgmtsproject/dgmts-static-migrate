@@ -113,7 +113,7 @@ const TermsAndConditionsPage = () => {
 
           <h2>1. Overview</h2>
           <p>
-            These Terms and Conditions govern your use of Dulles Geotechnical &amp; Material Testing Services Inc. (DGMTS), 
+            These Terms and Conditions govern your use of Dulles Geotechnical &amp; Materials Testing Services Inc. (DGMTS), 
             including access to our services, products, and payment features. Additional contracts or agreements may apply 
             depending on the specific services you engage. In the event of any conflict between these Terms and other 
             agreements, the terms of the additional contracts shall prevail.
@@ -286,7 +286,7 @@ const TermsAndConditionsPage = () => {
           <h2>24. Contact Details</h2>
           <p>
             This website is owned, operated and managed by: <br />
-            Dulles Geotechnical &amp; Material Testing Services Inc. <br />
+            Dulles Geotechnical &amp; Materials Testing Services Inc. <br />
             Website: <a href="https://www.dullesgeotechnical.com" target="_blank" rel="noopener noreferrer">
               https://www.dullesgeotechnical.com
             </a>

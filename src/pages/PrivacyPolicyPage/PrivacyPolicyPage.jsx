@@ -11,7 +11,7 @@ const PrivacyPolicyPage = () => {
           <p><strong>Effective Date:</strong> August 1, 2025</p>
 
           <p>
-            Dulles Geotechnical and Material Testing Services Inc. (DGMTS) respects your
+            Dulles Geotechnical and Materials Testing Services Inc. (DGMTS) respects your
             privacy and is committed to protecting the personal information you share
             with us. This privacy notice applies solely to information collected by this website.
           </p>

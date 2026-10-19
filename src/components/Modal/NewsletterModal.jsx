@@ -166,7 +166,7 @@ const NewsletterModal = () => {
                     <div className="newsletter-modal-header">
                         <img src={logo} alt="DGMTS Logo" style={{ height: '60px', marginBottom: '15px' }} />
                         <h3 style={{ color: '#003366', marginBottom: '10px' }}>Stay Updated with DGMTS</h3>
-                        <p style={{ color: '#666', marginBottom: '20px' }}>Get the latest news, blog posts, and updates from Dulles Geotechnical and Material Testing Services delivered to your inbox.</p>
+                        <p style={{ color: '#666', marginBottom: '20px' }}>Get the latest news, blog posts, and updates from Dulles Geotechnical and Materials Testing Services delivered to your inbox.</p>
                     </div>
                     
                     <form onSubmit={handleSubmit}>

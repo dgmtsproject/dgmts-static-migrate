@@ -73,7 +73,7 @@ const ServicesSection = () => {
     },
     {
       icon: <ClipboardCheck className="service-icon" />,
-      title: "Construction Inspection & Material Testing",
+      title: "Construction Inspection & Materials Testing",
       categories: [
         {
           name: 'Inspection & Testing',

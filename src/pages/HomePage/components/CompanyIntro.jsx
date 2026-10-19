@@ -75,7 +75,7 @@ const CompanyIntro = () => {
             <header className="intro-hero">
               <h2 id="company-intro-heading" className="intro-heading">Our Strength Lies In Our Diverse Team</h2>
               <p className="intro-sub">
-                At <strong className="text-primary">Dulles Geotechnical and Materials Testing Services, Inc. (DGMTS)</strong>, our highly trained and experienced team of more than <strong className="text-primary">70</strong> professionals spans disciplines including professional, geotechnical and structural engineering, geology, project and construction management, inspection, technical services, design and administrative support—ready to deliver superior consulting and site services while upholding industry standards. <strong>Professionalism and quality</strong> are at the heart of everything we do.
+                At <strong className="text-primary">Dulles Geotechnical and Materials Testing Services, Inc. (DGMTS)</strong> in Chantilly, VA, our highly trained and experienced team of more than <strong className="text-primary">70</strong> professionals spans disciplines including professional, geotechnical and structural engineering, geology, project and construction management, inspection, technical services, design and administrative support—ready to deliver superior consulting and site services across Northern Virginia, Maryland, and Washington, DC while upholding industry standards. <strong>Professionalism and quality</strong> are at the heart of everything we do.
               </p>
             </header>
           </div>

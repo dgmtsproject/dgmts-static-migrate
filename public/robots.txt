@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /payment-login
+Disallow: /payment-portal-approval
+Disallow: /password-reset-by-contact
+Disallow: /success
+Disallow: /cancel
+Disallow: /unsubscribe
+
+Sitemap: https://dullesgeotechnical.com/sitemap.xml
