@@ -61,7 +61,7 @@ const AboutPage = () => {
     <section className="about-section why-choose-us">
       <h2 className="about-heading">Why Choose Us?</h2>
       <div className="about-content">
-  <p>We pride ourselves as the most equipped geotechnical firm in the area, with more than 9 years of experience of design-build and design-bid-build projects. We believe in quality of service, that has earned us our clients&apos; trust, which is why most of our clients are repeat clients. We take a proactive approach to each project and try to identify potential problem areas before they arise.</p>
+  <p>We pride ourselves as the most equipped geotechnical firm in the area, with more than 14 years of experience of design-build and design-bid-build projects. We believe in quality of service, that has earned us our clients&apos; trust, which is why most of our clients are repeat clients. We take a proactive approach to each project and try to identify potential problem areas before they arise.</p>
         <p>DGMTS understands the delicate environment, recognizes project budgetary constraints and works closely with clients to provide responsible, cost effective and timely solutions. Our careful scheduling and deployment of resources enables us to consistently meet project objectives and schedules without compromising professional standards. DGMTS continues to diversify and improve our many services to meet the ever-changing needs and requirements of our clients.</p>
       </div>
     </section>
