@@ -202,11 +202,11 @@ const ConstructionInspectionPage = () => {
           </div>
         </section>
 
-        {/* Materials Testing Section */}
+        {/* Material Testing Section */}
         <section className="construction-section construction-materials-section">
           <div className="construction-container">
             <div className="construction-section-header">
-              <h2 className="construction-section-title">Construction Materials Testing</h2>
+              <h2 className="construction-section-title">Construction Material Testing</h2>
               <p className="construction-section-subtitle">
                 Quality assurance and quality control for earthwork, concrete, asphalt, and steel in roads, airports, buildings, and civil infrastructure
               </p>
@@ -237,7 +237,7 @@ const ConstructionInspectionPage = () => {
               <div className="construction-image-card">
                 <img
                   src={photo38}
-                  alt="Materials Testing"
+                  alt="Material Testing"
                   loading="lazy"
                 />
               </div>
@@ -276,8 +276,8 @@ const ConstructionInspectionPage = () => {
 
         {/* CMT Projects */}
         <ProjectsList
-          title="Construction Materials Testing Projects"
-          subtitle="Selected projects where we've provided comprehensive materials testing services"
+          title="Construction Material Testing Projects"
+          subtitle="Selected projects where we've provided comprehensive material testing services"
           projects={cmtProjects}
         />
 

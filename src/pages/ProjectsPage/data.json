@@ -200,7 +200,7 @@
       "taskBudget": 2500000,
       "projectCost": null,
       "dgmtsValue": 1200000,
-      "description": "DGMTS provided third-party construction inspection and laboratory testing services for the Prestige Preschool Academy project in Sterling, VA. Our team conducted inspections and materials testing throughout key construction phases to ensure compliance with safety and quality standards.",
+      "description": "DGMTS provided third-party construction inspection and laboratory testing services for the Prestige Preschool Academy project in Sterling, VA. Our team conducted inspections and material testing throughout key construction phases to ensure compliance with safety and quality standards.",
       "scopeOfServices": [
         "Third-Party Construction Inspection",
         "Laboratory Testing"
@@ -261,11 +261,11 @@
       "bidAmount": 441000000,
       "costOverrun": null,
       "changeOrders": null,
-      "description": "DGMTS provided geotechnical drilling, engineering support, construction inspection, and materials testing for the 2.5-mile I-495 Express Lanes Northern Extension (NEXT) project in Fairfax County, VA. Services included quality assurance, field investigations, and support for complex infrastructure components such as bridges, retaining walls, and toll systems.",
+      "description": "DGMTS provided geotechnical drilling, engineering support, construction inspection, and material testing for the 2.5-mile I-495 Express Lanes Northern Extension (NEXT) project in Fairfax County, VA. Services included quality assurance, field investigations, and support for complex infrastructure components such as bridges, retaining walls, and toll systems.",
       "scopeOfServices": [
         "Geotechnical Drilling",
         "Engineering Support Services",
-        "Construction Inspection & Materials Testing",
+        "Construction Inspection & Material Testing",
         "Laboratory Testing"
       ],
       "results": []
@@ -293,7 +293,7 @@
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 375000,
-      "description": "DGMTS supported the Transform 66 Outside the Beltway project by providing construction inspection and materials testing services across the 22.5-mile corridor. The project involved the construction of new express lanes, park-and-ride facilities, expanded transit access, and multimodal infrastructure.",
+      "description": "DGMTS supported the Transform 66 Outside the Beltway project by providing construction inspection and material testing services across the 22.5-mile corridor. The project involved the construction of new express lanes, park-and-ride facilities, expanded transit access, and multimodal infrastructure.",
       "scopeOfServices": [
         "Geotechnical Drilling",
         "Geotechnical Engineering",
@@ -328,7 +328,7 @@
       "bidAmount": 278000000,
       "costOverrun": 80000000,
       "changeOrders": 72,
-      "description": "DGMTS is providing geotechnical drilling, quality control inspection, and materials testing services for the Route 7 Corridor Improvement project. As a DBE partner to the Shirley-Dewberry Design-Build team, we are supporting major infrastructure enhancements including roadway widening, new bridges, sound barriers, and multi-use trails.",
+      "description": "DGMTS is providing geotechnical drilling, quality control inspection, and material testing services for the Route 7 Corridor Improvement project. As a DBE partner to the Shirley-Dewberry Design-Build team, we are supporting major infrastructure enhancements including roadway widening, new bridges, sound barriers, and multi-use trails.",
       "scopeOfServices": [
         "Drilling Supervision",
         "Quality Testing Services"
@@ -356,10 +356,10 @@
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 12000000,
-      "description": "DGMTS provided Quality Control Inspection, Materials Testing, and Geotechnical Engineering services for the construction of the Aston Martin Car Dealership in Loudoun County. Our team ensured that all construction components met the required standards for structural integrity, safety, and performance.",
+      "description": "DGMTS provided Quality Control Inspection, Material Testing, and Geotechnical Engineering services for the construction of the Aston Martin Car Dealership in Loudoun County. Our team ensured that all construction components met the required standards for structural integrity, safety, and performance.",
       "scopeOfServices": [
         "QC Inspection",
-        "Materials Testing",
+        "Material Testing",
         "Geotechnical Engineering"
       ],
       "results": []
@@ -385,10 +385,10 @@
       "completionDate": null,
       "taskBudget": null,
       "projectCost": 5000000,
-      "description": "DGMTS provided Quality Control Inspection, Materials Testing, and Geotechnical Engineering services for the Brown Mazda Car Dealership project in Fairfax. Our role ensured that construction adhered to design specifications, safety standards, and regulatory compliance from the ground up.",
+      "description": "DGMTS provided Quality Control Inspection, Material Testing, and Geotechnical Engineering services for the Brown Mazda Car Dealership project in Fairfax. Our role ensured that construction adhered to design specifications, safety standards, and regulatory compliance from the ground up.",
       "scopeOfServices": [
         "QC Inspection",
-        "Materials Testing",
+        "Material Testing",
         "Geotechnical Engineering"
       ],
       "results": []
@@ -648,7 +648,7 @@
       "scheduledCompletion": "late 2025 or early 2026",
       "description": "This project involves the ground-up construction of a 32,000-square-foot Hyundai dealership and service facility on a 5.6-acre site in Leesburg, VA. The facility will provide expanded vehicle sales and service operations in a state-of-the-art environment.",
       "scopeOfServices": [
-        "Construction inspection and materials testing services",
+        "Construction inspection and material testing services",
         "Oversight of site grading, foundations, and utility installations",
         "Monitoring of structural concrete, asphalt, and paving operations",
         "Field inspections and reporting to ensure compliance with design specifications",

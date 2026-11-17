@@ -135,7 +135,7 @@ const TeamGrid = () => {
         <div className="president-header">
           <h2 className="president-title">Meet Our President</h2>
           <p className="president-subtitle">
-            Introducing our esteemed leader who founded Dulles Geotechnical and Materials Testing Services.
+            Introducing our esteemed leader who founded Dulles Geotechnical and Material Testing Services.
           </p>
         </div>
         

@@ -73,7 +73,7 @@ const ServicesSection = () => {
     },
     {
       icon: <ClipboardCheck className="service-icon" />,
-      title: "Construction Inspection & Materials Testing",
+      title: "Construction Inspection & Material Testing",
       categories: [
         {
           name: 'Inspection & Testing',
@@ -177,7 +177,7 @@ const ServicesSection = () => {
         <div className="services-header">
           <h2 className="services-title">Our Services</h2>
           <p className="services-subtitle">
-            Comprehensive solutions for all your geotechnical and materials testing needs
+            Comprehensive solutions for all your geotechnical and material testing needs
           </p>
         </div>
 

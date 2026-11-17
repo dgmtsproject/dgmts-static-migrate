@@ -4,6 +4,7 @@ import { supabase } from '../../supabaseClient'
 import { rewriteSupabaseStorageUrl } from '../../utils/mediaUrl'
 import { MapPin, Clock, Calendar, Video, ExternalLink } from 'lucide-react'
 import './EventDetailPage.css'
+import { formatEventDate, formatEventTime, isSameEventDay } from '../../utils/eventDate'
 
 function EventDetailPage() {
   const { id } = useParams() // This will be either slug or id
@@ -66,50 +67,22 @@ function EventDetailPage() {
     }
   }, [id])
 
-  const formatDate = (dateString, showWeekday = true) => {
-    if (!dateString) return 'N/A';
-    const datePart = String(dateString).split('T')[0];
-    const [year, month, day] = datePart.split('-').map(Number);
-    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
-      weekday: showWeekday ? 'long' : undefined,
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+  const formatDate = (dateString, showWeekday = true) =>
+    formatEventDate(dateString, { weekday: showWeekday ? 'long' : undefined }) || 'N/A'
 
-  const formatTime = (dateString) => {
-    if (!dateString) return '';
-    const parts = String(dateString).split('T');
-    if (parts.length < 2) return '00:00 AM';
-
-    // Extract hours and minutes from the time part
-    const [h, m] = parts[1].split(':').map(Number);
-    const d = new Date();
-    d.setHours(h, m, 0, 0);
-
-    return d.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    })
-  }
+  const formatTime = (dateString) => formatEventTime(dateString)
 
   const isUpcoming = (dateString) => {
     return new Date(dateString) >= new Date()
   }
 
   const formatDateRange = (startDate, endDate) => {
-    const start = new Date(startDate)
-    const end = endDate ? new Date(endDate) : null
-
-    if (!end || start.toDateString() === end.toDateString()) {
+    if (!endDate || isSameEventDay(startDate, endDate)) {
       // Same day event
-      return `${formatDate(startDate)} • ${formatTime(startDate)}${end ? ` - ${formatTime(endDate)}` : ''}`
-    } else {
-      // Multi-day event
-      return `${formatDate(startDate)} - ${formatDate(endDate)}`
+      return `${formatDate(startDate)} • ${formatTime(startDate)}${endDate ? ` - ${formatTime(endDate)}` : ''}`
     }
+    // Multi-day event
+    return `${formatDate(startDate)} - ${formatDate(endDate)}`
   }
 
   if (loading) {

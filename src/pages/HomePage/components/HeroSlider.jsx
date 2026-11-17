@@ -41,7 +41,7 @@ const HeroSlider = () => {
     {
       image: ourClientsImage,
       heading: 'Trusted by Industry Leaders',
-      content: 'DGMTS partners with premier engineering firms, construction companies, and government agencies across the Mid-Atlantic region, delivering exceptional geotechnical engineering and materials testing services.',
+      content: 'DGMTS partners with premier engineering firms, construction companies, and government agencies across the Mid-Atlantic region, delivering exceptional geotechnical engineering and material testing services.',
       buttonText: 'View Our Clients',
       buttonUrl: '/clients',
       position: 'left',
@@ -82,7 +82,7 @@ const HeroSlider = () => {
 
     {
       image: sliderImage6,
-      heading: 'Construction Materials Testing',
+      heading: 'Construction Material Testing',
       content: 'DGMTS handles Quality Assurance/Quality Control and related construction inspection and testing of earthwork, concrete, asphalt, and steel associated with the construction of roads, airports, buildings, and other civil infrastructure.',
       buttonText: 'Learn More',
       buttonUrl: '/services/construction-inspection-testing',
@@ -91,7 +91,7 @@ const HeroSlider = () => {
     {
       image: sliderImage7,
       heading: 'Laboratory Testing',
-      content: 'DGMTS maintains and operates a complete Geotechnical and Materials Testing laboratory accredited by the American Association of State Highway and Transportation Officials (AASHTO). We also offer in-situ and PDA testing.',
+      content: 'DGMTS maintains and operates a complete Geotechnical and Material Testing laboratory accredited by the American Association of State Highway and Transportation Officials (AASHTO). We also offer in-situ and PDA testing.',
       buttonText: 'Our Services',
       buttonUrl: '/services/laboratory-testing',
       position: 'left'

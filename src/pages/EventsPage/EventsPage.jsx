@@ -4,6 +4,7 @@ import { supabase } from '../../supabaseClient'
 import { rewriteSupabaseStorageUrl } from '../../utils/mediaUrl'
 import { Search, MapPin, Clock, Calendar, Video } from 'lucide-react'
 import './EventsPage.css'
+import { formatEventDate, formatEventTime } from '../../utils/eventDate'
 
 function EventsPage() {
   const [events, setEvents] = useState([])
@@ -119,37 +120,9 @@ function EventsPage() {
     setSelectedFilter(filter === selectedFilter ? 'all' : filter)
   }
 
-  const formatDate = (dateString) => {
-    if (!dateString) return '';
-    // Handle both YYYY-MM-DD and YYYY-MM-DDTHH:mm:ss
-    const datePart = String(dateString).split('T')[0];
-    const [year, month, day] = datePart.split('-').map(Number);
-    return new Date(year, month - 1, day).toLocaleDateString('en-US', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  }
+  const formatDate = (dateString) => formatEventDate(dateString, { weekday: 'short' })
 
-  const formatTime = (dateString) => {
-    if (!dateString) return '';
-    if (!String(dateString).includes('T')) return '00:00 AM';
-
-    // For time, we actually want to preserve the hours/minutes from the string
-    // regardless of timezone shift if we are treating the stored time as "floating" 
-    // or local to the event location.
-    const timePart = String(dateString).split('T')[1];
-    const [hours, minutes] = timePart.split(':').map(Number);
-    const date = new Date();
-    date.setHours(hours, minutes, 0, 0);
-
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    })
-  }
+  const formatTime = (dateString) => formatEventTime(dateString)
 
   const isUpcoming = (dateString) => {
     return new Date(dateString) >= new Date()

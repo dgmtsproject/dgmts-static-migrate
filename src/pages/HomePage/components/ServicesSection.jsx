@@ -40,7 +40,7 @@ const ServicesSection = () => {
       url: '/services/instrumentation-condition-surveys'
     },
     {
-      name: 'Materials Testing',
+      name: 'Material Testing',
       shortDescription: 'Comprehensive testing of concrete, soil, aggregate, and asphalt to ensure compliance and quality.',
       image: photo86,
       url: '/services/laboratory-testing'

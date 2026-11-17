@@ -3,9 +3,9 @@ export const DEFAULT_OG_IMAGE = `${SITE_URL}/logo.png`;
 export const SITE_NAME = 'DGMTS';
 
 export const DEFAULT_SEO = {
-  title: 'Geotechnical Engineering & Materials Testing | Chantilly, VA | DGMTS',
+  title: 'Geotechnical Engineering & Material Testing | Chantilly, VA | DGMTS',
   description:
-    'Dulles Geotechnical and Materials Testing Services (DGMTS) provides geotechnical engineering, drilling, lab testing, and construction inspection from Chantilly, VA—serving Northern Virginia, Maryland, and Washington, DC.',
+    'Dulles Geotechnical and Material Testing Services (DGMTS) provides geotechnical engineering, drilling, lab testing, and construction inspection from Chantilly, VA—serving Northern Virginia, Maryland, and Washington, DC.',
   path: '/',
   noIndex: false,
 };
@@ -13,9 +13,9 @@ export const DEFAULT_SEO = {
 /** Exact-path SEO entries for public pages */
 export const SEO_BY_PATH = {
   '/': {
-    title: 'Geotechnical Engineering & Materials Testing | Chantilly, VA | DGMTS',
+    title: 'Geotechnical Engineering & Material Testing | Chantilly, VA | DGMTS',
     description:
-      'DGMTS offers geotechnical engineering and materials testing in Chantilly, VA. Serving Loudoun, Fairfax, Northern Virginia, Maryland, and Washington, DC.',
+      'DGMTS offers geotechnical engineering and material testing in Chantilly, VA. Serving Loudoun, Fairfax, Northern Virginia, Maryland, and Washington, DC.',
   },
   '/services/geotechnical': {
     title: 'Geotechnical Engineering in Northern Virginia | Chantilly, VA | DGMTS',
@@ -23,9 +23,9 @@ export const SEO_BY_PATH = {
       'Geotechnical engineering services from DGMTS in Chantilly, VA—foundation design, site investigation, and earth retention for projects across Northern Virginia, MD, and DC.',
   },
   '/services/construction-inspection-testing': {
-    title: 'Construction Inspection & Materials Testing | Chantilly, VA | DGMTS',
+    title: 'Construction Inspection & Material Testing | Chantilly, VA | DGMTS',
     description:
-      'Construction inspection and materials testing by DGMTS in Chantilly, VA. QA/QC for public and private projects across Northern Virginia, Maryland, and Washington, DC.',
+      'Construction inspection and material testing by DGMTS in Chantilly, VA. QA/QC for public and private projects across Northern Virginia, Maryland, and Washington, DC.',
   },
   '/services/drilling-in-situ-testing': {
     title: 'Drilling & In-Situ Testing | Chantilly, VA | DGMTS',
@@ -33,9 +33,9 @@ export const SEO_BY_PATH = {
       'Geotechnical drilling and in-situ testing services from DGMTS in Chantilly, VA—supporting site investigation across Northern Virginia, Maryland, and DC.',
   },
   '/services/laboratory-testing': {
-    title: 'Laboratory Materials Testing | Chantilly & Hampton, VA | DGMTS',
+    title: 'Laboratory Material Testing | Chantilly & Hampton, VA | DGMTS',
     description:
-      'AASHTO-accredited laboratory materials testing at DGMTS facilities in Chantilly and Hampton, VA—soil, concrete, asphalt, and geotechnical testing.',
+      'AASHTO-accredited laboratory material testing at DGMTS facilities in Chantilly and Hampton, VA—soil, concrete, asphalt, and geotechnical testing.',
   },
   '/services/instrumentation-condition-surveys': {
     title: 'Instrumentation & Condition Surveys | Northern Virginia | DGMTS',
@@ -50,17 +50,17 @@ export const SEO_BY_PATH = {
   '/about': {
     title: 'About DGMTS | Geotechnical Firm in Chantilly, VA',
     description:
-      'Learn about Dulles Geotechnical and Materials Testing Services (DGMTS)—a SWaM and MBE/DBE certified geotechnical firm based in Chantilly, VA since 2012.',
+      'Learn about Dulles Geotechnical and Material Testing Services (DGMTS)—a SWaM and MBE/DBE certified geotechnical firm based in Chantilly, VA since 2012.',
   },
   '/careers': {
     title: 'Careers at DGMTS | Geotechnical Jobs in Chantilly, VA',
     description:
-      'Join DGMTS in Chantilly, VA. Explore careers in geotechnical engineering, materials testing, inspection, and laboratory roles across Northern Virginia.',
+      'Join DGMTS in Chantilly, VA. Explore careers in geotechnical engineering, material testing, inspection, and laboratory roles across Northern Virginia.',
   },
   '/contact': {
     title: 'Contact DGMTS | Geotechnical Engineering Chantilly, VA',
     description:
-      'Contact Dulles Geotechnical and Materials Testing Services at 14155 Sullyfield Circle, Suite H, Chantilly, VA 20151. Call 703.488.9953 for a quote.',
+      'Contact Dulles Geotechnical and Material Testing Services at 14155 Sullyfield Circle, Suite H, Chantilly, VA 20151. Call 703.488.9953 for a quote.',
   },
   '/location': {
     title: 'DGMTS Office – 14155 Sullyfield Cir, Chantilly, VA 20151',
@@ -70,22 +70,22 @@ export const SEO_BY_PATH = {
   '/projects': {
     title: 'Geotechnical Projects in VA, MD & DC | DGMTS',
     description:
-      'Featured geotechnical engineering and materials testing projects by DGMTS across Virginia, Maryland, and Washington, DC.',
+      'Featured geotechnical engineering and material testing projects by DGMTS across Virginia, Maryland, and Washington, DC.',
   },
   '/clients': {
     title: 'Clients & Partners | DGMTS Geotechnical Engineering',
     description:
-      'Public agencies and private clients who trust DGMTS for geotechnical engineering and materials testing in the Mid-Atlantic region.',
+      'Public agencies and private clients who trust DGMTS for geotechnical engineering and material testing in the Mid-Atlantic region.',
   },
   '/blog': {
     title: 'Geotechnical Engineering Blog | DGMTS',
     description:
-      'Insights on geotechnical engineering, materials testing, and construction from DGMTS in Chantilly, VA.',
+      'Insights on geotechnical engineering, material testing, and construction from DGMTS in Chantilly, VA.',
   },
   '/news': {
     title: 'Company News | DGMTS Chantilly, VA',
     description:
-      'Latest news and announcements from Dulles Geotechnical and Materials Testing Services in Chantilly, VA.',
+      'Latest news and announcements from Dulles Geotechnical and Material Testing Services in Chantilly, VA.',
   },
   '/events': {
     title: 'Events | DGMTS Geotechnical Engineering',
@@ -95,12 +95,12 @@ export const SEO_BY_PATH = {
   '/gallery': {
     title: 'Project Gallery | DGMTS Chantilly, VA',
     description:
-      'Photos from DGMTS geotechnical engineering, drilling, and materials testing projects across the DMV.',
+      'Photos from DGMTS geotechnical engineering, drilling, and material testing projects across the DMV.',
   },
   '/published-papers': {
     title: 'Published Papers & Presentations | DGMTS',
     description:
-      'Technical papers and presentations by DGMTS engineers on geotechnical engineering and materials testing.',
+      'Technical papers and presentations by DGMTS engineers on geotechnical engineering and material testing.',
   },
   '/geo5-software': {
     title: 'GEO5 Geotechnical Software | DGMTS',
@@ -115,11 +115,11 @@ export const SEO_BY_PATH = {
   '/engineering-tools': {
     title: 'Engineering Tools | DGMTS',
     description:
-      'Free geotechnical engineering tools and calculators from Dulles Geotechnical and Materials Testing Services.',
+      'Free geotechnical engineering tools and calculators from Dulles Geotechnical and Material Testing Services.',
   },
   '/privacy-policy': {
     title: 'Privacy Policy | DGMTS',
-    description: 'Privacy policy for Dulles Geotechnical and Materials Testing Services (DGMTS).',
+    description: 'Privacy policy for Dulles Geotechnical and Material Testing Services (DGMTS).',
   },
   '/terms-and-conditions': {
     title: 'Terms and Conditions | DGMTS',
@@ -127,12 +127,12 @@ export const SEO_BY_PATH = {
   },
   '/payment': {
     title: 'Make a Payment | DGMTS',
-    description: 'Secure online payment portal for Dulles Geotechnical and Materials Testing Services.',
+    description: 'Secure online payment portal for Dulles Geotechnical and Material Testing Services.',
     noIndex: true,
   },
   '/pay': {
     title: 'Make a Payment | DGMTS',
-    description: 'Secure online payment portal for Dulles Geotechnical and Materials Testing Services.',
+    description: 'Secure online payment portal for Dulles Geotechnical and Material Testing Services.',
     noIndex: true,
   },
   '/payment-login': {
@@ -183,14 +183,14 @@ export const SEO_BY_PREFIX = [
     prefix: '/projects/',
     seo: {
       title: 'Project Details | DGMTS Geotechnical Projects',
-      description: 'Project details from DGMTS geotechnical engineering and materials testing work in VA, MD, and DC.',
+      description: 'Project details from DGMTS geotechnical engineering and material testing work in VA, MD, and DC.',
     },
   },
   {
     prefix: '/news/',
     seo: {
       title: 'News | DGMTS',
-      description: 'News from Dulles Geotechnical and Materials Testing Services.',
+      description: 'News from Dulles Geotechnical and Material Testing Services.',
     },
   },
   {
@@ -204,7 +204,7 @@ export const SEO_BY_PREFIX = [
     prefix: '/team/',
     seo: {
       title: 'Team Member | DGMTS',
-      description: 'Meet the DGMTS geotechnical engineering and materials testing team in Chantilly, VA.',
+      description: 'Meet the DGMTS geotechnical engineering and material testing team in Chantilly, VA.',
     },
   },
 ];

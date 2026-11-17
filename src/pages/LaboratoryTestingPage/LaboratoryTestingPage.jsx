@@ -116,7 +116,7 @@ const LaboratoryTestingPage = () => {
       <HeroSection
         badge="Professional Laboratory Services"
         title="Laboratory Testing"
-        subtitle="Dulles Geotechnical and Materials Testing Services (DGMTS) provides independent construction materials testing at our two in-house testing laboratory facilities in Chantilly and Hampton, ensuring efficiency and cost savings for our clients."
+        subtitle="Dulles Geotechnical and Material Testing Services (DGMTS) provides independent construction material testing at our two in-house testing laboratory facilities in Chantilly and Hampton, ensuring efficiency and cost savings for our clients."
         primaryButtonText="Our Services"
         onPrimaryClick={handleOurServicesClick}
         image1={photo77}

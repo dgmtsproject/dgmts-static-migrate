@@ -12,7 +12,7 @@ const NewsSection = () => {
     },
     {
       title: 'New Laboratory Accreditation Expands Testing Capabilities',
-      content: 'DGMTS has received additional laboratory accreditations, expanding our materials testing capabilities to better serve our clients across the Mid-Atlantic region...',
+      content: 'DGMTS has received additional laboratory accreditations, expanding our material testing capabilities to better serve our clients across the Mid-Atlantic region...',
       image: 'https://images.pexels.com/photos/2280549/pexels-photo-2280549.jpeg?auto=compress&cs=tinysrgb&w=400&h=300',
       date: '2024-01-10',
       category: 'News'

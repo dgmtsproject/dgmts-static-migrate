@@ -3,7 +3,7 @@ const jobData = [
     title: 'Staff Geotechnical Engineer and Construction Inspectors',
     description: [
       'Currently we are seeking a Staff Geotechnical Engineer and Construction Inspectors:',
-      'Perform construction materials testing in the field (Soil, and Concrete). Perform general lab testing of soil and concrete such as hydrometer test, moisture density test, sulfate testing and soils strength test per the applicable ASTM procedures. Perform soil density tests and DCP tests on field, evaluated sub-grade for pavement and drainage structures, prepared pile driving logs using Saximeter, perform reinforcement steel inspection for different substructures including pile plug, pile cap and pedestals. Reviews test results and submit strength data to project managers.',
+      'Perform construction material testing in the field (Soil, and Concrete). Perform general lab testing of soil and concrete such as hydrometer test, moisture density test, sulfate testing and soils strength test per the applicable ASTM procedures. Perform soil density tests and DCP tests on field, evaluated sub-grade for pavement and drainage structures, prepared pile driving logs using Saximeter, perform reinforcement steel inspection for different substructures including pile plug, pile cap and pedestals. Reviews test results and submit strength data to project managers.',
     ],
     requirements: "Requires a bachelor's degree in civil engineering. Must have a minimum of total 9 undergraduate level credit hours in Design of refined concreate, Strength of Materials and Soil Mechanics.",
     apply: {

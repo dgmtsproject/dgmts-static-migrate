@@ -36,7 +36,7 @@ const CareerPage = () => (
     <div className="container">
       <h1 className="career-heading">Careers</h1>
       <p className="career-intro">
-        Dulles Geotechnical and Materials Testing Services (DGMTS) is a growing company. We are always seeking talented individuals to join our team.
+        Dulles Geotechnical and Material Testing Services (DGMTS) is a growing company. We are always seeking talented individuals to join our team.
       </p>
 
       <div className="job-listings">

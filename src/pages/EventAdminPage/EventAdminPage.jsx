@@ -7,6 +7,7 @@ import { Eye, EyeOff, Upload, ExternalLink, Calendar, MapPin, Clock, Video } fro
 import { checkAdminSession, verifyAdminPassword } from '../../utils/adminAuth'
 import { createQuillModules, QUILL_FORMATS } from '../../utils/quillEditor'
 import './EventAdminPage.css'
+import { formatEventDateTimeShort, toEventInputValues } from '../../utils/eventDate'
 
 function EventAdminPage() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -401,13 +402,7 @@ function EventAdminPage() {
     setEditingId(null)
   }
 
-  const extractDateAndTime = (isoString) => {
-    if (!isoString) return { date: '', time: '' }
-    const dateObj = new Date(isoString)
-    const date = dateObj.toISOString().split('T')[0]
-    const time = dateObj.toTimeString().slice(0, 5)
-    return { date, time }
-  }
+  const extractDateAndTime = (value) => toEventInputValues(value)
 
   const handleEdit = (event) => {
     setEditingId(event.id)
@@ -456,28 +451,7 @@ function EventAdminPage() {
     }
   }
 
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A'
-    const parts = String(dateString).split('T');
-    const [y, m, d] = parts[0].split('-').map(Number);
-
-    // For the time part in the admin grid, we can still use the standard parsing 
-    // but the date part should be explicitly set to avoid the previous day shift.
-    const date = new Date(y, m - 1, d);
-
-    if (parts[1]) {
-      const [h, min] = parts[1].split(':').map(Number);
-      date.setHours(h, min);
-    }
-
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
-    })
-  }
+  const formatDate = (dateString) => formatEventDateTimeShort(dateString)
 
   const isUpcoming = (dateString) => {
     return new Date(dateString) >= new Date()
